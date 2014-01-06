@@ -1000,7 +1000,7 @@ var egrid;
                     _this.draw();
                 }).call(function (selection) {
                     selection.append("circle").attr("r", 16).attr("fill", "lightgray").attr("stroke", "none");
-                    selection.append("image").attr("x", -8).attr("y", -8).attr("width", "16px").attr("height", "16px").attr("xlink:href", "/images/glyphicons_207_remove_2.png");
+                    selection.append("image").attr("x", -8).attr("y", -8).attr("width", "16px").attr("height", "16px").attr("xlink:href", "images/glyphicons_207_remove_2.png");
                 });
             };
         };
