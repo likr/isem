@@ -1894,7 +1894,7 @@ var egrid;
                     selection.append("image").attr("x", -8).attr("y", -8).attr("width", "16px").attr("height", "16px").attr("xlink:href", "images/glyphicons_207_remove_2.png");
                 });
                 selection.call(_this.dragNode().isDroppable(function (fromNode, toNode) {
-                    return fromNode != toNode;
+                    return fromNode != toNode && !_this.grid().hasPath(fromNode.index, toNode.index);
                 }).dragToNode(function (fromNode, toNode) {
                     var link = _this.grid().radderUp(fromNode.index, toNode.index);
                     link.coef = 0;
