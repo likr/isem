@@ -12,7 +12,7 @@ angular.module('egrid-sem', [])
       });
       var n = nodes.length;
       var alpha = links.map(function (link) {
-          return [nodesDict[link.target.text], nodesDict[link.source.text]];
+          return [nodesDict[link.source.text], nodesDict[link.target.text]];
       });
       var sigma = nodes.map(function (_, i) {
           return [i, i];
@@ -34,8 +34,8 @@ angular.module('egrid-sem', [])
           $scope.gfiValue = result.GFI;
           $scope.linkText = "結果,原因,係数\n";
           links.forEach(function (link) {
-              link.coef = A[nodesDict[link.target.text]][nodesDict[link.source.text]];
-              $scope.linkText += link.target.text + "," + link.source.text + "," + link.coef + "\n";
+              link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
+              $scope.linkText += link.source.text + "," + link.target.text + "," + link.coef + "\n";
           });
           dag.draw().focusCenter();
           $scope.$apply();
