@@ -174,5 +174,12 @@ angular.module('egrid-sem', [])
       };
       reader.readAsText(file, d3.select(".encoding:checked").node().value);
     }
+
+    var i = 1;
+    $scope.addFactor = function() {
+      dag.appendNode('潜在変数' + i++);
+      dag.draw().focusCenter();
+      calcPath();
+    }
   }])
   ;
