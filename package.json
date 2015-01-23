@@ -1,0 +1,25 @@
+{
+  "name": "egrid-sem",
+  "description": "egrid-sem",
+  "version": "0.0.0",
+  "author": "Yosuke ONOUE <onoue@likr-lab.com> (https://github.com/likr)",
+  "bugs": {
+    "url": "https://github.com/likr/interactive-sem/issues"
+  },
+  "contributors": [
+    {
+      "name": "Okuno Kentaro",
+      "url": "https://github.com/armorik83"
+    }
+  ],
+  "homepage": "https://github.com/likr/interactive-sem",
+  "license": "MIT",
+  "main": null,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/likr/interactive-sem"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
