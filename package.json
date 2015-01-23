@@ -12,6 +12,21 @@
       "url": "https://github.com/armorik83"
     }
   ],
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-6to5": "2.0.0",
+    "grunt-cli": "0.1.13",
+    "grunt-espower": "0.10.0",
+    "grunt-mocha-istanbul": "2.3.0",
+    "grunt-protractor-runner": "1.2.1",
+    "http-server": "0.7.4",
+    "istanbul": "0.3.5",
+    "load-grunt-tasks": "3.0.0",
+    "mocha": "2.1.0",
+    "power-assert": "0.10.1",
+    "protractor": "1.6.1",
+    "time-grunt": "1.0.0"
+  },
   "homepage": "https://github.com/likr/interactive-sem",
   "license": "MIT",
   "main": null,
