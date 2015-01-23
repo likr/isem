@@ -13,6 +13,7 @@ app/
 coverage/
 test-espowered/
 typings/
+es5/
 
 !Gruntfile.js
 !index.js
