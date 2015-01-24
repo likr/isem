@@ -10,7 +10,7 @@ function delay(msec) {
   };
 }
 
-delay(300);
+delay(100);
 describe('spec need a few delay', () => {
   it('when without click remove button, checkbox should be checked.', () => {
     browser.get('/');

@@ -10,7 +10,7 @@ function delay(msec) {
   };
 }
 
-delay(10);
+delay(30);
 describe('egrid-sem', () => {
   it('h1 should display 共分散構造分析.', () => {
     browser.get('/');
