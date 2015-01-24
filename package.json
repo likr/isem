@@ -36,7 +36,7 @@
   },
   "scripts": {
     "e2e": "grunt e2e",
-    "start": "http-server",
+    "start": "cd app && http-server",
     "test": "grunt test",
     "wd": "webdriver-manager start"
   }

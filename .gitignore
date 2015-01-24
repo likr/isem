@@ -6,7 +6,7 @@ node_modules/
 npm-debug.log
 
 # for bower
-app/
+bower_components/
 
 # for grunt
 .tscache/
