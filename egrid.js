@@ -1,392 +1,3 @@
-/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        /**
-        * @class Project
-        */
-        var Project = (function () {
-            function Project(obj) {
-                if (obj) {
-                    this.name = obj.name;
-                    this.note = obj.note;
-                }
-            }
-            Project.prototype.key = function () {
-                return this.key_;
-            };
-
-            Project.prototype.save = function () {
-                var _this = this;
-                return $.ajax({
-                    url: Project.url(),
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        name: this.name,
-                        note: this.note
-                    }),
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        _this.key_ = obj.key;
-                        return _this;
-                    }
-                });
-            };
-
-            Project.prototype.url = function () {
-                return Project.url(this.key());
-            };
-
-            Project.load = function (obj) {
-                var project = new Project(obj);
-                project.key_ = obj.key;
-                return project;
-            };
-
-            Project.get = function (key) {
-                return $.ajax({
-                    url: Project.url(key),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return Project.load(obj);
-                    }
-                });
-            };
-
-            Project.query = function () {
-                return $.ajax({
-                    url: Project.url(),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var objs = JSON.parse(data);
-                        return objs.map(function (obj) {
-                            return Project.load(obj);
-                        });
-                    }
-                });
-            };
-
-            Project.url = function (key) {
-                if (key) {
-                    return '/api/projects/' + key;
-                } else {
-                    return '/api/projects';
-                }
-            };
-            return Project;
-        })();
-        model.Project = Project;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
-/// <reference path="project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        var Participant = (function () {
-            function Participant(obj) {
-                this.name = obj.name;
-                this.note = obj.note;
-                this.project = obj.project;
-                this.projectKey = obj.projectKey;
-            }
-            Participant.prototype.save = function () {
-                var _this = this;
-                return $.ajax({
-                    url: Participant.url(this.projectKey),
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        name: this.name,
-                        note: this.note
-                    }),
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        _this.key_ = obj.key;
-                        return _this;
-                    }
-                });
-            };
-
-            Participant.prototype.key = function () {
-                return this.key_;
-            };
-
-            Participant.get = function (projectKey, participantKey) {
-                return $.ajax({
-                    url: Participant.url(projectKey, participantKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return Participant.load(obj);
-                    }
-                });
-            };
-
-            Participant.query = function (projectKey) {
-                return $.ajax({
-                    url: Participant.url(projectKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var objs = JSON.parse(data);
-                        return objs.map(function (obj) {
-                            return Participant.load(obj);
-                        });
-                    }
-                });
-            };
-
-            Participant.load = function (obj) {
-                var participant = new Participant(obj);
-                participant.key_ = obj.key;
-                return participant;
-            };
-
-            Participant.url = function (projectKey, key) {
-                if (key) {
-                    return '/api/projects/' + projectKey + '/participants/' + key;
-                } else {
-                    return '/api/projects/' + projectKey + '/participants';
-                }
-            };
-            return Participant;
-        })();
-        model.Participant = Participant;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
-/// <reference path="../model/participant.ts"/>
-/// <reference path="../model/project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ParticipantController = (function () {
-            function ParticipantController($q, $routeParams) {
-                var _this = this;
-                this.participantKey = $routeParams.participantId;
-                this.projectKey = $routeParams.projectId;
-                $q.when(egrid.model.Participant.get(this.projectKey, this.participantKey)).then(function (participant) {
-                    _this.name = participant.name;
-                    _this.note = participant.note;
-                    _this.project = participant.project;
-                });
-            }
-            return ParticipantController;
-        })();
-        app.ParticipantController = ParticipantController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
-/// <reference path="project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        var SemProject = (function () {
-            function SemProject(obj) {
-                this.name = obj.name;
-                this.project = obj.project;
-                this.projectKey = obj.projectKey;
-            }
-            SemProject.prototype.save = function () {
-                var _this = this;
-                return $.ajax({
-                    url: SemProject.url(this.projectKey),
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        name: this.name
-                    }),
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        _this.key_ = obj.key;
-                        return _this;
-                    }
-                });
-            };
-
-            SemProject.prototype.key = function () {
-                return this.key_;
-            };
-
-            SemProject.get = function (projectKey, semProjectKey) {
-                return $.ajax({
-                    url: SemProject.url(projectKey, semProjectKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return SemProject.load(obj);
-                    }
-                });
-            };
-
-            SemProject.query = function (projectKey) {
-                return $.ajax({
-                    url: SemProject.url(projectKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var objs = JSON.parse(data);
-                        return objs.map(function (obj) {
-                            return SemProject.load(obj);
-                        });
-                    }
-                });
-            };
-
-            SemProject.load = function (obj) {
-                var semProject = new SemProject(obj);
-                semProject.key_ = obj.key;
-                return semProject;
-            };
-
-            SemProject.url = function (projectKey, semProjectKey) {
-                if (semProjectKey) {
-                    return '/api/projects/' + projectKey + '/sem-projects/' + semProjectKey;
-                } else {
-                    return '/api/projects/' + projectKey + '/sem-projects';
-                }
-            };
-            return SemProject;
-        })();
-        model.SemProject = SemProject;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
-/// <reference path="../model/participant.ts"/>
-/// <reference path="../model/project.ts"/>
-/// <reference path="../model/sem-project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var Url = (function () {
-            function Url() {
-            }
-            Url.participantUrl = function (arg, participantKey) {
-                var projectKey;
-                if (participantKey === undefined) {
-                    projectKey = arg.projectKey;
-                    participantKey = arg.key();
-                } else {
-                    projectKey = arg;
-                }
-                return '/projects/' + projectKey + '/participants/' + participantKey;
-            };
-
-            Url.participantGridUrl = function (arg, participantKey) {
-                return Url.participantUrl(arg, participantKey) + '/grid';
-            };
-
-            Url.projectListUrl = function () {
-                return Url.projectListUrlBase;
-            };
-
-            Url.projectUrl = function (project) {
-                if (project instanceof egrid.model.Project) {
-                    return '/projects/' + project.key();
-                } else {
-                    return '/projects/' + project;
-                }
-            };
-
-            Url.projectGridUrl = function (project) {
-                return Url.projectUrl(project) + '/grid';
-            };
-
-            Url.semProjectUrl = function (semProject) {
-                return '/projects/' + semProject.projectKey + '/sem-projects/' + semProject.key();
-            };
-            Url.participantUrlBase = '/projects/:projectId/participants/:participantId';
-            Url.participantGridUrlBase = '/projects/:projectId/participants/:participantId/grid';
-            Url.projectUrlBase = '/projects/:projectId';
-            Url.projectGridUrlBase = '/projects/:projectId/grid';
-            Url.projectListUrlBase = '/projects';
-            Url.semProjectUrlBase = '/projects/:projectId/sem-projects/:semProjectId';
-            return Url;
-        })();
-        app.Url = Url;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/participant.ts"/>
-/// <reference path="url.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ParticipantCreateController = (function () {
-            function ParticipantCreateController($q, $routeParams, $location) {
-                this.$q = $q;
-                this.$location = $location;
-                this.projectKey = $routeParams.projectId;
-            }
-            ParticipantCreateController.prototype.submit = function () {
-                var _this = this;
-                var participant = new egrid.model.Participant(this);
-                this.$q.when(participant.save()).then(function () {
-                    _this.$location.path(egrid.app.Url.participantUrl(participant));
-                });
-            };
-            return ParticipantCreateController;
-        })();
-        app.ParticipantCreateController = ParticipantCreateController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/Definitelytyped/jquery/jquery.d.ts"/>
-/// <reference path="participant-grid-node.ts"/>
-/// <reference path="participant-grid-link.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        var ParticipantGrid = (function () {
-            function ParticipantGrid(obj) {
-                this.projectKey = obj.projectKey;
-                this.participantKey = obj.participantKey;
-                this.nodes = obj.nodes;
-                this.links = obj.links;
-            }
-            ParticipantGrid.prototype.update = function () {
-                var _this = this;
-                return $.ajax({
-                    url: this.url(),
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        nodes: this.nodes,
-                        links: this.links
-                    }),
-                    dataFilter: function (_) {
-                        return _this;
-                    }
-                });
-            };
-
-            ParticipantGrid.prototype.url = function () {
-                return ParticipantGrid.url(this.projectKey, this.participantKey);
-            };
-
-            ParticipantGrid.get = function (projectKey, participantKey) {
-                return $.ajax({
-                    url: ParticipantGrid.url(projectKey, participantKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return new ParticipantGrid(obj);
-                    }
-                });
-            };
-
-            ParticipantGrid.url = function (projectKey, participantKey) {
-                return '/api/projects/' + projectKey + '/participants/' + participantKey + '/grid';
-            };
-            return ParticipantGrid;
-        })();
-        model.ParticipantGrid = ParticipantGrid;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
 var Svg;
 (function (Svg) {
     (function (Transform) {
@@ -512,7 +123,7 @@ var Svg;
     })();
     Svg.ViewBox = ViewBox;
 })(Svg || (Svg = {}));
-/// <reference path="../lib/dagre.d.ts"/>
+/// <reference path="../dagre.d.ts"/>
 /// <reference path="svg.ts"/>
 var egrid;
 (function (egrid) {
@@ -1789,48 +1400,6 @@ var egrid;
     })(egrid.DAG);
     egrid.EGM = EGM;
 })(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
-/// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
-/// <reference path="../model/participant-grid.ts"/>
-/// <reference path="../core/egm.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ParticipantGridController = (function () {
-            function ParticipantGridController($q, $routeParams, $scope) {
-                var _this = this;
-                this.projectKey = $routeParams.projectId;
-                this.participantKey = $routeParams.participantId;
-                this.egm = new egrid.EGM;
-
-                $q.when(egrid.model.ParticipantGrid.get(this.projectKey, this.participantKey)).then(function (grid) {
-                    var nodes = grid.nodes.map(function (d) {
-                        return new egrid.Node(d.text, d.weight, d.original);
-                    });
-                    var links = grid.links.map(function (d) {
-                        return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
-                    });
-                    _this.egm.nodes(nodes).links(links);
-                });
-
-                var initialized = false;
-                $scope.$parent.drawSvg = function () {
-                    if (!initialized) {
-                        _this.draw();
-                        initialized = true;
-                    }
-                };
-            }
-            ParticipantGridController.prototype.draw = function () {
-                d3.select("#display").call(this.egm.display($("#display").width(), $("#display").height()));
-                this.egm.draw().focusCenter();
-            };
-            return ParticipantGridController;
-        })();
-        app.ParticipantGridController = ParticipantGridController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
 /// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
 /// <reference path="egm.ts"/>
 var egrid;
@@ -1857,12 +1426,12 @@ var egrid;
         };
 
         EGMUi.prototype.appendNodeButton = function () {
-            var egmui = this;
             var onClickPrompt;
             var f = function (selection) {
+                var _this = this;
                 selection.on("click", function () {
                     onClickPrompt && onClickPrompt(function (text) {
-                        egmui.egm().appendNode(text);
+                        _this.egm().appendNode(text);
                     });
                 });
                 return this;
@@ -2175,458 +1744,6 @@ var egrid;
         return new EGMUi;
     }
     egrid.egmui = egmui;
-})(egrid || (egrid = {}));
-/// <reference path="participant-grid-node.ts"/>
-/// <reference path="participant-grid-link.ts"/>
-/// <reference path="../ts-definitions/Definitelytyped/jquery/jquery.d.ts"/>
-/// <reference path="project-grid-node.ts"/>
-/// <reference path="project-grid-link.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        var ProjectGrid = (function () {
-            function ProjectGrid(obj) {
-                this.projectKey = obj.projectKey;
-                this.nodes = obj.nodes;
-                this.links = obj.links;
-            }
-            ProjectGrid.get = function (projectKey) {
-                return $.ajax({
-                    url: ProjectGrid.url(projectKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return new ProjectGrid(obj);
-                    }
-                });
-            };
-
-            ProjectGrid.url = function (projectKey) {
-                return '/api/projects/' + projectKey + '/grid';
-            };
-            return ProjectGrid;
-        })();
-        model.ProjectGrid = ProjectGrid;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
-/// <reference path="../core/egm.ts"/>
-/// <reference path="../core/egm-ui.ts"/>
-/// <reference path="../model/participant-grid.ts"/>
-/// <reference path="../model/project-grid.ts"/>
-/// <reference path="url.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ParticipantGridEditController = (function () {
-            function ParticipantGridEditController($q, $routeParams, $location, $dialog, $scope) {
-                var _this = this;
-                this.$dialog = $dialog;
-                this.$scope = $scope;
-                this.projectKey = $routeParams.projectId;
-                this.participantKey = $routeParams.participantId;
-
-                var egmui = egrid.egmui();
-                this.egm = egmui.egm();
-                this.egm.showRemoveLinkButton(true);
-                this.egm.options().scalingConnection = false;
-                d3.select("#display").attr({
-                    width: $(window).width(),
-                    height: $(window).height()
-                }).call(this.egm.display($(window).width(), $(window).height()));
-                d3.select(window).on('resize', function () {
-                    d3.select("#display").attr({
-                        width: $(window).width(),
-                        height: $(window).height()
-                    });
-                });
-
-                d3.select("#appendNodeButton").call(egmui.appendNodeButton().onClick(function (callback) {
-                    return _this.openInputTextDialog(callback);
-                }));
-                d3.select("#undoButton").call(egmui.undoButton().onEnable(function () {
-                    d3.select("#undoButtonContainer").classed("disabled", false);
-                }).onDisable(function () {
-                    d3.select("#undoButtonContainer").classed("disabled", true);
-                }));
-                d3.select("#redoButton").call(egmui.redoButton().onEnable(function () {
-                    d3.select("#redoButtonContainer").classed("disabled", false);
-                }).onDisable(function () {
-                    d3.select("#redoButtonContainer").classed("disabled", true);
-                }));
-                d3.select("#saveButton").call(egmui.saveButton().save(function (data) {
-                    _this.grid.nodes = data.nodes;
-                    _this.grid.links = data.links;
-                    $q.when(_this.grid.update()).then(function () {
-                        $location.path(egrid.app.Url.participantUrl(_this.projectKey, _this.participantKey));
-                    });
-                }));
-
-                d3.select("#ladderUpButton").call(egmui.radderUpButton().onClick(function (callback) {
-                    return _this.openInputTextDialog(callback);
-                }).onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-                d3.select("#ladderDownButton").call(egmui.radderDownButton().onClick(function (callback) {
-                    return _this.openInputTextDialog(callback);
-                }).onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-                d3.select("#removeNodeButton").call(egmui.removeNodeButton().onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-                d3.select("#mergeNodeButton").call(egmui.mergeNodeButton().onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-                d3.select("#editNodeButton").call(egmui.editNodeButton().onClick(function (callback) {
-                    return _this.openInputTextDialog(callback);
-                }).onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-
-                $q.when(egrid.model.ParticipantGrid.get(this.projectKey, this.participantKey)).then(function (grid) {
-                    _this.grid = grid;
-                    var nodes = grid.nodes.map(function (d) {
-                        return new egrid.Node(d.text, d.weight, d.original);
-                    });
-                    var links = grid.links.map(function (d) {
-                        return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
-                    });
-                    _this.egm.nodes(nodes).links(links).draw().focusCenter();
-                });
-
-                $q.when(egrid.model.ProjectGrid.get(this.projectKey)).then(function (grid) {
-                    _this.overallNodes = grid.nodes;
-                });
-            }
-            ParticipantGridEditController.prototype.openInputTextDialog = function (callback) {
-                var _this = this;
-                var textsDict = {};
-                var texts = this.overallNodes.map(function (d) {
-                    var obj = {
-                        text: d.text,
-                        weight: d.weight
-                    };
-                    d.participants.forEach(function (p) {
-                        if (p == _this.participantKey) {
-                            obj.weight -= 1;
-                        }
-                    });
-                    textsDict[d.text] = obj;
-                    return obj;
-                });
-                this.egm.nodes().forEach(function (node) {
-                    if (textsDict[node.text]) {
-                        textsDict[node.text].weight += 1;
-                    } else {
-                        texts.push({
-                            text: node.text,
-                            weight: 1
-                        });
-                    }
-                });
-                texts.sort(function (t1, t2) {
-                    return t2.weight - t1.weight;
-                });
-                var d = this.$dialog.dialog({
-                    backdrop: true,
-                    keyboard: true,
-                    backdropClick: true,
-                    templateUrl: '/partials/input-text-dialog.html',
-                    controller: function ($scope, dialog) {
-                        $scope.result = "";
-                        $scope.texts = texts;
-                        $scope.close = function (result) {
-                            dialog.close(result);
-                        };
-                    }
-                });
-                d.open().then(function (result) {
-                    callback(result);
-                });
-                this.$scope.$apply();
-            };
-
-            ParticipantGridEditController.prototype.showNodeController = function (selection) {
-                if (!selection.empty()) {
-                    var nodeRect = selection.node().getBoundingClientRect();
-                    var controllerWidth = $("#nodeController").width();
-                    d3.select("#nodeController").classed("invisible", false).style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
-                }
-            };
-
-            ParticipantGridEditController.prototype.hideNodeController = function () {
-                d3.select("#nodeController").classed("invisible", true);
-            };
-
-            ParticipantGridEditController.prototype.moveNodeController = function (selection) {
-                var nodeRect = selection.node().getBoundingClientRect();
-                var controllerWidth = $("#nodeController").width();
-                d3.select("#nodeController").style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
-            };
-            return ParticipantGridEditController;
-        })();
-        app.ParticipantGridEditController = ParticipantGridEditController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/participant.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ParticipantListController = (function () {
-            function ParticipantListController($q, $routeParams) {
-                var _this = this;
-                this.projectId = $routeParams.projectId;
-                $q.when(egrid.model.Participant.query(this.projectId)).then(function (participants) {
-                    _this.list = participants;
-                });
-            }
-            return ParticipantListController;
-        })();
-        app.ParticipantListController = ParticipantListController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ProjectController = (function () {
-            function ProjectController($q, $routeParams) {
-                var _this = this;
-                this.projectKey = $routeParams.projectId;
-                $q.when(egrid.model.Project.get(this.projectKey)).then(function (project) {
-                    _this.name = project.name;
-                    _this.note = project.note;
-                });
-            }
-            return ProjectController;
-        })();
-        app.ProjectController = ProjectController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/project.ts"/>
-/// <reference path="url.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ProjectCreateController = (function () {
-            function ProjectCreateController($q, $location) {
-                this.$q = $q;
-                this.$location = $location;
-            }
-            ProjectCreateController.prototype.submit = function () {
-                var _this = this;
-                var project = new egrid.model.Project(this);
-                this.$q.when(project.save()).then(function () {
-                    _this.$location.path(egrid.app.Url.projectUrl(project));
-                });
-            };
-            return ProjectCreateController;
-        })();
-        app.ProjectCreateController = ProjectCreateController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
-/// <reference path="../core/egm.ts"/>
-/// <reference path="../core/egm-ui.ts"/>
-/// <reference path="../model/participant.ts"/>
-/// <reference path="../model/project-grid.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ProjectGridController = (function () {
-            function ProjectGridController($q, $routeParams, $dialog, $scope) {
-                var _this = this;
-                this.$scope = $scope;
-                this.filter = {};
-                this.participantState = {};
-                this.projectKey = $routeParams.projectId;
-
-                var egmui = egrid.egmui();
-                this.egm = egmui.egm();
-                this.egm.showRemoveLinkButton(true);
-                this.egm.options().scalingConnection = false;
-                d3.select("#display").attr({
-                    width: $(window).width(),
-                    height: $(window).height()
-                }).call(this.egm.display($(window).width(), $(window).height()));
-                d3.select(window).on('resize', function () {
-                    d3.select("#display").attr({
-                        width: $(window).width(),
-                        height: $(window).height()
-                    });
-                });
-
-                d3.select("#undoButton").call(egmui.undoButton().onEnable(function () {
-                    d3.select("#undoButtonContainer").classed("disabled", false);
-                }).onDisable(function () {
-                    d3.select("#undoButtonContainer").classed("disabled", true);
-                }));
-                d3.select("#redoButton").call(egmui.redoButton().onEnable(function () {
-                    d3.select("#redoButtonContainer").classed("disabled", false);
-                }).onDisable(function () {
-                    d3.select("#redoButtonContainer").classed("disabled", true);
-                }));
-
-                d3.select("#removeNodeButton").call(egmui.removeNodeButton().onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-                d3.select("#mergeNodeButton").call(egmui.mergeNodeButton().onEnable(function (selection) {
-                    return _this.showNodeController(selection);
-                }).onDisable(function () {
-                    return _this.hideNodeController();
-                }));
-
-                d3.select("#filterButton").on("click", function () {
-                    var node = _this.egm.selectedNode();
-                    _this.participants.forEach(function (participant) {
-                        if (node) {
-                            _this.participantState[participant.key()] = node.participants.indexOf(participant.key()) >= 0;
-                        } else {
-                            _this.participantState[participant.key()] = false;
-                        }
-                    });
-                    var d = $dialog.dialog({
-                        backdrop: true,
-                        keyboard: true,
-                        backdropClick: true,
-                        templateUrl: '/partials/filter-participants-dialog.html',
-                        controller: function ($scope, dialog) {
-                            $scope.results = _this.filter;
-                            $scope.participants = _this.participants;
-                            $scope.active = _this.participantState;
-                            $scope.close = function () {
-                                dialog.close($scope.results);
-                            };
-                        }
-                    });
-                    d.open().then(function (result) {
-                        _this.egm.nodes().forEach(function (d) {
-                            d.active = d.participants.some(function (key) {
-                                return result[key];
-                            });
-                        });
-                        _this.egm.draw().focusCenter();
-                    });
-                    $scope.$apply();
-                });
-
-                d3.select("#layoutButton").on("click", function () {
-                    var d = $dialog.dialog({
-                        backdrop: true,
-                        keyboard: true,
-                        backdropClick: true,
-                        templateUrl: '/partials/setting-dialog.html',
-                        controller: function ($scope, dialog) {
-                            $scope.options = _this.egm.options();
-                            $scope.ViewMode = egrid.ViewMode;
-                            $scope.InactiveNode = egrid.InactiveNode;
-                            $scope.close = function () {
-                                dialog.close();
-                            };
-                        }
-                    });
-                    d.open().then(function () {
-                        _this.egm.draw();
-                    });
-                    $scope.$apply();
-                });
-
-                $q.when(egrid.model.ProjectGrid.get(this.projectKey)).then(function (grid) {
-                    var nodes = grid.nodes.map(function (d) {
-                        return new egrid.Node(d.text, d.weight, d.original, d.participants);
-                    });
-                    var links = grid.links.map(function (d) {
-                        return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
-                    });
-                    _this.egm.nodes(nodes).links(links).draw().focusCenter();
-                });
-
-                $q.when(egrid.model.Participant.query(this.projectKey)).then(function (participants) {
-                    _this.participants = participants;
-                    _this.participants.forEach(function (participant) {
-                        _this.participantState[participant.key()] = false;
-                        _this.filter[participant.key()] = true;
-                    });
-                });
-            }
-            ProjectGridController.prototype.showNodeController = function (selection) {
-                if (!selection.empty()) {
-                    var nodeRect = selection.node().getBoundingClientRect();
-                    var controllerWidth = $("#nodeController").width();
-                    d3.select("#nodeController").classed("invisible", false).style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
-                }
-            };
-
-            ProjectGridController.prototype.hideNodeController = function () {
-                d3.select("#nodeController").classed("invisible", true);
-            };
-
-            ProjectGridController.prototype.moveNodeController = function (selection) {
-                var nodeRect = selection.node().getBoundingClientRect();
-                var controllerWidth = $("#nodeController").width();
-                d3.select("#nodeController").style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
-            };
-            return ProjectGridController;
-        })();
-        app.ProjectGridController = ProjectGridController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var ProjectListController = (function () {
-            function ProjectListController($q) {
-                var _this = this;
-                $q.when(egrid.model.Project.query()).then(function (projects) {
-                    _this.list = projects;
-                });
-            }
-            return ProjectListController;
-        })();
-        app.ProjectListController = ProjectListController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/project.ts"/>
-/// <reference path="../model/sem-project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var SemProjectController = (function () {
-            function SemProjectController($q, $routeParams) {
-                var _this = this;
-                this.projectKey = $routeParams.projectId;
-                this.semProjectKey = $routeParams.semProjectId;
-                $q.when(egrid.model.SemProject.get(this.projectKey, this.semProjectKey)).then(function (semProject) {
-                    _this.name = semProject.name;
-                    _this.project = semProject.project;
-                });
-            }
-            return SemProjectController;
-        })();
-        app.SemProjectController = SemProjectController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
 })(egrid || (egrid = {}));
 /// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
 /// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
@@ -2996,39 +2113,6 @@ var egrid;
             var xy = d3.event.sourceEvent instanceof MouseEvent ? d3.mouse(container) : d3.touches(container, d3.event.sourceEvent.changedTouches)[0];
             return new Svg.Point(xy[0], xy[1]);
         };
-
-        /**
-        * @method appendNode
-        * @return {egrid.G
-        */
-        SEM.prototype.appendNode = function (text) {
-            if (text) {
-                var node;
-                if (node = this.grid().findNode(text)) {
-                    // node already exists
-                } else {
-                    // create new node
-                    node = this.createNode(text);
-                    node.original = true;
-                    this.grid().appendNode(node);
-                    this.draw();
-                }
-                var addedElement = this.contentsSelection.selectAll(".element").filter(function (node) {
-                    return node.text == text;
-                });
-
-                //this.selectElement(addedElement);
-                //this.focusNode(addedElement.datum());
-                this.notify();
-            }
-            return this;
-        };
-
-        SEM.prototype.createNode = function (text) {
-            var node = new egrid.Node(text);
-            node.factor = true;
-            return node;
-        };
         SEM.rx = 20;
         return SEM;
     })(egrid.DAG);
@@ -3042,284 +2126,892 @@ var egrid;
     }
     egrid.sem = sem;
 })(egrid || (egrid = {}));
-/// <reference path="../core/sem.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var SemProjectAnalysisController = (function () {
-            function SemProjectAnalysisController() {
-            }
-            return SemProjectAnalysisController;
-        })();
-        app.SemProjectAnalysisController = SemProjectAnalysisController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/sem-project.ts"/>
-/// <reference path="url.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var SemProjectCreateController = (function () {
-            function SemProjectCreateController($q, $routeParams, $location) {
-                this.$q = $q;
-                this.$location = $location;
-                this.projectKey = $routeParams.projectId;
-            }
-            SemProjectCreateController.prototype.submit = function () {
-                var _this = this;
-                var semProject = new egrid.model.SemProject(this);
-                this.$q.when(semProject.save()).then(function () {
-                    _this.$location.path(egrid.app.Url.semProjectUrl(semProject));
-                });
-            };
-            return SemProjectCreateController;
-        })();
-        app.SemProjectCreateController = SemProjectCreateController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/Definitelytyped/jquery/jquery.d.ts"/>
-var egrid;
-(function (egrid) {
-    (function (model) {
-        var SemProjectQuestionnaire = (function () {
-            function SemProjectQuestionnaire(obj) {
-                this.description = obj.description;
-                this.items = obj.items;
-                this.projectKey = obj.projectKey;
-                this.semProjectKey = obj.semProjectKey;
-                this.title = obj.title;
-            }
-            SemProjectQuestionnaire.prototype.save = function () {
-                var _this = this;
-                return $.ajax({
-                    url: this.url(),
-                    type: 'PUT',
-                    dataFilter: function (data) {
-                        return _this;
-                    }
-                });
-            };
+/// <reference path="../../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../../egrid/egm.ts"/>
+/// <reference path="../../egrid/egm-ui.ts"/>
+var Controllers;
+(function (Controllers) {
+    function EgmEditController($scope, $routeParams, $http, $location, $dialog) {
+        var projectId = $scope.projectId = $routeParams.projectId;
+        var participantId = $scope.participantId = $routeParams.participantId;
+        var jsonUrl = "/api/participants/" + projectId + "/" + participantId + "/grid";
+        var overallJsonUrl = "/api/projects/" + projectId + "/grid";
+        var overallTexts = [];
 
-            SemProjectQuestionnaire.prototype.url = function () {
-                return SemProjectQuestionnaire.url(this.projectKey, this.semProjectKey);
-            };
+        var egmui = egrid.egmui();
+        var egm = egmui.egm();
+        egm.showRemoveLinkButton(true);
+        egm.options().scalingConnection = false;
+        d3.select("#display").call(egm.display());
 
-            SemProjectQuestionnaire.get = function (projectKey, semProjectKey) {
-                return $.ajax({
-                    url: SemProjectQuestionnaire.url(projectKey, semProjectKey),
-                    type: 'GET',
-                    dataFilter: function (data) {
-                        var obj = JSON.parse(data);
-                        return new SemProjectQuestionnaire(obj);
-                    }
-                });
-            };
+        $scope.call = function (callback) {
+            callback();
+        };
 
-            SemProjectQuestionnaire.url = function (projectKey, semProjectKey) {
-                return '/api/projects/' + projectKey + '/sem-project/' + semProjectKey + '/questionnaire';
-            };
-            return SemProjectQuestionnaire;
-        })();
-        model.SemProjectQuestionnaire = SemProjectQuestionnaire;
-    })(egrid.model || (egrid.model = {}));
-    var model = egrid.model;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
-/// <reference path="../core/egm.ts"/>
-/// <reference path="../model/project-grid.ts"/>
-/// <reference path="../model/sem-project.ts"/>
-/// <reference path="../model/sem-project-questionnaire.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var SemProjectQuestionnaireEditController = (function () {
-            function SemProjectQuestionnaireEditController($q, $routeParams, $location) {
-                var _this = this;
-                this.$q = $q;
-                this.$location = $location;
-                this.projectKey = $routeParams.projectId;
-                this.semProjectKey = $routeParams.semProjectId;
-                this.data = new egrid.model.SemProjectQuestionnaire({
-                    projectKey: this.projectKey,
-                    semProjectKey: this.semProjectKey
-                });
+        function callWithProxy(f) {
+            $scope.callback = f;
+            $("#ngClickProxy").trigger("click");
+        }
 
-                this.egm = new egrid.EGM;
-                this.overallEgm = new egrid.EGM;
-
-                $q.when(egrid.model.ProjectGrid.get(this.projectKey)).then(function (grid) {
-                    var width = $("#sem-questionnaire-deisgn-display").width();
-                    var height = $("#sem-questionnaire-deisgn-display").height();
-                    d3.select("#sem-questionnaire-design-display svg").call(_this.egm.display(width, height));
-                    var nodes = grid.nodes.map(function (d) {
-                        return new egrid.Node(d.text, d.weight, d.original, d.participants);
-                    });
-                    var links = grid.links.map(function (d) {
-                        return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
-                    });
-                    _this.overallEgm.nodes(nodes).links(links);
-                    _this.items = nodes.map(function (node) {
-                        return {
-                            text: node.text,
-                            weight: node.weight,
-                            checked: false,
-                            title: node.text,
-                            description: node.text + 'を5段階で評価してください。\n1:悪い 5:良い'
-                        };
-                    });
-                    _this.items.sort(function (item1, item2) {
-                        return item2.weight - item1.weight;
-                    });
-                });
-            }
-            SemProjectQuestionnaireEditController.prototype.updateItems = function () {
-                var _this = this;
-                var itemDict = {};
-                this.items.forEach(function (item) {
-                    itemDict[item.text] = item.checked;
-                });
-                this.data.items = this.items.filter(function (item) {
-                    return item.checked;
-                });
-                var nodes = [];
-                var links = [];
-                this.overallEgm.nodes().forEach(function (node) {
-                    if (itemDict[node.text]) {
-                        var newNode = new egrid.Node(node.text);
-                        newNode.index = node.index;
-                        nodes.push(newNode);
-                    }
-                });
-                nodes.forEach(function (node1) {
-                    nodes.forEach(function (node2) {
-                        if (node1.index != node2.index && _this.overallEgm.grid().hasPath(node1.index, node2.index)) {
-                            links.push(new egrid.Link(node1, node2));
+        function openInputTextDialog(callback) {
+            callWithProxy(function () {
+                var textsDict = {};
+                var texts = overallTexts.map(function (d) {
+                    var obj = {
+                        text: d.text,
+                        weight: d.weight
+                    };
+                    d.participants.forEach(function (p) {
+                        if (p == participantId) {
+                            obj.weight -= 1;
                         }
                     });
+                    textsDict[d.text] = obj;
+                    return obj;
                 });
-                this.egm.nodes(nodes).links(links).draw().focusCenter();
-            };
-
-            SemProjectQuestionnaireEditController.prototype.submit = function () {
-                this.$q.when(this.data.save()).then(function () {
-                });
-            };
-            return SemProjectQuestionnaireEditController;
-        })();
-        app.SemProjectQuestionnaireEditController = SemProjectQuestionnaireEditController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../model/sem-project.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        var SemProjectListController = (function () {
-            function SemProjectListController($q, $routeParams) {
-                var _this = this;
-                var projectId = $routeParams.projectId;
-                $q.when(egrid.model.SemProject.query(projectId)).then(function (semProjects) {
-                    _this.list = semProjects;
-                });
-            }
-            return SemProjectListController;
-        })();
-        app.SemProjectListController = SemProjectListController;
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
-})(egrid || (egrid = {}));
-/// <reference path="../ts-definitions/DefinitelyTyped/angularjs/angular.d.ts"/>
-/// <reference path="participant.ts"/>
-/// <reference path="participant-create.ts"/>
-/// <reference path="participant-grid.ts"/>
-/// <reference path="participant-grid-edit.ts"/>
-/// <reference path="participant-list.ts"/>
-/// <reference path="project.ts"/>
-/// <reference path="project-create.ts"/>
-/// <reference path="project-grid.ts"/>
-/// <reference path="project-list.ts"/>
-/// <reference path="sem-project.ts"/>
-/// <reference path="sem-project-analysis.ts"/>
-/// <reference path="sem-project-create.ts"/>
-/// <reference path="sem-project-questionnaire-edit.ts"/>
-/// <reference path="sem-project-list.ts"/>
-/// <reference path="url.ts"/>
-var egrid;
-(function (egrid) {
-    (function (app) {
-        angular.module('collaboegm', ['ngRoute', "ui.bootstrap", "pascalprecht.translate"]).directive('focusMe', [
-            '$timeout', function ($timeout) {
-                return {
-                    link: function (scope, element, attrs, model) {
-                        $timeout(function () {
-                            element[0].focus();
+                egm.nodes().forEach(function (node) {
+                    if (textsDict[node.text]) {
+                        textsDict[node.text].weight += 1;
+                    } else {
+                        texts.push({
+                            text: node.text,
+                            weight: 1
                         });
                     }
-                };
-            }]).config([
-            '$routeProvider', function ($routeProvider) {
-                $routeProvider.when(egrid.app.Url.projectGridUrlBase, {
-                    controller: 'ProjectGridController',
-                    controllerAs: 'projectGrid',
-                    templateUrl: '/partials/egm-show-all.html'
-                }).when(egrid.app.Url.participantGridUrlBase, {
-                    controller: 'ParticipantGridEditController',
-                    controllerAs: 'participantGrid',
-                    templateUrl: '/partials/egm-edit.html'
-                }).when(egrid.app.Url.participantUrlBase, {
-                    controller: 'ParticipantController',
-                    controllerAs: 'participant',
-                    templateUrl: '/partials/participant-detail.html'
-                }).when(egrid.app.Url.semProjectUrlBase, {
-                    controller: 'SemProjectController',
-                    controllerAs: 'semProject',
-                    templateUrl: '/partials/sem-project-detail.html'
-                }).when(egrid.app.Url.projectUrlBase, {
-                    controller: 'ProjectController',
-                    controllerAs: 'project',
-                    templateUrl: '/partials/project-detail.html'
-                }).when(egrid.app.Url.projectListUrlBase, {
-                    templateUrl: '/partials/project-list.html'
-                }).when("/help", {
-                    templateUrl: '/partials/help.html'
-                }).when("/about", {
-                    templateUrl: '/partials/about.html'
-                }).otherwise({
-                    redirectTo: egrid.app.Url.projectListUrl()
                 });
-            }]).config([
-            "$translateProvider", function ($translateProvider) {
-                $translateProvider.useStaticFilesLoader({
-                    prefix: 'locations/',
-                    suffix: '.json'
-                }).fallbackLanguage("en").preferredLanguage("ja");
-            }]).controller('ParticipantController', ['$q', '$routeParams', egrid.app.ParticipantController]).controller('ParticipantCreateController', ['$q', '$routeParams', '$location', egrid.app.ParticipantCreateController]).controller('ParticipantGridController', ['$q', '$routeParams', '$scope', egrid.app.ParticipantGridController]).controller('ParticipantGridEditController', ['$q', '$routeParams', '$location', '$dialog', '$scope', egrid.app.ParticipantGridEditController]).controller('ParticipantListController', ['$q', '$routeParams', egrid.app.ParticipantListController]).controller('ProjectController', ['$q', '$routeParams', egrid.app.ProjectController]).controller('ProjectCreateController', ['$q', '$location', egrid.app.ProjectCreateController]).controller('ProjectGridController', ['$q', '$routeParams', '$dialog', '$scope', egrid.app.ProjectGridController]).controller('ProjectListController', ['$q', egrid.app.ProjectListController]).controller('SemProjectController', ['$q', '$routeParams', egrid.app.SemProjectController]).controller('SemProjectAnalysisController', ['$q', '$routeParams', egrid.app.SemProjectAnalysisController]).controller('SemProjectCreateController', ['$q', '$routeParams', '$location', egrid.app.SemProjectCreateController]).controller('SemProjectListController', ['$q', '$routeParams', egrid.app.SemProjectListController]).controller('SemProjectQuestionnaireEditController', ['$q', '$routeParams', egrid.app.SemProjectQuestionnaireEditController]).run([
-            '$rootScope', '$translate', '$http', function ($rootScope, $translate, $http) {
-                $rootScope.Url = egrid.app.Url;
+                var d = $dialog.dialog({
+                    backdrop: true,
+                    keyboard: true,
+                    backdropClick: true,
+                    templateUrl: '/partials/input-text-dialog.html',
+                    controller: InputTextDialogController,
+                    resolve: { texts: function () {
+                            return texts;
+                        } }
+                });
+                d.open().then(function (result) {
+                    callback(result);
+                });
+            });
+        }
 
-                $rootScope.changeLanguage = function (langKey) {
-                    $translate.uses(langKey);
-                    $http({
-                        method: "POST",
-                        url: '/api/users',
+        d3.select("#appendNodeButton").call(egmui.appendNodeButton().onClick(openInputTextDialog));
+        d3.select("#undoButton").call(egmui.undoButton().onEnable(function () {
+            d3.select("#undoButtonContainer").classed("disabled", false);
+        }).onDisable(function () {
+            d3.select("#undoButtonContainer").classed("disabled", true);
+        }));
+        d3.select("#redoButton").call(egmui.redoButton().onEnable(function () {
+            d3.select("#redoButtonContainer").classed("disabled", false);
+        }).onDisable(function () {
+            d3.select("#redoButtonContainer").classed("disabled", true);
+        }));
+        d3.select("#saveButton").call(egmui.saveButton().save(function (json) {
+            $http({
+                method: 'PUT',
+                url: jsonUrl,
+                data: json
+            }).success(function (data) {
+                var path = "/participants/" + projectId + "/" + participantId;
+                $location.path(path);
+            });
+        }));
+
+        function showNodeController(selection) {
+            if (!selection.empty()) {
+                var nodeRect = selection.node().getBoundingClientRect();
+                var controllerWidth = $("#nodeController").width();
+                d3.select("#nodeController").classed("invisible", false).style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
+            }
+        }
+
+        function hideNodeController() {
+            d3.select("#nodeController").classed("invisible", true);
+        }
+
+        function moveNodeController(selection) {
+            var nodeRect = selection.node().getBoundingClientRect();
+            var controllerWidth = $("#nodeController").width();
+            d3.select("#nodeController").style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
+        }
+
+        d3.select("#ladderUpButton").call(egmui.radderUpButton().onClick(openInputTextDialog).onEnable(showNodeController).onDisable(hideNodeController));
+        d3.select("#ladderDownButton").call(egmui.radderDownButton().onClick(openInputTextDialog).onEnable(showNodeController).onDisable(hideNodeController));
+        d3.select("#removeNodeButton").call(egmui.removeNodeButton().onEnable(showNodeController).onDisable(hideNodeController));
+        d3.select("#mergeNodeButton").call(egmui.mergeNodeButton().onEnable(showNodeController).onDisable(hideNodeController));
+        d3.select("#editNodeButton").call(egmui.editNodeButton().onClick(openInputTextDialog).onEnable(showNodeController).onDisable(hideNodeController));
+
+        $http.get(jsonUrl).success(function (data) {
+            var nodes = data.nodes.map(function (d) {
+                return new egrid.Node(d.text, d.weight, d.original);
+            });
+            var links = data.links.map(function (d) {
+                return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
+            });
+            egm.nodes(nodes).links(links).draw().focusCenter();
+        });
+
+        $http.get(overallJsonUrl).success(function (data) {
+            overallTexts = data.nodes;
+        });
+    }
+    Controllers.EgmEditController = EgmEditController;
+
+    function InputTextDialogController($scope, dialog, texts) {
+        texts.sort(function (t1, t2) {
+            return t2.weight - t1.weight;
+        });
+        $scope.result = "";
+        $scope.texts = texts;
+        $scope.close = function (result) {
+            dialog.close(result);
+        };
+    }
+})(Controllers || (Controllers = {}));
+/// <reference path="../../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../../egrid/egm.ts"/>
+var Controllers;
+(function (Controllers) {
+    function EgmShowController($scope, $routeParams, $http, $location) {
+        var projectId = $scope.projectId = $routeParams.projectId;
+        var participantId = $scope.participantId = $routeParams.participantId;
+        var jsonUrl = "/api/participants/" + projectId + "/" + participantId + "/grid";
+
+        var egm = new egrid.EGM;
+        d3.select("#display").call(egm.display());
+
+        $http.get(jsonUrl).success(function (data) {
+            var nodes = data.nodes.map(function (d) {
+                return new egrid.Node(d.text, d.weight, d.original);
+            });
+            var links = data.links.map(function (d) {
+                return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
+            });
+            egm.nodes(nodes).links(links).draw().focusCenter();
+        });
+    }
+    Controllers.EgmShowController = EgmShowController;
+})(Controllers || (Controllers = {}));
+/// <reference path="../../ts-definitions/DefinitelyTyped/angularjs/angular.d.ts"/>
+/// <reference path="../../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../../egrid/egm.ts"/>
+/// <reference path="../../egrid/egm-ui.ts"/>
+var Controllers;
+(function (Controllers) {
+    function EgmShowAllController($scope, $routeParams, $http, $location, $dialog) {
+        var data;
+        var participants;
+        var projectId = $scope.projectId = $routeParams.projectId;
+        var participantsUrl = "/api/participants/" + projectId;
+        var jsonUrl = "/api/projects/" + projectId + "/grid";
+        var filter = {};
+
+        $scope.call = function (callback) {
+            callback();
+        };
+
+        function callWithProxy(f) {
+            $scope.callback = f;
+            $("#ngClickProxy").trigger("click");
+        }
+
+        var egmui = egrid.egmui();
+        var egm = egmui.egm();
+        d3.select("#display").call(egm.display());
+
+        function showNodeController(selection) {
+            if (!selection.empty()) {
+                var nodeRect = selection.node().getBoundingClientRect();
+                var controllerWidth = $("#nodeController").width();
+                d3.select("#nodeController").classed("invisible", false).style("top", nodeRect.top + nodeRect.height + 10 + "px").style("left", nodeRect.left + (nodeRect.width - controllerWidth) / 2 + "px");
+            }
+        }
+
+        function hideNodeController() {
+            d3.select("#nodeController").classed("invisible", true);
+        }
+
+        d3.select("#removeNodeButton").call(egmui.removeNodeButton().onEnable(showNodeController).onDisable(hideNodeController));
+        d3.select("#mergeNodeButton").call(egmui.mergeNodeButton().onEnable(showNodeController).onDisable(hideNodeController));
+
+        d3.select("#filterButton").on("click", function () {
+            callWithProxy(function () {
+                var node = egm.selectedNode();
+                participants.forEach(function (participant) {
+                    if (node) {
+                        participant.active = node.participants.indexOf(participant.key) >= 0;
+                    } else {
+                        participant.active = false;
+                    }
+                });
+                var d = $dialog.dialog({
+                    backdrop: true,
+                    keyboard: true,
+                    backdropClick: true,
+                    templateUrl: '/partials/filter-participants-dialog.html',
+                    controller: FilterParticipantsDialogController,
+                    resolve: {
+                        participants: function () {
+                            return participants;
+                        },
+                        filter: function () {
+                            return filter;
+                        }
+                    }
+                });
+                d.open().then(function (result) {
+                    egm.nodes().forEach(function (d) {
+                        d.active = d.participants.some(function (key) {
+                            return result[key];
+                        });
+                    });
+                    egm.draw().focusCenter();
+                });
+            });
+        });
+
+        d3.select("#layoutButton").on("click", function () {
+            callWithProxy(function () {
+                var d = $dialog.dialog({
+                    backdrop: true,
+                    keyboard: true,
+                    backdropClick: true,
+                    templateUrl: '/partials/setting-dialog.html',
+                    controller: SettingDialogController,
+                    resolve: { options: function () {
+                            return egm.options();
+                        } }
+                });
+                d.open().then(function () {
+                    egm.draw();
+                });
+            });
+        });
+
+        d3.select("#undoButton").call(egmui.undoButton().onEnable(function () {
+            d3.select("#undoButtonContainer").classed("disabled", false);
+        }).onDisable(function () {
+            d3.select("#undoButtonContainer").classed("disabled", true);
+        }));
+        d3.select("#redoButton").call(egmui.redoButton().onEnable(function () {
+            d3.select("#redoButtonContainer").classed("disabled", false);
+        }).onDisable(function () {
+            d3.select("#redoButtonContainer").classed("disabled", true);
+        }));
+
+        $http.get(jsonUrl).success(function (data_) {
+            data = data_;
+            var nodes = data.nodes.map(function (d) {
+                return new egrid.Node(d.text, d.weight, d.original, d.participants);
+            });
+            var links = data.links.map(function (d) {
+                return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
+            });
+            egm.nodes(nodes).links(links).draw().focusCenter();
+        });
+
+        $http.get(participantsUrl).success(function (participants_) {
+            participants = participants_;
+            participants.forEach(function (participant) {
+                participant.active = false;
+                filter[participant.key] = true;
+            });
+        });
+    }
+    Controllers.EgmShowAllController = EgmShowAllController;
+
+    function FilterParticipantsDialogController($scope, dialog, participants, filter) {
+        $scope.results = filter;
+        $scope.participants = participants;
+        $scope.close = function () {
+            dialog.close($scope.results);
+        };
+    }
+
+    function SettingDialogController($scope, dialog, options) {
+        $scope.options = options;
+        $scope.ViewMode = egrid.ViewMode;
+        $scope.InactiveNode = egrid.InactiveNode;
+        $scope.close = function () {
+            dialog.close();
+        };
+    }
+})(Controllers || (Controllers = {}));
+/// <reference path="../../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../../egrid/egm.ts"/>
+var Controllers;
+(function (Controllers) {
+    function ParticipantDetailController($scope, $routeParams, $http) {
+        var projectId = $scope.projectId = $routeParams.projectId;
+        var participantId = $scope.participantId = $routeParams.participantId;
+        var jsonUrl = "/api/participants/" + projectId + "/" + participantId + "/grid";
+
+        $http.get("/api/participants/" + projectId + "/" + participantId).success(function (data) {
+            $scope.participant = data;
+        });
+
+        var gridTabInitialized = false;
+        $scope.gridTabSelected = function () {
+            if (!gridTabInitialized) {
+                var width = 960 / 12 * 10;
+                var height = 500;
+                var egm = new egrid.EGM;
+
+                d3.select("#display").attr("width", width).attr("height", height).style("display", "block").style("border", "solid").call(egm.display(width, height));
+
+                $http.get(jsonUrl).success(function (data) {
+                    var nodes = data.nodes.map(function (d) {
+                        return new egrid.Node(d.text, d.weight, d.original);
+                    });
+                    var links = data.links.map(function (d) {
+                        return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
+                    });
+                    egm.nodes(nodes).links(links).draw().focusCenter();
+                });
+                gridTabInitialized = true;
+            }
+        };
+    }
+    Controllers.ParticipantDetailController = ParticipantDetailController;
+})(Controllers || (Controllers = {}));
+/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
+var egrid;
+(function (egrid) {
+    (function (api) {
+        /**
+        * @class Project
+        */
+        var Project = (function () {
+            function Project(obj, key) {
+                if (obj) {
+                    this.name = obj.name;
+                    this.note = obj.note;
+                }
+                if (key) {
+                    this.key_ = key;
+                }
+            }
+            Project.prototype.key = function () {
+                return this.key_;
+            };
+
+            Project.prototype.save = function () {
+                var _this = this;
+                if (this.key()) {
+                    // TODO update
+                } else {
+                    return $.ajax({
+                        url: Project.url(),
+                        type: 'POST',
                         data: {
-                            location: langKey
+                            name: this.name,
+                            note: this.note
+                        },
+                        dataFilter: function (data) {
+                            var obj = JSON.parse(data);
+                            _this.key_ = obj.key;
+                            return _this;
                         }
                     });
-                };
+                }
+            };
 
-                $http.get("/api/users").success(function (user) {
-                    $rootScope.user = user;
-                    $translate.uses(user.location);
-                });
+            Project.prototype.url = function () {
+                return Project.url(this.key());
+            };
 
-                var dest_url = "/";
-                $http.get("/api/users/logout?dest_url=" + encodeURIComponent(dest_url)).success(function (data) {
-                    $rootScope.logoutUrl = data.logout_url;
-                });
-            }]);
-    })(egrid.app || (egrid.app = {}));
-    var app = egrid.app;
+            Project.get = function (key) {
+                if (key) {
+                    return $.ajax({
+                        url: Project.url(key),
+                        type: 'GET',
+                        dataFilter: function (data) {
+                            var obj = JSON.parse(data);
+                            return new Project(obj, obj.key);
+                        }
+                    });
+                } else {
+                    return $.ajax({
+                        url: Project.url(),
+                        type: 'GET',
+                        dataFilter: function (data) {
+                            var objs = JSON.parse(data);
+                            return objs.map(function (obj) {
+                                return new Project(obj, obj.key);
+                            });
+                        }
+                    });
+                }
+            };
+
+            Project.url = function (key) {
+                if (key) {
+                    return '/api/projects/' + key;
+                } else {
+                    return '/api/projects';
+                }
+            };
+            return Project;
+        })();
+        api.Project = Project;
+    })(egrid.api || (egrid.api = {}));
+    var api = egrid.api;
 })(egrid || (egrid = {}));
+/// <reference path="../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
+/// <reference path="project.ts"/>
+var egrid;
+(function (egrid) {
+    (function (api) {
+        var Participant = (function () {
+            function Participant(obj, key) {
+                if (obj) {
+                    this.name = obj.name;
+                    this.note = obj.note;
+                }
+                if (key) {
+                    this.key_ = key;
+                }
+            }
+            Participant.prototype.key = function () {
+                return this.key_;
+            };
+
+            Participant.get = function (projectKey, key) {
+                if (key) {
+                } else {
+                    return $.ajax({
+                        url: Participant.url(projectKey),
+                        type: 'GET',
+                        dataFilter: function (data) {
+                            var objs = JSON.parse(data);
+                            return objs.map(function (obj) {
+                                return new Participant(obj, obj.key);
+                            });
+                        }
+                    });
+                }
+            };
+
+            Participant.url = function (projectKey, key) {
+                if (key) {
+                    return egrid.api.Project.url(projectKey) + '/participants/' + key;
+                } else {
+                    return egrid.api.Project.url(projectKey) + '/participants';
+                }
+            };
+            return Participant;
+        })();
+        api.Participant = Participant;
+    })(egrid.api || (egrid.api = {}));
+    var api = egrid.api;
+})(egrid || (egrid = {}));
+/// <reference path="../../api/project.ts"/>
+/// <reference path="../../api/participant.ts"/>
+var Controllers;
+(function (Controllers) {
+    function ProjectDetailController($scope, $routeParams, $http, $location) {
+        var projectId = $routeParams.projectId;
+        $scope.projectId = projectId;
+        egrid.api.Project.get(projectId).done(function (data) {
+            $scope.project = data;
+            $scope.$apply();
+        });
+        egrid.api.Participant.get(projectId).done(function (data) {
+            $scope.participants = data;
+            $scope.$apply();
+        });
+        $http.get("/api/collaborators/" + projectId).success(function (data) {
+            $scope.collaborators = data;
+        });
+
+        $scope.newParticipant = {};
+        $scope.createParticipant = function () {
+            $http({
+                method: 'PUT',
+                url: '/api/participants/' + projectId,
+                data: $scope.newParticipant
+            }).success(function (data) {
+                var path = "/participants/" + projectId + "/" + data.key;
+                $location.path(path);
+            });
+        };
+
+        $scope.newCollaborator = {};
+        $scope.createCollaborator = function () {
+            $http({
+                method: 'PUT',
+                url: '/api/collaborators/' + projectId,
+                data: $scope.newCollaborator
+            }).success(function (data) {
+                $scope.collaborators.push(data);
+                $scope.newCollaborator = {};
+            });
+        };
+    }
+    Controllers.ProjectDetailController = ProjectDetailController;
+
+    function ProjectDetailSemProjectListController($scope, $http) {
+        var projectId = $scope.$parent.projectId;
+
+        $http.get("/api/projects/" + projectId + "/sem-projects").success(function (data) {
+            $scope.semProjects = data;
+        });
+    }
+    Controllers.ProjectDetailSemProjectListController = ProjectDetailSemProjectListController;
+
+    function ProjectDetailSemProjectCreateController($scope, $http, $location) {
+        var projectId = $scope.$parent.projectId;
+
+        $scope.createSemProject = function () {
+            //$http({
+            //  method: "PUT",
+            //  url: "/api/
+            //})
+        };
+    }
+    Controllers.ProjectDetailSemProjectCreateController = ProjectDetailSemProjectCreateController;
+})(Controllers || (Controllers = {}));
+/// <reference path="../../api/project.ts"/>
+var Controllers;
+(function (Controllers) {
+    function projectUrl(project) {
+        return '/projects/' + project.key();
+    }
+    Controllers.projectUrl = projectUrl;
+})(Controllers || (Controllers = {}));
+/// <reference path="../../api/project.ts"/>
+/// <reference path="url.ts"/>
+var Controllers;
+(function (Controllers) {
+    function ProjectListController($scope, $location) {
+        egrid.api.Project.get().done(function (data) {
+            $scope.projects = data;
+            $scope.$apply();
+        });
+
+        $scope.newProject = new egrid.api.Project;
+
+        $scope.createProject = function () {
+            $scope.newProject.save().done(function () {
+                $location.path(Controllers.projectUrl($scope.newProject));
+                $scope.$apply();
+            });
+        };
+    }
+    Controllers.ProjectListController = ProjectListController;
+})(Controllers || (Controllers = {}));
+/// <reference path="../../ts-definitions/DefinitelyTyped/jquery/jquery.d.ts"/>
+/// <reference path="../../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../../sem.d.ts"/>
+/// <reference path="../../egrid/egm.ts"/>
+/// <reference path="../../egrid/sem.ts"/>
+var Controllers;
+(function (Controllers) {
+    function SemProjectDetailController($scope, $routeParams, $http, $location) {
+        $scope.projectId = $routeParams.projectId;
+    }
+    Controllers.SemProjectDetailController = SemProjectDetailController;
+
+    function SemProjectDetailDesignController($scope, $http) {
+        var projectId = $scope.$parent.projectId;
+        var overallEgm = new egrid.EGM;
+        var egm = new egrid.EGM;
+
+        $scope.semProject = {
+            name: '書きやすさの分析',
+            project: {
+                key: projectId,
+                name: 'シャープペンシル'
+            }
+        };
+
+        $scope.items = [];
+
+        $scope.fullscreen = function () {
+        };
+
+        $scope.checked = function (item) {
+            return item.checked;
+        };
+
+        $scope.updateGraph = function () {
+            var itemDict = {};
+            $scope.items.forEach(function (item) {
+                itemDict[item.text] = item.checked;
+            });
+            var nodes = [];
+            var links = [];
+            overallEgm.nodes().forEach(function (node) {
+                if (itemDict[node.text]) {
+                    var newNode = new egrid.Node(node.text);
+                    newNode.index = node.index;
+                    nodes.push(newNode);
+                }
+            });
+            nodes.forEach(function (node1) {
+                nodes.forEach(function (node2) {
+                    if (node1.index != node2.index && overallEgm.grid().hasPath(node1.index, node2.index)) {
+                        links.push(new egrid.Link(node1, node2));
+                    }
+                });
+            });
+            egm.nodes(nodes).links(links).draw().focusCenter();
+        };
+
+        $http.get("/api/projects/" + projectId + "/grid").success(function (data) {
+            data.nodes.forEach(function (node) {
+                $scope.items.push({
+                    text: node.text,
+                    weight: node.weight,
+                    checked: false
+                });
+                $scope.items.sort(function (item1, item2) {
+                    return item2.weight - item1.weight;
+                });
+            });
+
+            var width = $("#sem-questionnaire-deisgn-display").width();
+            var height = $("#sem-questionnaire-deisgn-display").height();
+            d3.select("#sem-questionnaire-design-display svg").call(egm.display(width, height));
+
+            var nodes = data.nodes.map(function (d) {
+                return new egrid.Node(d.text, d.weight, d.original);
+            });
+            var links = data.links.map(function (d) {
+                return new egrid.Link(nodes[d.source], nodes[d.target], d.weight);
+            });
+            overallEgm.nodes(nodes).links(links);
+        });
+    }
+    Controllers.SemProjectDetailDesignController = SemProjectDetailDesignController;
+
+    function SemProjectDetailAnalysisController($scope, $http) {
+        var nodes = [
+            '総合評価',
+            '使いたさ',
+            '書きやすさ',
+            '便利さ',
+            '快適さ',
+            '安心さ',
+            '芯の太さ',
+            '持ち運びやすさ',
+            '持ちやすさ',
+            '太さ',
+            '重さ'
+        ];
+        var links = [
+            { source: 1, target: 0 },
+            { source: 2, target: 0 },
+            { source: 3, target: 0 },
+            { source: 4, target: 0 },
+            { source: 5, target: 0 },
+            { source: 6, target: 2 },
+            { source: 8, target: 2 },
+            { source: 10, target: 2 },
+            { source: 7, target: 3 },
+            { source: 8, target: 3 },
+            { source: 8, target: 4 },
+            { source: 8, target: 5 },
+            { source: 10, target: 5 },
+            { source: 9, target: 7 },
+            { source: 10, target: 7 },
+            { source: 9, target: 8 }
+        ];
+        var S = [
+            [1.180487805, 0.939634146, 1.021341463, 0.646341463, 0.96402439, 0.322560976, 0.058536585, 0.117682927, 1.021341463, -0.231097561, -0.170731707],
+            [0.939634146, 1.18902439, 0.915243902, 0.565243902, 0.895731707, 0.176829268, 0.106097561, 0.055487805, 0.915243902, -0.132926829, -0.02195122],
+            [1.021341463, 0.915243902, 1.552439024, 0.427439024, 1.007317073, 0.018292683, 0.06097561, 0.154878049, 1.552439024, -0.179268293, -0.369512195],
+            [0.646341463, 0.565243902, 0.427439024, 1.102439024, 0.482317073, -0.031707317, -0.13902439, 0.179878049, 0.427439024, -0.104268293, -0.219512195],
+            [0.96402439, 0.895731707, 1.007317073, 0.482317073, 1.07195122, 0.179878049, 0.057926829, 0.114634146, 1.007317073, -0.237804878, -0.133536585],
+            [0.322560976, 0.176829268, 0.018292683, -0.031707317, 0.179878049, 0.962195122, 0.157317073, -0.038414634, 0.018292683, 0.030487805, 0.128658537],
+            [0.058536585, 0.106097561, 0.06097561, -0.13902439, 0.057926829, 0.157317073, 0.474390244, -0.15304878, 0.06097561, 0.093292683, -0.087804878],
+            [0.117682927, 0.055487805, 0.154878049, 0.179878049, 0.114634146, -0.038414634, -0.15304878, 0.809756098, 0.154878049, -0.308536585, -0.58902439],
+            [1.021341463, 0.915243902, 1.552439024, 0.427439024, 1.007317073, 0.018292683, 0.06097561, 0.154878049, 1.552439024, -0.179268293, -0.369512195],
+            [-0.231097561, -0.132926829, -0.179268293, -0.104268293, -0.237804878, 0.030487805, 0.093292683, -0.308536585, -0.179268293, 1.051219512, 0.509146341],
+            [-0.170731707, -0.02195122, -0.369512195, -0.219512195, -0.133536585, 0.128658537, -0.087804878, -0.58902439, -0.369512195, 0.509146341, 1.256097561]
+        ];
+        var SDict = {};
+        nodes.forEach(function (node) {
+            SDict[node] = {};
+        });
+        nodes.forEach(function (node1, i) {
+            nodes.forEach(function (node2, j) {
+                SDict[node1][node2] = S[i][j];
+            });
+        });
+
+        var egmNodes = nodes.map(function (d) {
+            return new egrid.Node(d);
+        });
+        var egmLinks = links.map(function (d) {
+            return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
+        });
+
+        var dag = egrid.sem();
+
+        function calcPath() {
+            var nodes = dag.activeNodes();
+            var links = dag.activeLinks();
+            var nodesDict = {};
+            nodes.forEach(function (node, i) {
+                nodesDict[node.text] = i;
+            });
+            var n = nodes.length;
+            var alpha = links.map(function (link) {
+                return [nodesDict[link.target.text], nodesDict[link.source.text]];
+            });
+            var sigma = nodes.map(function (_, i) {
+                return [i, i];
+            });
+            var S = nodes.map(function (node1) {
+                return nodes.map(function (node2) {
+                    return SDict[node1.text][node2.text];
+                });
+            });
+            sem(n, alpha, sigma, S, (function (result) {
+                var A = nodes.map(function (_) {
+                    return nodes.map(function (_) {
+                        return 0;
+                    });
+                });
+                result.alpha.forEach(function (r) {
+                    A[r[0]][r[1]] = r[2];
+                });
+                links.forEach(function (link) {
+                    link.coef = A[nodesDict[link.target.text]][nodesDict[link.source.text]];
+                });
+                dag.draw();
+            }));
+        }
+
+        dag.nodes(egmNodes).links(egmLinks).registerUiCallback(function () {
+            $scope.$apply();
+            calcPath();
+        });
+
+        var n = nodes.length;
+        var alpha = links.map(function (d) {
+            return [d.target, d.source];
+        });
+        var sigma = nodes.map(function (_, i) {
+            return [i, i];
+        });
+        sem(n, alpha, sigma, S, (function (result) {
+            var A = dag.nodes().map(function (_) {
+                return dag.nodes().map(function (_) {
+                    return 0;
+                });
+            });
+            result.alpha.forEach(function (r) {
+                A[r[0]][r[1]] = r[2];
+            });
+            dag.links().forEach(function (link) {
+                link.coef = A[link.source.index][link.target.index];
+            });
+        }));
+
+        $scope.$parent.drawSemAnalysis = function () {
+            var width = $("#sem-analysis-display").width();
+            var height = $("#sem-analysis-display").height();
+            d3.select("#sem-analysis-display svg").call(dag.display(width, height));
+
+            dag.draw().focusCenter();
+        };
+
+        $scope.items = dag.nodes();
+
+        $scope.removeNode = function () {
+            dag.draw();
+            calcPath();
+        };
+    }
+    Controllers.SemProjectDetailAnalysisController = SemProjectDetailAnalysisController;
+})(Controllers || (Controllers = {}));
+/// <reference path="../ts-definitions/DefinitelyTyped/angularjs/angular.d.ts"/>
+/// <reference path="../ts-definitions/DefinitelyTyped/d3/d3.d.ts"/>
+/// <reference path="../egrid/egm.ts"/>
+/// <reference path="controllers/egm_edit.ts"/>
+/// <reference path="controllers/egm_show.ts"/>
+/// <reference path="controllers/egm_show_all.ts"/>
+/// <reference path="controllers/participant_detail.ts"/>
+/// <reference path="controllers/project_detail.ts"/>
+/// <reference path="controllers/project_list.ts"/>
+/// <reference path="controllers/sem_project_detail.ts"/>
+angular.module('collaboegm', ["ui.bootstrap", "pascalprecht.translate"]).directive("egmApplicationView", function () {
+    return {
+        restrict: "EA",
+        transclude: true,
+        templateUrl: "/partials/base.html"
+    };
+}).directive('focusMe', function () {
+    var params = [];
+    for (var _i = 0; _i < (arguments.length - 0); _i++) {
+        params[_i] = arguments[_i + 0];
+    }
+    var $timeout = params[0];
+    return {
+        link: function (scope, element, attrs, model) {
+            $timeout(function () {
+                element[0].focus();
+            });
+        }
+    };
+}).config([
+    '$routeProvider', function ($routeProvider) {
+        $routeProvider.when("/projects", {
+            templateUrl: "/partials/project-list.html",
+            controller: Controllers.ProjectListController
+        }).when("/projects/:projectId/grid", {
+            templateUrl: "/partials/egm-show-all.html",
+            controller: Controllers.EgmShowAllController
+        }).when("/projects/:projectId", {
+            templateUrl: "/partials/project-detail.html",
+            controller: Controllers.ProjectDetailController
+        }).when("/participants/:projectId/:participantId/grid", {
+            templateUrl: "/partials/egm-show.html",
+            controller: Controllers.EgmShowController
+        }).when("/participants/:projectId/:participantId/edit", {
+            templateUrl: "/partials/egm-edit.html",
+            controller: Controllers.EgmEditController
+        }).when("/participants/:projectId/:participantId", {
+            templateUrl: "/partials/participant-detail.html",
+            controller: Controllers.ParticipantDetailController
+        }).when("/sem-projects/:projectId/:semProjectId", {
+            templateUrl: "/partials/sem-project-detail.html",
+            controller: Controllers.SemProjectDetailController
+        }).when("/help", {
+            templateUrl: "/partials/help.html"
+        }).when("/about", {
+            templateUrl: "/partials/about.html"
+        }).otherwise({
+            redirectTo: "/projects"
+        });
+    }]).config([
+    "$translateProvider", function ($translateProvider) {
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'locations/',
+            suffix: '.json'
+        }).fallbackLanguage("en").preferredLanguage("ja");
+    }]).run([
+    '$rootScope', '$translate', '$http', function ($rootScope, $translate, $http) {
+        $rootScope.changeLanguage = function (langKey) {
+            $translate.uses(langKey);
+            $http({
+                method: "POST",
+                url: '/api/users',
+                data: {
+                    location: langKey
+                }
+            });
+        };
+
+        $http.get("/api/users").success(function (user) {
+            $rootScope.user = user;
+            $translate.uses(user.location);
+        });
+
+        var dest_url = "/";
+        $http.get("/api/users/logout?dest_url=" + encodeURIComponent(dest_url)).success(function (data) {
+            $rootScope.logoutUrl = data.logout_url;
+        });
+    }]);
