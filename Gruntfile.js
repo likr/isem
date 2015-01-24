@@ -9,12 +9,20 @@ module.exports = function(grunt) {
 
     opt: {
       client: {
-        'tsMain': 'lib',
+        'app': 'app',
+        'tsMain': 'app/src/scripts',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
-        'jsMain': 'lib',
+        'jsMain': 'app/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
+      }
+    },
+
+    wiredep: {
+      app: {
+        src: ['<%= opt.client.app %>/index.html'],
+        exclude: []
       }
     },
 
@@ -82,5 +90,9 @@ module.exports = function(grunt) {
   grunt.registerTask('e2e', [
     '6to5',
     'protractor'
+  ]);
+
+  grunt.registerTask('start', [
+    'wiredep'
   ]);
 };
