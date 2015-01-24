@@ -1,0 +1,19 @@
+# for WebStorm
+.idea
+
+# for npm
+node_modules/
+npm-debug.log
+
+# for bower
+app/
+
+# for grunt
+.tscache/
+coverage/
+test-espowered/
+typings/
+es5/
+
+!Gruntfile.js
+!index.js
