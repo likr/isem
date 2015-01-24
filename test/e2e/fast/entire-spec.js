@@ -35,4 +35,10 @@ describe('egrid-sem', () => {
     var firstNodeText = $('svg .contents .nodes .element text');
     expect(firstNodeText.getInnerHtml()).toBe('総合評価');
   });
+
+  it('label of export form should display パス係数.', () => {
+    browser.get('/');
+    var label = $$('form').get(1).$('label');
+    expect(label.getInnerHtml()).toBe('パス係数');
+  });
 });
