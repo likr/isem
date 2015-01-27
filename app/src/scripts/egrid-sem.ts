@@ -18,6 +18,9 @@ angular.module('egrid-sem', [])
     var dag = egrid.sem();
     var SDict: any;
 
+    /**
+     * @returns {void}
+     */
     function calcPath() {
       var nodes = dag.activeNodes();
       var links = dag.activeLinks();
@@ -57,6 +60,12 @@ angular.module('egrid-sem', [])
       }));
     }
 
+    /**
+     * @param {*} nodes
+     * @param {*} links
+     * @param {*} S
+     * @returns {void}
+     */
     function loadData(nodes: any, links: any, S: any) {
       SDict = {};
       nodes.forEach(function(node: any) {
@@ -164,11 +173,19 @@ angular.module('egrid-sem', [])
 
     $scope.gfiValue = 0;
 
+    /**
+     * @function removeNode
+     * @returns {void}
+     */
     $scope.removeNode = function() {
       dag.draw().focusCenter();
       calcPath();
     };
 
+    /**
+     * @function loadFile
+     * @returns {void}
+     */
     $scope.loadFile = function() {
       var file = (<any>d3.select("#fileInput").node()).files[0];
       var reader = new FileReader();
