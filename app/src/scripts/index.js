@@ -1,6 +1,9 @@
 angular.module('cov-injector', []).factory('cov', function () {
     return cov;
 });
+angular.module('d3-injector', []).factory('d3', function () {
+    return d3;
+});
 angular.module('egrid-injector', []).factory('egrid', function () {
     return egrid;
 });
@@ -10,13 +13,15 @@ angular.module('sem-injector', []).factory('sem', function () {
 angular.module('egrid-sem', [
     'egrid-injector',
     'sem-injector',
-    'cov-injector'
+    'cov-injector',
+    'd3-injector'
 ]).controller('SemController', [
     '$scope',
     'egrid',
     'sem',
     'cov',
-    function ($scope, _egrid, _sem, _cov) {
+    'd3',
+    function ($scope, _egrid, _sem, _cov, _d3) {
         var dag = _egrid.sem();
         var SDict;
         /**
@@ -163,7 +168,7 @@ angular.module('egrid-sem', [
         loadData(nodes, links, S);
         var width = $('#sem-analysis-display').width();
         var height = $('#sem-analysis-display').height();
-        d3.select('#sem-analysis-display svg').call(dag.display(width, height));
+        _d3.select('#sem-analysis-display svg').call(dag.display(width, height));
         $scope.gfiValue = 0;
         /**
          * @function removeNode
@@ -178,10 +183,10 @@ angular.module('egrid-sem', [
          * @returns {void}
          */
         $scope.loadFile = function () {
-            var file = d3.select('#fileInput').node().files[0];
+            var file = _d3.select('#fileInput').node().files[0];
             var reader = new FileReader();
             reader.onload = function (e) {
-                var data = d3.csv.parse(e.target.result);
+                var data = _d3.csv.parse(e.target.result);
                 var attributes = [];
                 var attr;
                 for (attr in data[0]) {
@@ -198,7 +203,7 @@ angular.module('egrid-sem', [
                     $scope.$apply();
                 });
             };
-            reader.readAsText(file, d3.select('.encoding:checked').node().value);
+            reader.readAsText(file, _d3.select('.encoding:checked').node().value);
         };
     }
 ]);
@@ -206,6 +211,7 @@ angular.module('egrid-sem', [
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="for-egrid-sem.d.ts" />
 /// <reference path="injector/cov.ts" />
+/// <reference path="injector/d3.ts" />
 /// <reference path="injector/egrid.ts" />
 /// <reference path="injector/sem.ts" />
 /// <reference path="egrid-sem.ts" /> 
