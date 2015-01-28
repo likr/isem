@@ -7,6 +7,9 @@ angular.module('d3-injector', []).factory('d3', function () {
 angular.module('egrid-injector', []).factory('egrid', function () {
     return egrid;
 });
+angular.module('jquery-injector', []).factory('jquery', function () {
+    return $;
+});
 angular.module('sem-injector', []).factory('sem', function () {
     return sem;
 });
@@ -14,14 +17,16 @@ angular.module('egrid-sem', [
     'egrid-injector',
     'sem-injector',
     'cov-injector',
-    'd3-injector'
+    'd3-injector',
+    'jquery-injector'
 ]).controller('SemController', [
     '$scope',
     'egrid',
     'sem',
     'cov',
     'd3',
-    function ($scope, _egrid, _sem, _cov, _d3) {
+    'jquery',
+    function ($scope, _egrid, _sem, _cov, _d3, $) {
         var dag = _egrid.sem();
         var SDict;
         /**
@@ -213,6 +218,7 @@ angular.module('egrid-sem', [
 /// <reference path="injector/cov.ts" />
 /// <reference path="injector/d3.ts" />
 /// <reference path="injector/egrid.ts" />
+/// <reference path="injector/jquery.ts" />
 /// <reference path="injector/sem.ts" />
 /// <reference path="egrid-sem.ts" /> 
 //# sourceMappingURL=index.js.map
