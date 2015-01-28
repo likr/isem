@@ -2,7 +2,8 @@ angular.module('egrid-sem', [
   'egrid-injector',
   'sem-injector',
   'cov-injector',
-  'd3-injector'
+  'd3-injector',
+  'jquery-injector'
 ])
   .controller('SemController', [
     '$scope',
@@ -10,7 +11,8 @@ angular.module('egrid-sem', [
     'sem',
     'cov',
     'd3',
-    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base) {
+    'jquery',
+    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base, $: JQueryStatic) {
     var dag = _egrid.sem();
     var SDict: typeof typeSDict;
 
