@@ -1,3 +1,6 @@
+angular.module('cov-injector', []).factory('cov', function () {
+    return cov;
+});
 angular.module('egrid-injector', []).factory('egrid', function () {
     return egrid;
 });
@@ -6,12 +9,14 @@ angular.module('sem-injector', []).factory('sem', function () {
 });
 angular.module('egrid-sem', [
     'egrid-injector',
-    'sem-injector'
+    'sem-injector',
+    'cov-injector'
 ]).controller('SemController', [
     '$scope',
     'egrid',
     'sem',
-    function ($scope, _egrid, _sem) {
+    'cov',
+    function ($scope, _egrid, _sem, _cov) {
         var dag = _egrid.sem();
         var SDict;
         /**
@@ -187,7 +192,7 @@ angular.module('egrid-sem', [
                         return d[key];
                     });
                 });
-                cov(x, function (cov) {
+                _cov(x, function (cov) {
                     var S = cov.data;
                     loadData(attributes, [], S);
                     $scope.$apply();
@@ -200,6 +205,7 @@ angular.module('egrid-sem', [
 /// <reference path="../../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="for-egrid-sem.d.ts" />
+/// <reference path="injector/cov.ts" />
 /// <reference path="injector/egrid.ts" />
 /// <reference path="injector/sem.ts" />
 /// <reference path="egrid-sem.ts" /> 
