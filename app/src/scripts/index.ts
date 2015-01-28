@@ -6,6 +6,7 @@
 /// <reference path="injector/cov.ts" />
 /// <reference path="injector/d3.ts" />
 /// <reference path="injector/egrid.ts" />
+/// <reference path="injector/jquery.ts" />
 /// <reference path="injector/sem.ts" />
 
 /// <reference path="egrid-sem.ts" />
