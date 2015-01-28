@@ -1,8 +1,8 @@
 angular.module('egrid-injector', []).factory('egrid', function () {
     return egrid;
 });
-angular.module('egrid-sem', ['egrid-injector']).controller('SemController', ['$scope', 'egrid', function ($scope, eg) {
-    var dag = eg.sem();
+angular.module('egrid-sem', ['egrid-injector']).controller('SemController', ['$scope', 'egrid', function ($scope, egrid) {
+    var dag = egrid.sem();
     var SDict;
     /**
      * @returns {void}
