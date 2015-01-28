@@ -105,6 +105,8 @@ declare var typeSDict: {
 
 declare var typeNodesDict: {[nodeText: string]: number};
 
+declare var typeLink: {source: number; target: number};
+
 interface SemResult {
   GFI: number;
   alpha: number[][];
@@ -175,26 +177,27 @@ angular.module('egrid-sem', [])
     }
 
     /**
-     * @param {*} nodes
-     * @param {*} links
-     * @param {*} S
+     * @param {string[]} nodes
+     * @param {{source: number, target: number}[]} links
+     * @param {number[][]} S
      * @returns {void}
      */
-    function loadData(nodes: any, links: any, S: any) {
+    function loadData(nodes: string[], links: Array<typeof typeLink>, S: number[][]) {
       SDict = {};
-      nodes.forEach(function(node: any) {
+
+      nodes.forEach((node: string) => {
         SDict[node] = {};
       });
-      nodes.forEach(function(node1: any, i: any) {
-        nodes.forEach(function(node2: any, j: any) {
+      nodes.forEach(function(node1: string, i: number) {
+        nodes.forEach(function(node2: string, j: number) {
           SDict[node1][node2] = S[i][j];
         });
       });
 
-      var egmNodes = nodes.map(function(d: any) {
+      var egmNodes = nodes.map((d: string) => {
         return new egrid.Node(d);
       });
-      var egmLinks = links.map(function(d: any) {
+      var egmLinks = links.map((d: typeof typeLink) => {
         return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
       });
 
@@ -202,27 +205,30 @@ angular.module('egrid-sem', [])
       $scope.items = dag.nodes();
 
       var n = nodes.length;
-      var alpha = links.map(function(d: any) {
+      var alpha = links.map((d: typeof typeLink): [number, number] => {
         return [d.target, d.source];
       });
-      var sigma = nodes.map(function(_: any, i: any) {
+      var sigma = nodes.map((_: any, i: number): [number, number] => {
         return [i, i];
       });
-      sem(n, alpha, sigma, S, (function(result: any) {
-        var A = dag.nodes().map(function(_: any) {
-          return dag.nodes().map(function(_: any) {
+
+      sem(n, alpha, sigma, S, ((result: SemResult) => {
+        var A = dag.nodes().map((_: any) => {
+          return dag.nodes().map((_: any) => {
             return 0;
           });
         });
-        result.alpha.forEach(function(r: any) {
+        result.alpha.forEach((r: [number, number, number]) => {
           A[r[0]][r[1]] = r[2];
         });
         $scope.gfiValue = result.GFI;
-        $scope.linkText = "結果,原因,係数\n";
-        dag.links().forEach(function(link: any) {
+        $scope.linkText = '結果,原因,係数\n';
+
+        dag.links().forEach((link: egrid.LinkInstance) => {
           link.coef = A[link.source.index][link.target.index];
-          $scope.linkText += link.source.text + "," + link.target.text + "," + link.coef + "\n";
+          $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
         });
+
         dag.draw().focusCenter();
         $scope.$apply();
       }));
