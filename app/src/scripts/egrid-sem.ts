@@ -1,14 +1,16 @@
 angular.module('egrid-sem', [
   'egrid-injector',
   'sem-injector',
-  'cov-injector'
+  'cov-injector',
+  'd3-injector'
 ])
   .controller('SemController', [
     '$scope',
     'egrid',
     'sem',
     'cov',
-    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov) {
+    'd3',
+    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base) {
     var dag = _egrid.sem();
     var SDict: typeof typeSDict;
 
@@ -175,7 +177,7 @@ angular.module('egrid-sem', [
 
     var width = $('#sem-analysis-display').width();
     var height = $('#sem-analysis-display').height();
-    d3.select('#sem-analysis-display svg').call(dag.display(width, height));
+    _d3.select('#sem-analysis-display svg').call(dag.display(width, height));
 
     $scope.gfiValue = 0;
 
@@ -193,10 +195,10 @@ angular.module('egrid-sem', [
      * @returns {void}
      */
     $scope.loadFile = () => {
-      var file = (<any>d3.select('#fileInput').node()).files[0];
+      var file = (<any>_d3.select('#fileInput').node()).files[0];
       var reader = new FileReader();
       reader.onload = (e: egrid.EventAltered) => {
-        var data = d3.csv.parse(e.target.result);
+        var data = _d3.csv.parse(e.target.result);
         var attributes: string[] = [];
         var attr: string;
         for (attr in data[0]) {
@@ -213,6 +215,6 @@ angular.module('egrid-sem', [
           $scope.$apply();
         });
       };
-      reader.readAsText(file, (<any>d3.select('.encoding:checked').node()).value);
+      reader.readAsText(file, (<any>_d3.select('.encoding:checked').node()).value);
     }
   }]);
