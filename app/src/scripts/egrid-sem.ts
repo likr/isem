@@ -1,12 +1,14 @@
 angular.module('egrid-sem', [
   'egrid-injector',
-  'sem-injector'
+  'sem-injector',
+  'cov-injector'
 ])
   .controller('SemController', [
     '$scope',
     'egrid',
     'sem',
-    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem) {
+    'cov',
+    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov) {
     var dag = _egrid.sem();
     var SDict: typeof typeSDict;
 
@@ -205,7 +207,7 @@ angular.module('egrid-sem', [
             return d[key];
           });
         });
-        cov(x, (cov: any) => {
+        _cov(x, (cov: {data: number[][]}) => {
           var S = cov.data;
           loadData(attributes, [], S);
           $scope.$apply();
