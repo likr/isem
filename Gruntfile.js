@@ -19,6 +19,42 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: {
+      client: {
+        src: [
+          './*.js.map',
+          '<%= opt.client.jsMain %>/**/*.js',
+          '<%= opt.client.jsMain %>/**/*.js.map',
+          '<%= opt.client.e2eTest %>/es5',
+          '<%= opt.client.jsTestEspowerd %>'
+        ]
+      }
+    },
+
+    ts: {
+      options: {
+        comments: true,
+        compiler: './node_modules/.bin/tsc',
+        noImplicitAny: true,
+        sourceMap: true,
+        target: 'es5'
+      },
+      clientMain: {
+        files: {
+          'app/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
+        },
+        options: {
+          fast: 'never'
+        }
+      }//,
+      //clientTest: {
+      //  src: ['<%= opt.client.tsTest %>/index-spec.ts'],
+      //  options: {
+      //    module: 'commonjs'
+      //  }
+      //}
+    },
+
     wiredep: {
       app: {
         src: ['<%= opt.client.app %>/index.html'],
@@ -87,12 +123,19 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('basic', [
+    'clean',
+    'ts:clientMain'
+  ]);
+
   grunt.registerTask('e2e', [
+    'basic',
     '6to5',
     'protractor'
   ]);
 
   grunt.registerTask('start', [
+    'basic',
     'wiredep'
   ]);
 };
