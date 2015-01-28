@@ -1,13 +1,18 @@
 angular.module('egrid-sem', []).controller('SemController', ['$scope', function ($scope) {
     var dag = egrid.sem();
     var SDict;
+    /**
+     * @returns {void}
+     */
     function calcPath() {
         var nodes = dag.activeNodes();
         var links = dag.activeLinks();
+        // nodesDict
         var nodesDict = {};
         nodes.forEach(function (node, i) {
             nodesDict[node.text] = i;
         });
+        // sem() args
         var n = nodes.length;
         var alpha = links.map(function (link) {
             return [nodesDict[link.source.text], nodesDict[link.target.text]];
@@ -30,15 +35,21 @@ angular.module('egrid-sem', []).controller('SemController', ['$scope', function 
                 A[r[0]][r[1]] = r[2];
             });
             $scope.gfiValue = result.GFI;
-            $scope.linkText = "結果,原因,係数\n";
+            $scope.linkText = '結果,原因,係数\n';
             links.forEach(function (link) {
                 link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
-                $scope.linkText += link.source.text + "," + link.target.text + "," + link.coef + "\n";
+                $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
             });
             dag.draw().focusCenter();
             $scope.$apply();
         }));
     }
+    /**
+     * @param {string[]} nodes
+     * @param {{source: number, target: number}[]} links
+     * @param {number[][]} S
+     * @returns {void}
+     */
     function loadData(nodes, links, S) {
         SDict = {};
         nodes.forEach(function (node) {
@@ -74,10 +85,10 @@ angular.module('egrid-sem', []).controller('SemController', ['$scope', function 
                 A[r[0]][r[1]] = r[2];
             });
             $scope.gfiValue = result.GFI;
-            $scope.linkText = "結果,原因,係数\n";
+            $scope.linkText = '結果,原因,係数\n';
             dag.links().forEach(function (link) {
                 link.coef = A[link.source.index][link.target.index];
-                $scope.linkText += link.source.text + "," + link.target.text + "," + link.coef + "\n";
+                $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
             });
             dag.draw().focusCenter();
             $scope.$apply();
@@ -126,24 +137,33 @@ angular.module('egrid-sem', []).controller('SemController', ['$scope', function 
         [1.021341463, 0.915243902, 1.552439024, 0.427439024, 1.007317073, 0.018292683, 0.06097561, 0.154878049, 1.552439024, -0.179268293, -0.369512195],
         [-0.231097561, -0.132926829, -0.179268293, -0.104268293, -0.237804878, 0.030487805, 0.093292683, -0.308536585, -0.179268293, 1.051219512, 0.509146341],
         [-0.170731707, -0.02195122, -0.369512195, -0.219512195, -0.133536585, 0.128658537, -0.087804878, -0.58902439, -0.369512195, 0.509146341, 1.256097561]
-    ];
+    ]; // @fm:on
     dag.registerUiCallback(function () {
         $scope.$apply();
         calcPath();
     });
     loadData(nodes, links, S);
-    var width = $("#sem-analysis-display").width();
-    var height = $("#sem-analysis-display").height();
-    d3.select("#sem-analysis-display svg").call(dag.display(width, height));
+    var width = $('#sem-analysis-display').width();
+    var height = $('#sem-analysis-display').height();
+    d3.select('#sem-analysis-display svg').call(dag.display(width, height));
     $scope.gfiValue = 0;
+    /**
+     * @function removeNode
+     * @returns {void}
+     */
     $scope.removeNode = function () {
         dag.draw().focusCenter();
         calcPath();
     };
+    /**
+     * @function loadFile
+     * @returns {void}
+     */
     $scope.loadFile = function () {
-        var file = d3.select("#fileInput").node().files[0];
+        var file = d3.select('#fileInput').node().files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
+            console.log(e);
             var data = d3.csv.parse(e.target.result);
             var attributes = [];
             var attr;
@@ -161,10 +181,11 @@ angular.module('egrid-sem', []).controller('SemController', ['$scope', function 
                 $scope.$apply();
             });
         };
-        reader.readAsText(file, d3.select(".encoding:checked").node().value);
+        reader.readAsText(file, d3.select('.encoding:checked').node().value);
     };
 }]);
 /// <reference path="../../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
+/// <reference path="for-egrid-sem.d.ts" />
 /// <reference path="egrid-sem.ts" /> 
 //# sourceMappingURL=index.js.map
