@@ -45,6 +45,7 @@ module egrid {
     key : number;
     source: NodeInstance;
     target: NodeInstance;
+    coef: any;
   }
 
   export interface LinkConstructor {
@@ -86,16 +87,29 @@ declare var egrid: {
 /**
  * @see {@link http://hyperinfo.viz.media.kyoto-u.ac.jp/wsgi/websem/static/sem.js}
  */
-declare var sem: (n: number, alpha: any, sigma: any, S: any, callback: Function) => void;
+declare var sem: (
+  n: number,
+  alpha: [number, number][],
+  sigma: [number, number][],
+  S: number[][],
+  callback: Function
+) => void;
+
 declare var cov: (data: any, callback: Function) => void;
 
 declare var typeSDict: {
   [node1Text: string]: {
-    [node2Text: string]: any
+    [node2Text: string]: number
   }
 };
 
 declare var typeNodesDict: {[nodeText: string]: number};
+
+interface SemResult {
+  GFI: number;
+  alpha: number[][];
+  sigma: number[][];
+}
 
 interface Scope extends ng.IScope {
   gfiValue: any;
@@ -116,38 +130,45 @@ angular.module('egrid-sem', [])
     function calcPath() {
       var nodes = dag.activeNodes();
       var links = dag.activeLinks();
-      var nodesDict: any = {};
-      nodes.forEach(function(node: any, i: any) {
+
+      // nodesDict
+      var nodesDict: typeof typeNodesDict = {};
+      nodes.forEach((node: egrid.NodeInstance, i: number) => {
         nodesDict[node.text] = i;
       });
+
+      // sem() args
       var n = nodes.length;
-      var alpha = links.map(function(link: any) {
+      var alpha = links.map((link: egrid.LinkInstance): [number, number] => {
         return [nodesDict[link.source.text], nodesDict[link.target.text]];
       });
-      var sigma = nodes.map(function(_: any, i: any) {
+      var sigma = nodes.map((_: any, i: number): [number, number] => {
         return [i, i];
       });
-      var S = nodes.map(function(node1: any) {
-        return nodes.map(function(node2: any) {
+      var S = nodes.map((node1: egrid.NodeInstance): number[] => {
+        return nodes.map((node2: egrid.NodeInstance): number => {
           return SDict[node1.text][node2.text];
         });
       });
 
-      sem(n, alpha, sigma, S, (function(result: any) {
-        var A = nodes.map(function(_: any) {
-          return nodes.map(function(_: any) {
+      sem(n, alpha, sigma, S, ((result: SemResult) => {
+        var A: number[][] = nodes.map((_: any): number[] => {
+          return nodes.map((_: any): number => {
             return 0;
           });
         });
-        result.alpha.forEach(function(r: any) {
+
+        result.alpha.forEach((r: [number, number, number]) => {
           A[r[0]][r[1]] = r[2];
         });
         $scope.gfiValue = result.GFI;
-        $scope.linkText = "結果,原因,係数\n";
-        links.forEach(function(link: any) {
+        $scope.linkText = '結果,原因,係数\n';
+
+        links.forEach((link: egrid.LinkInstance) => {
           link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
-          $scope.linkText += link.source.text + "," + link.target.text + "," + link.coef + "\n";
+          $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
         });
+
         dag.draw().focusCenter();
         $scope.$apply();
       }));
