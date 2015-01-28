@@ -1,6 +1,13 @@
-angular.module('egrid-sem', ['egrid-injector'])
-  .controller('SemController', ['$scope', 'egrid', function($scope: Scope, egrid: ModuleEgrid) {
-    var dag = egrid.sem();
+angular.module('egrid-sem', [
+  'egrid-injector',
+  'sem-injector'
+])
+  .controller('SemController', [
+    '$scope',
+    'egrid',
+    'sem',
+    function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem) {
+    var dag = _egrid.sem();
     var SDict: typeof typeSDict;
 
     /**
@@ -30,7 +37,7 @@ angular.module('egrid-sem', ['egrid-injector'])
         });
       });
 
-      sem(n, alpha, sigma, S, ((result: SemResult) => {
+      _sem(n, alpha, sigma, S, ((result: SemResult) => {
         var A: number[][] = nodes.map((_: any): number[] => {
           return nodes.map((_: any): number => {
             return 0;
@@ -89,7 +96,7 @@ angular.module('egrid-sem', ['egrid-injector'])
         return [i, i];
       });
 
-      sem(n, alpha, sigma, S, ((result: SemResult) => {
+      _sem(n, alpha, sigma, S, ((result: SemResult) => {
         var A = dag.nodes().map((_: any) => {
           return dag.nodes().map((_: any) => {
             return 0;

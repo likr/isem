@@ -4,4 +4,5 @@
 /// <reference path="for-egrid-sem.d.ts" />
 
 /// <reference path="injector/egrid.ts" />
+/// <reference path="injector/sem.ts" />
 /// <reference path="egrid-sem.ts" />
