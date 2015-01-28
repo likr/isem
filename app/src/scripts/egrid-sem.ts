@@ -187,7 +187,6 @@ angular.module('egrid-sem', ['egrid-injector'])
       var file = (<any>d3.select('#fileInput').node()).files[0];
       var reader = new FileReader();
       reader.onload = (e: egrid.EventAltered) => {
-        console.log(e);
         var data = d3.csv.parse(e.target.result);
         var attributes: string[] = [];
         var attr: string;
