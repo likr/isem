@@ -95,7 +95,7 @@ declare var sem: (
   callback: Function
 ) => void;
 
-declare var cov: (data: any, callback: Function) => void;
+declare var cov: (data: string[][], callback: Function) => void;
 
 declare var typeSDict: {
   [node1Text: string]: {
@@ -119,6 +119,16 @@ interface Scope extends ng.IScope {
   loadFile: Function;
   removeNode: Function;
   items: any;
+}
+
+module egrid {
+  export interface EventAltered extends Event {
+    target: TargetAltered;
+  }
+
+  interface TargetAltered extends EventTarget {
+    result: string;
+  }
 }
 
 angular.module('egrid-sem', [])
@@ -281,15 +291,15 @@ angular.module('egrid-sem', [])
       [-0.170731707, -0.02195122, -0.369512195, -0.219512195, -0.133536585, 0.128658537, -0.087804878, -0.58902439, -0.369512195, 0.509146341, 1.256097561]
     ]; // @fm:on
 
-    dag.registerUiCallback(function() {
+    dag.registerUiCallback(() => {
       $scope.$apply();
       calcPath();
     });
     loadData(nodes, links, S);
 
-    var width = $("#sem-analysis-display").width();
-    var height = $("#sem-analysis-display").height();
-    d3.select("#sem-analysis-display svg").call(dag.display(width, height));
+    var width = $('#sem-analysis-display').width();
+    var height = $('#sem-analysis-display').height();
+    d3.select('#sem-analysis-display svg').call(dag.display(width, height));
 
     $scope.gfiValue = 0;
 
@@ -297,7 +307,7 @@ angular.module('egrid-sem', [])
      * @function removeNode
      * @returns {void}
      */
-    $scope.removeNode = function() {
+    $scope.removeNode = () => {
       dag.draw().focusCenter();
       calcPath();
     };
@@ -306,27 +316,28 @@ angular.module('egrid-sem', [])
      * @function loadFile
      * @returns {void}
      */
-    $scope.loadFile = function() {
-      var file = (<any>d3.select("#fileInput").node()).files[0];
+    $scope.loadFile = () => {
+      var file = (<any>d3.select('#fileInput').node()).files[0];
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var data = d3.csv.parse((<any>e.target).result);
-        var attributes: any[] = [];
-        var attr: any;
+      reader.onload = (e: egrid.EventAltered) => {
+        console.log(e);
+        var data = d3.csv.parse(e.target.result);
+        var attributes: string[] = [];
+        var attr: string;
         for (attr in data[0]) {
           attributes.push(attr);
         }
-        var x = attributes.map(function(key: any) {
-          return data.map(function(d: any) {
+        var x = attributes.map((key: string): string[] => {
+          return data.map((d: {[key: string]: string}): string => {
             return d[key];
           });
         });
-        cov(x, function(cov: any) {
+        cov(x, (cov: any) => {
           var S = cov.data;
           loadData(attributes, [], S);
           $scope.$apply();
         });
       };
-      reader.readAsText(file, (<any>d3.select(".encoding:checked").node()).value);
+      reader.readAsText(file, (<any>d3.select('.encoding:checked').node()).value);
     }
   }]);
