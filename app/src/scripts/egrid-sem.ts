@@ -1,5 +1,5 @@
-angular.module('egrid-sem', [])
-  .controller('SemController', ['$scope', function($scope: Scope) {
+angular.module('egrid-sem', ['egrid-injector'])
+  .controller('SemController', ['$scope', 'egrid', function($scope: Scope, egrid: ModuleEgrid) {
     var dag = egrid.sem();
     var SDict: typeof typeSDict;
 
