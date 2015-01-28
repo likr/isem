@@ -78,11 +78,11 @@ declare module egrid {
 /**
  * from root/app/lib/egrid.js
  */
-declare var egrid: {
+interface ModuleEgrid {
   sem(): egrid.SEMInstance;
   Node: egrid.NodeConstructor;
   Link: egrid.LinkConstructor;
-};
+}
 
 /**
  * @see {@link http://hyperinfo.viz.media.kyoto-u.ac.jp/wsgi/websem/static/sem.js}
