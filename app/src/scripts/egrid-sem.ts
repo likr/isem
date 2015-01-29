@@ -190,27 +190,32 @@ angular.module(isem.appName).controller('SemController', [
      * @returns {void}
      */
     $scope.loadFile = () => {
-      var file = (<any>_d3.select('#fileInput').node()).files[0];
       var reader = new FileReader();
       reader.onload = (e: egrid.EventAltered) => {
         var data = _d3.csv.parse(e.target.result);
+
         var attributes: string[] = [];
         var attr: string;
         for (attr in data[0]) {
           attributes.push(attr);
         }
+
         var x = attributes.map((key: string): string[] => {
           return data.map((d: {[key: string]: string}): string => {
             return d[key];
           });
         });
+
         _cov(x, (cov: {data: number[][]}) => {
           var S = cov.data;
           loadData(attributes, [], S);
           $scope.$apply();
         });
       };
-      reader.readAsText(file, (<any>_d3.select('.encoding:checked').node()).value);
+
+      var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
+      var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
+      reader.readAsText(file, encoding);
     }
   }
 ]);
