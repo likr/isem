@@ -9,4 +9,5 @@
 /// <reference path="injector/jquery.ts" />
 /// <reference path="injector/sem.ts" />
 
+/// <reference path="app.ts" />
 /// <reference path="egrid-sem.ts" />
