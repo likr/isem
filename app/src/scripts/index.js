@@ -13,13 +13,19 @@ angular.module('jquery-injector', []).factory('jquery', function () {
 angular.module('sem-injector', []).factory('sem', function () {
     return sem;
 });
-angular.module('egrid-sem', [
-    'egrid-injector',
-    'sem-injector',
-    'cov-injector',
-    'd3-injector',
-    'jquery-injector'
-]).controller('SemController', [
+var isem;
+(function (isem) {
+    isem.appName = 'egrid-sem';
+    isem.externalModules = [
+        'egrid-injector',
+        'sem-injector',
+        'cov-injector',
+        'd3-injector',
+        'jquery-injector'
+    ];
+})(isem || (isem = {}));
+angular.module(isem.appName, isem.externalModules);
+angular.module(isem.appName).controller('SemController', [
     '$scope',
     'egrid',
     'sem',
@@ -220,5 +226,6 @@ angular.module('egrid-sem', [
 /// <reference path="injector/egrid.ts" />
 /// <reference path="injector/jquery.ts" />
 /// <reference path="injector/sem.ts" />
+/// <reference path="app.ts" />
 /// <reference path="egrid-sem.ts" /> 
 //# sourceMappingURL=index.js.map
