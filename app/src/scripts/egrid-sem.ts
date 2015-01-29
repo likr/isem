@@ -176,9 +176,11 @@ angular.module(isem.appName).controller('SemController', [
       });
       loadData(nodes, links, S);
 
-      var width = $('#sem-analysis-display').width();
-      var height = $('#sem-analysis-display').height();
-      _d3.select('#sem-analysis-display svg').call(dag.display(width, height));
+      var displayId = '#sem-analysis-display';
+      var display = $(displayId);
+      var width = display.width();
+      var height = display.height();
+      _d3.select([displayId, 'svg'].join(' ')).call(dag.display(width, height));
 
       $scope.gfiValue = 0;
     }
