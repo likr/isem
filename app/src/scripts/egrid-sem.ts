@@ -225,6 +225,6 @@ angular.module(isem.appName).controller('SemController', [
       var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
       var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
       reader.readAsText(file, encoding);
-    }
+    };
   }
 ]);
