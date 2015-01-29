@@ -1,11 +1,4 @@
-angular.module('egrid-sem', [
-  'egrid-injector',
-  'sem-injector',
-  'cov-injector',
-  'd3-injector',
-  'jquery-injector'
-])
-  .controller('SemController', [
+angular.module(isem.appName).controller('SemController', [
     '$scope',
     'egrid',
     'sem',
