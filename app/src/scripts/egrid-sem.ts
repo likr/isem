@@ -5,14 +5,15 @@ module isem {
 
     /**
      * @constructor
+     * @ngInject
      */
     constructor( // @fm:off
       private $scope: Scope,
       private egrid: ModuleEgrid,
-      private _sem: typeof sem,
-      private _cov: typeof cov,
+      private sem: typeof typeSem,
+      private cov: typeof typeCov,
       private d3: D3.Base,
-      private $: JQueryStatic
+      private jQuery: JQueryStatic
     ) { // @fm:on
       this.dag = this.egrid.sem();
       this.init();
@@ -79,7 +80,7 @@ module isem {
       this.loadData(nodes, links, S);
 
       var displayId = '#sem-analysis-display';
-      var display = this.$(displayId);
+      var display = this.jQuery(displayId);
       var width = display.width();
       var height = display.height();
       this.d3.select([
@@ -125,7 +126,7 @@ module isem {
         });
       });
 
-      this._sem(n, alpha, sigma, S, ((result: SemResult) => {
+      this.sem(n, alpha, sigma, S, ((result: SemResult) => {
         var A: number[][] = nodes.map((_: any): number[] => {
           return nodes.map((_: any): number => {
             return 0;
@@ -184,7 +185,7 @@ module isem {
         return [i, i];
       });
 
-      this._sem(n, alpha, sigma, S, ((result: SemResult) => {
+      this.sem(n, alpha, sigma, S, ((result: SemResult) => {
         var A = this.dag.nodes().map((_: any) => {
           return this.dag.nodes().map((_: any) => {
             return 0;
@@ -234,7 +235,7 @@ module isem {
           });
         });
 
-        this._cov(x, (cov: {data: number[][]}) => {
+        this.cov(x, (cov: {data: number[][]}) => {
           var S = cov.data;
           this.loadData(attributes, [], S);
           this.$scope.$apply();
@@ -248,12 +249,4 @@ module isem {
   }
 }
 
-angular.module(isem.appName).controller('SemController', [
-  '$scope',
-  'egrid',
-  'sem',
-  'cov',
-  'd3',
-  'jquery',
-  isem.SemController
-]);
+angular.module(isem.appName).controller('SemController', isem.SemController);
