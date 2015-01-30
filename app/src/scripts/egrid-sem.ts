@@ -1,122 +1,30 @@
 module isem {
-  export function SemController($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base, $: JQueryStatic) {
-    var dag = _egrid.sem();
-    var SDict: typeof typeSDict;
+  export class SemController {
+    private dag: egrid.SEMInstance;
+    private SDict: typeof typeSDict;
 
     /**
-     * @returns {void}
+     * @constructor
      */
-    function calcPath() {
-      var nodes = dag.activeNodes();
-      var links = dag.activeLinks();
-
-      // nodesDict
-      var nodesDict: typeof typeNodesDict = {};
-      nodes.forEach((node: egrid.NodeInstance, i: number) => {
-        nodesDict[node.text] = i;
-      });
-
-      // sem() args
-      var n = nodes.length;
-      var alpha = links.map((link: egrid.LinkInstance): [number, number] => {
-        return [nodesDict[link.source.text], nodesDict[link.target.text]];
-      });
-      var sigma = nodes.map((_: any, i: number): [number, number] => {
-        return [i, i];
-      });
-      var S = nodes.map((node1: egrid.NodeInstance): number[] => {
-        return nodes.map((node2: egrid.NodeInstance): number => {
-          return SDict[node1.text][node2.text];
-        });
-      });
-
-      _sem(n, alpha, sigma, S, ((result: SemResult) => {
-        var A: number[][] = nodes.map((_: any): number[] => {
-          return nodes.map((_: any): number => {
-            return 0;
-          });
-        });
-
-        result.alpha.forEach((r: [number, number, number]) => {
-          A[r[0]][r[1]] = r[2];
-        });
-        $scope.gfiValue = result.GFI;
-        $scope.linkText = '結果,原因,係数\n';
-
-        links.forEach((link: egrid.LinkInstance) => {
-          link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
-          $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
-        });
-
-        dag.draw().focusCenter();
-        $scope.$apply();
-      }));
+    constructor( // @fm:off
+      private $scope: Scope,
+      private egrid: ModuleEgrid,
+      private _sem: typeof sem,
+      private _cov: typeof cov,
+      private d3: D3.Base,
+      private $: JQueryStatic
+    ) { // @fm:on
+      this.dag = this.egrid.sem();
+      this.init();
+      this.bindToScope();
     }
 
     /**
-     * @param {string[]} nodes
-     * @param {{source: number, target: number}[]} links
-     * @param {number[][]} S
-     * @returns {void}
-     */
-    function loadData(nodes: string[], links: Array<typeof typeLink>, S: number[][]) {
-      SDict = {};
-
-      nodes.forEach((node: string) => {
-        SDict[node] = {};
-      });
-      nodes.forEach(function(node1: string, i: number) {
-        nodes.forEach(function(node2: string, j: number) {
-          SDict[node1][node2] = S[i][j];
-        });
-      });
-
-      var egmNodes = nodes.map((d: string) => {
-        return new egrid.Node(d);
-      });
-      var egmLinks = links.map((d: typeof typeLink) => {
-        return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
-      });
-
-      dag.nodes(egmNodes).links(egmLinks);
-      $scope.items = dag.nodes();
-
-      var n = nodes.length;
-      var alpha = links.map((d: typeof typeLink): [number, number] => {
-        return [d.target, d.source];
-      });
-      var sigma = nodes.map((_: any, i: number): [number, number] => {
-        return [i, i];
-      });
-
-      _sem(n, alpha, sigma, S, ((result: SemResult) => {
-        var A = dag.nodes().map((_: any) => {
-          return dag.nodes().map((_: any) => {
-            return 0;
-          });
-        });
-        result.alpha.forEach((r: [number, number, number]) => {
-          A[r[0]][r[1]] = r[2];
-        });
-        $scope.gfiValue = result.GFI;
-        $scope.linkText = '結果,原因,係数\n';
-
-        dag.links().forEach((link: egrid.LinkInstance) => {
-          link.coef = A[link.source.index][link.target.index];
-          $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
-        });
-
-        dag.draw().focusCenter();
-        $scope.$apply();
-      }));
-    }
-
-    /**
-     * Initialize the controller
+     * Initialize the controller.
      *
      * @returns {void}
      */
-    function init() {
+    init() {
       var nodes = [
         '総合評価',
         '使いたさ',
@@ -164,40 +72,155 @@ module isem {
         [-0.170731707, -0.02195122, -0.369512195, -0.219512195, -0.133536585, 0.128658537, -0.087804878, -0.58902439, -0.369512195, 0.509146341, 1.256097561]
       ]; // @fm:on
 
-      dag.registerUiCallback(() => {
-        $scope.$apply();
-        calcPath();
+      this.dag.registerUiCallback(() => {
+        this.$scope.$apply();
+        this.calcPath();
       });
-      loadData(nodes, links, S);
+      this.loadData(nodes, links, S);
 
       var displayId = '#sem-analysis-display';
-      var display = $(displayId);
+      var display = this.$(displayId);
       var width = display.width();
       var height = display.height();
-      _d3.select([displayId, 'svg'].join(' ')).call(dag.display(width, height));
+      this.d3.select([
+        displayId,
+        'svg'
+      ].join(' ')).call(this.dag.display(width, height));
 
-      $scope.gfiValue = 0;
+      this.$scope.gfiValue = 0;
     }
 
-    init();
+    /**
+     * Bind function to $scope.
+     */
+    private bindToScope() {
+      this.$scope.removeNode = this.removeNode.bind(this);
+      this.$scope.loadFile = this.loadFile.bind(this);
+    }
 
     /**
-     * @function removeNode
      * @returns {void}
      */
-    $scope.removeNode = () => {
-      dag.draw().focusCenter();
-      calcPath();
-    };
+    private calcPath() {
+      var nodes = this.dag.activeNodes();
+      var links = this.dag.activeLinks();
+
+      // nodesDict
+      var nodesDict: typeof typeNodesDict = {};
+      nodes.forEach((node: egrid.NodeInstance, i: number) => {
+        nodesDict[node.text] = i;
+      });
+
+      // sem() args
+      var n = nodes.length;
+      var alpha = links.map((link: egrid.LinkInstance): [number, number] => {
+        return [nodesDict[link.source.text], nodesDict[link.target.text]];
+      });
+      var sigma = nodes.map((_: any, i: number): [number, number] => {
+        return [i, i];
+      });
+      var S = nodes.map((node1: egrid.NodeInstance): number[] => {
+        return nodes.map((node2: egrid.NodeInstance): number => {
+          return this.SDict[node1.text][node2.text];
+        });
+      });
+
+      this._sem(n, alpha, sigma, S, ((result: SemResult) => {
+        var A: number[][] = nodes.map((_: any): number[] => {
+          return nodes.map((_: any): number => {
+            return 0;
+          });
+        });
+
+        result.alpha.forEach((r: [number, number, number]) => {
+          A[r[0]][r[1]] = r[2];
+        });
+        this.$scope.gfiValue = result.GFI;
+        this.$scope.linkText = '結果,原因,係数\n';
+
+        links.forEach((link: egrid.LinkInstance) => {
+          link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
+          this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
+        });
+
+        this.dag.draw().focusCenter();
+        this.$scope.$apply();
+      }));
+    }
 
     /**
-     * @function loadFile
+     * @param {string[]} nodes
+     * @param {{source: number, target: number}[]} links
+     * @param {number[][]} S
      * @returns {void}
      */
-    $scope.loadFile = () => {
+    private loadData(nodes: string[], links: Array<typeof typeLink>, S: number[][]) {
+      this.SDict = {};
+
+      nodes.forEach((node: string) => {
+        this.SDict[node] = {};
+      });
+      nodes.forEach((node1: string, i: number) => {
+        nodes.forEach((node2: string, j: number) => {
+          this.SDict[node1][node2] = S[i][j];
+        });
+      });
+
+      var egmNodes = nodes.map((d: string) => {
+        return new egrid.Node(d);
+      });
+      var egmLinks = links.map((d: typeof typeLink) => {
+        return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
+      });
+
+      this.dag.nodes(egmNodes).links(egmLinks);
+      this.$scope.items = this.dag.nodes();
+
+      var n = nodes.length;
+      var alpha = links.map((d: typeof typeLink): [number, number] => {
+        return [d.target, d.source];
+      });
+      var sigma = nodes.map((_: any, i: number): [number, number] => {
+        return [i, i];
+      });
+
+      this._sem(n, alpha, sigma, S, ((result: SemResult) => {
+        var A = this.dag.nodes().map((_: any) => {
+          return this.dag.nodes().map((_: any) => {
+            return 0;
+          });
+        });
+        result.alpha.forEach((r: [number, number, number]) => {
+          A[r[0]][r[1]] = r[2];
+        });
+        this.$scope.gfiValue = result.GFI;
+        this.$scope.linkText = '結果,原因,係数\n';
+
+        this.dag.links().forEach((link: egrid.LinkInstance) => {
+          link.coef = A[link.source.index][link.target.index];
+          this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
+        });
+
+        this.dag.draw().focusCenter();
+        this.$scope.$apply();
+      }));
+    }
+
+    /**
+     * @returns {void}
+     */
+    removeNode() {
+      this.dag.draw().focusCenter();
+      this.calcPath();
+    }
+
+    /**
+     * @returns {void}
+     */
+    loadFile() {
       var reader = new FileReader();
       reader.onload = (e: egrid.EventAltered) => {
-        var data = _d3.csv.parse(e.target.result);
+        var data = this.d3.csv.parse(e.target.result);
 
         var attributes: string[] = [];
         var attr: string;
@@ -211,17 +234,17 @@ module isem {
           });
         });
 
-        _cov(x, (cov: {data: number[][]}) => {
+        this._cov(x, (cov: {data: number[][]}) => {
           var S = cov.data;
-          loadData(attributes, [], S);
-          $scope.$apply();
+          this.loadData(attributes, [], S);
+          this.$scope.$apply();
         });
       };
 
       var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
       var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
       reader.readAsText(file, encoding);
-    };
+    }
   }
 }
 
