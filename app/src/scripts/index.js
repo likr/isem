@@ -7,8 +7,8 @@ angular.module('d3-injector', []).factory('d3', function () {
 angular.module('egrid-injector', []).factory('egrid', function () {
     return egrid;
 });
-angular.module('jquery-injector', []).factory('jquery', function () {
-    return $;
+angular.module('jQuery-injector', []).factory('jQuery', function () {
+    return jQuery;
 });
 angular.module('sem-injector', []).factory('sem', function () {
     return sem;
@@ -21,119 +21,36 @@ var isem;
         'sem-injector',
         'cov-injector',
         'd3-injector',
-        'jquery-injector'
+        'jQuery-injector'
     ];
 })(isem || (isem = {}));
 angular.module(isem.appName, isem.externalModules);
-angular.module(isem.appName).controller('SemController', [
-    '$scope',
-    'egrid',
-    'sem',
-    'cov',
-    'd3',
-    'jquery',
-    function ($scope, _egrid, _sem, _cov, _d3, $) {
-        var dag = _egrid.sem();
-        var SDict;
+var isem;
+(function (isem) {
+    var SemController = (function () {
         /**
-         * @returns {void}
+         * @constructor
+         * @ngInject
          */
-        function calcPath() {
-            var nodes = dag.activeNodes();
-            var links = dag.activeLinks();
-            // nodesDict
-            var nodesDict = {};
-            nodes.forEach(function (node, i) {
-                nodesDict[node.text] = i;
-            });
-            // sem() args
-            var n = nodes.length;
-            var alpha = links.map(function (link) {
-                return [nodesDict[link.source.text], nodesDict[link.target.text]];
-            });
-            var sigma = nodes.map(function (_, i) {
-                return [i, i];
-            });
-            var S = nodes.map(function (node1) {
-                return nodes.map(function (node2) {
-                    return SDict[node1.text][node2.text];
-                });
-            });
-            _sem(n, alpha, sigma, S, (function (result) {
-                var A = nodes.map(function (_) {
-                    return nodes.map(function (_) {
-                        return 0;
-                    });
-                });
-                result.alpha.forEach(function (r) {
-                    A[r[0]][r[1]] = r[2];
-                });
-                $scope.gfiValue = result.GFI;
-                $scope.linkText = '結果,原因,係数\n';
-                links.forEach(function (link) {
-                    link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
-                    $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
-                });
-                dag.draw().focusCenter();
-                $scope.$apply();
-            }));
+        function SemController(// @fm:off
+            $scope, egrid, sem, cov, d3, jQuery) {
+            this.$scope = $scope;
+            this.egrid = egrid;
+            this.sem = sem;
+            this.cov = cov;
+            this.d3 = d3;
+            this.jQuery = jQuery;
+            this.dag = this.egrid.sem();
+            this.init();
+            this.bindToScope();
         }
         /**
-         * @param {string[]} nodes
-         * @param {{source: number, target: number}[]} links
-         * @param {number[][]} S
-         * @returns {void}
-         */
-        function loadData(nodes, links, S) {
-            SDict = {};
-            nodes.forEach(function (node) {
-                SDict[node] = {};
-            });
-            nodes.forEach(function (node1, i) {
-                nodes.forEach(function (node2, j) {
-                    SDict[node1][node2] = S[i][j];
-                });
-            });
-            var egmNodes = nodes.map(function (d) {
-                return new egrid.Node(d);
-            });
-            var egmLinks = links.map(function (d) {
-                return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
-            });
-            dag.nodes(egmNodes).links(egmLinks);
-            $scope.items = dag.nodes();
-            var n = nodes.length;
-            var alpha = links.map(function (d) {
-                return [d.target, d.source];
-            });
-            var sigma = nodes.map(function (_, i) {
-                return [i, i];
-            });
-            _sem(n, alpha, sigma, S, (function (result) {
-                var A = dag.nodes().map(function (_) {
-                    return dag.nodes().map(function (_) {
-                        return 0;
-                    });
-                });
-                result.alpha.forEach(function (r) {
-                    A[r[0]][r[1]] = r[2];
-                });
-                $scope.gfiValue = result.GFI;
-                $scope.linkText = '結果,原因,係数\n';
-                dag.links().forEach(function (link) {
-                    link.coef = A[link.source.index][link.target.index];
-                    $scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
-                });
-                dag.draw().focusCenter();
-                $scope.$apply();
-            }));
-        }
-        /**
-         * Initialize the controller
+         * Initialize the controller.
          *
          * @returns {void}
          */
-        function init() {
+        SemController.prototype.init = function () {
+            var _this = this;
             var nodes = [
                 '総合評価',
                 '使いたさ',
@@ -178,35 +95,138 @@ angular.module(isem.appName).controller('SemController', [
                 [-0.231097561, -0.132926829, -0.179268293, -0.104268293, -0.237804878, 0.030487805, 0.093292683, -0.308536585, -0.179268293, 1.051219512, 0.509146341],
                 [-0.170731707, -0.02195122, -0.369512195, -0.219512195, -0.133536585, 0.128658537, -0.087804878, -0.58902439, -0.369512195, 0.509146341, 1.256097561]
             ]; // @fm:on
-            dag.registerUiCallback(function () {
-                $scope.$apply();
-                calcPath();
+            this.dag.registerUiCallback(function () {
+                _this.$scope.$apply();
+                _this.calcPath();
             });
-            loadData(nodes, links, S);
+            this.loadData(nodes, links, S);
             var displayId = '#sem-analysis-display';
-            var display = $(displayId);
+            var display = this.jQuery(displayId);
             var width = display.width();
             var height = display.height();
-            _d3.select([displayId, 'svg'].join(' ')).call(dag.display(width, height));
-            $scope.gfiValue = 0;
-        }
-        init();
-        /**
-         * @function removeNode
-         * @returns {void}
-         */
-        $scope.removeNode = function () {
-            dag.draw().focusCenter();
-            calcPath();
+            this.d3.select([
+                displayId,
+                'svg'
+            ].join(' ')).call(this.dag.display(width, height));
+            this.$scope.gfiValue = 0;
         };
         /**
-         * @function loadFile
+         * Bind function to $scope.
+         */
+        SemController.prototype.bindToScope = function () {
+            this.$scope.removeNode = this.removeNode.bind(this);
+            this.$scope.loadFile = this.loadFile.bind(this);
+        };
+        /**
          * @returns {void}
          */
-        $scope.loadFile = function () {
+        SemController.prototype.calcPath = function () {
+            var _this = this;
+            var nodes = this.dag.activeNodes();
+            var links = this.dag.activeLinks();
+            // nodesDict
+            var nodesDict = {};
+            nodes.forEach(function (node, i) {
+                nodesDict[node.text] = i;
+            });
+            // sem() args
+            var n = nodes.length;
+            var alpha = links.map(function (link) {
+                return [nodesDict[link.source.text], nodesDict[link.target.text]];
+            });
+            var sigma = nodes.map(function (_, i) {
+                return [i, i];
+            });
+            var S = nodes.map(function (node1) {
+                return nodes.map(function (node2) {
+                    return _this.SDict[node1.text][node2.text];
+                });
+            });
+            this.sem(n, alpha, sigma, S, (function (result) {
+                var A = nodes.map(function (_) {
+                    return nodes.map(function (_) {
+                        return 0;
+                    });
+                });
+                result.alpha.forEach(function (r) {
+                    A[r[0]][r[1]] = r[2];
+                });
+                _this.$scope.gfiValue = result.GFI;
+                _this.$scope.linkText = '結果,原因,係数\n';
+                links.forEach(function (link) {
+                    link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
+                    _this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
+                });
+                _this.dag.draw().focusCenter();
+                _this.$scope.$apply();
+            }));
+        };
+        /**
+         * @param {string[]} nodes
+         * @param {{source: number, target: number}[]} links
+         * @param {number[][]} S
+         * @returns {void}
+         */
+        SemController.prototype.loadData = function (nodes, links, S) {
+            var _this = this;
+            this.SDict = {};
+            nodes.forEach(function (node) {
+                _this.SDict[node] = {};
+            });
+            nodes.forEach(function (node1, i) {
+                nodes.forEach(function (node2, j) {
+                    _this.SDict[node1][node2] = S[i][j];
+                });
+            });
+            var egmNodes = nodes.map(function (d) {
+                return new egrid.Node(d);
+            });
+            var egmLinks = links.map(function (d) {
+                return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
+            });
+            this.dag.nodes(egmNodes).links(egmLinks);
+            this.$scope.items = this.dag.nodes();
+            var n = nodes.length;
+            var alpha = links.map(function (d) {
+                return [d.target, d.source];
+            });
+            var sigma = nodes.map(function (_, i) {
+                return [i, i];
+            });
+            this.sem(n, alpha, sigma, S, (function (result) {
+                var A = _this.dag.nodes().map(function (_) {
+                    return _this.dag.nodes().map(function (_) {
+                        return 0;
+                    });
+                });
+                result.alpha.forEach(function (r) {
+                    A[r[0]][r[1]] = r[2];
+                });
+                _this.$scope.gfiValue = result.GFI;
+                _this.$scope.linkText = '結果,原因,係数\n';
+                _this.dag.links().forEach(function (link) {
+                    link.coef = A[link.source.index][link.target.index];
+                    _this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
+                });
+                _this.dag.draw().focusCenter();
+                _this.$scope.$apply();
+            }));
+        };
+        /**
+         * @returns {void}
+         */
+        SemController.prototype.removeNode = function () {
+            this.dag.draw().focusCenter();
+            this.calcPath();
+        };
+        /**
+         * @returns {void}
+         */
+        SemController.prototype.loadFile = function () {
+            var _this = this;
             var reader = new FileReader();
             reader.onload = function (e) {
-                var data = _d3.csv.parse(e.target.result);
+                var data = _this.d3.csv.parse(e.target.result);
                 var attributes = [];
                 var attr;
                 for (attr in data[0]) {
@@ -217,18 +237,21 @@ angular.module(isem.appName).controller('SemController', [
                         return d[key];
                     });
                 });
-                _cov(x, function (cov) {
+                _this.cov(x, function (cov) {
                     var S = cov.data;
-                    loadData(attributes, [], S);
-                    $scope.$apply();
+                    _this.loadData(attributes, [], S);
+                    _this.$scope.$apply();
                 });
             };
             var file = document.getElementById('fileInput').files[0];
             var encoding = document.querySelectorAll('.encoding:checked')[0].value;
             reader.readAsText(file, encoding);
         };
-    }
-]);
+        return SemController;
+    })();
+    isem.SemController = SemController;
+})(isem || (isem = {}));
+angular.module(isem.appName).controller('SemController', isem.SemController);
 /// <reference path="../../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="for-egrid-sem.d.ts" />
