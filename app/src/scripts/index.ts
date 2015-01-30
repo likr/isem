@@ -10,4 +10,5 @@
 /// <reference path="injector/sem.ts" />
 
 /// <reference path="app.ts" />
+/// <reference path="factory/initialization-data.ts" />
 /// <reference path="egrid-sem.ts" />
