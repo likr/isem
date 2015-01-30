@@ -1,11 +1,5 @@
-angular.module(isem.appName).controller('SemController', [
-  '$scope',
-  'egrid',
-  'sem',
-  'cov',
-  'd3',
-  'jquery',
-  function($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base, $: JQueryStatic) {
+module isem {
+  export function SemController($scope: Scope, _egrid: ModuleEgrid, _sem: typeof sem, _cov: typeof cov, _d3: D3.Base, $: JQueryStatic) {
     var dag = _egrid.sem();
     var SDict: typeof typeSDict;
 
@@ -229,4 +223,14 @@ angular.module(isem.appName).controller('SemController', [
       reader.readAsText(file, encoding);
     };
   }
+}
+
+angular.module(isem.appName).controller('SemController', [
+  '$scope',
+  'egrid',
+  'sem',
+  'cov',
+  'd3',
+  'jquery',
+  isem.SemController
 ]);
