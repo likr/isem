@@ -26,7 +26,7 @@ module isem {
      *
      * @returns {void}
      */
-    init() {
+    private init() {
       this.$scope.gfiValue = 0;
 
       this.dag.registerUiCallback(() => {
