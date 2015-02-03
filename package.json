@@ -42,6 +42,7 @@
   },
   "scripts": {
     "bower": "bower i",
+    "dtsm": "dtsm install",
     "e2e": "grunt e2e",
     "start": "grunt start && cd app && http-server",
     "test": "grunt test",
