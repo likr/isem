@@ -1,4 +1,4 @@
-declare var egrid: any;
+declare var egrid: ModuleEgrid;
 angular.module('egrid-injector', []).factory('egrid', () => {
   return egrid;
 });

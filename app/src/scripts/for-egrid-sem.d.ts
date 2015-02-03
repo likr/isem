@@ -87,15 +87,14 @@ interface ModuleEgrid {
 /**
  * @see {@link http://hyperinfo.viz.media.kyoto-u.ac.jp/wsgi/websem/static/sem.js}
  */
-declare var sem: (
-  n: number,
+declare function sem(n: number,
   alpha: [number, number][],
   sigma: [number, number][],
   S: number[][],
   callback: Function
-) => void;
+): void;
 
-declare var cov: (data: string[][], callback: Function) => void;
+declare function cov(data: string[][], callback: Function): void;
 
 declare var typeSDict: {
   [node1Text: string]: {
