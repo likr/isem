@@ -5,7 +5,7 @@ module isem {
     'sem-injector',
     'cov-injector',
     'd3-injector',
-    'jquery-injector'
+    'jQuery-injector'
   ];
 }
 
