@@ -96,11 +96,15 @@ var isem;
         /**
          * Initialize the controller.
          *
+         * @see egrid.DAG#registerUiCallback() {@link http://git.io/Fj4M}
+         * @see egrid.SEM#display() {@link http://git.io/FjBP}
          * @returns {void}
          */
         SemController.prototype.init = function () {
             var _this = this;
             this.$scope.gfiValue = 0;
+            // The callback is called DAG.notify()
+            // everywhere drawing D3 methods.
             this.dag.registerUiCallback(function () {
                 _this.$scope.$apply();
                 _this.calcPath();
@@ -118,6 +122,7 @@ var isem;
             this.$scope.loadFile = this.loadFile.bind(this);
         };
         /**
+         * @see SEM#focusCenter() {@link http://git.io/bkOK}
          * @returns {void}
          */
         SemController.prototype.calcPath = function () {
@@ -143,6 +148,7 @@ var isem;
                 });
             });
             this.sem(n, alpha, sigma, S, (function (result) {
+                // make A
                 var A = nodes.map(function (_) {
                     return nodes.map(function (_) {
                         return 0;
@@ -151,12 +157,14 @@ var isem;
                 result.alpha.forEach(function (r) {
                     A[r[0]][r[1]] = r[2];
                 });
+                // update $scope
                 _this.$scope.gfiValue = result.GFI;
                 _this.$scope.linkText = '結果,原因,係数\n';
                 links.forEach(function (link) {
                     link.coef = A[nodesDict[link.source.text]][nodesDict[link.target.text]];
                     _this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
                 });
+                // render
                 _this.dag.draw().focusCenter();
                 _this.$scope.$apply();
             }));
@@ -169,6 +177,7 @@ var isem;
          */
         SemController.prototype.loadData = function (nodes, links, S) {
             var _this = this;
+            // SDict
             this.SDict = {};
             nodes.forEach(function (node) {
                 _this.SDict[node] = {};
@@ -178,6 +187,7 @@ var isem;
                     _this.SDict[node1][node2] = S[i][j];
                 });
             });
+            // egm
             var egmNodes = nodes.map(function (d) {
                 return new egrid.Node(d);
             });
@@ -185,7 +195,9 @@ var isem;
                 return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
             });
             this.dag.nodes(egmNodes).links(egmLinks);
+            // NOTICE! Sharing of a nodes' pointer. Maybe this is like a binding for $scope.
             this.$scope.items = this.dag.nodes();
+            // sem() args
             var n = nodes.length;
             var alpha = links.map(function (d) {
                 return [d.target, d.source];
@@ -194,6 +206,7 @@ var isem;
                 return [i, i];
             });
             this.sem(n, alpha, sigma, S, (function (result) {
+                // make A
                 var A = _this.dag.nodes().map(function (_) {
                     return _this.dag.nodes().map(function (_) {
                         return 0;
@@ -202,12 +215,14 @@ var isem;
                 result.alpha.forEach(function (r) {
                     A[r[0]][r[1]] = r[2];
                 });
+                // update $scope
                 _this.$scope.gfiValue = result.GFI;
                 _this.$scope.linkText = '結果,原因,係数\n';
                 _this.dag.links().forEach(function (link) {
                     link.coef = A[link.source.index][link.target.index];
                     _this.$scope.linkText += link.source.text + ',' + link.target.text + ',' + link.coef + '\n';
                 });
+                // render
                 _this.dag.draw().focusCenter();
                 _this.$scope.$apply();
             }));
@@ -216,6 +231,8 @@ var isem;
          * @returns {void}
          */
         SemController.prototype.removeNode = function () {
+            // This has none of a process the deleting.
+            // Had better named this updateDisplayOnToggleItems().
             this.dag.draw().focusCenter();
             this.calcPath();
         };
