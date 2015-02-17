@@ -13,6 +13,9 @@
     },
     "d3/d3.d.ts": {
       "ref": "b3324f69165309a3ea2bd02fd10e97841bf07c83"
+    },
+    "node/node.d.ts": {
+      "ref": "25286fd7b267bcf8dfa378577925bd99548bcdef"
     }
   }
 }
