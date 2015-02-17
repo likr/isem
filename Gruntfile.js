@@ -1,5 +1,7 @@
 'use strict';
 
+var licensify = require('licensify');
+
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -37,6 +39,20 @@ module.exports = function(grunt) {
             dest: '<%= opt.client.e2eTest %>/es5/'
           }
         ]
+      }
+    },
+
+    browserify: {
+      options: {
+        preBundleCB: function (b) {
+          b.plugin(licensify, {scanBrowser: true});
+          b.transform({global: true}, 'browserify-shim');
+        }
+      },
+      client: {
+        files: {
+          'app/src/scripts/bundle.js': ['app/src/**/*.js']
+        }
       }
     },
 
