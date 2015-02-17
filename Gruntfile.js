@@ -55,6 +55,16 @@ module.exports = function(grunt) {
       //}
     },
 
+    ngAnnotate: {
+      options: {
+        singleQuotes: true
+      },
+      client: {
+        expand: true,
+        src: ['./<%= opt.client.jsMain %>/index.js']
+      }
+    },
+
     wiredep: {
       app: {
         src: ['<%= opt.client.app %>/index.html'],
@@ -125,7 +135,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:clientMain'
+    'ts:clientMain',
+    'ngAnnotate'
   ]);
 
   grunt.registerTask('e2e', [

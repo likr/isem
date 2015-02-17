@@ -1,3 +1,3 @@
-angular.module('jquery-injector', []).factory('jquery', () => {
-  return $;
+angular.module('jQuery-injector', []).factory('jQuery', () => {
+  return jQuery;
 });
