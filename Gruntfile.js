@@ -1,5 +1,7 @@
 'use strict';
 
+var licensify = require('licensify');
+
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -16,6 +18,41 @@ module.exports = function(grunt) {
         'jsMain': 'app/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
+      },
+      legacy: {
+        'app': 'app/legacy',
+        'tsMain': 'app/legacy/src/scripts',
+        'jsMain': 'app/legacy/src/scripts'
+      }
+    },
+
+    '6to5': {
+      options: {
+        sourceMap: true
+      },
+      e2e: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= opt.client.e2eTest %>/',
+            src: ['**/*-spec.js'],
+            dest: '<%= opt.client.e2eTest %>/es5/'
+          }
+        ]
+      }
+    },
+
+    browserify: {
+      options: {
+        preBundleCB: function (b) {
+          b.plugin(licensify, {scanBrowser: true});
+          b.transform({global: true}, 'browserify-shim');
+        }
+      },
+      client: {
+        files: {
+          'app/src/scripts/bundle.js': ['app/src/**/*.js']
+        }
       }
     },
 
@@ -23,52 +60,15 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
-          '<%= opt.client.jsMain %>/**/*.js',
-          '<%= opt.client.jsMain %>/**/*.js.map',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
-      }
-    },
-
-    ts: {
-      options: {
-        comments: true,
-        compiler: './node_modules/.bin/tsc',
-        noImplicitAny: true,
-        sourceMap: true,
-        target: 'es5'
       },
-      clientMain: {
-        files: {
-          'app/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
-        },
-        options: {
-          fast: 'never'
-        }
-      }//,
-      //clientTest: {
-      //  src: ['<%= opt.client.tsTest %>/index-spec.ts'],
-      //  options: {
-      //    module: 'commonjs'
-      //  }
-      //}
-    },
-
-    ngAnnotate: {
-      options: {
-        singleQuotes: true
-      },
-      client: {
-        expand: true,
-        src: ['./<%= opt.client.jsMain %>/index.js']
-      }
-    },
-
-    wiredep: {
-      app: {
-        src: ['<%= opt.client.app %>/index.html'],
-        exclude: []
+      legacy: {
+        src: [
+          '<%= opt.legacy.jsMain %>/**/*.js',
+          '<%= opt.legacy.jsMain %>/**/*.js.map',
+        ]
       }
     },
 
@@ -86,19 +86,27 @@ module.exports = function(grunt) {
       }
     },
 
-    '6to5': {
+    mocha_istanbul: {
+      main: {
+        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+        options: {
+          mask: '**/*.js',
+          reportFormats: ['lcov']
+        }
+      }
+    },
+
+    ngAnnotate: {
       options: {
-        sourceMap: true
+        singleQuotes: true
       },
-      e2e: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= opt.client.e2eTest %>/',
-            src: ['**/*-spec.js'],
-            dest: '<%= opt.client.e2eTest %>/es5/'
-          }
-        ]
+      client: {
+        expand: true,
+        src: ['./<%= opt.client.jsMain %>/bundle.js']
+      },
+      legacy: {
+        expand: true,
+        src: ['./<%= opt.legacy.jsMain %>/index.js']
       }
     },
 
@@ -122,20 +130,42 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_istanbul: {
-      main: {
-        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+    ts: {
+      options: {
+        comments: true,
+        compiler: './node_modules/.bin/tsc',
+        noImplicitAny: true,
+        target: 'es5'
+      },
+      client: {
+        src: ['<%= opt.client.tsMain %>/**/*.ts'],
         options: {
-          mask: '**/*.js',
-          reportFormats: ['lcov']
+          sourceMap: false // Incompatible with browserify.
         }
+      },
+      legacy: {
+        files: {
+          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
+        },
+        options: {
+          sourceMap: true,
+          fast: 'never'
+        }
+      }
+    },
+
+    wiredep: {
+      legacy: {
+        src: ['<%= opt.legacy.app %>/index.html'],
+        exclude: []
       }
     }
   });
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:clientMain',
+    'ts',
+    'browserify',
     'ngAnnotate'
   ]);
 
