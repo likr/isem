@@ -13,31 +13,31 @@ function delay(msec) {
 delay(30);
 describe('egrid-sem', () => {
   it('h1 should display 共分散構造分析.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var h1 = $('h1');
     expect(h1.getInnerHtml()).toBe('共分散構造分析');
   });
 
   it('type of #fileInput should be file.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var input = $('#fileInput');
     expect(input.getAttribute('type')).toBe('file');
   });
 
   it('fill of svg rect should be #fff.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var rect = $('svg rect');
     expect(rect.getAttribute('fill')).toBe('#fff');
   });
 
   it('text of first node should display 総合評価.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var firstNodeText = $('svg .contents .nodes .element text');
     expect(firstNodeText.getInnerHtml()).toBe('総合評価');
   });
 
   it('label of export form should display パス係数.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var label = $$('form').get(1).$('label');
     expect(label.getInnerHtml()).toBe('パス係数');
   });
