@@ -16,6 +16,11 @@ module.exports = function(grunt) {
         'jsMain': 'app/legacy/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
+      },
+      legacy: {
+        'app': 'app/legacy',
+        'tsMain': 'app/legacy/src/scripts',
+        'jsMain': 'app/legacy/src/scripts'
       }
     },
 
@@ -23,10 +28,14 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
-          '<%= opt.client.jsMain %>/**/*.js',
-          '<%= opt.client.jsMain %>/**/*.js.map',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
+        ]
+      },
+      legacy: {
+        src: [
+          '<%= opt.legacy.jsMain %>/**/*.js',
+          '<%= opt.legacy.jsMain %>/**/*.js.map',
         ]
       }
     },
@@ -39,35 +48,29 @@ module.exports = function(grunt) {
         sourceMap: true,
         target: 'es5'
       },
-      clientMain: {
+      legacy: {
         files: {
-          'app/legacy/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
+          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
         },
         options: {
           fast: 'never'
         }
-      }//,
-      //clientTest: {
-      //  src: ['<%= opt.client.tsTest %>/index-spec.ts'],
-      //  options: {
-      //    module: 'commonjs'
-      //  }
-      //}
+      }
     },
 
     ngAnnotate: {
       options: {
         singleQuotes: true
       },
-      client: {
+      legacy: {
         expand: true,
-        src: ['./<%= opt.client.jsMain %>/index.js']
+        src: ['./<%= opt.legacy.jsMain %>/index.js']
       }
     },
 
     wiredep: {
-      app: {
-        src: ['<%= opt.client.app %>/index.html'],
+      legacy: {
+        src: ['<%= opt.legacy.app %>/index.html'],
         exclude: []
       }
     },
@@ -135,7 +138,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:clientMain',
+    'ts:legacy',
     'ngAnnotate'
   ]);
 
