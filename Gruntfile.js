@@ -24,6 +24,22 @@ module.exports = function(grunt) {
       }
     },
 
+    '6to5': {
+      options: {
+        sourceMap: true
+      },
+      e2e: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= opt.client.e2eTest %>/',
+            src: ['**/*-spec.js'],
+            dest: '<%= opt.client.e2eTest %>/es5/'
+          }
+        ]
+      }
+    },
+
     clean: {
       client: {
         src: [
@@ -37,41 +53,6 @@ module.exports = function(grunt) {
           '<%= opt.legacy.jsMain %>/**/*.js',
           '<%= opt.legacy.jsMain %>/**/*.js.map',
         ]
-      }
-    },
-
-    ts: {
-      options: {
-        comments: true,
-        compiler: './node_modules/.bin/tsc',
-        noImplicitAny: true,
-        sourceMap: true,
-        target: 'es5'
-      },
-      legacy: {
-        files: {
-          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
-        },
-        options: {
-          fast: 'never'
-        }
-      }
-    },
-
-    ngAnnotate: {
-      options: {
-        singleQuotes: true
-      },
-      legacy: {
-        expand: true,
-        src: ['./<%= opt.legacy.jsMain %>/index.js']
-      }
-    },
-
-    wiredep: {
-      legacy: {
-        src: ['<%= opt.legacy.app %>/index.html'],
-        exclude: []
       }
     },
 
@@ -89,19 +70,23 @@ module.exports = function(grunt) {
       }
     },
 
-    '6to5': {
+    mocha_istanbul: {
+      main: {
+        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+        options: {
+          mask: '**/*.js',
+          reportFormats: ['lcov']
+        }
+      }
+    },
+
+    ngAnnotate: {
       options: {
-        sourceMap: true
+        singleQuotes: true
       },
-      e2e: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= opt.client.e2eTest %>/',
-            src: ['**/*-spec.js'],
-            dest: '<%= opt.client.e2eTest %>/es5/'
-          }
-        ]
+      legacy: {
+        expand: true,
+        src: ['./<%= opt.legacy.jsMain %>/index.js']
       }
     },
 
@@ -125,13 +110,28 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_istanbul: {
-      main: {
-        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+    ts: {
+      options: {
+        comments: true,
+        compiler: './node_modules/.bin/tsc',
+        noImplicitAny: true,
+        sourceMap: true,
+        target: 'es5'
+      },
+      legacy: {
+        files: {
+          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
+        },
         options: {
-          mask: '**/*.js',
-          reportFormats: ['lcov']
+          fast: 'never'
         }
+      }
+    },
+
+    wiredep: {
+      legacy: {
+        src: ['<%= opt.legacy.app %>/index.html'],
+        exclude: []
       }
     }
   });
