@@ -9,13 +9,34 @@ module.exports = function(grunt) {
 
     opt: {
       client: {
-        'app': 'app',
-        'tsMain': 'app/src/scripts',
+        'app': 'app/legacy',
+        'tsMain': 'app/legacy/src/scripts',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
-        'jsMain': 'app/src/scripts',
+        'jsMain': 'app/legacy/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
+      },
+      legacy: {
+        'app': 'app/legacy',
+        'tsMain': 'app/legacy/src/scripts',
+        'jsMain': 'app/legacy/src/scripts'
+      }
+    },
+
+    '6to5': {
+      options: {
+        sourceMap: true
+      },
+      e2e: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= opt.client.e2eTest %>/',
+            src: ['**/*-spec.js'],
+            dest: '<%= opt.client.e2eTest %>/es5/'
+          }
+        ]
       }
     },
 
@@ -23,52 +44,15 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
-          '<%= opt.client.jsMain %>/**/*.js',
-          '<%= opt.client.jsMain %>/**/*.js.map',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
-      }
-    },
-
-    ts: {
-      options: {
-        comments: true,
-        compiler: './node_modules/.bin/tsc',
-        noImplicitAny: true,
-        sourceMap: true,
-        target: 'es5'
       },
-      clientMain: {
-        files: {
-          'app/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
-        },
-        options: {
-          fast: 'never'
-        }
-      }//,
-      //clientTest: {
-      //  src: ['<%= opt.client.tsTest %>/index-spec.ts'],
-      //  options: {
-      //    module: 'commonjs'
-      //  }
-      //}
-    },
-
-    ngAnnotate: {
-      options: {
-        singleQuotes: true
-      },
-      client: {
-        expand: true,
-        src: ['./<%= opt.client.jsMain %>/index.js']
-      }
-    },
-
-    wiredep: {
-      app: {
-        src: ['<%= opt.client.app %>/index.html'],
-        exclude: []
+      legacy: {
+        src: [
+          '<%= opt.legacy.jsMain %>/**/*.js',
+          '<%= opt.legacy.jsMain %>/**/*.js.map',
+        ]
       }
     },
 
@@ -86,19 +70,23 @@ module.exports = function(grunt) {
       }
     },
 
-    '6to5': {
+    mocha_istanbul: {
+      main: {
+        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+        options: {
+          mask: '**/*.js',
+          reportFormats: ['lcov']
+        }
+      }
+    },
+
+    ngAnnotate: {
       options: {
-        sourceMap: true
+        singleQuotes: true
       },
-      e2e: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= opt.client.e2eTest %>/',
-            src: ['**/*-spec.js'],
-            dest: '<%= opt.client.e2eTest %>/es5/'
-          }
-        ]
+      legacy: {
+        expand: true,
+        src: ['./<%= opt.legacy.jsMain %>/index.js']
       }
     },
 
@@ -122,20 +110,35 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_istanbul: {
-      main: {
-        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
+    ts: {
+      options: {
+        comments: true,
+        compiler: './node_modules/.bin/tsc',
+        noImplicitAny: true,
+        sourceMap: true,
+        target: 'es5'
+      },
+      legacy: {
+        files: {
+          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
+        },
         options: {
-          mask: '**/*.js',
-          reportFormats: ['lcov']
+          fast: 'never'
         }
+      }
+    },
+
+    wiredep: {
+      legacy: {
+        src: ['<%= opt.legacy.app %>/index.html'],
+        exclude: []
       }
     }
   });
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:clientMain',
+    'ts:legacy',
     'ngAnnotate'
   ]);
 

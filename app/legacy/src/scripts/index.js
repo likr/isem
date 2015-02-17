@@ -93,6 +93,7 @@ var isem;
             this.init();
             this.bindToScope();
         }
+        SemController.$inject = ['$scope', 'egrid', 'sem', 'cov', 'd3', 'jQuery', 'initializationData'];
         /**
          * Initialize the controller.
          *
@@ -269,8 +270,8 @@ var isem;
     isem.SemController = SemController;
 })(isem || (isem = {}));
 angular.module(isem.appName).controller('SemController', isem.SemController);
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../../typings/d3/d3.d.ts" />
+/// <reference path="../../../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../../../typings/d3/d3.d.ts" />
 /// <reference path="for-egrid-sem.d.ts" />
 /// <reference path="injector/cov.ts" />
 /// <reference path="injector/d3.ts" />

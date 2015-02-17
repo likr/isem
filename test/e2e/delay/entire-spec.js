@@ -13,13 +13,13 @@ function delay(msec) {
 delay(100);
 describe('spec need a few delay', () => {
   it('when without click remove button, checkbox should be checked.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var firstCheckbox = $('label.checkbox.ng-binding input');
     expect(firstCheckbox.isSelected()).toBe(true);
   });
 
   it('when click remove button, checkbox should be unchecked.', () => {
-    browser.get('/');
+    browser.get('/legacy/');
     var firstNodeRemoveButton = $('svg .contents .nodes .element .removeNodeButton');
     firstNodeRemoveButton.click();
 
