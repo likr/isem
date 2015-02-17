@@ -1,12 +1,5 @@
-module isem {
-  export var appName = 'egrid-sem';
-  export var externalModules = [
-    'egrid-injector',
-    'sem-injector',
-    'cov-injector',
-    'd3-injector',
-    'jQuery-injector'
-  ];
-}
+/// <reference path="../../../typings/node/node.d.ts" />
+'use strict';
 
-angular.module(isem.appName, isem.externalModules);
+var angular = require('angular');
+require('angular-route');

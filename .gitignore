@@ -16,6 +16,7 @@ typings/
 es5/
 
 # for TypeScript
+*.js
 *.js.map
 
 !Gruntfile.js
