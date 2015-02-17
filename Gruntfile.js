@@ -9,11 +9,11 @@ module.exports = function(grunt) {
 
     opt: {
       client: {
-        'app': 'app',
-        'tsMain': 'app/src/scripts',
+        'app': 'app/legacy',
+        'tsMain': 'app/legacy/src/scripts',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
-        'jsMain': 'app/src/scripts',
+        'jsMain': 'app/legacy/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
       }
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       },
       clientMain: {
         files: {
-          'app/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
+          'app/legacy/src/scripts/index.js': ['<%= opt.client.tsMain %>/index.ts']
         },
         options: {
           fast: 'never'
