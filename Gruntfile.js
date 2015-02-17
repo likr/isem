@@ -1,5 +1,7 @@
 'use strict';
 
+var licensify = require('licensify');
+
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -9,11 +11,11 @@ module.exports = function(grunt) {
 
     opt: {
       client: {
-        'app': 'app/legacy',
-        'tsMain': 'app/legacy/src/scripts',
+        'app': 'app',
+        'tsMain': 'app/src/scripts',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
-        'jsMain': 'app/legacy/src/scripts',
+        'jsMain': 'app/src/scripts',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
       },
@@ -37,6 +39,20 @@ module.exports = function(grunt) {
             dest: '<%= opt.client.e2eTest %>/es5/'
           }
         ]
+      }
+    },
+
+    browserify: {
+      options: {
+        preBundleCB: function (b) {
+          b.plugin(licensify, {scanBrowser: true});
+          b.transform({global: true}, 'browserify-shim');
+        }
+      },
+      client: {
+        files: {
+          'app/src/scripts/bundle.js': ['app/src/**/*.js']
+        }
       }
     },
 
@@ -84,6 +100,10 @@ module.exports = function(grunt) {
       options: {
         singleQuotes: true
       },
+      client: {
+        expand: true,
+        src: ['./<%= opt.client.jsMain %>/bundle.js']
+      },
       legacy: {
         expand: true,
         src: ['./<%= opt.legacy.jsMain %>/index.js']
@@ -115,14 +135,20 @@ module.exports = function(grunt) {
         comments: true,
         compiler: './node_modules/.bin/tsc',
         noImplicitAny: true,
-        sourceMap: true,
         target: 'es5'
+      },
+      client: {
+        src: ['<%= opt.client.tsMain %>/**/*.ts'],
+        options: {
+          sourceMap: false // Incompatible with browserify.
+        }
       },
       legacy: {
         files: {
           'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
         },
         options: {
+          sourceMap: true,
           fast: 'never'
         }
       }
@@ -138,7 +164,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:legacy',
+    'ts',
+    'browserify',
     'ngAnnotate'
   ]);
 
