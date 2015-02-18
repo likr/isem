@@ -60,6 +60,8 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
+          '<%= opt.client.jsMain %>/**/*.js',
+          '<%= opt.client.jsMain %>/**/*.js.map',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
