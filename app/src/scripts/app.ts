@@ -10,6 +10,9 @@ export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute'];
 angular.module(appName, externalModule);
 
+/**
+ * Global styles for using calculation
+ */
 export var styles = {};
 styles['isem-header'] = {
   height: '5em'
@@ -18,6 +21,10 @@ styles['isem-header'] = {
 styles['isem-footer'] = {
   height: '120px'
 };
+
+/**
+ * Specify the directory path
+ */
 export var viewsDir = {
   dialogs:    'src/views/dialogs/',
   directives: 'src/views/directives/',
