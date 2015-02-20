@@ -28,7 +28,7 @@ class NetworkDiagramController {
 function NetworkDiagramDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-network-diagram.html',
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram.html',
     controller: NetworkDiagramController,
     controllerAs: 'NetworkDiagram'
   }

@@ -5,7 +5,7 @@ import app = require('../app');
 function DialogImportFileDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-dialog-import-file.html'
+    templateUrl: app.viewsDir.dialogs + 'isem-dialog-import-file.html'
   }
 }
 

@@ -5,7 +5,7 @@ import app = require('../app');
 function NetworkDiagramValueGroupDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-network-diagram-value-group.html'
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram-value-group.html'
   }
 }
 

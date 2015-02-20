@@ -10,6 +10,12 @@ export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute'];
 angular.module(appName, externalModule);
 
+export var viewsDir = {
+  dialogs:    'src/views/dialogs/',
+  directives: 'src/views/directives/',
+  screens:    'src/views/screens/'
+};
+
 /**
  * @constructor
  * @ngInject

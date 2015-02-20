@@ -5,7 +5,7 @@ import app = require('../app');
 function NetworkDiagramToolGroupDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-network-diagram-tool-group.html'
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram-tool-group.html'
   }
 }
 

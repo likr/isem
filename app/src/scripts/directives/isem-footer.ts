@@ -5,7 +5,7 @@ import app = require('../app');
 function FooterDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-footer.html'
+    templateUrl: app.viewsDir.directives + 'isem-footer.html'
   }
 }
 

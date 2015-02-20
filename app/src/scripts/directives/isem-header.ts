@@ -5,7 +5,7 @@ import app = require('../app');
 function HeaderDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-header.html'
+    templateUrl: app.viewsDir.directives + 'isem-header.html'
   }
 }
 

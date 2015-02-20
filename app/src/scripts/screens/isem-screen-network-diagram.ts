@@ -5,7 +5,7 @@ import app = require('../app');
 function ScreenNetworkDiagramDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-screen-network-diagram.html'
+    templateUrl: app.viewsDir.screens + 'isem-screen-network-diagram.html'
   }
 }
 

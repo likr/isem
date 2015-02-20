@@ -5,7 +5,7 @@ import app = require('../app');
 function VariableToolGroupDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-variable-tool-group.html'
+    templateUrl: app.viewsDir.directives + 'isem-variable-tool-group.html'
   }
 }
 

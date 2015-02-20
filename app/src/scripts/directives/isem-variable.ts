@@ -5,7 +5,7 @@ import app = require('../app');
 function VariableDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-variable.html'
+    templateUrl: app.viewsDir.directives + 'isem-variable.html'
   }
 }
 

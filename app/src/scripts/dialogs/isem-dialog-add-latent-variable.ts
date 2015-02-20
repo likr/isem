@@ -30,7 +30,7 @@ class DialogAddLatentVariableController {
 function DialogAddLatentVariableDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-dialog-add-latent-variable.html',
+    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-latent-variable.html',
     controller: DialogAddLatentVariableController,
     controllerAs: 'AddLatentVariable',
     scope: {} // use isolate scope

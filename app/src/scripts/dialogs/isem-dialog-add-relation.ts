@@ -5,7 +5,7 @@ import app = require('../app');
 function DialogAddRelationDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-dialog-add-relation.html'
+    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-relation.html'
   }
 }
 

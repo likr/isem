@@ -5,7 +5,7 @@ import app = require('../app');
 function SubColumnDDO() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-sub-column.html'
+    templateUrl: app.viewsDir.directives + 'isem-sub-column.html'
   }
 }
 
