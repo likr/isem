@@ -12,6 +12,7 @@ angular.module(appName, externalModule);
 
 /**
  * @constructor
+ * @ngInject
  */
 function RouteConfig(
   $routeProvider: ng.route.IRouteProvider,
@@ -22,6 +23,5 @@ function RouteConfig(
     .when('/', {template: '<isem-screen-network-diagram></isem-screen-network-diagram>'})
     .otherwise({redirectTo: '/'});
 }
-RouteConfig.$inject = ['$routeProvider', '$locationProvider'];
 
 angular.module(appName).config(RouteConfig);
