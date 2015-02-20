@@ -27,7 +27,7 @@ class DialogAddLatentVariableController {
   }
 }
 
-function DialogAddLatentVariableDDO() {
+function ddo() {
   return {
     restrict: 'E',
     templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-latent-variable.html',
@@ -37,4 +37,5 @@ function DialogAddLatentVariableDDO() {
   }
 }
 
-angular.module(app.appName).directive('isemDialogAddLatentVariable', DialogAddLatentVariableDDO);
+angular.module(app.appName).directive('isemDialogAddLatentVariable', ddo);
+export = DialogAddLatentVariableController;

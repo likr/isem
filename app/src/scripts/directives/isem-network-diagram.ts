@@ -25,13 +25,35 @@ class NetworkDiagramController {
   }
 }
 
-function NetworkDiagramDDO() {
+function styling(tElement: ng.IAugmentedJQuery) {
+  tElement
+    .addClass('container-fluid')
+    .css({
+      position: 'absolute',
+      top: '5em',
+      'overflow-y': 'scroll'
+    }).css({
+      width: '100%',
+      height: app.styles.mainDisplay.height
+    }).css({
+      // for looks, e.g. color, background-color...
+    });
+}
+
+function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+  styling(tElement);
+  return () => {}; // link is do nothing
+}
+
+function ddo() {
   return {
-    restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-network-diagram.html',
+    compile: compile,
     controller: NetworkDiagramController,
-    controllerAs: 'NetworkDiagram'
+    controllerAs: 'NetworkDiagram',
+    restrict: 'E',
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram.html'
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagram', NetworkDiagramDDO);
+angular.module(app.appName).directive('isemNetworkDiagram', ddo);
+export = NetworkDiagramController;

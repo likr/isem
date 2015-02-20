@@ -2,11 +2,11 @@
 import angular = require('angular');
 import app = require('../app');
 
-function NetworkDiagramToolGroupDDO() {
+function ddo() {
   return {
     restrict: 'E',
     templateUrl: app.viewsDir.directives + 'isem-network-diagram-tool-group.html'
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagramToolGroup', NetworkDiagramToolGroupDDO);
+angular.module(app.appName).directive('isemNetworkDiagramToolGroup', ddo);

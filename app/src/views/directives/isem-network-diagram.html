@@ -1,20 +1,11 @@
-<div class="container-fluid" style="
-  position: absolute;
-  top: 5em;
-  overflow-y:scroll;
-  width: 100%;
-  height: calc(100vh - 5em - 120px);
-  z-index: 1;
-">
-  <div class="row">
-    <isem-sub-column></isem-sub-column>
-    <div class="col-md-10" style="
-      width: auto;    /* for IE */
-      width: initial; /* for Modern Browsers */
-    "><!-- only use float styling from .col-md-10 -->
-      <isem-network-diagram-tool-group></isem-network-diagram-tool-group>
-      <isem-network-diagram-display></isem-network-diagram-display>
-      <isem-network-diagram-value-group></isem-network-diagram-value-group>
-    </div>
+<div class="row">
+  <isem-sub-column class="col-md-2"></isem-sub-column>
+  <div class="col-md-10" style="
+    width: auto;    /* for IE */
+    width: initial; /* for Modern Browsers */
+  "><!-- only use float styling from .col-md-10 -->
+    <isem-network-diagram-tool-group></isem-network-diagram-tool-group>
+    <isem-network-diagram-display></isem-network-diagram-display>
+    <isem-network-diagram-value-group></isem-network-diagram-value-group>
   </div>
 </div>

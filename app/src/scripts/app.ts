@@ -13,13 +13,17 @@ angular.module(appName, externalModule);
 /**
  * Global styles for using calculation
  */
-export var styles = {};
-styles['isem-header'] = {
+export var styles: any = {};
+styles.isemHeader = {
   height: '5em'
 };
 
-styles['isem-footer'] = {
+styles.isemFooter = {
   height: '120px'
+};
+
+styles.mainDisplay = {
+  height: 'calc(100vh - ' + styles.isemHeader.height + ' - ' + styles.isemFooter.height + ')'
 };
 
 /**
