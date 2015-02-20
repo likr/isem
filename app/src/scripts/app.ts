@@ -10,6 +10,14 @@ export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute'];
 angular.module(appName, externalModule);
 
+export var styles = {};
+styles['isem-header'] = {
+  height: '5em'
+};
+
+styles['isem-footer'] = {
+  height: '120px'
+};
 export var viewsDir = {
   dialogs:    'src/views/dialogs/',
   directives: 'src/views/directives/',
