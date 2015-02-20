@@ -22,8 +22,12 @@ styles.isemFooter = {
   height: '120px'
 };
 
-styles.mainDisplay = {
-  height: 'calc(100vh - ' + styles.isemHeader.height + ' - ' + styles.isemFooter.height + ')'
+styles.mainDisplay = {};
+styles.mainDisplay.heightRawExp = '(100vh - ' + styles.isemHeader.height + ' - ' + styles.isemFooter.height + ')';
+styles.mainDisplay.height = 'calc' + styles.mainDisplay.heightRawExp;
+
+styles.clearBootstrapMargin = {
+  'margin-left': '-15px'
 };
 
 /**
