@@ -60,6 +60,8 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
+          '<%= opt.client.jsMain %>/**/*.js',
+          '<%= opt.client.jsMain %>/**/*.js.map',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
@@ -134,6 +136,7 @@ module.exports = function(grunt) {
       options: {
         comments: true,
         compiler: './node_modules/.bin/tsc',
+        module: 'commonjs',
         noImplicitAny: true,
         target: 'es5'
       },
