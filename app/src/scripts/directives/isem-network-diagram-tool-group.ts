@@ -3,14 +3,14 @@ import angular = require('angular');
 import app = require('../app');
 
 class NetworkDiagramToolGroupController {
-  private dialogAddVariable: any;
+  private dialogAddVariable: cw.DialogInstance;
 
   /**
    * @constructor
    * @ngInject
    */
   constructor(
-    private Dialog: any
+    private Dialog: cw.DialogStatic
   ) {
     this.dialogAddVariable = new Dialog({
       template: '<isem-dialog-add-latent-variable />'

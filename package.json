@@ -28,7 +28,7 @@
   "dependencies": {
     "angular": "1.3.12",
     "angular-route": "1.3.12",
-    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#86a605767ee638e31747ae5c35d1e96daf57b9cf",
+    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#b88be870c333d95d1c1a0b4fe1dbe1dc05646898",
     "jquery": "2.1.3"
   },
   "devDependencies": {
