@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../../../typings/node/node.d.ts" />
+/// <reference path="../../../node_modules/cw-modal/api/cw-modal.d.ts" />
 'use strict';
 
 var angular = require('angular');
