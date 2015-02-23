@@ -3,7 +3,8 @@ import angular = require('angular');
 import app = require('../app');
 
 interface DialogAddLatentVariableScope extends ng.IScope {
-  variableName: string
+  dialog: any;
+  variableName: string;
 }
 
 class DialogAddLatentVariableController {
@@ -24,16 +25,23 @@ class DialogAddLatentVariableController {
   add(v: string) {
     console.log('DialogAddLatentVariableController#add()', v);
     this.$rootScope.$broadcast('isem:addVariable', v);
+    this.$scope.dialog.close();
   }
+}
+
+function link($scope: DialogAddLatentVariableScope, _: any, __: any, cwModal: any) {
+  $scope.dialog = cwModal.dialog;
 }
 
 function ddo() {
   return {
-    restrict: 'E',
-    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-latent-variable.html',
     controller: DialogAddLatentVariableController,
     controllerAs: 'AddLatentVariable',
-    scope: {} // use isolate scope
+    link: link,
+    require: '^cwModal',
+    restrict: 'E',
+    scope: {}, // use isolate scope
+    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-latent-variable.html'
   }
 }
 

@@ -5,9 +5,10 @@
 
 var angular = require('angular');
 require('angular-route');
+require('cw-modal');
 
 export var appName = 'egrid-sem';
-export var externalModule = ['ngRoute'];
+export var externalModule = ['ngRoute', 'cwModal'];
 angular.module(appName, externalModule);
 
 /**
