@@ -1,12 +1,59 @@
 'use strict';
 import angular = require('angular');
 import app = require('../app');
+import vas = require('../services/variable-array-store');
 
-function NetworkDiagramDDO() {
-  return {
-    restrict: 'E',
-    templateUrl: 'src/views/isem-network-diagram.html'
+class NetworkDiagramController {
+  /**
+   * @constructor
+   * @ngInject
+   */
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private VariableArrayStore: vas
+  ) {
+    this.subscribe();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private subscribe() {
+    this.$rootScope.$on('isem:addVariable', (e, arg) => {
+      this.VariableArrayStore.addVariable(arg);
+    })
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagram', NetworkDiagramDDO);
+function styling(tElement: ng.IAugmentedJQuery) {
+  tElement
+    .addClass('container-fluid')
+    .css({
+      position: 'absolute',
+      top: '5em',
+      'overflow-y': 'scroll'
+    }).css({
+      width: '100%',
+      height: app.styles.mainDisplay.height
+    }).css({
+      // for looks, e.g. color, background-color...
+    });
+}
+
+function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+  styling(tElement);
+  return () => {}; // link is do nothing
+}
+
+function ddo() {
+  return {
+    compile: compile,
+    controller: NetworkDiagramController,
+    controllerAs: 'NetworkDiagram',
+    restrict: 'E',
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram.html'
+  }
+}
+
+angular.module(app.appName).directive('isemNetworkDiagram', ddo);
+export = NetworkDiagramController;
