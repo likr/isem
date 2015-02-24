@@ -16,6 +16,9 @@
     },
     "node/node.d.ts": {
       "ref": "25286fd7b267bcf8dfa378577925bd99548bcdef"
+    },
+    "angularjs/angular-route.d.ts": {
+      "ref": "2272849a06f2b68205611665e6b86ffec58c1e10"
     }
   }
 }
