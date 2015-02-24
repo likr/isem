@@ -4,6 +4,10 @@ import app = require('../app');
 import vas = require('../services/variable-array-store');
 import ctac = require('../services/csv-to-alpha-converter');
 
+interface NetworkDiagramScope extends ng.IScope {
+  _variableArray: string[];
+}
+
 class NetworkDiagramController {
   /**
    * @constructor
@@ -11,6 +15,7 @@ class NetworkDiagramController {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
+    private $scope: NetworkDiagramScope,
     private VariableArrayStore: vas,
     private CsvToAlphaConverter: ctac
   ) {
@@ -31,6 +36,11 @@ class NetworkDiagramController {
         console.log('result', result);
         this.VariableArrayStore.replaceVariableArray(result.nodes);
       });
+    });
+
+    this.$rootScope.$on('VariableArrayStore:onChange', (e, arg) => {
+      console.log('isemVariable#subscribe', arg);
+      this.$scope._variableArray = arg;
     });
   }
 }
@@ -61,6 +71,7 @@ function ddo() {
     controller: NetworkDiagramController,
     controllerAs: 'NetworkDiagram',
     restrict: 'E',
+    scope: {}, // use isolate scope
     templateUrl: app.viewsDir.directives + 'isem-network-diagram.html'
   }
 }

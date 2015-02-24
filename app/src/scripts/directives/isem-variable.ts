@@ -4,7 +4,7 @@ import app = require('../app');
 import vtg = require('./isem-variable-tool-group');
 
 interface VariableScope extends ng.IScope {
-  _variableArray: string[];
+  variableArray: string[];
 }
 
 class VariableController {
@@ -23,10 +23,7 @@ class VariableController {
    * @returns {void}
    */
   private subscribe() {
-    this.$rootScope.$on('VariableArrayStore:onChange', (e, arg) => {
-      console.log('isemVariable#subscribe', arg);
-      this.$scope._variableArray = arg;
-    });
+    //
   }
 
   /**
@@ -34,7 +31,7 @@ class VariableController {
    * @returns {string[]}
    */
   variableArray() {
-    return this.$scope._variableArray;
+    return this.$scope.variableArray;
   }
 }
 
@@ -62,7 +59,9 @@ function ddo() {
     controllerAs: 'Variable',
     restrict: 'E',
     templateUrl: app.viewsDir.directives + 'isem-variable.html',
-    scope: {} // use isolate scope
+    scope: {
+      variableArray: '=isemIoVariableArray'
+    }
   }
 }
 
