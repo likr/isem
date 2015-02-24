@@ -20,7 +20,9 @@ class VariableArrayStore {
    * @returns {void}
    */
   addVariable(v: any) {
-    console.log('VariableArrayStore#addVariable', v);
+    this.variableArray = this.variableArray || [];
+    this.variableArray.push(v);
+    this.publishOnChange();
   }
 
   /**
@@ -50,6 +52,13 @@ class VariableArrayStore {
    */
   replaceVariableArray(vars: string[]) {
     this.variableArray = vars;
+    this.publishOnChange();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private publishOnChange() {
     this.$rootScope.$broadcast('VariableArrayStore:onChange', null); // notification only
   }
 }
