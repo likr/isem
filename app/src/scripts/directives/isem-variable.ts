@@ -1,16 +1,17 @@
 'use strict';
 import angular = require('angular');
 import app = require('../app');
-import variableToolGroup = require('./isem-variable-tool-group');
+import vtg = require('./isem-variable-tool-group');
 
 function styling(tElement: ng.IAugmentedJQuery) {
+  var mainHeight = app.styles.mainDisplay.heightRawExp;
   tElement
     .children('div')
     .css({
       'overflow-y': 'scroll'
     }).css({
       // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-      height: 'calc' + '(' + app.styles.mainDisplay.heightRawExp + ' - ' + variableToolGroup.height + ')'
+      height: 'calc' + '(' + mainHeight + ' - ' + vtg.height + ')'
     });
 }
 
