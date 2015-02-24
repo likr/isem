@@ -2,6 +2,7 @@
 import angular = require('angular');
 import app = require('../app');
 import vas = require('../services/variable-array-store');
+import ctac = require('../services/csv-to-alpha-converter');
 
 class NetworkDiagramController {
   /**
@@ -10,7 +11,8 @@ class NetworkDiagramController {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private VariableArrayStore: vas
+    private VariableArrayStore: vas,
+    private CsvToAlphaConverter: ctac
   ) {
     this.subscribe();
   }
@@ -24,7 +26,11 @@ class NetworkDiagramController {
     });
 
     this.$rootScope.$on('isem:importFile', (e, arg) => {
-      console.log(arg);
+      var converting = this.CsvToAlphaConverter.convert(arg);
+      converting.then((result) => {
+        console.log('result', result);
+        this.VariableArrayStore.replaceVariableArray(result.nodes);
+      });
     });
   }
 }

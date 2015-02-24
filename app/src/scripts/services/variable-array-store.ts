@@ -41,6 +41,15 @@ class VariableArrayStore {
   removePath() {
     //
   }
+
+  /**
+   * @params {string[]} vars - variables
+   * @returns {void}
+   */
+  replaceVariableArray(vars: string[]) {
+    console.log('VariableArrayStore#replaceVariableArray', vars);
+    this.$rootScope.$broadcast('VariableArrayStore:onChange', vars);
+  }
 }
 
 export = VariableArrayStore;
