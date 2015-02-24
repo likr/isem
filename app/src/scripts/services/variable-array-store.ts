@@ -3,6 +3,8 @@ import angular = require('angular');
 import app = require('../app');
 
 class VariableArrayStore {
+  public variableArray: string[];
+
   /**
    * @constructor
    * @ngInject
@@ -18,7 +20,9 @@ class VariableArrayStore {
    * @returns {void}
    */
   addVariable(v: any) {
-    console.log('VariableArrayStore#addVariable', v);
+    this.variableArray = this.variableArray || [];
+    this.variableArray.push(v);
+    this.publishOnChange();
   }
 
   /**
@@ -40,6 +44,22 @@ class VariableArrayStore {
    */
   removePath() {
     //
+  }
+
+  /**
+   * @params {string[]} vars - variables
+   * @returns {void}
+   */
+  replaceVariableArray(vars: string[]) {
+    this.variableArray = vars;
+    this.publishOnChange();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private publishOnChange() {
+    this.$rootScope.$broadcast('VariableArrayStore:onChange', null); // notification only
   }
 }
 

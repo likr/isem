@@ -21,7 +21,7 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-sub-column.html'
+    template: ''
   }
 }
 

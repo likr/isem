@@ -2,6 +2,11 @@
 import angular = require('angular');
 import app = require('../app');
 import vas = require('../services/variable-array-store');
+import ctac = require('../services/csv-to-alpha-converter');
+
+interface NetworkDiagramScope extends ng.IScope {
+  _variableArray: string[];
+}
 
 class NetworkDiagramController {
   /**
@@ -10,7 +15,9 @@ class NetworkDiagramController {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private VariableArrayStore: vas
+    private $scope: NetworkDiagramScope,
+    private VariableArrayStore: vas,
+    private CsvToAlphaConverter: ctac
   ) {
     this.subscribe();
   }
@@ -21,7 +28,19 @@ class NetworkDiagramController {
   private subscribe() {
     this.$rootScope.$on('isem:addVariable', (e, arg) => {
       this.VariableArrayStore.addVariable(arg);
-    })
+    });
+
+    this.$rootScope.$on('isem:importFile', (e, arg) => {
+      var converting = this.CsvToAlphaConverter.convert(arg);
+      converting.then((result) => {
+        console.log('result', result);
+        this.VariableArrayStore.replaceVariableArray(result.nodes);
+      });
+    });
+
+    this.$rootScope.$on('VariableArrayStore:onChange', (_, __) => {
+      this.$scope._variableArray = this.VariableArrayStore.variableArray;
+    });
   }
 }
 
@@ -51,6 +70,7 @@ function ddo() {
     controller: NetworkDiagramController,
     controllerAs: 'NetworkDiagram',
     restrict: 'E',
+    scope: {}, // use isolate scope
     templateUrl: app.viewsDir.directives + 'isem-network-diagram.html'
   }
 }
