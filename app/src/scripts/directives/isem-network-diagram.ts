@@ -38,9 +38,8 @@ class NetworkDiagramController {
       });
     });
 
-    this.$rootScope.$on('VariableArrayStore:onChange', (e, arg) => {
-      console.log('isemVariable#subscribe', arg);
-      this.$scope._variableArray = arg;
+    this.$rootScope.$on('VariableArrayStore:onChange', (_, __) => {
+      this.$scope._variableArray = this.VariableArrayStore.variableArray;
     });
   }
 }

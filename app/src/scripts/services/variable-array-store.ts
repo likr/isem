@@ -3,6 +3,8 @@ import angular = require('angular');
 import app = require('../app');
 
 class VariableArrayStore {
+  public variableArray: string[];
+
   /**
    * @constructor
    * @ngInject
@@ -47,8 +49,8 @@ class VariableArrayStore {
    * @returns {void}
    */
   replaceVariableArray(vars: string[]) {
-    console.log('VariableArrayStore#replaceVariableArray', vars);
-    this.$rootScope.$broadcast('VariableArrayStore:onChange', vars);
+    this.variableArray = vars;
+    this.$rootScope.$broadcast('VariableArrayStore:onChange', null); // notification only
   }
 }
 
