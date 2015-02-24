@@ -1,10 +1,20 @@
 'use strict';
 import angular = require('angular');
 import app = require('../app');
+import d3 = require('d3');
 
 interface DialogImportFileScope extends ng.IScope {
   dialog: any;
 }
+
+interface EventAltered extends Event {
+  target: TargetAltered;
+}
+
+interface TargetAltered extends EventTarget {
+  result: string;
+}
+
 
 class DialogImportFileController {
   /**
@@ -19,11 +29,21 @@ class DialogImportFileController {
   }
 
   /**
-   * @param {*} v - variable
+   * @returns {void}
    */
-  importFile(v: any) {
-    console.log('DialogImportFileController#importFile()', v);
-    this.$rootScope.$broadcast('isem:importFile', v);
+  importFile() {
+    console.log('DialogImportFileController#importFile()');
+
+    var reader = new FileReader();
+    reader.onload = (e: EventAltered) => {
+      var data = d3.csv.parse(e.target.result);
+      this.$rootScope.$broadcast('isem:importFile', data);
+    };
+
+    var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
+    var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
+    reader.readAsText(file, encoding);
+
     this.$scope.dialog.close();
   }
 }

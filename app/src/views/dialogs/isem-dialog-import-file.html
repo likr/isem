@@ -1,2 +1,18 @@
-<h1>Import File</h1>
-<button ng-click="DialogImportFile.importFile('hoge')"></button>
+<form class="form-horizontal" ng-submit="loadFile()">
+  <div>
+    <label>エンコーディング</label>
+    <div>
+      <label><input class="encoding" type="radio" name="encoding" value="utf-8" checked/>UTF-8</label>
+      <label><input class="encoding" type="radio" name="encoding" value="sjis"/>Shift-JIS</label>
+    </div>
+  </div>
+
+  <div>
+    <label>CSVファイル</label>
+    <div>
+      <input type="file" id="fileInput"/>
+      <p><a href="src/resources/data.csv">sample file</a></p>
+    </div>
+  </div>
+  <button ng-click="DialogImportFile.importFile()">Import</button>
+</form>

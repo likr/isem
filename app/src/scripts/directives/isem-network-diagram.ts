@@ -21,7 +21,11 @@ class NetworkDiagramController {
   private subscribe() {
     this.$rootScope.$on('isem:addVariable', (e, arg) => {
       this.VariableArrayStore.addVariable(arg);
-    })
+    });
+
+    this.$rootScope.$on('isem:importFile', (e, arg) => {
+      console.log(arg);
+    });
   }
 }
 
