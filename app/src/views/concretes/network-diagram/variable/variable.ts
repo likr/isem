@@ -1,7 +1,7 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
-import vtg = require('../../views/concretes/network-diagram/sub-tool-group/sub-tool-group');
+import app = require('../../../../scripts/app');
+import vtg = require('../sub-tool-group/sub-tool-group');
 
 interface VariableScope extends ng.IScope {
   variableArray: string[];
@@ -58,7 +58,7 @@ function ddo() {
     controller: VariableController,
     controllerAs: 'Variable',
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-variable.html',
+    templateUrl: app.viewsDir.networkDiagram + 'variable/variable.html',
     scope: {
       variableArray: '=isemIoVariableArray'
     }
