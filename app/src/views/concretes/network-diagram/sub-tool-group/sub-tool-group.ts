@@ -1,21 +1,22 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
+
+export var height = '4em';
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
-    .addClass('container-fluid')
     .css({
-      'z-index': 100,
-      position: 'fixed',
-      top: 0
+      'z-index': 200,
+      position: 'absolute',
+      bottom: 0
     }).css({
       width: '100%',
-      height: app.styles.isemHeader.height
+      height: height
     }).css({
-      'background-color': '#333',
-      color: '#eee'
-    });
+      'background-color': '#eee'
+    })
+    .css(app.styles.clearBootstrapMargin)
 }
 
 function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
@@ -27,8 +28,8 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-header.html'
+    templateUrl: app.viewsDir.networkDiagram + 'sub-tool-group/sub-tool-group.html'
   }
 }
 
-angular.module(app.appName).directive('isemHeader', ddo);
+angular.module(app.appName).directive('isemSubToolGroup', ddo);
