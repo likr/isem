@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
@@ -27,7 +27,7 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-header.html'
+    templateUrl: app.viewsDir.commonRoles + 'header/header.html'
   }
 }
 
