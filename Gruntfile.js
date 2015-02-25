@@ -39,6 +39,16 @@ module.exports = function(grunt) {
             dest: '<%= opt.client.e2eTest %>/es5/'
           }
         ]
+      },
+      unit: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= opt.client.jsTest %>/',
+            src: ['**/*-spec.js'],
+            dest: '<%= opt.client.jsTest %>/es5/'
+          }
+        ]
       }
     },
 
@@ -62,6 +72,7 @@ module.exports = function(grunt) {
           './*.js.map',
           '<%= opt.client.jsMain %>/**/*.js',
           '<%= opt.client.jsMain %>/**/*.js.map',
+          '<%= opt.client.jsTest %>/es5',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
@@ -79,7 +90,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%= opt.client.jsTest %>/',
+            cwd: '<%= opt.client.jsTest %>/es5/',
             src: ['**/*.js'],
             dest: '<%= opt.client.jsTestEspowerd %>',
             ext: '.js'
@@ -88,13 +99,9 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_istanbul: {
-      main: {
-        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
-        options: {
-          mask: '**/*.js',
-          reportFormats: ['lcov']
-        }
+    mochaTest: {
+      client: {
+        src: ['<%= opt.client.jsTestEspowerd %>/*.js']
       }
     },
 
@@ -170,6 +177,15 @@ module.exports = function(grunt) {
     'ts',
     'browserify',
     'ngAnnotate'
+  ]);
+
+  grunt.registerTask('test', [
+    'clean',
+    'ts:client',
+    'babel',
+    'ngAnnotate',
+    'espower',
+    'mochaTest'
   ]);
 
   grunt.registerTask('e2e', [
