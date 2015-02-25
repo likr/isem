@@ -15,7 +15,6 @@ interface TargetAltered extends EventTarget {
   result: string;
 }
 
-
 class DialogImportFileController {
   /**
    * @constructor
