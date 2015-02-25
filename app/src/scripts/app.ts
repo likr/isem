@@ -38,6 +38,7 @@ styles.clearBootstrapMargin = {
  */
 export var viewsDir = {
   commonRoles: 'src/views/concretes/common-roles/',
+  newDialogs:  'src/views/concretes/dialogs/',
   dialogs:     'src/views/dialogs/',
   directives:  'src/views/directives/',
   screens:     'src/views/screens/'
