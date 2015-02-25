@@ -1,7 +1,7 @@
 'use strict';
 import angular = require('angular');
 import app = require('../app');
-import vtg = require('./isem-variable-tool-group');
+import vtg = require('../../views/concretes/network-diagram/sub-tool-group/sub-tool-group');
 
 interface VariableScope extends ng.IScope {
   variableArray: string[];

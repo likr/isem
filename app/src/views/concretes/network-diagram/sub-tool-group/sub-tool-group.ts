@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 
 export var height = '4em';
 
@@ -28,8 +28,8 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-variable-tool-group.html'
+    templateUrl: app.viewsDir.networkDiagram + 'sub-tool-group/sub-tool-group.html'
   }
 }
 
-angular.module(app.appName).directive('isemVariableToolGroup', ddo);
+angular.module(app.appName).directive('isemSubToolGroup', ddo);
