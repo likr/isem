@@ -2,11 +2,11 @@
 import angular = require('angular');
 import app = require('../app');
 
-function NetworkDiagramDisplayDDO() {
+function ddo() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-network-diagram-display.html'
+    templateUrl: app.viewsDir.directives + 'isem-network-diagram-display.html'
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagramDisplay', NetworkDiagramDisplayDDO);
+angular.module(app.appName).directive('isemNetworkDiagramDisplay', ddo);

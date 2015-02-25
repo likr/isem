@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       }
     },
 
-    '6to5': {
+    babel: {
       options: {
         sourceMap: true
       },
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('e2e', [
     'basic',
-    '6to5',
+    'babel',
     'protractor'
   ]);
 
