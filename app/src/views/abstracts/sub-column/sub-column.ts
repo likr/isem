@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../scripts/app');
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
