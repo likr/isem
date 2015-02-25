@@ -12,10 +12,10 @@ module.exports = function(grunt) {
     opt: {
       client: {
         'app': 'app',
-        'tsMain': 'app/src/scripts',
+        'tsMain': 'app/src',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
-        'jsMain': 'app/src/scripts',
+        'jsMain': 'app/src',
         'jsTest': 'test/unit',
         'jsTestEspowerd': 'test-espowered/unit'
       },

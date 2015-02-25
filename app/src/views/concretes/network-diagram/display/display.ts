@@ -1,11 +1,11 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 
 function ddo() {
   return {
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-network-diagram-display.html'
+    templateUrl: app.viewsDir.networkDiagram + 'display/display.html'
   }
 }
 

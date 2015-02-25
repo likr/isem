@@ -37,9 +37,12 @@ styles.clearBootstrapMargin = {
  * Specify the directory path
  */
 export var viewsDir = {
-  dialogs:    'src/views/dialogs/',
-  directives: 'src/views/directives/',
-  screens:    'src/views/screens/'
+  commonRoles:    'src/views/concretes/common-roles/',
+  dialogs:        'src/views/dialogs/',
+  directives:     'src/views/directives/',
+  networkDiagram: 'src/views/concretes/network-diagram/',
+  newDialogs:     'src/views/concretes/dialogs/',
+  screens:        'src/views/screens/'
 };
 
 /**

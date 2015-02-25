@@ -1,22 +1,21 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
-
-export var height = '4em';
+import app = require('../../../../scripts/app');
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
+    .addClass('container-fluid')
     .css({
-      'z-index': 200,
-      position: 'absolute',
-      bottom: 0
+      'z-index': 100,
+      position: 'fixed',
+      top: 0
     }).css({
       width: '100%',
-      height: height
+      height: app.styles.isemHeader.height
     }).css({
-      'background-color': '#eee'
-    })
-    .css(app.styles.clearBootstrapMargin)
+      'background-color': '#333',
+      color: '#eee'
+    });
 }
 
 function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
@@ -28,8 +27,8 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-variable-tool-group.html'
+    templateUrl: app.viewsDir.commonRoles + 'header/header.html'
   }
 }
 
-angular.module(app.appName).directive('isemVariableToolGroup', ddo);
+angular.module(app.appName).directive('isemHeader', ddo);

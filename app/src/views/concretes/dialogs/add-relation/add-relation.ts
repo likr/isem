@@ -1,11 +1,11 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 
 function ddo() {
   return {
     restrict: 'E',
-    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-relation.html'
+    templateUrl: app.viewsDir.newDialogs + 'add-relation/add-relation.html'
   }
 }
 
