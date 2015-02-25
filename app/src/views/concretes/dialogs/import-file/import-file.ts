@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 import d3 = require('d3');
 
 interface DialogImportFileScope extends ng.IScope {
@@ -59,7 +59,7 @@ function ddo() {
     require: '^cwModal',
     restrict: 'E',
     scope: {}, // use isolate scope
-    templateUrl: app.viewsDir.dialogs + 'isem-dialog-import-file.html'
+    templateUrl: app.viewsDir.newDialogs + 'import-file/import-file.html'
   };
 }
 

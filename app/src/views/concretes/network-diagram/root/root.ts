@@ -1,8 +1,8 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
-import vas = require('../services/variable-array-store');
-import ctac = require('../services/csv-to-alpha-converter');
+import app = require('../../../../scripts/app');
+import vas = require('../../../../scripts/services/variable-array-store');
+import ctac = require('../../../../scripts/services/csv-to-alpha-converter');
 
 interface NetworkDiagramScope extends ng.IScope {
   _variableArray: string[];
@@ -71,7 +71,7 @@ function ddo() {
     controllerAs: 'NetworkDiagram',
     restrict: 'E',
     scope: {}, // use isolate scope
-    templateUrl: app.viewsDir.directives + 'isem-network-diagram.html'
+    templateUrl: app.viewsDir.networkDiagram + 'root/root.html'
   }
 }
 

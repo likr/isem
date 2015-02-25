@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 import cw = require('cw-modal');
 
 class NetworkDiagramToolGroupController {
@@ -52,7 +52,7 @@ function ddo() {
     controller: NetworkDiagramToolGroupController,
     controllerAs: 'NetworkDiagramToolGroup',
     restrict: 'E',
-    templateUrl: app.viewsDir.directives + 'isem-network-diagram-tool-group.html'
+    templateUrl: app.viewsDir.networkDiagram + 'tool-group/tool-group.html'
   }
 }
 

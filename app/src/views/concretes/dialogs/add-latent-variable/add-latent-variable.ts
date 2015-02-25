@@ -1,6 +1,6 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
+import app = require('../../../../scripts/app');
 
 interface DialogAddLatentVariableScope extends ng.IScope {
   dialog: any;
@@ -41,7 +41,7 @@ function ddo() {
     require: '^cwModal',
     restrict: 'E',
     scope: {}, // use isolate scope
-    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-latent-variable.html'
+    templateUrl: app.viewsDir.newDialogs + 'add-latent-variable/add-latent-variable.html'
   }
 }
 
