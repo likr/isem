@@ -2,11 +2,11 @@
 import angular = require('angular');
 import app = require('../app');
 
-function DialogAddRelationDDO() {
+function ddo() {
   return {
     restrict: 'E',
-    templateUrl: 'src/views/isem-dialog-add-relation.html'
+    templateUrl: app.viewsDir.dialogs + 'isem-dialog-add-relation.html'
   }
 }
 
-angular.module(app.appName).directive('isemDialogAddRelation', DialogAddRelationDDO);
+angular.module(app.appName).directive('isemDialogAddRelation', ddo);
