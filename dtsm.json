@@ -9,16 +9,16 @@
   "bundle": "typings/bundle.d.ts",
   "dependencies": {
     "angularjs/angular.d.ts": {
-      "ref": "b3324f69165309a3ea2bd02fd10e97841bf07c83"
+      "ref": "b1f314ebbcd63f5a4c60faab707c7e7032845ada"
+    },
+    "angularjs/angular-route.d.ts": {
+      "ref": "b1f314ebbcd63f5a4c60faab707c7e7032845ada"
     },
     "d3/d3.d.ts": {
       "ref": "b3324f69165309a3ea2bd02fd10e97841bf07c83"
     },
     "node/node.d.ts": {
       "ref": "25286fd7b267bcf8dfa378577925bd99548bcdef"
-    },
-    "angularjs/angular-route.d.ts": {
-      "ref": "2272849a06f2b68205611665e6b86ffec58c1e10"
     }
   }
 }
