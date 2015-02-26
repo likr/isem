@@ -36,7 +36,7 @@ export class Definition {
   static ddo() {
     return {
       controller: Controller,
-      controllerAs: 'AddLatentVariable',
+      controllerAs: 'AddLatentVariableController',
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
