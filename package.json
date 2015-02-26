@@ -53,6 +53,7 @@
     "mocha": "2.1.0",
     "power-assert": "0.10.1",
     "protractor": "1.6.1",
+    "sinon": "1.12.2",
     "superstatic": "2.0.2",
     "time-grunt": "1.0.0",
     "typescript": "1.4.1"
