@@ -4,10 +4,8 @@
 /// <reference path="../../../typings/node/node.d.ts" />
 /// <reference path="../../../node_modules/cw-modal/api/cw-modal.d.ts" />
 'use strict';
-
-var angular = require('angular');
-require('angular-route');
-require('cw-modal');
+import Injector = require('./injector');
+var angular = Injector.angular();
 
 export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute', 'cwModal'];
