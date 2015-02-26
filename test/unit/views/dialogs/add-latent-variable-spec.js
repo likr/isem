@@ -2,18 +2,7 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
-var stub = (() => {
-  var Injector = require('../../../../app/src/scripts/injector');
-  var mockAngular = {'module': () => {
-    return {
-      config: () => {},
-      directive: () => {}
-    };
-  }};
-  return {
-    angular: sinon.stub(Injector, 'angular').returns(mockAngular)
-  }
-})();
+require('../../mocks/angular');
 var AddLatentVariable = require('../../../../app/src/views/concretes/dialogs/add-latent-variable/add-latent-variable');
 var ControllerStatic = AddLatentVariable.Controller;
 

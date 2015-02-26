@@ -13,6 +13,7 @@ module.exports = function(grunt) {
       client: {
         'app': 'app',
         'tsMain': 'app/src',
+        'testRoot': 'test',
         'tsTest': 'test/unit',
         'e2eTest': 'test/e2e',
         'jsMain': 'app/src',
@@ -45,8 +46,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: '<%= opt.client.jsTest %>/',
-            src: ['**/*-spec.js'],
-            dest: '<%= opt.client.jsTest %>/es5/'
+            src: ['**/*-spec.js', 'mocks/*.js'],
+            dest: '<%= opt.client.testRoot %>/es5/'
           }
         ]
       }
@@ -72,7 +73,7 @@ module.exports = function(grunt) {
           './*.js.map',
           '<%= opt.client.jsMain %>/**/*.js',
           '<%= opt.client.jsMain %>/**/*.js.map',
-          '<%= opt.client.jsTest %>/es5',
+          '<%= opt.client.testRoot %>/es5',
           '<%= opt.client.e2eTest %>/es5',
           '<%= opt.client.jsTestEspowerd %>'
         ]
@@ -90,7 +91,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%= opt.client.jsTest %>/es5/',
+            cwd: '<%= opt.client.testRoot %>/es5/',
             src: ['**/*.js'],
             dest: '<%= opt.client.jsTestEspowerd %>',
             ext: '.js'
