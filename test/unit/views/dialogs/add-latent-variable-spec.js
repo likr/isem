@@ -28,14 +28,6 @@ var Controller = (() => {
 var Definition = AddLatentVariable.Definition;
 
 describe('DialogAddLatentVariable', () => {
-  it('Controller has loaded', () => {
-    assert(ControllerStatic !== void 0);
-  });
-
-  it('Definition has loaded', () => {
-    assert(Definition !== void 0);
-  });
-
   describe('Controller', () => {
     describe('#add()', () => {
       var dummy = 'dummy';
