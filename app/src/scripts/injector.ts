@@ -4,7 +4,10 @@ import i_app = require('./app');
 
 class Injector {
   static angular(): typeof i_angular {
-    return require('angular');
+    var angular = require('angular');
+    require('angular-route');
+    require('cw-modal');
+    return angular;
   }
 
   static app(): typeof i_app {
