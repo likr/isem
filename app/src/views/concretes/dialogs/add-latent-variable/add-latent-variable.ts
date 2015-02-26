@@ -1,13 +1,14 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../../../scripts/app');
+import Injector = require('../../../../scripts/injector');
+var angular = Injector.angular();
+var app     = Injector.app();
 
 interface DialogAddLatentVariableScope extends ng.IScope {
   dialog: any;
   variableName: string;
 }
 
-class DialogAddLatentVariableController {
+export class DialogAddLatentVariableController {
   /**
    * @constructor
    * @ngInject
@@ -46,4 +47,3 @@ function ddo() {
 }
 
 angular.module(app.appName).directive('isemDialogAddLatentVariable', ddo);
-export = DialogAddLatentVariableController;

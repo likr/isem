@@ -101,7 +101,7 @@ module.exports = function(grunt) {
 
     mochaTest: {
       client: {
-        src: ['<%= opt.client.jsTestEspowerd %>/*.js']
+        src: ['<%= opt.client.jsTestEspowerd %>/**/*.js']
       }
     },
 
