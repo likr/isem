@@ -2,8 +2,8 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
-require('../../../mocks/angular');
-var AddLatentVariable = require('../../../../app/src/views/concretes/dialogs/add-latent-variable/add-latent-variable');
+require('../../../../mocks/angular');
+var AddLatentVariable = require('../../../../../app/src/views/concretes/dialogs/add-latent-variable/add-latent-variable');
 var ControllerStatic = AddLatentVariable.Controller;
 
 var mockRootScope, stubRootScope, mockScope, stubScope;

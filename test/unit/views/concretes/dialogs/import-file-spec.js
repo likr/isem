@@ -2,12 +2,12 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
-require('../../../mocks/angular');
-var stubD3 = require('../../../mocks/d3').stub;
-var stubDocument = require('../../../mocks/document').stub;
-var stubFileReader = require('../../../mocks/file-reader').stub;
+require('../../../../mocks/angular');
+var stubD3 = require('../../../../mocks/d3').stub;
+var stubDocument = require('../../../../mocks/document').stub;
+var stubFileReader = require('../../../../mocks/file-reader').stub;
 
-var ImportFile = require('../../../../app/src/views/concretes/dialogs/import-file/import-file');
+var ImportFile = require('../../../../../app/src/views/concretes/dialogs/import-file/import-file');
 var ControllerStatic = ImportFile.Controller;
 
 var mockRootScope, stubRootScope, mockScope, stubScope;
