@@ -13,6 +13,18 @@ class Injector {
   static app(): typeof i_app {
     return require('./app');
   }
+
+  static d3(): D3.Base {
+    return require('d3');
+  }
+
+  static document(): Document {
+    return document;
+  }
+
+  static FileReader(): typeof FileReader {
+    return FileReader;
+  }
 }
 
 export = Injector;
