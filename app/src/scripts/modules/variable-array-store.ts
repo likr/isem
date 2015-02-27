@@ -7,8 +7,6 @@ var app = IsemInjector.app();
 var Converter = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.VariableArrayDispatcher();
 
-var CHANGE_EVENT = 'VariableArrayStore:change';
-
 export interface API {
   variableArray: string[];
 
@@ -18,6 +16,8 @@ export interface API {
 }
 
 class VariableArrayStore {
+  static CHANGE_EVENT = 'VariableArrayStore:change';
+
   public variableArray: string[];
   private $rootScope: ng.IRootScopeService;
 
@@ -67,7 +67,7 @@ class VariableArrayStore {
    * @returns {void}
    */
   addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on(CHANGE_EVENT, listener);
+    this.$rootScope.$on(VariableArrayStore.CHANGE_EVENT, listener);
   }
 
   /**
@@ -76,7 +76,7 @@ class VariableArrayStore {
    * @returns {void}
    */
   removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    var listeners = (<any>this.$rootScope).$$listeners[CHANGE_EVENT];
+    var listeners = (<any>this.$rootScope).$$listeners[VariableArrayStore.CHANGE_EVENT];
     if (listeners) {
       // Loop through the array of named listeners and remove them from the array.
       for (var i = 0; i < listeners.length; i++) {
@@ -91,7 +91,7 @@ class VariableArrayStore {
    * @returns {void}
    */
   private publishChange() {
-    this.$rootScope.$broadcast(CHANGE_EVENT, null); // notification only
+    this.$rootScope.$broadcast(VariableArrayStore.CHANGE_EVENT, null); // notification only
   }
 }
 
