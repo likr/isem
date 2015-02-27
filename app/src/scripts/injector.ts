@@ -24,6 +24,10 @@ class Injector {
   static FileReader(): typeof FileReader {
     return FileReader;
   }
+
+  static semjs(): typeof sem {
+    return require('semjs');
+  }
 }
 
 export = Injector;
