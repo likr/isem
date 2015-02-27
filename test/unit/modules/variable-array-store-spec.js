@@ -35,4 +35,21 @@ describe('VariableArrayStore', () => {
       assert(String(actual) === String(expected));
     });
   });
+
+  describe('#onAddVariableCallback()', () => {
+    var publishChange;
+    before(() => {
+      publishChange = sinon.stub(Store, 'publishChange');
+      Store.variableArray = ['A'];
+      Store.onAddVariableCallback()(null, 'B');
+    });
+
+    it('should set new variable to Store.variableArray', () => {
+      assert.deepEqual(Store.variableArray, ['A', 'B']);
+    });
+
+    it('should do #publishChange()', () => {
+      assert(publishChange.callCount === 1);
+    });
+  });
 });
