@@ -12,7 +12,7 @@ var dummyResult = {
 };
 
 var stub = {
-  convert: sinon.stub(mock.prototype, 'convert').returns({then: (cb) => {return cb(dummyResult)}})
+  convert: sinon.stub(mock.prototype, 'convert').returns(dummyResult)
 };
 
 module.exports.mock = mock;

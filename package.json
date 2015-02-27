@@ -51,6 +51,7 @@
     "istanbul": "0.3.5",
     "licensify": "git+https://github.com/twada/licensify.git#379facabcbd8c22c8d107f75706ca997771be24e",
     "load-grunt-tasks": "3.0.0",
+    "lolex": "^1.2.1",
     "mocha": "2.1.0",
     "power-assert": "0.10.1",
     "protractor": "1.6.1",
