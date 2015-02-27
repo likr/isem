@@ -18,6 +18,7 @@ function mockRootElement() {}
 mockRootElement.scope = () => {};
 
 function mockRootScope() {}
+mockRootScope.$broadcast = () => {};
 mockRootScope.$on = () => {};
 
 sinon.stub(Injector, 'angular').returns(mockAngular);
@@ -35,5 +36,6 @@ module.exports.stubRootElement = {
 };
 
 module.exports.stubRootScope = {
-  $on: sinon.stub(mockRootScope, '$on')
+  $broadcast: sinon.stub(mockRootScope, '$broadcast'),
+  $on:        sinon.stub(mockRootScope, '$on')
 };

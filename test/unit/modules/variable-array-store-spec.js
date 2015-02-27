@@ -2,6 +2,7 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
+var stubRootScope = require('../../mocks/browser/angular').stubRootScope;
 var stubDispatcher = require('../../mocks/isem/variable-array-dispatcher').stub;
 var converterDummies = require('../../mocks/isem/csv-to-alpha-converter');
 var stubConverter = converterDummies.stub;
@@ -99,6 +100,21 @@ describe('VariableArrayStore', () => {
 
     it('should give the listener to arg[1] of $on()', () => {
       assert(stubRootScope.$on.getCall(0).args[1] === dummy);
+    });
+  });
+
+  describe('#publishChange()', () => {
+    before(() => {
+      stubRootScope.$on.reset();
+      Store.publishChange();
+    });
+
+    it('should give the event name to arg[0] of $broadcast()', () => {
+      assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+    });
+
+    it('should NOT give to arg[1] of $broadcast()', () => {
+      assert(stubRootScope.$broadcast.getCall(0).args[1] == null);
     });
   });
 });
