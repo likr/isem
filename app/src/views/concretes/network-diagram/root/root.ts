@@ -38,7 +38,12 @@ export class Controller {
    */
   private changeCallback(): (e: ng.IAngularEvent, args: any) => void {
     return (_, __) => {
-      this.$scope._variableArray = Store.variableArray;
+      // This requires JS native setTimeout because needs forced to $apply
+      setTimeout(() => {
+        this.$scope.$apply(() => {
+          this.$scope._variableArray = Store.variableArray;
+        });
+      }, 0); // Immediate execution
     };
   }
 }

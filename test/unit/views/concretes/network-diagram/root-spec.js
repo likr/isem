@@ -1,6 +1,7 @@
 'use strict';
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
+var lolex = require('lolex');
 
 require('../../../../mocks/browser/angular');
 var stubStore = require('../../../../mocks/isem/variable-array-store').stub;
@@ -8,9 +9,14 @@ var stubStore = require('../../../../mocks/isem/variable-array-store').stub;
 var NetworkDiagram = require('../../../../../app/src/views/concretes/network-diagram/root/root');
 var ControllerStatic = NetworkDiagram.Controller;
 
-var mockScope;
+var mockScope, stubScope;
 var Controller = (() => {
-  mockScope = {};
+  mockScope = {
+    $apply: () => {}
+  };
+  stubScope = {
+    $apply: sinon.stub(mockScope, '$apply', (cb) => {cb()})
+  };
   return new ControllerStatic(mockScope);
 })();
 var Definition = NetworkDiagram.Definition;
@@ -41,12 +47,19 @@ describe('NetworkDiagram', () => {
     });
 
     describe('#changeCallback()', () => {
-      beforeEach(() => {
+      var clock;
+      before(() => {
+        clock = lolex.install(global);
         Controller.changeCallback()();
       });
 
       it('should set to $scope', () => {
+        clock.tick(0); // Fire setTimeout
         assert(Controller.$scope._variableArray === 'dummyVariableArray');
+      });
+
+      after(() => {
+        clock.uninstall();
       });
     });
   });
