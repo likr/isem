@@ -2,7 +2,7 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
-require('../../../../mocks/angular');
+require('../../../../mocks/browser/angular');
 var AddLatentVariable = require('../../../../../app/src/views/concretes/dialogs/add-latent-variable/add-latent-variable');
 var ControllerStatic = AddLatentVariable.Controller;
 
@@ -36,7 +36,7 @@ describe('DialogAddLatentVariable', () => {
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'isem:addVariable');
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'VariableArrayDispatcher:addVariable');
       });
 
       it('should give the value to arg[1] of $broadcast()', () => {

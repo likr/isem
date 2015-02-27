@@ -1,10 +1,12 @@
 'use strict';
 import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
-var app = Injector.app();
 var d3 = Injector.d3();
 var document = Injector.document();
 var FileReader = Injector.FileReader();
+
+import IsemInjector = require('../../../../scripts/isem-injector');
+var app = IsemInjector.app();
 
 interface Scope extends ng.IScope {
   dialog: any;
@@ -35,7 +37,7 @@ export class Controller {
    */
   importFile() {
     var reader = new FileReader();
-    reader.onload = this.fileReaderOnLoad.bind(this);
+    reader.onload = this.fileReaderOnLoad();
 
     var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
     var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
@@ -47,12 +49,13 @@ export class Controller {
   /**
    * This when used to load a file is extracted for testable.
    *
-   * @param {EventAltered} e - event
-   * @returns {void}
+   * @returns {Function}
    */
-  private fileReaderOnLoad(e: EventAltered) {
-    var data = d3.csv.parse(e.target.result);
-    this.$rootScope.$broadcast('isem:importFile', data);
+  private fileReaderOnLoad() {
+    return (e: EventAltered) => {
+      var data = d3.csv.parse(e.target.result);
+      this.$rootScope.$broadcast('VariableArrayDispatcher:importFile', data);
+    };
   }
 }
 

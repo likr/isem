@@ -2,10 +2,10 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
-require('../../../../mocks/angular');
-var stubD3 = require('../../../../mocks/d3').stub;
-var stubDocument = require('../../../../mocks/document').stub;
-var stubFileReader = require('../../../../mocks/file-reader').stub;
+require('../../../../mocks/browser/angular');
+var stubD3 = require('../../../../mocks/browser/d3').stub;
+var stubDocument = require('../../../../mocks/browser/document').stub;
+var stubFileReader = require('../../../../mocks/browser/file-reader').stub;
 
 var ImportFile = require('../../../../../app/src/views/concretes/dialogs/import-file/import-file');
 var ControllerStatic = ImportFile.Controller;
@@ -59,11 +59,11 @@ describe('DialogImportFile', () => {
       var event = {target: {result: 'dummyResult'}};
       before(() => {
         stubD3.csv.parse.withArgs('dummyResult').returns('dummyParsed');
-        Controller.fileReaderOnLoad(event);
+        Controller.fileReaderOnLoad()(event);
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'isem:importFile');
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'VariableArrayDispatcher:importFile');
       });
 
       it('should give the value to arg[1] of $broadcast()', () => {

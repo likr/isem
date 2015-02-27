@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: '<%= opt.client.testRoot %>/',
-            src: ['**/*-spec.js', 'mocks/*.js'],
+            src: ['**/*-spec.js', 'mocks/**/*.js'],
             dest: '<%= opt.client.testEs5 %>/'
           }
         ]

@@ -34,7 +34,6 @@ class NetworkDiagramToolGroupController {
    * @returns {void}
    */
   openDialogAddVariable() {
-    console.log('openDialogAddVariable');
     this.dialogAddVariable.open();
   }
 
@@ -42,7 +41,6 @@ class NetworkDiagramToolGroupController {
    * @returns {void}
    */
   openDialogImportFile() {
-    console.log('openDialogImportFile');
     this.dialogImportFile.open();
   }
 }

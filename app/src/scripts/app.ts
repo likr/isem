@@ -44,6 +44,25 @@ export var viewsDir = {
 };
 
 /**
+ * Utility for remove listener from AngularJS $on listeners
+ *
+ * @see Stack Overflow {@link http://goo.gl/IRTpGA}
+ * @param {string[]} listeners
+ * @param {Function} listener
+ * @returns {void}
+ */
+export function removeListener(listeners: string[], listener: any) {
+  if (!listeners) { return; }
+  // Loop through the array of named listeners and remove them from the array.
+  for (var i = 0; i < listeners.length; i++) {
+    if (listeners[i] === listener) {
+      listeners.splice(i, 1);
+      return;
+    }
+  }
+}
+
+/**
  * @constructor
  * @ngInject
  */
