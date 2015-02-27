@@ -64,9 +64,9 @@ class VariableArrayStore {
    * @returns {Function}
    */
   private onImportFileCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
-    return (_, arg) => {
+    return (_, importedFile) => {
       var converter = new Converter();
-      converter.convert(arg).then((result) => {
+      converter.convert(importedFile).then((result) => {
         this.variableArray = result.nodes;
         this.publishChange();
       });
