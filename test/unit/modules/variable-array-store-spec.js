@@ -84,4 +84,21 @@ describe('VariableArrayStore', () => {
       assert(publishChange.callCount === 1);
     });
   });
+
+  describe('#addChangeListener()', () => {
+    var dummy = 'addChangeListenerListener';
+    before(() => {
+      stubRootScope.$on.reset();
+      Store.init();
+      Store.addChangeListener(dummy);
+    });
+
+    it('should give the event name to arg[0] of $on()', () => {
+      assert(stubRootScope.$on.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+    });
+
+    it('should give the listener to arg[1] of $on()', () => {
+      assert(stubRootScope.$on.getCall(0).args[1] === dummy);
+    });
+  });
 });
