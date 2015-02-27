@@ -1,8 +1,9 @@
 'use strict';
 import angular = require('angular');
 import app = require('../../../../scripts/app');
-import vas = require('../../../../scripts/services/variable-array-store');
-import ctac = require('../../../../scripts/services/csv-to-alpha-converter');
+
+import vas = require('../../../../scripts/modules/variable-array-store');
+var Store: vas.IVariableArrayStore = vas.singleton;
 
 interface NetworkDiagramScope extends ng.IScope {
   _variableArray: string[];
@@ -14,10 +15,7 @@ class NetworkDiagramController {
    * @ngInject
    */
   constructor(
-    private $rootScope: ng.IRootScopeService,
-    private $scope: NetworkDiagramScope,
-    private VariableArrayStore: vas,
-    private CsvToAlphaConverter: ctac
+    private $scope: NetworkDiagramScope
   ) {
     this.subscribe();
   }
@@ -26,20 +24,9 @@ class NetworkDiagramController {
    * @returns {void}
    */
   private subscribe() {
-    this.$rootScope.$on('isem:addVariable', (e, arg) => {
-      this.VariableArrayStore.addVariable(arg);
-    });
-
-    this.$rootScope.$on('isem:importFile', (e, arg) => {
-      var converting = this.CsvToAlphaConverter.convert(arg);
-      converting.then((result) => {
-        console.log('result', result);
-        this.VariableArrayStore.replaceVariableArray(result.nodes);
-      });
-    });
-
-    this.VariableArrayStore.addChangeListener((_, __) => {
-      this.$scope._variableArray = this.VariableArrayStore.variableArray;
+    Store.init();
+    Store.addChangeListener((_, __) => {
+      this.$scope._variableArray = Store.variableArray;
     });
   }
 }
@@ -70,7 +57,7 @@ function ddo() {
     controller: NetworkDiagramController,
     controllerAs: 'NetworkDiagram',
     restrict: 'E',
-    scope: {}, // use isolate scope
+    scope: {}, // use isolate scope and non interface
     templateUrl: app.viewsDir.networkDiagram + 'root/root.html'
   }
 }

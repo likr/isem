@@ -1,17 +1,12 @@
 'use strict';
 import angular = require('angular');
-import app = require('../app');
 
-class CsvToAlphaConverter {
+export class CsvToAlphaConverter {
   /**
    * @constructor
-   * @ngInject
    */
-  constructor(
-    private $rootScope: ng.IRootScopeService,
-    private $q: ng.IQService
-  ) {
-    //
+  constructor() {
+    // Do nothing
   }
 
   /**
@@ -19,7 +14,11 @@ class CsvToAlphaConverter {
    * @returns {ng.IPromise<any>}
    */
   convert(data: any): ng.IPromise<any> {
-    var deferred = this.$q.defer();
+    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
+    var $injector = rootElement.injector();
+    var $q = $injector.get('$q');
+
+    var deferred = $q.defer();
 
     var observedVariables = ((data: any) => {
       var vars: string[] = [];
@@ -69,6 +68,3 @@ class CsvToAlphaConverter {
     xhr.send(JSON.stringify(obj));
   }
 }
-
-export = CsvToAlphaConverter;
-angular.module(app.appName).service('CsvToAlphaConverter', CsvToAlphaConverter);
