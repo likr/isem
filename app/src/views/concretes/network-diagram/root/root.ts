@@ -38,7 +38,7 @@ class NetworkDiagramController {
       });
     });
 
-    this.$rootScope.$on('VariableArrayStore:change', (_, __) => {
+    this.VariableArrayStore.addChangeListener((_, __) => {
       this.$scope._variableArray = this.VariableArrayStore.variableArray;
     });
   }

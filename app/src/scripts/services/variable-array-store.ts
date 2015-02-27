@@ -61,6 +61,16 @@ class VariableArrayStore {
   private publishChange() {
     this.$rootScope.$broadcast('VariableArrayStore:change', null); // notification only
   }
+
+  /**
+   * For capsulize event name to other components
+   *
+   * @param {Function} listener
+   * @returns {void}
+   */
+  addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
+    this.$rootScope.$on('VariableArrayStore:change', listener);
+  }
 }
 
 export = VariableArrayStore;
