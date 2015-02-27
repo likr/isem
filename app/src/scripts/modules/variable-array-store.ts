@@ -76,12 +76,12 @@ class VariableArrayStore {
    * @returns {void}
    */
   removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    var namedListeners = (<any>this.$rootScope).$$listeners[CHANGE_EVENT];
-    if (namedListeners) {
+    var listeners = (<any>this.$rootScope).$$listeners[CHANGE_EVENT];
+    if (listeners) {
       // Loop through the array of named listeners and remove them from the array.
-      for (var i = 0; i < namedListeners.length; i++) {
-        if (namedListeners[i] === listener) {
-          return namedListeners.splice(i, 1);
+      for (var i = 0; i < listeners.length; i++) {
+        if (listeners[i] === listener) {
+          return listeners.splice(i, 1);
         }
       }
     }
