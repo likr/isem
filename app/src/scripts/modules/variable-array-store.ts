@@ -45,19 +45,32 @@ class VariableArrayStore {
    */
   private register() {
     Dispatcher.init();
-    Dispatcher.registerOnAddVariable((_, arg) => {
+    Dispatcher.registerOnAddVariable(this.onAddVariableCallback());
+    Dispatcher.registerOnImportFile(this.onImportFileCallback());
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onAddVariableCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
+    return (_, arg) => {
       this.variableArray = this.variableArray || [];
       this.variableArray.push(arg);
       this.publishChange();
-    });
+    };
+  }
 
-    Dispatcher.registerOnImportFile((_, arg) => {
+  /**
+   * @returns {Function}
+   */
+  private onImportFileCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
+    return (_, arg) => {
       var converter = new Converter();
       converter.convert(arg).then((result) => {
         this.variableArray = result.nodes;
         this.publishChange();
       });
-    });
+    };
   }
 
   /**
