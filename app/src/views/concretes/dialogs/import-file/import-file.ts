@@ -1,10 +1,12 @@
 'use strict';
 import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
-var app = Injector.app();
 var d3 = Injector.d3();
 var document = Injector.document();
 var FileReader = Injector.FileReader();
+
+import IsemInjector = require('../../../../scripts/isem-injector');
+var app = IsemInjector.app();
 
 interface Scope extends ng.IScope {
   dialog: any;

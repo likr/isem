@@ -1,11 +1,11 @@
 'use strict';
-import angular = require('angular');
-import app = require('../app');
-import ctac = require('./csv-to-alpha-converter');
-import CsvToAlphaConverter = ctac.CsvToAlphaConverter;
+import Injector = require('../injector');
+var angular = Injector.angular();
 
-import vad = require('./variable-array-dispatcher');
-var Dispatcher: vad.IVariableArrayDispatcher = vad.singleton;
+import IsemInjector = require('../isem-injector');
+var app = IsemInjector.app();
+var Converter = IsemInjector.CsvToAlphaConverter();
+var Dispatcher = IsemInjector.VariableArrayDispatcher();
 
 export interface IVariableArrayStore {
   variableArray: string[];
@@ -47,7 +47,7 @@ class VariableArrayStore {
     });
 
     Dispatcher.registerOnImportFile((e, arg) => {
-      var converter = new CsvToAlphaConverter();
+      var converter = new Converter();
       converter.convert(arg).then((result) => {
         this.replaceVariableArray(result.nodes);
       });

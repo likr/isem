@@ -1,6 +1,6 @@
 'use strict';
 var sinon = require('sinon');
-var Injector = require('../../app/src/scripts/injector');
+var Injector = require('../../../app/src/scripts/injector');
 
 function mockFileReader() {
   // do nothing

@@ -1,5 +1,6 @@
 'use strict';
-import angular = require('angular');
+import Injector = require('../injector');
+var angular = Injector.angular();
 
 export interface IVariableArrayDispatcher {
   init(): void;

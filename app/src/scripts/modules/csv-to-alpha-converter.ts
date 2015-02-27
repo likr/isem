@@ -1,7 +1,8 @@
 'use strict';
-import angular = require('angular');
+import Injector = require('../injector');
+var angular = Injector.angular();
 
-export class CsvToAlphaConverter {
+class CsvToAlphaConverter {
   /**
    * @constructor
    */
@@ -68,3 +69,5 @@ export class CsvToAlphaConverter {
     xhr.send(JSON.stringify(obj));
   }
 }
+
+export = CsvToAlphaConverter;

@@ -1,9 +1,10 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../../../scripts/app');
+import Injector = require('../../../../scripts/injector');
+var angular = Injector.angular();
 
-import vas = require('../../../../scripts/modules/variable-array-store');
-var Store: vas.IVariableArrayStore = vas.singleton;
+import IsemInjector = require('../../../../scripts/isem-injector');
+var app = IsemInjector.app();
+var Store = IsemInjector.VariableArrayStore();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
@@ -14,9 +15,7 @@ export class Controller {
    * @constructor
    * @ngInject
    */
-  constructor(
-    private $scope: Scope
-  ) {
+  constructor(private $scope: Scope) {
     this.subscribe();
   }
 
@@ -25,14 +24,18 @@ export class Controller {
    */
   private subscribe() {
     Store.init();
-    Store.addChangeListener(this.changeCallback.bind(this));
+    Store.addChangeListener(this.changeCallback());
   }
 
   /**
-   * @returns {void}
+   * This callback args are non-use
+   *
+   * @returns {Function}
    */
-  private changeCallback() {
-    this.$scope._variableArray = Store.variableArray;
+  private changeCallback(): (e: ng.IAngularEvent, args: any) => void {
+    return (_, __) => {
+      this.$scope._variableArray = Store.variableArray;
+    };
   }
 }
 
