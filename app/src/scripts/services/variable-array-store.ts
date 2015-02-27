@@ -22,7 +22,7 @@ class VariableArrayStore {
   addVariable(v: any) {
     this.variableArray = this.variableArray || [];
     this.variableArray.push(v);
-    this.publishOnChange();
+    this.publishChange();
   }
 
   /**
@@ -52,14 +52,14 @@ class VariableArrayStore {
    */
   replaceVariableArray(vars: string[]) {
     this.variableArray = vars;
-    this.publishOnChange();
+    this.publishChange();
   }
 
   /**
    * @returns {void}
    */
-  private publishOnChange() {
-    this.$rootScope.$broadcast('VariableArrayStore:onChange', null); // notification only
+  private publishChange() {
+    this.$rootScope.$broadcast('VariableArrayStore:change', null); // notification only
   }
 }
 
