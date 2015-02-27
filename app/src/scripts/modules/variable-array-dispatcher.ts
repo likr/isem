@@ -2,7 +2,7 @@
 import Injector = require('../injector');
 var angular = Injector.angular();
 
-export interface IVariableArrayDispatcher {
+export interface API {
   init(): void;
   registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
   registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;

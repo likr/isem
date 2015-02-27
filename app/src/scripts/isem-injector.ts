@@ -1,27 +1,27 @@
 'use strict';
-import i_app = require('./app');
-import ctac = require('./modules/csv-to-alpha-converter');
-import vad = require('./modules/variable-array-dispatcher');
-import vas = require('./modules/variable-array-store');
+import app = require('./app');
+import CsvToAlphaConverter = require('./modules/csv-to-alpha-converter');
+import VariableArrayDispatcher = require('./modules/variable-array-dispatcher');
+import VariableArrayStore = require('./modules/variable-array-store');
 
 /**
  * Injector is the class that injects modules in the domain of isem.
  * This will be stubbed when do tests.
  */
 class IsemInjector {
-  static app(): typeof i_app {
+  static app(): typeof app {
     return require('./app');
   }
 
-  static CsvToAlphaConverter(): typeof ctac {
+  static CsvToAlphaConverter(): typeof CsvToAlphaConverter {
     return require('./modules/csv-to-alpha-converter');
   }
 
-  static VariableArrayDispatcher(): vad.IVariableArrayDispatcher {
+  static VariableArrayDispatcher(): VariableArrayDispatcher.API {
     return require('./modules/variable-array-dispatcher').singleton;
   }
 
-  static VariableArrayStore(): vas.IVariableArrayStore {
+  static VariableArrayStore(): VariableArrayStore.API {
     return require('./modules/variable-array-store').singleton;
   }
 }

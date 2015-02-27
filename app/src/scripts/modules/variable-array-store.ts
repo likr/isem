@@ -7,7 +7,7 @@ var app = IsemInjector.app();
 var Converter = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.VariableArrayDispatcher();
 
-export interface IVariableArrayStore {
+export interface API {
   variableArray: string[];
 
   init(): void;
