@@ -59,7 +59,7 @@ describe('DialogImportFile', () => {
       var event = {target: {result: 'dummyResult'}};
       before(() => {
         stubD3.csv.parse.withArgs('dummyResult').returns('dummyParsed');
-        Controller.fileReaderOnLoad(event);
+        Controller.fileReaderOnLoad()(event);
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
