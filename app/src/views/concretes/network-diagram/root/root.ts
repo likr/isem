@@ -11,11 +11,15 @@ interface Scope extends ng.IScope {
 }
 
 export class Controller {
+  private _changeCallback: (e: ng.IAngularEvent, args: any) => any;
+
   /**
    * @constructor
    * @ngInject
    */
   constructor(private $scope: Scope) {
+    // Callbacks must be stored once in the variable for give to removeListener()
+    this._changeCallback = this.changeCallback();
     this.subscribe();
   }
 
@@ -24,7 +28,7 @@ export class Controller {
    */
   private subscribe() {
     Store.init();
-    Store.addChangeListener(this.changeCallback());
+    Store.addChangeListener(this._changeCallback);
   }
 
   /**
