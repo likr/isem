@@ -26,7 +26,7 @@ export class Controller {
    * @param {string} v - variable
    */
   add(v: string) {
-    this.$rootScope.$broadcast('isem:addVariable', v);
+    this.$rootScope.$broadcast('VariableArrayDispatcher:addVariable', v);
     this.$scope.dialog.close();
   }
 }

@@ -31,7 +31,7 @@ class VariableArrayDispatcher {
    * @returns {void}
    */
   registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('isem:addVariable', listener);
+    this.$rootScope.$on('VariableArrayDispatcher:addVariable', listener);
   }
 
   /**
@@ -39,7 +39,7 @@ class VariableArrayDispatcher {
    * @returns {void}
    */
   registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('isem:importFile', listener);
+    this.$rootScope.$on('VariableArrayDispatcher:importFile', listener);
   }
 }
 

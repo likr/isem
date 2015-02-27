@@ -54,7 +54,7 @@ export class Controller {
    */
   private fileReaderOnLoad(e: EventAltered) {
     var data = d3.csv.parse(e.target.result);
-    this.$rootScope.$broadcast('isem:importFile', data);
+    this.$rootScope.$broadcast('VariableArrayDispatcher:importFile', data);
   }
 }
 
