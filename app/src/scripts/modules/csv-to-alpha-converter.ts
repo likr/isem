@@ -1,6 +1,7 @@
 'use strict';
 import Injector = require('../injector');
 var angular = Injector.angular();
+var semjs = Injector.semjs();
 
 class CsvToAlphaConverter {
   /**
@@ -12,15 +13,9 @@ class CsvToAlphaConverter {
 
   /**
    * @params {*} data
-   * @returns {ng.IPromise<any>}
+   * @returns {*}
    */
-  convert(data: any): ng.IPromise<any> {
-    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-    var $injector = rootElement.injector();
-    var $q = $injector.get('$q');
-
-    var deferred = $q.defer();
-
+  convert(data: any): any {
     var observedVariables = ((data: any) => {
       var vars: string[] = [];
       var v: string;
@@ -32,41 +27,16 @@ class CsvToAlphaConverter {
       return vars;
     })(data[0]);
 
-    var x = observedVariables.map((key: string): string[] => {
-      return data.map((d: {[key: string]: string}): string => {
-        return d[key];
+    var S = ((vars: string[], data: any) => {
+      var x = vars.map((key: string): number[] => {
+        return data.map((d: {[key: string]: number}): number => {
+          return d[key];
+        });
       });
-    });
+      return semjs.stats.cov(x);
+    })(observedVariables, data);
 
-    this.cov(x, (result: {data: number[][]}) => {
-      var S = result.data;
-      deferred.resolve({nodes: observedVariables, S: S});
-    });
-
-    return deferred.promise;
-  }
-
-  /**
-   * This is a TENTATIVE
-   *
-   * @param data
-   * @param callback
-   * @returns {void}
-   */
-  private cov(data: any, callback: any) {
-    var obj = {
-      data: data
-    };
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = (ev: Event) => {
-      var req = <XMLHttpRequest>ev.currentTarget;
-      if (req.readyState == 4 && req.status == 200) {
-        callback(JSON.parse(req.responseText));
-      }
-    };
-    xhr.open('POST', 'http://hyperinfo.viz.media.kyoto-u.ac.jp/wsgi/websem/cov');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(obj));
+    return {nodes: observedVariables, S: S};
   }
 }
 
