@@ -7,11 +7,14 @@ var app = IsemInjector.app();
 var Converter = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.VariableArrayDispatcher();
 
+var CHANGE_EVENT = 'VariableArrayStore:change';
+
 export interface API {
   variableArray: string[];
 
   init(): void;
   addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
+  removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
 class VariableArrayStore {
@@ -43,62 +46,18 @@ class VariableArrayStore {
   private register() {
     Dispatcher.init();
     Dispatcher.registerOnAddVariable((_, arg) => {
-      this.addVariable(arg);
+      this.variableArray = this.variableArray || [];
+      this.variableArray.push(arg);
+      this.publishChange();
     });
 
-    Dispatcher.registerOnImportFile((e, arg) => {
+    Dispatcher.registerOnImportFile((_, arg) => {
       var converter = new Converter();
       converter.convert(arg).then((result) => {
-        this.replaceVariableArray(result.nodes);
+        this.variableArray = result.nodes;
+        this.publishChange();
       });
     });
-  }
-
-  /**
-   * @params {*} v - variable
-   * @returns {void}
-   */
-  private addVariable(v: any) {
-    this.variableArray = this.variableArray || [];
-    this.variableArray.push(v);
-    this.publishChange();
-  }
-
-  /**
-   * @returns {void}
-   */
-  private addPath() {
-    //
-  }
-
-  /**
-   * @returns {void}
-   */
-  private removeVariable() {
-    //
-  }
-
-  /**
-   * @returns {void}
-   */
-  private removePath() {
-    //
-  }
-
-  /**
-   * @params {string[]} vars - variables
-   * @returns {void}
-   */
-  private replaceVariableArray(vars: string[]) {
-    this.variableArray = vars;
-    this.publishChange();
-  }
-
-  /**
-   * @returns {void}
-   */
-  private publishChange() {
-    this.$rootScope.$broadcast('VariableArrayStore:change', null); // notification only
   }
 
   /**
@@ -108,7 +67,31 @@ class VariableArrayStore {
    * @returns {void}
    */
   addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('VariableArrayStore:change', listener);
+    this.$rootScope.$on(CHANGE_EVENT, listener);
+  }
+
+  /**
+   * @see Stack Overflow {@link http://goo.gl/IRTpGA}
+   * @param {Function} listener
+   * @returns {void}
+   */
+  removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
+    var namedListeners = (<any>this.$rootScope).$$listeners[CHANGE_EVENT];
+    if (namedListeners) {
+      // Loop through the array of named listeners and remove them from the array.
+      for (var i = 0; i < namedListeners.length; i++) {
+        if (namedListeners[i] === listener) {
+          return namedListeners.splice(i, 1);
+        }
+      }
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  private publishChange() {
+    this.$rootScope.$broadcast(CHANGE_EVENT, null); // notification only
   }
 }
 
