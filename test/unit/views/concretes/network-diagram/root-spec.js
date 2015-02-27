@@ -18,7 +18,7 @@ var Definition = NetworkDiagram.Definition;
 describe('NetworkDiagram', () => {
   describe('Controller', () => {
     describe('#subscribe()', () => {
-      beforeEach(() => {
+      before(() => {
         Object.keys(stubStore).forEach((v, _) => {
           stubStore[v].restore();
         });
