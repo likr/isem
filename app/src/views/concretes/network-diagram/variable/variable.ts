@@ -16,13 +16,6 @@ class VariableController {
     private $rootScope: ng.IRootScopeService,
     private $scope: VariableScope
   ) {
-    this.subscribe();
-  }
-
-  /**
-   * @returns {void}
-   */
-  private subscribe() {
     //
   }
 
