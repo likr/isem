@@ -18,7 +18,7 @@ export interface API {
 class VariableArrayStore {
   static CHANGE_EVENT = 'VariableArrayStore:change';
 
-  public variableArray: string[];
+  public variableArray: Array<{label: string}>;
   private $rootScope: ng.IRootScopeService;
 
   /**
@@ -53,9 +53,14 @@ class VariableArrayStore {
    * @returns {Function}
    */
   private onAddVariableCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
-    return (_, arg) => {
+    return (_, label) => {
       this.variableArray = this.variableArray || [];
-      this.variableArray.push(arg);
+      var variable = {
+        label:   label,
+        latent:  true,
+        enabled: true
+      };
+      this.variableArray.push(variable);
       this.publishChange();
     };
   }
@@ -67,7 +72,16 @@ class VariableArrayStore {
     return (_, importedFile) => {
       var converter = new Converter();
       var result = converter.convert(importedFile);
-      this.variableArray = result.nodes;
+      var nodes = result.nodes;
+      var vars = nodes.map((label: string, i: number) => {
+        return {
+          label: label,
+          latent: false,
+          enabled: true,
+          data: result.S[i]
+        };
+      });
+      this.variableArray = vars;
       this.publishChange();
     };
   }
