@@ -79,6 +79,8 @@ class VariableArrayStore {
     return (_, importedFile) => {
       var converter = new Converter();
       var result = converter.convert(importedFile);
+      this.removeAllVertex();
+
       var nodes = result.nodes;
       this.variableArray = nodes.map((label: string, i: number) => {
         var variable = {
@@ -93,6 +95,20 @@ class VariableArrayStore {
       });
       this.publishChange();
     };
+  }
+
+  /**
+   * Remove all vertex.
+   * clearVertex() means remove edge from the in and out itself.
+   * then remove each.
+   *
+   * @returns {void}
+   */
+  private removeAllVertex() {
+    this.graph.vertices().forEach((u: number) => {
+      this.graph.clearVertex(u);
+      this.graph.removeVertex(u);
+    });
   }
 
   /**
