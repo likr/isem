@@ -200,16 +200,34 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#publishChange()', () => {
-    beforeEach(() => {
-      Store.publishChange();
+    afterEach(() => {
+      stubRootScope.$broadcast.reset();
     });
 
-    it('should give the event name to arg[0] of $broadcast()', () => {
-      assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+    context('when normal', () => {
+      beforeEach(() => {
+        Store.publishChange();
+      });
+
+      it('should give the event name to arg[0] of $broadcast()', () => {
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+      });
+
+      it('should NOT give to arg[1] of $broadcast()', () => {
+        assert(stubRootScope.$broadcast.getCall(0).args[1] === void 0);
+      });
     });
 
-    it('should NOT give to arg[1] of $broadcast()', () => {
-      assert(stubRootScope.$broadcast.getCall(0).args[1] == null);
+    context('when an error', () => {
+      var err;
+      beforeEach(() => {
+        err = new Error('dummy');
+        Store.publishChange(err);
+      });
+
+      it('should give the error object to arg[1] of $broadcast()', () => {
+        assert(stubRootScope.$broadcast.getCall(0).args[1] === err);
+      });
     });
   });
 });
