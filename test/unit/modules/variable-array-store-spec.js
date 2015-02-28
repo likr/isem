@@ -75,31 +75,33 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#onImportFileCallback()', () => {
-    var publishChange;
-    beforeEach(() => {
-      publishChange = sinon.stub(Store, 'publishChange');
-      Store.onImportFileCallback()(null, 'dummy');
-    });
+    context('when normal', () => {
+      var publishChange;
+      beforeEach(() => {
+        publishChange = sinon.stub(Store, 'publishChange');
+        Store.onImportFileCallback()(null, 'dummy');
+      });
 
-    afterEach(() => {
-      publishChange.restore();
-    });
+      afterEach(() => {
+        publishChange.restore();
+      });
 
-    it('should give the callbacks arg to arg[0] of Converter#convert()', () => {
-      assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
-    });
+      it('should give the callbacks arg to arg[0] of Converter#convert()', () => {
+        assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
+      });
 
-    it('should replace variables to Store.variableArray', () => {
-      var expected = [
-        {label: 'dummyNodes1', latent: false, enabled: true, data:[1, 2], vertexId: 0},
-        {label: 'dummyNodes2', latent: false, enabled: true, data:[3, 4], vertexId: 1},
-        {label: 'dummyNodes3', latent: false, enabled: true, data:[5, 6], vertexId: 2}
-      ];
-      assert.deepEqual(Store.variableArray, expected);
-    });
+      it('should replace variables to Store.variableArray', () => {
+        var expected = [
+          {label: 'dummyNodes1', latent: false, enabled: true, data:[1, 2], vertexId: 0},
+          {label: 'dummyNodes2', latent: false, enabled: true, data:[3, 4], vertexId: 1},
+          {label: 'dummyNodes3', latent: false, enabled: true, data:[5, 6], vertexId: 2}
+        ];
+        assert.deepEqual(Store.variableArray, expected);
+      });
 
-    it('should do #publishChange()', () => {
-      assert(publishChange.callCount === 1);
+      it('should do #publishChange()', () => {
+        assert(publishChange.callCount === 1);
+      });
     });
   });
 
