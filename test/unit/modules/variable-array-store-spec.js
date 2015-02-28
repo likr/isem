@@ -158,6 +158,30 @@ describe('VariableArrayStore', () => {
     });
   });
 
+  describe('#removeAllVertex()', () => {
+    beforeEach(() => {
+      Store.removeAllVertex();
+    });
+
+    it('should do AdjacencyList#clearVertex() 3 times', () => {
+      assert(stubAdjacencyList.clearVertex.callCount === 3);
+    });
+
+    it('should do AdjacencyList#removeVertex() 3 times', () => {
+      assert(stubAdjacencyList.removeVertex.callCount === 3);
+    });
+
+    it('The argument of when called should be vertexId', () => {
+      var stub = stubAdjacencyList.clearVertex;
+      var actual = [
+        stub.getCall(0).args[0],
+        stub.getCall(1).args[0],
+        stub.getCall(2).args[0]
+      ];
+      assert.deepEqual(actual, [42, 43, 44]);
+    });
+  });
+
   describe('#addChangeListener()', () => {
     var dummy = 'addChangeListenerListener';
     beforeEach(() => {
