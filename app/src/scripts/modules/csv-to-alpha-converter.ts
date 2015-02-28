@@ -12,26 +12,27 @@ class CsvToAlphaConverter {
   }
 
   /**
-   * @params {*} data
-   * @returns {*}
+   * @params {Array} data
+   * @returns {Object}
    */
-  convert(data: any[]): {nodes: string[]; S: number[][];} {
-    var nodes = this.makeNodes(data[0]);
+  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][];} {
+    var singleData = data[0];
+    var nodes = this.makeNodes(singleData);
     var S = this.makeS(data, nodes);
     return {nodes: nodes, S: S};
   }
 
   /**
-   * @param {*} data
+   * @param {Object} data
    * @returns {string[]}
    */
-  private makeNodes(data: any): string[] {
-    var vars: string[] = [];
+  private makeNodes(data: {[label: string]: string}): string[] {
+    var labels: string[] = [];
     var v: string;
     for (v in data) {
-      if (data.hasOwnProperty(v)) {vars.push(v);}
+      if (data.hasOwnProperty(v)) {labels.push(v);}
     }
-    return vars;
+    return labels;
   }
 
   /**
@@ -39,9 +40,11 @@ class CsvToAlphaConverter {
    * @param {string[]} vars
    * @returns {string[]}
    */
-  private makeS(data: any, vars: string[]): number[][] {
+  private makeS(data: Array<{[label: string]: string}>, vars: string[]): number[][] {
     var x = vars.map((key: string): number[] => {
-      return data.map((d: {[key: string]: number}): number => d[key]);
+      return data.map((d: {[label: string]: string}): number => {
+        return parseInt(d[key], 10);
+      });
     });
     return semjs.stats.cov(x);
   }
