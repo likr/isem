@@ -61,9 +61,9 @@ class VariableArrayStore {
     return (_, label) => {
       this.variableArray = this.variableArray || [];
       var variable = {
-        label:   label,
-        latent:  true,
-        enabled: true,
+        label:    label,
+        latent:   true,
+        enabled:  true,
         vertexId: <number>void 0
       };
       variable.vertexId = this.graph.addVertex(variable);
@@ -94,10 +94,10 @@ class VariableArrayStore {
       var nodes = result.nodes;
       this.variableArray = nodes.map((label: string, i: number) => {
         var variable = {
-          label: label,
-          latent: false,
-          enabled: true,
-          data: result.S[i],
+          label:    label,
+          latent:   false,
+          enabled:  true,
+          data:     result.S[i],
           vertexId: <number>void 0
         };
         variable.vertexId = this.graph.addVertex(variable);
