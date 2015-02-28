@@ -7,6 +7,7 @@ var stubAdjacencyList = require('../../mocks/browser/egrid-core').stubAdjacencyL
 var stubDispatcher    = require('../../mocks/isem/variable-array-dispatcher').stub;
 
 var converterTestDouble = require('../../mocks/isem/csv-to-alpha-converter');
+var mockConverter = converterTestDouble.mock;
 var stubConverter = converterTestDouble.stub;
 var dummyResult   = converterTestDouble.dummyResult;
 
@@ -75,19 +76,35 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#onImportFileCallback()', () => {
-    context('when normal', () => {
-      var publishChange;
-      beforeEach(() => {
-        publishChange = sinon.stub(Store, 'publishChange');
-        Store.onImportFileCallback()(null, 'dummy');
-      });
+    // commonize for afterEach
+    function stubConverter_convert_restore() {
+      stubConverter.convert.restore();
+      stubConverter.convert = sinon.stub(mockConverter.prototype, 'convert');
+    }
 
-      afterEach(() => {
-        publishChange.restore();
+    var publishChange;
+    var removeAllVertex;
+    beforeEach(() => {
+      publishChange   = sinon.stub(Store, 'publishChange');
+      removeAllVertex = sinon.stub(Store, 'removeAllVertex');
+    });
+
+    afterEach(() => {
+      publishChange.restore();
+      removeAllVertex.restore();
+    });
+
+    context('when normal', () => {
+      beforeEach(() => {
+        Store.onImportFileCallback()(null, 'dummy');
       });
 
       it('should give the callbacks arg to arg[0] of Converter#convert()', () => {
         assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
+      });
+
+      it('should do #removeAllVertex()', () => {
+        assert(removeAllVertex.callCount === 1);
       });
 
       it('should replace variables to Store.variableArray', () => {
@@ -101,6 +118,42 @@ describe('VariableArrayStore', () => {
 
       it('should do #publishChange()', () => {
         assert(publishChange.callCount === 1);
+      });
+    });
+
+    context('when converter threw', () => {
+      beforeEach(() => {
+        stubConverter.convert.throws('TypeError');
+        Store.onImportFileCallback()(null, 'dummy');
+      });
+
+      afterEach(stubConverter_convert_restore);
+
+      it('should give the error object to arg[0] of #publishChange()', () => {
+        var error = publishChange.getCall(0).args[0];
+        assert(error.name === 'TypeError');
+      });
+
+      it('should NOT do #removeAllVertex()', () => {
+        assert(removeAllVertex.callCount === 0);
+      });
+    });
+
+    context('when returned no result', () => {
+      beforeEach(() => {
+        stubConverter.convert.returns(void 0);
+        Store.onImportFileCallback()(null, 'dummy');
+      });
+
+      afterEach(stubConverter_convert_restore);
+
+      it('should give the error object to arg[0] of #publishChange()', () => {
+        var error = publishChange.getCall(0).args[0];
+        assert(error.name === 'Error');
+      });
+
+      it('should NOT do #removeAllVertex()', () => {
+        assert(removeAllVertex.callCount === 0);
       });
     });
   });
