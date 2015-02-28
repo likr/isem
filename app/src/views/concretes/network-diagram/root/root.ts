@@ -18,7 +18,8 @@ export class Controller {
    * @ngInject
    */
   constructor(private $scope: Scope) {
-    // Callbacks must be stored once in the variable for give to removeListener()
+    // Callbacks must be stored once in the variable
+    // for give to removeListener()
     this._changeCallback = this.changeCallback();
     this.subscribe();
   }
