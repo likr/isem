@@ -1,18 +1,26 @@
 'use strict';
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon = require('sinon');
+var sinon  = require('sinon');
 
-var stubRootScope = require('../../mocks/browser/angular').stubRootScope;
-var stubDispatcher = require('../../mocks/isem/variable-array-dispatcher').stub;
-var converterDummies = require('../../mocks/isem/csv-to-alpha-converter');
-var stubConverter = converterDummies.stub;
-var dummyResult = converterDummies.dummyResult;
+var stubRootScope     = require('../../mocks/browser/angular').stubRootScope;
+var stubAdjacencyList = require('../../mocks/browser/egrid-core').stubAdjacencyList;
+var stubDispatcher    = require('../../mocks/isem/variable-array-dispatcher').stub;
+
+var converterTestDouble = require('../../mocks/isem/csv-to-alpha-converter');
+var stubConverter = converterTestDouble.stub;
+var dummyResult   = converterTestDouble.dummyResult;
 
 var Store = require('../../../app/src/scripts/modules/variable-array-store').singleton;
 
 describe('VariableArrayStore', () => {
+  beforeEach(() => {
+    Object.keys(stubAdjacencyList).forEach(v => stubAdjacencyList[v].reset());
+    Store.init();
+  });
+
   describe('#register()', () => {
-    before(() => {
+    beforeEach(() => {
+      Object.keys(stubDispatcher).forEach(v => stubDispatcher[v].reset());
       Store.register();
     });
 
@@ -43,18 +51,22 @@ describe('VariableArrayStore', () => {
 
   describe('#onAddVariableCallback()', () => {
     var publishChange;
-    before(() => {
+    beforeEach(() => {
       publishChange = sinon.stub(Store, 'publishChange');
-      Store.variableArray = ['A'];
-      Store.onAddVariableCallback()(null, 'B');
+      Store.variableArray = ['1stDummy'];
+      Store.onAddVariableCallback()(null, '2ndDummy');
     });
 
-    after(() => {
+    afterEach(() => {
       publishChange.restore();
     });
 
     it('should set new variable to Store.variableArray', () => {
-      assert.deepEqual(Store.variableArray, ['A', 'B']);
+      var expected = [
+        '1stDummy',
+        {label: '2ndDummy', latent: true, enabled: true, vertexId: 0}
+      ];
+      assert.deepEqual(Store.variableArray, expected);
     });
 
     it('should do #publishChange()', () => {
@@ -64,12 +76,12 @@ describe('VariableArrayStore', () => {
 
   describe('#onImportFileCallback()', () => {
     var publishChange;
-    before(() => {
+    beforeEach(() => {
       publishChange = sinon.stub(Store, 'publishChange');
       Store.onImportFileCallback()(null, 'dummy');
     });
 
-    after(() => {
+    afterEach(() => {
       publishChange.restore();
     });
 
@@ -78,7 +90,12 @@ describe('VariableArrayStore', () => {
     });
 
     it('should replace variables to Store.variableArray', () => {
-      assert.deepEqual(Store.variableArray, dummyResult.nodes);
+      var expected = [
+        {label: 'dummyNodes1', latent: false, enabled: true, data:[1, 2], vertexId: 0},
+        {label: 'dummyNodes2', latent: false, enabled: true, data:[3, 4], vertexId: 1},
+        {label: 'dummyNodes3', latent: false, enabled: true, data:[5, 6], vertexId: 2}
+      ];
+      assert.deepEqual(Store.variableArray, expected);
     });
 
     it('should do #publishChange()', () => {
@@ -88,7 +105,7 @@ describe('VariableArrayStore', () => {
 
   describe('#addChangeListener()', () => {
     var dummy = 'addChangeListenerListener';
-    before(() => {
+    beforeEach(() => {
       stubRootScope.$on.reset();
       Store.init();
       Store.addChangeListener(dummy);
@@ -104,8 +121,7 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#publishChange()', () => {
-    before(() => {
-      stubRootScope.$on.reset();
+    beforeEach(() => {
       Store.publishChange();
     });
 
