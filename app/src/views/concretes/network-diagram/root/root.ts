@@ -33,12 +33,15 @@ export class Controller {
   }
 
   /**
-   * This callback args are non-use
-   *
    * @returns {Function}
    */
-  private changeCallback(): (e: ng.IAngularEvent, args: any) => void {
-    return (_, __) => {
+  private changeCallback(): (e: ng.IAngularEvent, err: any) => void {
+    return (_, err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
       // This requires JS native setTimeout because needs forced to $apply
       setTimeout(() => {
         this.$scope.$apply(() => {

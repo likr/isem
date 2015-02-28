@@ -77,8 +77,18 @@ class VariableArrayStore {
    */
   private onImportFileCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
     return (_, importedFile) => {
-      var converter = new Converter();
-      var result = converter.convert(importedFile);
+      try {
+        var converter = new Converter();
+        var result = converter.convert(importedFile);
+      } catch (e) {
+        return this.publishChange(e);
+      }
+
+      if (!result) {
+        var err = new Error('There is no converted result from the imported file');
+        return this.publishChange(err);
+      }
+
       this.removeAllVertex();
 
       var nodes = result.nodes;
@@ -131,10 +141,11 @@ class VariableArrayStore {
   }
 
   /**
+   * @param {*} err
    * @returns {void}
    */
-  private publishChange() {
-    this.$rootScope.$broadcast(VariableArrayStore.CHANGE_EVENT, null); // notification only
+  private publishChange(err?: any) {
+    this.$rootScope.$broadcast(VariableArrayStore.CHANGE_EVENT, err);
   }
 }
 
