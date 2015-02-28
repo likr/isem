@@ -21,6 +21,10 @@ class Injector {
     return document;
   }
 
+  static egridCore(): typeof egrid {
+    return require('egrid-core');
+  }
+
   static FileReader(): typeof FileReader {
     return FileReader;
   }
