@@ -1,6 +1,7 @@
 'use strict';
 import Injector = require('../injector');
 var angular = Injector.angular();
+var egrid = Injector.egrid();
 
 import IsemInjector = require('../isem-injector');
 var app = IsemInjector.app();
@@ -8,6 +9,7 @@ var Converter = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.VariableArrayDispatcher();
 
 export interface API {
+  graph: egrid.core.Graph;
   variableArray: string[];
 
   init(): void;
@@ -18,7 +20,9 @@ export interface API {
 class VariableArrayStore {
   static CHANGE_EVENT = 'VariableArrayStore:change';
 
+  public graph: egrid.core.Graph;
   public variableArray: Array<{label: string}>;
+
   private $rootScope: ng.IRootScopeService;
 
   /**
@@ -34,6 +38,7 @@ class VariableArrayStore {
   init() {
     var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
     this.$rootScope = rootElement.scope();
+    this.graph = egrid.core.graph.adjacencyList();
 
     this.register();
   }
@@ -58,8 +63,10 @@ class VariableArrayStore {
       var variable = {
         label:   label,
         latent:  true,
-        enabled: true
+        enabled: true,
+        vertexId: <number>void 0
       };
+      variable.vertexId = this.graph.addVertex(variable);
       this.variableArray.push(variable);
       this.publishChange();
     };
@@ -73,15 +80,17 @@ class VariableArrayStore {
       var converter = new Converter();
       var result = converter.convert(importedFile);
       var nodes = result.nodes;
-      var vars = nodes.map((label: string, i: number) => {
-        return {
+      this.variableArray = nodes.map((label: string, i: number) => {
+        var variable = {
           label: label,
           latent: false,
           enabled: true,
-          data: result.S[i]
+          data: result.S[i],
+          vertexId: <number>void 0
         };
+        variable.vertexId = this.graph.addVertex(variable);
+        return variable;
       });
-      this.variableArray = vars;
       this.publishChange();
     };
   }
