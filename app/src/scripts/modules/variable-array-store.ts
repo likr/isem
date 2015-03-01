@@ -62,18 +62,8 @@ class VariableArrayStore {
    */
   private onAddVariableCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
     return (_, label) => {
-      var memento: typeVertex.Props[] = this.graph.vertices().map((u) => {
-        return this.graph.get(u);
-      });
-
-      var variable = Vertex.newLatentVariable(this.graph, label);
-
-      try {
-        this.variableArray = this.variableArray || [];
-        this.variableArray.push(variable);
-      } catch (e) {
-        // TODO: Implement rollback after supports edge.
-      }
+      Vertex.addLatentVariable(this.graph, label);
+      this.replaceVariableArray();
       this.publishChange();
     };
   }
@@ -95,13 +85,31 @@ class VariableArrayStore {
         return this.publishChange(err);
       }
 
-      this.removeAllVertex();
-
-      this.variableArray = result.nodes.map((label: string, i: number) => {
-        return Vertex.newObservedVariable(this.graph, label, result.S[i]);
-      });
+      this.replaceAllVertex(result);
       this.publishChange();
     };
+  }
+
+  /**
+   * @returns {void}
+   */
+  private replaceVariableArray() {
+    this.variableArray = <any>this.graph.vertices().map((u) => {
+      var vertex = this.graph.get(u);
+      vertex.vertexId = u;
+      return vertex;
+    });
+  }
+
+  /**
+   * @returns {void}
+   */
+  private replaceAllVertex(result: {nodes: string[]; S: number[][]}) {
+    this.removeAllVertex();
+    result.nodes.forEach((label: string, i: number) => {
+      return Vertex.addObservedVariable(this.graph, label, result.S[i]);
+    });
+    this.replaceVariableArray();
   }
 
   /**

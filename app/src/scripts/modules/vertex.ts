@@ -1,8 +1,8 @@
 'use strict';
 
 export interface Constructor {
-  newObservedVariable(adjacencyList: egrid.core.Graph, label: string, data: number[]): Instance;
-  newLatentVariable(adjacencyList: egrid.core.Graph, label: string): Instance;
+  addObservedVariable(adjacencyList: egrid.core.Graph, label: string, data: number[]): Instance;
+  addLatentVariable(adjacencyList: egrid.core.Graph, label: string): Instance;
 }
 
 export interface Props {
@@ -22,8 +22,6 @@ class Vertex implements Props {
   public enabled: boolean;
   public data:    number[];
 
-  private vertexId: number;
-
   /**
    * @constructor
    * @param {egrid.core.Graph} adjacencyList
@@ -37,7 +35,8 @@ class Vertex implements Props {
     this.enabled = true;
     this.data    = data || void 0;
 
-    this.vertexId = adjacencyList.addVertex(Vertex.deepCopy(this));
+    // deepCopy() removes unnecessary prototype props
+    adjacencyList.addVertex(Vertex.deepCopy(this));
   }
 
   /**
@@ -62,7 +61,7 @@ class Vertex implements Props {
    * @param {number[]} data
    * @returns {Vertex}
    */
-  static newObservedVariable(adjacencyList: egrid.core.Graph, label: string, data: number[]) {
+  static addObservedVariable(adjacencyList: egrid.core.Graph, label: string, data: number[]) {
     return new Vertex(adjacencyList, label, false, data);
   }
 
@@ -71,10 +70,10 @@ class Vertex implements Props {
    * @param {string} label
    * @returns {Vertex}
    */
-  static newLatentVariable(adjacencyList: egrid.core.Graph, label: string) {
+  static addLatentVariable(adjacencyList: egrid.core.Graph, label: string) {
     return new Vertex(adjacencyList, label, true);
   }
 }
 
-module.exports.newObservedVariable = Vertex.newObservedVariable;
-module.exports.newLatentVariable   = Vertex.newLatentVariable;
+module.exports.addObservedVariable = Vertex.addObservedVariable;
+module.exports.addLatentVariable   = Vertex.addLatentVariable;

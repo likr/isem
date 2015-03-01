@@ -54,7 +54,9 @@ describe('VariableArrayStore', () => {
     var publishChange;
     beforeEach(() => {
       publishChange = sinon.stub(Store, 'publishChange');
-      Store.variableArray = ['1stDummy'];
+      Store.variableArray = [
+        {label: 'dummy42', vertexId: 42}
+      ];
       Store.onAddVariableCallback()(null, '2ndDummy');
     });
 
@@ -62,10 +64,13 @@ describe('VariableArrayStore', () => {
       publishChange.restore();
     });
 
-    it('should set new variable to Store.variableArray', () => {
-      assert(Store.variableArray[0] === '1stDummy');
-      assert(Store.variableArray[1].label === '2ndDummy');
-      assert(Store.variableArray[1].latent === true);
+    it('should replace variables to Store.variableArray', () => {
+      var expected = [
+        {label: 'dummy42', vertexId: 42},
+        {label: 'dummy43', vertexId: 43},
+        {label: 'dummy44', vertexId: 44}
+      ];
+      assert.deepEqual(Store.variableArray, expected);
     });
 
     it('should do #publishChange()', () => {
@@ -107,9 +112,9 @@ describe('VariableArrayStore', () => {
 
       it('should replace variables to Store.variableArray', () => {
         var expected = [
-          {label: 'dummyNodes1', latent: false, enabled: true, data:[1, 2], vertexId: 0},
-          {label: 'dummyNodes2', latent: false, enabled: true, data:[3, 4], vertexId: 1},
-          {label: 'dummyNodes3', latent: false, enabled: true, data:[5, 6], vertexId: 2}
+          {label: 'dummy42', vertexId: 42},
+          {label: 'dummy43', vertexId: 43},
+          {label: 'dummy44', vertexId: 44}
         ];
         assert.deepEqual(Store.variableArray, expected);
       });
