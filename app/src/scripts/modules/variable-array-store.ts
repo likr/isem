@@ -21,7 +21,8 @@ export interface API {
 }
 
 class VariableArrayStore {
-  static CHANGE_EVENT = 'VariableArrayStore:change';
+  // local constant
+  static CHANGE_EVENT = 'VariableArrayStore:CHANGE_EVENT';
 
   public graph: egrid.core.Graph;
   public variableArray: Array<typeVertex.Instance>;
