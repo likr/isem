@@ -34,10 +34,8 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
-    Renderer.init();
-
-    Store.init();
     Store.addChangeListener(this._changeCallback);
+    Renderer.addChangeListener(void 0);
   }
 
   /**

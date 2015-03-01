@@ -15,7 +15,6 @@ export interface API {
   graph: egrid.core.Graph;
   variableArray: string[];
 
-  init(): void;
   addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
@@ -41,7 +40,7 @@ class Store {
   /**
    * @returns {void}
    */
-  init() {
+  private init() {
     var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
     this.$rootScope = rootElement.scope();
     this.graph = egrid.core.graph.adjacencyList();
@@ -55,7 +54,6 @@ class Store {
    * @returns {void}
    */
   private register() {
-    Dispatcher.init();
     Dispatcher.registerOnAddVariable(this.onAddVariableCallback());
     Dispatcher.registerOnImportFile(this.onImportFileCallback());
   }
@@ -136,6 +134,7 @@ class Store {
    * @returns {void}
    */
   addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+    if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(Store.CHANGE_EVENT, listener);
   }
 
@@ -144,6 +143,7 @@ class Store {
    * @returns {void}
    */
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+    if (!this.$rootScope) {this.init()}
     var listeners = (<any>this.$rootScope).$$listeners[Store.CHANGE_EVENT];
     app.removeListener(listeners, listener);
   }
