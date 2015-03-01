@@ -1,7 +1,7 @@
 'use strict';
 import Injector = require('../injector');
 var angular = Injector.angular();
-var semjs = Injector.semjs();
+var semjs   = Injector.semjs();
 
 class CsvToAlphaConverter {
   /**
@@ -18,7 +18,7 @@ class CsvToAlphaConverter {
   convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][];} {
     var singleData = data[0];
     var nodes = this.makeNodes(singleData);
-    var S = this.makeS(data, nodes);
+    var S     = this.makeS(data, nodes);
     return {nodes: nodes, S: S};
   }
 
