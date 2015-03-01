@@ -9,7 +9,11 @@
     width: initial; /* for Modern Browsers */
   "><!-- only use float styling from .col-md-10 -->
     <isem-network-diagram-tool-group></isem-network-diagram-tool-group>
-    <isem-network-diagram-display isem-io-variable-array="NetworkDiagramController.$scope._variableArray"></isem-network-diagram-display>
+
+    <isem-network-diagram-display
+      isem-io-graph="NetworkDiagramController.$scope._graph"
+    ></isem-network-diagram-display>
+
     <isem-network-diagram-value-group></isem-network-diagram-value-group>
   </div>
 </div>

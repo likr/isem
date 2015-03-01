@@ -8,6 +8,7 @@ var Store = IsemInjector.VariableArrayStore();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
+  _graph: egrid.core.Graph;
 }
 
 export class Controller {
@@ -17,7 +18,10 @@ export class Controller {
    * @constructor
    * @ngInject
    */
-  constructor(private $scope: Scope) {
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private $scope: Scope
+  ) {
     // Callbacks must be stored once in the variable
     // for give to removeListener()
     this._changeCallback = this.changeCallback();
@@ -46,6 +50,9 @@ export class Controller {
       setTimeout(() => {
         this.$scope.$apply(() => {
           this.$scope._variableArray = Store.variableArray;
+          this.$scope._graph         = Store.graph;
+          // UGLY!!
+          this.$rootScope.$broadcast('updateGraph', null);
         });
       }, 0); // Immediate execution
     };
