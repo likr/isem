@@ -3,9 +3,9 @@ var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 
 var stubRootScope = require('../../mocks/browser/angular').stubRootScope;
-var Dispatcher = require('../../../app/src/scripts/modules/variable-array-dispatcher').singleton;
+var Dispatcher = require('../../../app/src/scripts/modules/network-diagram-dispatcher').singleton;
 
-describe('VariableArrayDispatcher', () => {
+describe('NetworkDiagramDispatcher', () => {
   describe('#registerOnAddVariable()', () => {
     var dummy = 'registerOnAddVariableListener';
     before(() => {
@@ -15,7 +15,7 @@ describe('VariableArrayDispatcher', () => {
     });
 
     it('should give the event name to arg[0] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[0] === 'VariableArrayDispatcher:addVariable');
+      assert(stubRootScope.$on.getCall(0).args[0] === 'NetworkDiagramDispatcher:addVariable');
     });
 
     it('should give the listener to arg[1] of $on()', () => {
@@ -32,7 +32,7 @@ describe('VariableArrayDispatcher', () => {
     });
 
     it('should give the event name to arg[0] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[0] === 'VariableArrayDispatcher:importFile');
+      assert(stubRootScope.$on.getCall(0).args[0] === 'NetworkDiagramDispatcher:importFile');
     });
 
     it('should give the listener to arg[1] of $on()', () => {

@@ -54,7 +54,7 @@ export class Controller {
   private fileReaderOnLoad() {
     return (e: EventAltered) => {
       var data = d3.csv.parse(e.target.result);
-      this.$rootScope.$broadcast('VariableArrayDispatcher:importFile', data);
+      this.$rootScope.$broadcast('NetworkDiagramDispatcher:importFile', data);
     };
   }
 }

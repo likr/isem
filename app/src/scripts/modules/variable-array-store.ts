@@ -8,7 +8,7 @@ var egrid   = Injector.egrid();
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Converter  = IsemInjector.CsvToAlphaConverter();
-var Dispatcher = IsemInjector.VariableArrayDispatcher();
+var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
 var Vertex     = IsemInjector.Vertex();
 
 export interface API {

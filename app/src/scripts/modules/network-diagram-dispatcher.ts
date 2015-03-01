@@ -8,7 +8,7 @@ export interface API {
   registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
-class VariableArrayDispatcher {
+class Dispatcher {
   private $rootScope: ng.IRootScopeService;
 
   /**
@@ -31,7 +31,7 @@ class VariableArrayDispatcher {
    * @returns {void}
    */
   registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('VariableArrayDispatcher:addVariable', listener);
+    this.$rootScope.$on('NetworkDiagramDispatcher:addVariable', listener);
   }
 
   /**
@@ -39,8 +39,8 @@ class VariableArrayDispatcher {
    * @returns {void}
    */
   registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('VariableArrayDispatcher:importFile', listener);
+    this.$rootScope.$on('NetworkDiagramDispatcher:importFile', listener);
   }
 }
 
-export var singleton = new VariableArrayDispatcher();
+export var singleton = new Dispatcher();

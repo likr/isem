@@ -4,7 +4,7 @@ var sinon  = require('sinon');
 
 var stubRootScope     = require('../../mocks/browser/angular').stubRootScope;
 var stubAdjacencyList = require('../../mocks/browser/egrid-core').stubAdjacencyList;
-var stubDispatcher    = require('../../mocks/isem/variable-array-dispatcher').stub;
+var stubDispatcher    = require('../../mocks/isem/network-diagram-dispatcher').stub;
 
 var converterTestDouble = require('../../mocks/isem/csv-to-alpha-converter');
 var mockConverter = converterTestDouble.mock;

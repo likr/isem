@@ -36,7 +36,7 @@ describe('DialogAddLatentVariable', () => {
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'VariableArrayDispatcher:addVariable');
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'NetworkDiagramDispatcher:addVariable');
       });
 
       it('should give the value to arg[1] of $broadcast()', () => {

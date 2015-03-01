@@ -26,7 +26,7 @@ export class Controller {
    * @param {string} v - variable
    */
   add(v: string) {
-    this.$rootScope.$broadcast('VariableArrayDispatcher:addVariable', v);
+    this.$rootScope.$broadcast('NetworkDiagramDispatcher:addVariable', v);
     this.$scope.dialog.close();
   }
 }

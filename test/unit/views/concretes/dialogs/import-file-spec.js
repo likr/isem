@@ -63,7 +63,7 @@ describe('DialogImportFile', () => {
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'VariableArrayDispatcher:importFile');
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'NetworkDiagramDispatcher:importFile');
       });
 
       it('should give the value to arg[1] of $broadcast()', () => {

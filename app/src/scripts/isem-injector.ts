@@ -1,7 +1,7 @@
 'use strict';
 import app = require('./app');
 import CsvToAlphaConverter = require('./modules/csv-to-alpha-converter');
-import VariableArrayDispatcher = require('./modules/variable-array-dispatcher');
+import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
 import VariableArrayStore = require('./modules/variable-array-store');
 import Vertex = require('./modules/vertex');
 
@@ -18,8 +18,8 @@ class IsemInjector {
     return require('./modules/csv-to-alpha-converter');
   }
 
-  static VariableArrayDispatcher(): VariableArrayDispatcher.API {
-    return require('./modules/variable-array-dispatcher').singleton;
+  static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
+    return require('./modules/network-diagram-dispatcher').singleton;
   }
 
   static VariableArrayStore(): VariableArrayStore.API {

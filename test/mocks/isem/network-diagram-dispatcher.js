@@ -7,7 +7,7 @@ mock.prototype.init = () => {};
 mock.prototype.registerOnAddVariable = () => {};
 mock.prototype.registerOnImportFile = () => {};
 
-sinon.stub(IsemInjector, 'VariableArrayDispatcher').returns(mock.prototype);
+sinon.stub(IsemInjector, 'NetworkDiagramDispatcher').returns(mock.prototype);
 
 var stub = {
   init:                  sinon.stub(mock.prototype, 'init'),
