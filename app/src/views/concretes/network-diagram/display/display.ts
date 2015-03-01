@@ -134,9 +134,7 @@ function ddo() {
     controller: Controller,
     controllerAs: 'Controller',
     templateUrl: app.viewsDir.networkDiagram + 'display/display.html',
-    scope: {
-      graph: '=isemIoGraph',
-    }
+    scope: {}
   }
 }
 
