@@ -5,6 +5,7 @@ var Injector = require('../../../app/src/scripts/injector');
 function mockAdjacencyList() {}
 mockAdjacencyList.addVertex = () => {};
 mockAdjacencyList.clearVertex = () => {};
+mockAdjacencyList.get = () => {};
 mockAdjacencyList.removeVertex = () => {};
 mockAdjacencyList.vertices = () => {};
 
@@ -22,6 +23,7 @@ sinon.stub(Injector, 'egrid').returns(mockEgrid);
 var stubAdjacencyList = {
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
+  get:          sinon.stub(mockAdjacencyList, 'get'),
   removeVertex: sinon.stub(mockAdjacencyList, 'removeVertex'),
   vertices:     sinon.stub(mockAdjacencyList, 'vertices').returns([42, 43, 44])
 };

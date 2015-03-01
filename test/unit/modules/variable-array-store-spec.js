@@ -63,11 +63,9 @@ describe('VariableArrayStore', () => {
     });
 
     it('should set new variable to Store.variableArray', () => {
-      var expected = [
-        '1stDummy',
-        {label: '2ndDummy', latent: true, enabled: true, vertexId: 0}
-      ];
-      assert.deepEqual(Store.variableArray, expected);
+      assert(Store.variableArray[0] === '1stDummy');
+      assert(Store.variableArray[1].label === '2ndDummy');
+      assert(Store.variableArray[1].latent === true);
     });
 
     it('should do #publishChange()', () => {

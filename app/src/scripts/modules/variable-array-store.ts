@@ -1,12 +1,15 @@
 'use strict';
+import typeVertex = require('../modules/vertex');
+
 import Injector = require('../injector');
 var angular = Injector.angular();
-var egrid = Injector.egrid();
+var egrid   = Injector.egrid();
 
 import IsemInjector = require('../isem-injector');
-var app = IsemInjector.app();
-var Converter = IsemInjector.CsvToAlphaConverter();
+var app        = IsemInjector.app();
+var Converter  = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.VariableArrayDispatcher();
+var Vertex     = IsemInjector.Vertex();
 
 export interface API {
   graph: egrid.core.Graph;
@@ -21,7 +24,7 @@ class VariableArrayStore {
   static CHANGE_EVENT = 'VariableArrayStore:change';
 
   public graph: egrid.core.Graph;
-  public variableArray: Array<{label: string}>;
+  public variableArray: Array<typeVertex.Instance>;
 
   private $rootScope: ng.IRootScopeService;
 
@@ -59,15 +62,18 @@ class VariableArrayStore {
    */
   private onAddVariableCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
     return (_, label) => {
-      this.variableArray = this.variableArray || [];
-      var variable = {
-        label:    label,
-        latent:   true,
-        enabled:  true,
-        vertexId: <number>void 0
-      };
-      variable.vertexId = this.graph.addVertex(variable);
-      this.variableArray.push(variable);
+      var memento: typeVertex.Props[] = this.graph.vertices().map((u) => {
+        return this.graph.get(u);
+      });
+
+      var variable = Vertex.newLatentVariable(this.graph, label);
+
+      try {
+        this.variableArray = this.variableArray || [];
+        this.variableArray.push(variable);
+      } catch (e) {
+        // TODO: Implement rollback after supports edge.
+      }
       this.publishChange();
     };
   }
@@ -91,17 +97,8 @@ class VariableArrayStore {
 
       this.removeAllVertex();
 
-      var nodes = result.nodes;
-      this.variableArray = nodes.map((label: string, i: number) => {
-        var variable = {
-          label:    label,
-          latent:   false,
-          enabled:  true,
-          data:     result.S[i],
-          vertexId: <number>void 0
-        };
-        variable.vertexId = this.graph.addVertex(variable);
-        return variable;
+      this.variableArray = result.nodes.map((label: string, i: number) => {
+        return Vertex.newObservedVariable(this.graph, label, result.S[i]);
       });
       this.publishChange();
     };
