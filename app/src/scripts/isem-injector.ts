@@ -1,9 +1,11 @@
 'use strict';
-import app = require('./app');
-import CsvToAlphaConverter = require('./modules/csv-to-alpha-converter');
+import app       = require('./app');
+import constants = require('./constants');
+
+import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
-import VariableArrayStore = require('./modules/variable-array-store');
-import Vertex = require('./modules/vertex');
+import VariableArrayStore       = require('./modules/variable-array-store');
+import Vertex                   = require('./modules/vertex');
 
 /**
  * Injector is the class that injects modules in the domain of isem.
@@ -12,6 +14,10 @@ import Vertex = require('./modules/vertex');
 class IsemInjector {
   static app(): typeof app {
     return require('./app');
+  }
+
+  static constants(): typeof constants {
+    return require('./constants');
   }
 
   static CsvToAlphaConverter(): typeof CsvToAlphaConverter {

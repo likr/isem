@@ -2,6 +2,9 @@
 import Injector = require('../injector');
 var angular = Injector.angular();
 
+import IsemInjector = require('../isem-injector');
+var constants = IsemInjector.constants();
+
 export interface API {
   init(): void;
   registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
@@ -31,7 +34,7 @@ class Dispatcher {
    * @returns {void}
    */
   registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('NetworkDiagramDispatcher:addVariable', listener);
+    this.$rootScope.$on(constants.ADD_LATENT_VARIABLE, listener);
   }
 
   /**

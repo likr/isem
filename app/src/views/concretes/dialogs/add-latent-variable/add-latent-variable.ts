@@ -3,7 +3,8 @@ import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../../../scripts/isem-injector');
-var app = IsemInjector.app();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
 
 interface Scope extends ng.IScope {
   dialog: any;
@@ -26,7 +27,7 @@ export class Controller {
    * @param {string} v - variable
    */
   add(v: string) {
-    this.$rootScope.$broadcast('NetworkDiagramDispatcher:addVariable', v);
+    this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, v);
     this.$scope.dialog.close();
   }
 }
