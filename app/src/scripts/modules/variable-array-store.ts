@@ -16,17 +16,19 @@ export interface API {
   variableArray: string[];
 
   init(): void;
-  addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
-  removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
+  addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
-class VariableArrayStore {
-  // local constant
+class Store {
+  /* local constant */
   static CHANGE_EVENT = 'VariableArrayStore:CHANGE_EVENT';
 
-  public graph: egrid.core.Graph;
-  public variableArray: Array<typeVertex.Instance>;
+  /* public */
+  graph: egrid.core.Graph;
+  variableArray: Array<typeVertex.Instance>;
 
+  /* private */
   private $rootScope: ng.IRootScopeService;
 
   /**
@@ -61,7 +63,7 @@ class VariableArrayStore {
   /**
    * @returns {Function}
    */
-  private onAddVariableCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
+  private onAddVariableCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
     return (_, label) => {
       Vertex.addLatentVariable(this.graph, label);
       this.replaceVariableArray();
@@ -72,7 +74,7 @@ class VariableArrayStore {
   /**
    * @returns {Function}
    */
-  private onImportFileCallback(): (event: ng.IAngularEvent, ...args: any[]) => any {
+  private onImportFileCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
     return (_, importedFile) => {
       try {
         var converter = new Converter();
@@ -133,16 +135,16 @@ class VariableArrayStore {
    * @param {Function} listener
    * @returns {void}
    */
-  addChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on(VariableArrayStore.CHANGE_EVENT, listener);
+  addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+    this.$rootScope.$on(Store.CHANGE_EVENT, listener);
   }
 
   /**
    * @param {Function} listener
    * @returns {void}
    */
-  removeChangeListener(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    var listeners = (<any>this.$rootScope).$$listeners[VariableArrayStore.CHANGE_EVENT];
+  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+    var listeners = (<any>this.$rootScope).$$listeners[Store.CHANGE_EVENT];
     app.removeListener(listeners, listener);
   }
 
@@ -151,8 +153,8 @@ class VariableArrayStore {
    * @returns {void}
    */
   private publishChange(err?: any) {
-    this.$rootScope.$broadcast(VariableArrayStore.CHANGE_EVENT, err);
+    this.$rootScope.$broadcast(Store.CHANGE_EVENT, err);
   }
 }
 
-export var singleton = new VariableArrayStore();
+export var singleton = new Store();

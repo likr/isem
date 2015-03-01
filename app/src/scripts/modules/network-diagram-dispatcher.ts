@@ -7,8 +7,8 @@ var constants = IsemInjector.constants();
 
 export interface API {
   init(): void;
-  registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
-  registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any): void;
+  registerOnAddVariable(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  registerOnImportFile (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
 class Dispatcher {
@@ -33,7 +33,7 @@ class Dispatcher {
    * @param {Function} listener
    * @returns {void}
    */
-  registerOnAddVariable(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
+  registerOnAddVariable(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
     this.$rootScope.$on(constants.ADD_LATENT_VARIABLE, listener);
   }
 
@@ -41,7 +41,7 @@ class Dispatcher {
    * @param {Function} listener
    * @returns {void}
    */
-  registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
+  registerOnImportFile(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
     this.$rootScope.$on(constants.IMPORT_FILE, listener);
   }
 }
