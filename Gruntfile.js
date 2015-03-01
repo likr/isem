@@ -166,7 +166,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
-    'ts',
+    'ts:client',
     'browserify',
     'ngAnnotate'
   ]);
