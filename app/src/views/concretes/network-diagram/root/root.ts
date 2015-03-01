@@ -3,8 +3,10 @@ import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../../../scripts/isem-injector');
-var app = IsemInjector.app();
-var Store = IsemInjector.VariableArrayStore();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+var Store     = IsemInjector.VariableArrayStore();
+var Renderer  = IsemInjector.NetworkDiagramRenderer();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
@@ -32,6 +34,8 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
+    Renderer.init();
+
     Store.init();
     Store.addChangeListener(this._changeCallback);
   }
@@ -50,9 +54,7 @@ export class Controller {
       setTimeout(() => {
         this.$scope.$apply(() => {
           this.$scope._variableArray = Store.variableArray;
-          this.$scope._graph         = Store.graph;
-          // UGLY!!
-          this.$rootScope.$broadcast('updateGraph', null);
+          this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
     };

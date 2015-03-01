@@ -4,6 +4,7 @@ import constants = require('./constants');
 
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
+import NetworkDiagramRenderer   = require('./modules/network-diagram-renderer');
 import VariableArrayStore       = require('./modules/variable-array-store');
 import Vertex                   = require('./modules/vertex');
 
@@ -26,6 +27,10 @@ class IsemInjector {
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
     return require('./modules/network-diagram-dispatcher').singleton;
+  }
+
+  static NetworkDiagramRenderer(): NetworkDiagramRenderer.API {
+    return require('./modules/network-diagram-renderer').singleton;
   }
 
   static VariableArrayStore(): VariableArrayStore.API {
