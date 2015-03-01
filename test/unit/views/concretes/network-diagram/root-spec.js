@@ -9,15 +9,21 @@ var stubStore = require('../../../../mocks/isem/variable-array-store').stub;
 var NetworkDiagram = require('../../../../../app/src/views/concretes/network-diagram/root/root');
 var ControllerStatic = NetworkDiagram.Controller;
 
-var mockScope, stubScope;
+var mockRootScope, stubRootScope, mockScope, stubScope;
 var Controller = (() => {
+  mockRootScope = {
+    $broadcast: () => {}
+  };
+  stubRootScope = {
+    $broadcast: sinon.stub(mockRootScope, '$broadcast')
+  };
   mockScope = {
     $apply: () => {}
   };
   stubScope = {
     $apply: sinon.stub(mockScope, '$apply', (cb) => {cb()})
   };
-  return new ControllerStatic(mockScope);
+  return new ControllerStatic(mockRootScope, mockScope);
 })();
 var Definition = NetworkDiagram.Definition;
 
