@@ -1,10 +1,11 @@
 'use strict';
-var assert = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon = require('sinon');
+var assert    = require('power-assert').customize({output: {maxDepth: 2}});
+var sinon     = require('sinon');
+var constants = require('../../../../../app/src/scripts/constants');
 
 require('../../../../mocks/browser/angular');
-var stubD3 = require('../../../../mocks/browser/d3').stub;
-var stubDocument = require('../../../../mocks/browser/document').stub;
+var stubD3         = require('../../../../mocks/browser/d3').stub;
+var stubDocument   = require('../../../../mocks/browser/document').stub;
 var stubFileReader = require('../../../../mocks/browser/file-reader').stub;
 
 var ImportFile = require('../../../../../app/src/views/concretes/dialogs/import-file/import-file');
@@ -63,7 +64,7 @@ describe('DialogImportFile', () => {
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === 'NetworkDiagramDispatcher:importFile');
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.IMPORT_FILE);
       });
 
       it('should give the value to arg[1] of $broadcast()', () => {

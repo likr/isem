@@ -33,7 +33,7 @@ describe('NetworkDiagramDispatcher', () => {
     });
 
     it('should give the event name to arg[0] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[0] === 'NetworkDiagramDispatcher:importFile');
+      assert(stubRootScope.$on.getCall(0).args[0] === constants.IMPORT_FILE);
     });
 
     it('should give the listener to arg[1] of $on()', () => {

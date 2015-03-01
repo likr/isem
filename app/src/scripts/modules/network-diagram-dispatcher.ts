@@ -42,7 +42,7 @@ class Dispatcher {
    * @returns {void}
    */
   registerOnImportFile(listener: (event: ng.IAngularEvent, ...args: any[]) => any) {
-    this.$rootScope.$on('NetworkDiagramDispatcher:importFile', listener);
+    this.$rootScope.$on(constants.IMPORT_FILE, listener);
   }
 }
 
