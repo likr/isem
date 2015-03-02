@@ -72,7 +72,11 @@ function RouteConfig(
   $routeProvider: ng.route.IRouteProvider,
   $locationProvider: ng.ILocationProvider
 ) {
-  $locationProvider.html5Mode(true);
+  // Hack so angular.d.ts does not support arg.
+  $locationProvider.html5Mode(<any>{
+    enabled: true,
+    requireBase: false
+  });
   $routeProvider
     .when('/', {template: '<isem-screen-network-diagram></isem-screen-network-diagram>'})
     .otherwise({redirectTo: '/'});
