@@ -3,17 +3,17 @@ var sinon = require('sinon');
 var IsemInjector = require('../../../app/src/scripts/isem-injector');
 
 function mock() {}
-mock.prototype.init = () => {};
-mock.prototype.registerOnAddVariable = () => {};
-mock.prototype.registerOnImportFile = () => {};
+mock.prototype.onAddVariable = () => {};
+mock.prototype.onImportFile = () => {};
 
 sinon.stub(IsemInjector, 'NetworkDiagramDispatcher').returns(mock.prototype);
 
 var stub = {
-  init:                  sinon.stub(mock.prototype, 'init'),
-  registerOnAddVariable: sinon.stub(mock.prototype, 'registerOnAddVariable'),
-  registerOnImportFile:  sinon.stub(mock.prototype, 'registerOnImportFile')
+  onAddVariable: sinon.stub(mock.prototype, 'onAddVariable'),
+  onImportFile:  sinon.stub(mock.prototype, 'onImportFile')
 };
 
-module.exports.mock = mock;
-module.exports.stub = stub;
+module.exports = {
+  mock: mock,
+  stub: stub
+};

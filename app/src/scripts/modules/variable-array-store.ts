@@ -45,17 +45,15 @@ class Store {
     this.$rootScope = rootElement.scope();
     this.graph = egrid.core.graph.adjacencyList();
 
-    this.register();
+    this.registerWithDispatcher();
   }
 
   /**
-   * Register callback on the dispatcher
-   *
    * @returns {void}
    */
-  private register() {
-    Dispatcher.registerOnAddVariable(this.onAddVariableCallback());
-    Dispatcher.registerOnImportFile(this.onImportFileCallback());
+  private registerWithDispatcher() {
+    Dispatcher.onAddVariable(this.onAddVariableCallback());
+    Dispatcher.onImportFile(this.onImportFileCallback());
   }
 
   /**

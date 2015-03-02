@@ -6,12 +6,13 @@ import IsemInjector = require('../isem-injector');
 var constants = IsemInjector.constants();
 
 export interface API {
-  registerOnAddVariable  (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  registerOnImportFile   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  registerOnUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  onAddVariable  (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  onImportFile   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  onUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
 class Dispatcher {
+  /* private */
   private $rootScope: ng.IRootScopeService;
 
   /**
@@ -33,7 +34,7 @@ class Dispatcher {
    * @param {Function} listener
    * @returns {void}
    */
-  registerOnAddVariable(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+  onAddVariable(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
     if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(constants.ADD_LATENT_VARIABLE, listener);
   }
@@ -42,7 +43,7 @@ class Dispatcher {
    * @param {Function} listener
    * @returns {void}
    */
-  registerOnImportFile(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+  onImportFile(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
     if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(constants.IMPORT_FILE, listener);
   }
@@ -51,7 +52,7 @@ class Dispatcher {
    * @param {Function} listener
    * @returns {void}
    */
-  registerOnUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+  onUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
     if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(constants.UPDATE_DIAGRAM, listener);
   }

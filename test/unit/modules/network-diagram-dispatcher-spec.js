@@ -4,15 +4,15 @@ var sinon     = require('sinon');
 var constants = require('../../../app/src/scripts/constants');
 
 var stubRootScope = require('../../mocks/browser/angular').stubRootScope;
+
 var Dispatcher = require('../../../app/src/scripts/modules/network-diagram-dispatcher').singleton;
 
 describe('NetworkDiagramDispatcher', () => {
-  describe('#registerOnAddVariable()', () => {
-    var dummy = 'registerOnAddVariableListener';
+  describe('#onAddVariable()', () => {
+    var dummy = 'listener';
     before(() => {
       stubRootScope.$on.reset();
-      Dispatcher.init();
-      Dispatcher.registerOnAddVariable(dummy);
+      Dispatcher.onAddVariable(dummy);
     });
 
     it('should give the event name to arg[0] of $on()', () => {
@@ -24,12 +24,11 @@ describe('NetworkDiagramDispatcher', () => {
     });
   });
 
-  describe('#registerOnImportFile()', () => {
-    var dummy = 'registerOnImportFileListener';
+  describe('#onImportFile()', () => {
+    var dummy = 'listener';
     before(() => {
       stubRootScope.$on.reset();
-      Dispatcher.init();
-      Dispatcher.registerOnImportFile(dummy);
+      Dispatcher.onImportFile(dummy);
     });
 
     it('should give the event name to arg[0] of $on()', () => {

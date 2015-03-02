@@ -2,9 +2,9 @@
 var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon  = require('sinon');
 
-var stubRootScope     = require('../../mocks/browser/angular').stubRootScope;
 var stubAdjacencyList = require('../../mocks/browser/egrid-core').stubAdjacencyList;
 var stubDispatcher    = require('../../mocks/isem/network-diagram-dispatcher').stub;
+var stubRootScope     = require('../../mocks/browser/angular').stubRootScope;
 
 var converterTestDouble = require('../../mocks/isem/csv-to-alpha-converter');
 var mockConverter = converterTestDouble.mock;
@@ -13,38 +13,30 @@ var dummyResult   = converterTestDouble.dummyResult;
 
 var Store = require('../../../app/src/scripts/modules/variable-array-store').singleton;
 
+function allReset(stubs) {
+  Object.keys(stubs).forEach(v => stubs[v].reset());
+}
+
 describe('VariableArrayStore', () => {
   beforeEach(() => {
-    Object.keys(stubAdjacencyList).forEach(v => stubAdjacencyList[v].reset());
-    Store.init();
+    allReset(stubAdjacencyList);
+    Store.init(); // require for inject mocks!
   });
 
-  describe('#register()', () => {
+  describe('#registerWithDispatcher()', () => {
     beforeEach(() => {
-      Object.keys(stubDispatcher).forEach(v => stubDispatcher[v].reset());
-      Store.register();
+      allReset(stubDispatcher);
+      Store.registerWithDispatcher();
     });
 
-    it('should do Dispatcher#init()', () => {
-      assert(stubDispatcher.init.callCount === 1);
-    });
-
-    it('should do Dispatcher#registerOnAddVariable()', () => {
-      assert(stubDispatcher.registerOnAddVariable.callCount === 1);
-    });
-
-    it('should give the callback to arg[0] of Dispatcher#registerOnAddVariable()', () => {
-      var actual = stubDispatcher.registerOnAddVariable.getCall(0).args[0];
+    it('should give the callback to arg[0] of Dispatcher#onAddVariable()', () => {
+      var actual = stubDispatcher.onAddVariable.getCall(0).args[0];
       var expected = Store.onAddVariableCallback();
       assert(String(actual) === String(expected));
     });
 
-    it('should do Dispatcher#registerOnImportFile()', () => {
-      assert(stubDispatcher.registerOnImportFile.callCount === 1);
-    });
-
-    it('should give the callback to arg[0] of Dispatcher#registerOnImportFile()', () => {
-      var actual = stubDispatcher.registerOnImportFile.getCall(0).args[0];
+    it('should give the callback to arg[0] of Dispatcher#onImportFile()', () => {
+      var actual = stubDispatcher.onImportFile.getCall(0).args[0];
       var expected = Store.onImportFileCallback();
       assert(String(actual) === String(expected));
     });
@@ -54,9 +46,7 @@ describe('VariableArrayStore', () => {
     var publishChange;
     beforeEach(() => {
       publishChange = sinon.stub(Store, 'publishChange');
-      Store.variableArray = [
-        {label: 'dummy42', vertexId: 42}
-      ];
+      Store.variableArray = [{label: 'dummy42', vertexId: 42}];
       Store.onAddVariableCallback()(null, '2ndDummy');
     });
 
@@ -80,13 +70,12 @@ describe('VariableArrayStore', () => {
 
   describe('#onImportFileCallback()', () => {
     // commonize for afterEach
-    function stubConverter_convert_restore() {
+    function stubConverterConvertRestore() {
       stubConverter.convert.restore();
       stubConverter.convert = sinon.stub(mockConverter.prototype, 'convert');
     }
 
-    var publishChange;
-    var removeAllVertex;
+    var publishChange, removeAllVertex;
     beforeEach(() => {
       publishChange   = sinon.stub(Store, 'publishChange');
       removeAllVertex = sinon.stub(Store, 'removeAllVertex');
@@ -130,7 +119,7 @@ describe('VariableArrayStore', () => {
         Store.onImportFileCallback()(null, 'dummy');
       });
 
-      afterEach(stubConverter_convert_restore);
+      afterEach(stubConverterConvertRestore);
 
       it('should give the error object to arg[0] of #publishChange()', () => {
         var error = publishChange.getCall(0).args[0];
@@ -148,7 +137,7 @@ describe('VariableArrayStore', () => {
         Store.onImportFileCallback()(null, 'dummy');
       });
 
-      afterEach(stubConverter_convert_restore);
+      afterEach(stubConverterConvertRestore);
 
       it('should give the error object to arg[0] of #publishChange()', () => {
         var error = publishChange.getCall(0).args[0];

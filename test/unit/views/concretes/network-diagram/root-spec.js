@@ -4,7 +4,8 @@ var sinon = require('sinon');
 var lolex = require('lolex');
 
 require('../../../../mocks/browser/angular');
-var stubStore = require('../../../../mocks/isem/variable-array-store').stub;
+var stubStore    = require('../../../../mocks/isem/variable-array-store').stub;
+var stubRenderer = require('../../../../mocks/isem/network-diagram-renderer').stub;
 
 var NetworkDiagram = require('../../../../../app/src/views/concretes/network-diagram/root/root');
 var ControllerStatic = NetworkDiagram.Controller;
@@ -35,10 +36,6 @@ describe('NetworkDiagram', () => {
           stubStore[v].restore();
         });
         Controller.subscribe();
-      });
-
-      it('should do Store#init()', () => {
-        assert(stubStore.init.callCount === 1);
       });
 
       it('should do Store#addChangeListener()', () => {

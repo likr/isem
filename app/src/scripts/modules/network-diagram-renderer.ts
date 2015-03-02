@@ -13,6 +13,10 @@ export interface API {
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
+/**
+ * @class
+ * @classdesc Renderer has a role equivalent to the Store by the Flux-way
+ */
 class Renderer {
   /* local constant */
   static CHANGE_EVENT = 'NetworkDiagramRenderer:CHANGE_EVENT';
@@ -34,16 +38,14 @@ class Renderer {
     var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
     this.$rootScope = rootElement.scope();
 
-    this.register();
+    this.registerWithDispatcher();
   }
 
   /**
-   * Register callback on the dispatcher
-   *
    * @returns {void}
    */
-  private register() {
-    Dispatcher.registerOnUpdateDiagram(this.onUpdateDiagramCallback());
+  private registerWithDispatcher() {
+    Dispatcher.onUpdateDiagram(this.onUpdateDiagramCallback());
   }
 
   /**
@@ -67,7 +69,11 @@ class Renderer {
     };
   }
 
-  private egm(graph: egrid.core.Graph) {
+  /**
+   * @param {egrid.core.Graph} graph
+   * @returns {egrid.core.EGM}
+   */
+  private egm(graph: egrid.core.Graph): egrid.core.EGM {
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
       .domain([0, 2])
