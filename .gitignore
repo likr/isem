@@ -20,4 +20,4 @@ es5/
 *.js.map
 
 !Gruntfile.js
-!index.js
+!test/**/*.js

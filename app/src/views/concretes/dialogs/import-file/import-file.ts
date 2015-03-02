@@ -1,9 +1,15 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../../../scripts/app');
-import d3 = require('d3');
+import Injector = require('../../../../scripts/injector');
+var angular    = Injector.angular();
+var d3         = Injector.d3();
+var document   = Injector.document();
+var FileReader = Injector.FileReader();
 
-interface DialogImportFileScope extends ng.IScope {
+import IsemInjector = require('../../../../scripts/isem-injector');
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+
+interface Scope extends ng.IScope {
   dialog: any;
 }
 
@@ -15,15 +21,13 @@ interface TargetAltered extends EventTarget {
   result: string;
 }
 
-class DialogImportFileController {
+export class Controller {
   /**
    * @constructor
    * @ngInject
    */
-  constructor(
-    private $rootScope: ng.IRootScopeService,
-    private $scope: DialogImportFileScope
-  ) {
+  constructor(private $rootScope: ng.IRootScopeService,
+    private $scope: Scope) {
     //
   }
 
@@ -31,36 +35,45 @@ class DialogImportFileController {
    * @returns {void}
    */
   importFile() {
-    console.log('DialogImportFileController#importFile()');
-
     var reader = new FileReader();
-    reader.onload = (e: EventAltered) => {
-      var data = d3.csv.parse(e.target.result);
-      this.$rootScope.$broadcast('isem:importFile', data);
-    };
+    reader.onload = this.fileReaderOnLoad();
 
-    var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
+    var file     = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
     var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
     reader.readAsText(file, encoding);
 
     this.$scope.dialog.close();
   }
+
+  /**
+   * This when used to load a file is extracted for testable.
+   *
+   * @returns {Function}
+   */
+  private fileReaderOnLoad() {
+    return (e: EventAltered) => {
+      var data = d3.csv.parse(e.target.result);
+      this.$rootScope.$broadcast(constants.IMPORT_FILE, data);
+    };
+  }
 }
 
-function link($scope: DialogImportFileScope, _: any, __: any, cwModal: any) {
-  $scope.dialog = cwModal.dialog;
+export class Definition {
+  static link($scope: Scope, _: any, __: any, cwModal: any) {
+    $scope.dialog = cwModal.dialog;
+  }
+
+  static ddo() {
+    return {
+      controller: Controller,
+      controllerAs: 'ImportFileController',
+      link: Definition.link,
+      require: '^cwModal',
+      restrict: 'E',
+      scope: {}, // use isolate scope
+      templateUrl: app.viewsDir.newDialogs + 'import-file/import-file.html'
+    };
+  }
 }
 
-function ddo() {
-  return {
-    controller: DialogImportFileController,
-    controllerAs: 'DialogImportFile',
-    link: link,
-    require: '^cwModal',
-    restrict: 'E',
-    scope: {}, // use isolate scope
-    templateUrl: app.viewsDir.newDialogs + 'import-file/import-file.html'
-  };
-}
-
-angular.module(app.appName).directive('isemDialogImportFile', ddo);
+angular.module(app.appName).directive('isemDialogImportFile', Definition.ddo);

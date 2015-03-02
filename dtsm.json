@@ -19,6 +19,19 @@
     },
     "node/node.d.ts": {
       "ref": "25286fd7b267bcf8dfa378577925bd99548bcdef"
+    },
+    "jquery/jquery.d.ts": {
+      "ref": "25286fd7b267bcf8dfa378577925bd99548bcdef"
+    },
+    "semjs/sem.d.ts": {
+      "repo": "https://github.com/likr/semjs.git",
+      "ref": "6c24f44982a7681fc77c7d80808d63939c0be4be",
+      "path": "sem.d.ts"
+    },
+    "egrid-core/egrid-core.d.ts": {
+      "repo": "https://github.com/likr/egrid-core.git",
+      "ref": "c868001edf94300096b2b7404fadacb9c6dd68e8",
+      "path": "egrid-core.d.ts"
     }
   }
 }

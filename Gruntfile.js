@@ -11,16 +11,15 @@ module.exports = function(grunt) {
 
     opt: {
       client: {
-        'app': 'app',
-        'tsMain': 'app/src',
-        'tsTest': 'test/unit',
-        'e2eTest': 'test/e2e',
-        'jsMain': 'app/src',
-        'jsTest': 'test/unit',
-        'jsTestEspowerd': 'test-espowered/unit'
+        'app':          'app',
+        'tsMain':       'app/src',
+        'jsMain':       'app/src',
+        'testRoot':     'test',
+        'testEs5':      'test-es5',
+        'testEspowerd': 'test-espowered'
       },
       legacy: {
-        'app': 'app/legacy',
+        'app':    'app/legacy',
         'tsMain': 'app/legacy/src/scripts',
         'jsMain': 'app/legacy/src/scripts'
       }
@@ -30,13 +29,13 @@ module.exports = function(grunt) {
       options: {
         sourceMap: true
       },
-      e2e: {
+      test: {
         files: [
           {
             expand: true,
-            cwd: '<%= opt.client.e2eTest %>/',
-            src: ['**/*-spec.js'],
-            dest: '<%= opt.client.e2eTest %>/es5/'
+            cwd: '<%= opt.client.testRoot %>/',
+            src: ['**/*-spec.js', 'mocks/**/*.js'],
+            dest: '<%= opt.client.testEs5 %>/'
           }
         ]
       }
@@ -44,7 +43,7 @@ module.exports = function(grunt) {
 
     browserify: {
       options: {
-        preBundleCB: function (b) {
+        preBundleCB: function(b) {
           b.plugin(licensify, {scanBrowser: true});
           b.transform({global: true}, 'browserify-shim');
         }
@@ -62,14 +61,18 @@ module.exports = function(grunt) {
           './*.js.map',
           '<%= opt.client.jsMain %>/**/*.js',
           '<%= opt.client.jsMain %>/**/*.js.map',
-          '<%= opt.client.e2eTest %>/es5',
-          '<%= opt.client.jsTestEspowerd %>'
+        ]
+      },
+      test: {
+        src: [
+          '<%= opt.client.testEs5 %>',
+          '<%= opt.client.testEspowerd %>'
         ]
       },
       legacy: {
         src: [
           '<%= opt.legacy.jsMain %>/**/*.js',
-          '<%= opt.legacy.jsMain %>/**/*.js.map',
+          '<%= opt.legacy.jsMain %>/**/*.js.map'
         ]
       }
     },
@@ -79,22 +82,18 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%= opt.client.jsTest %>/',
+            cwd: '<%= opt.client.testEs5 %>/',
             src: ['**/*.js'],
-            dest: '<%= opt.client.jsTestEspowerd %>',
+            dest: '<%= opt.client.testEspowerd %>',
             ext: '.js'
           }
         ]
       }
     },
 
-    mocha_istanbul: {
-      main: {
-        src: '<%= opt.client.allTestEspowerd %>/**/*.js',
-        options: {
-          mask: '**/*.js',
-          reportFormats: ['lcov']
-        }
+    mochaTest: {
+      client: {
+        src: ['<%= opt.client.testEspowerd %>/unit/**/*.js']
       }
     },
 
@@ -167,9 +166,17 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
-    'ts',
+    'ts:client',
     'browserify',
     'ngAnnotate'
+  ]);
+
+  grunt.registerTask('test', [
+    'clean',
+    'ts:client',
+    'babel',
+    'espower',
+    'mochaTest'
   ]);
 
   grunt.registerTask('e2e', [

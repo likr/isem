@@ -1,4 +1,4 @@
-declare var sem: typeof typeSem;
+declare var sem: any;
 angular.module('sem-injector', []).factory('sem', () => {
-  return sem;
+  return <typeof typeSem>sem;
 });
