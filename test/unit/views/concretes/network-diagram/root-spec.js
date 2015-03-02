@@ -58,13 +58,13 @@ describe('NetworkDiagramRoot', () => {
         Controller.changeCallback()();
       });
 
+      after(() => {
+        clock.uninstall();
+      });
+
       it('should set to $scope', () => {
         clock.tick(0); // Fire setTimeout
         assert(Controller.$scope._variableArray === 'dummyVariableArray');
-      });
-
-      after(() => {
-        clock.uninstall();
       });
     });
   });
