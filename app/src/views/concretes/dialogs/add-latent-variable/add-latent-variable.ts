@@ -31,6 +31,17 @@ export class Controller {
     this.$scope.dialog.close();
   }
 }
+
+export function open() {
+  var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
+  var Dialog = rootElement.injector().get('Dialog');
+
+  var dialog = new Dialog({
+    template: '<isem-dialog-add-latent-variable />'
+  });
+  dialog.open();
+}
+
 export class Definition {
   static link($scope: Scope, _: any, __: any, cwModal: any) {
     $scope.dialog = cwModal.dialog;

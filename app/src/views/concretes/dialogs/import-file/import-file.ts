@@ -58,6 +58,16 @@ export class Controller {
   }
 }
 
+export function open() {
+  var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
+  var Dialog = rootElement.injector().get('Dialog');
+
+  var dialog = new Dialog({
+    template: '<isem-dialog-import-file />'
+  });
+  dialog.open();
+}
+
 export class Definition {
   static link($scope: Scope, _: any, __: any, cwModal: any) {
     $scope.dialog = cwModal.dialog;
