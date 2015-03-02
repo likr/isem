@@ -11,6 +11,7 @@ import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
 
+declare var edgeType: [number, number];
 export interface API {
   addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
@@ -138,7 +139,6 @@ class Renderer extends AbstractStore {
    * @returns {JQueryPromise<any>}
    */
   private calculate(graph: egrid.core.Graph): JQueryPromise<any> {
-    var tEdge: [number, number]; // Type declaration only
     var solver = semjs.solver();
 
     var variableIndices: {[u: number]: number} = {};
@@ -156,15 +156,15 @@ class Renderer extends AbstractStore {
 
     var n = variables.length;
 
-    var alpha: Array<typeof tEdge> = graph.edges()
-      .filter((edge: typeof tEdge): boolean => {
+    var alpha: Array<typeof edgeType> = graph.edges()
+      .filter((edge: typeof edgeType): boolean => {
         return graph.get(edge[0]).enabled || graph.get(edge[1]).enabled;
       })
-      .map<typeof tEdge>((edge: typeof tEdge): typeof tEdge => {
+      .map<typeof edgeType>((edge: typeof edgeType): typeof edgeType => {
         return [variableIndices[edge[0]], variableIndices[edge[1]]];
       });
 
-    var sigma: Array<typeof tEdge> = variables.map<typeof tEdge>((_: any, i: number) => {
+    var sigma: Array<typeof edgeType> = variables.map<typeof edgeType>((_: any, i: number) => {
       return [i, i];
     });
 
