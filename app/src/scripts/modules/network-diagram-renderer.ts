@@ -1,4 +1,6 @@
 'use strict';
+import typeVertex = require('./vertex')
+
 import Injector = require('../injector');
 var angular = Injector.angular();
 var egrid   = Injector.egrid();
@@ -52,20 +54,25 @@ class Renderer {
    * @returns {Function}
    */
   private onUpdateDiagramCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
-    return (_, graph) => {
-      var egm = this.egm(graph);
+    return (_: any, graph: egrid.core.Graph) => {
+      this.calculate(graph).then(this.afterCalculate(graph));
+    };
+  }
 
-      var selection = d3.select('#isem-svg-screen')
+  /**
+   * @param {egrid.core.Graph} graph
+   * @returns {Function}
+   */
+  private afterCalculate(graph: egrid.core.Graph): () => void {
+    return () => {
+      var egm = this.egm(graph);
+      d3.select('#isem-svg-screen')
         .datum(graph)
         .call(egm)
-        .call(egm.center());
-
-      this.calculate(graph)
-        .then(function() {
-          selection.transition()
-            .call(<any>egm) // d3.d.ts does not support egrid.core.EGM
-            .call(<any>egm.center());
-        });
+        .call(egm.center())
+        .transition()
+        .call(<any>egm) // d3.d.ts does not support egrid.core.EGM
+        .call(<any>egm.center());
     };
   }
 
@@ -79,32 +86,36 @@ class Renderer {
       .domain([0, 2])
       .range([1, 3]);
 
+    var color = {
+      latent:         '#eff',
+      observed:       '#fee',
+      selectedStroke: '#5f5'
+    };
+
     return egrid.core.egm()
       .dagreRankSep(50)
       .dagreNodeSep(50)
-      .vertexText(function(d) {
-        return d.label;
-      })
-      .vertexVisibility(function(d) {
-        return d.enabled;
-      })
-      .vertexColor(function(d) {
-        return d.latent ? '#eff' : '#fee';
-      })
-      .edgeColor(function(u, v) {
-        return graph.get(u, v).coefficient >= 0 ? 'blue' : 'red';
-      })
-      .edgeWidth(function(u, v) {
-        return edgeWidthScale(Math.abs(graph.get(u, v).coefficient));
-      })
-      .edgeText(function(u, v) {
-        return edgeTextFormat(graph.get(u, v).coefficient);
-      })
       .size([1000, 500])
-      .onClickVertex(function() {
+      // vertices
+      .vertexText      ((d: typeVertex.Props) => d.label)
+      .vertexVisibility((d: typeVertex.Props) => d.enabled)
+      .vertexColor((d: typeVertex.Props) => {
+        return d.latent ? color.latent : color.observed
+      })
+      .selectedStrokeColor(color.selectedStroke)
+      .onClickVertex(() => {
         console.log(arguments);
       })
-      .selectedStrokeColor('#5f5');
+      // edges
+      .edgeColor((u: number, v: number) => {
+        return (graph.get(u, v).coefficient >= 0) ? 'blue' : 'red';
+      })
+      .edgeWidth((u: number, v: number) => {
+        return edgeWidthScale(Math.abs(graph.get(u, v).coefficient));
+      })
+      .edgeText((u: number, v: number) => {
+        return edgeTextFormat(graph.get(u, v).coefficient);
+      });
   }
 
   /**
@@ -113,41 +124,47 @@ class Renderer {
    */
   private calculate(graph: egrid.core.Graph): JQueryPromise<any> {
     var solver = semjs.solver();
-    var variableIndices: any = {};
-    var variableIds: any = {};
-    var variables: number[] = graph.vertices()
-      .filter(function(u: any) {
+
+    var variableIndices: {[u: number]: number} = {};
+    var variableIds: {[i: number]: number} = {};
+
+    var variables: typeVertex.Props[] = graph.vertices()
+      .filter((u: number) => {
         return graph.get(u).enabled;
       })
-      .map(function(u: any, i: any) {
+      .map((u: number, i: number) => {
         variableIndices[u] = i;
         variableIds[i] = u;
         return graph.get(u);
       });
+
     var n = variables.length;
-    var sigma = variables.map(function(_: any, i: any) {
-      return [i, i];
-    });
-    var S = semjs.stats.corrcoef(
-      variables
-        .filter(function(d: any) {
-          return !d.latent;
-        })
-        .map(function(d: any) {
-          return d.data;
-        })
-    );
-    var alpha: any = graph.edges()
-      .filter(function(edge: any) {
+
+    var alpha: [number, number][] = graph.edges()
+      .filter((edge: [number, number]) => {
         return graph.get(edge[0]).enabled || graph.get(edge[1]).enabled;
       })
-      .map(function(edge: any) {
+      .map((edge: [number, number]) => {
         return [variableIndices[edge[0]], variableIndices[edge[1]]];
       });
 
+    var sigma: [number, number][] = variables.map((_: any, i: number) => {
+      return [i, i];
+    });
+
+    var S = semjs.stats.corrcoef(
+      variables
+        .filter((d: typeVertex.Props) => {
+          return !d.latent;
+        })
+        .map((d: typeVertex.Props) => {
+          return d.data;
+        })
+    );
+
     return solver(n, alpha, sigma, S)
-      .then(function(result: any) {
-        result.alpha.forEach(function(path: any) {
+      .then((result: any) => {
+        result.alpha.forEach((path: any) => {
           var u = variableIds[path[0]];
           var v = variableIds[path[1]];
           graph.get(u, v).coefficient = path[2];
