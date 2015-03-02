@@ -1,12 +1,13 @@
 'use strict';
 import Injector = require('../../../../scripts/injector');
-var angular = Injector.angular();
-var d3 = Injector.d3();
-var document = Injector.document();
+var angular    = Injector.angular();
+var d3         = Injector.d3();
+var document   = Injector.document();
 var FileReader = Injector.FileReader();
 
 import IsemInjector = require('../../../../scripts/isem-injector');
-var app = IsemInjector.app();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
 
 interface Scope extends ng.IScope {
   dialog: any;
@@ -25,10 +26,8 @@ export class Controller {
    * @constructor
    * @ngInject
    */
-  constructor(
-    private $rootScope: ng.IRootScopeService,
-    private $scope: Scope
-  ) {
+  constructor(private $rootScope: ng.IRootScopeService,
+    private $scope: Scope) {
     //
   }
 
@@ -39,7 +38,7 @@ export class Controller {
     var reader = new FileReader();
     reader.onload = this.fileReaderOnLoad();
 
-    var file = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
+    var file     = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
     var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
     reader.readAsText(file, encoding);
 
@@ -54,7 +53,7 @@ export class Controller {
   private fileReaderOnLoad() {
     return (e: EventAltered) => {
       var data = d3.csv.parse(e.target.result);
-      this.$rootScope.$broadcast('VariableArrayDispatcher:importFile', data);
+      this.$rootScope.$broadcast(constants.IMPORT_FILE, data);
     };
   }
 }

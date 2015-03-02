@@ -3,11 +3,14 @@ import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../../../scripts/isem-injector');
-var app = IsemInjector.app();
-var Store = IsemInjector.VariableArrayStore();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+var Store     = IsemInjector.VariableArrayStore();
+var Renderer  = IsemInjector.NetworkDiagramRenderer();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
+  _graph: egrid.core.Graph;
 }
 
 export class Controller {
@@ -17,8 +20,12 @@ export class Controller {
    * @constructor
    * @ngInject
    */
-  constructor(private $scope: Scope) {
-    // Callbacks must be stored once in the variable for give to removeListener()
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private $scope: Scope
+  ) {
+    // Callbacks must be stored once in the variable
+    // for give to removeListener()
     this._changeCallback = this.changeCallback();
     this.subscribe();
   }
@@ -27,21 +34,25 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
-    Store.init();
     Store.addChangeListener(this._changeCallback);
+    Renderer.addChangeListener(void 0);
   }
 
   /**
-   * This callback args are non-use
-   *
    * @returns {Function}
    */
-  private changeCallback(): (e: ng.IAngularEvent, args: any) => void {
-    return (_, __) => {
+  private changeCallback(): (e: ng.IAngularEvent, err: any) => void {
+    return (_, err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
       // This requires JS native setTimeout because needs forced to $apply
       setTimeout(() => {
         this.$scope.$apply(() => {
           this.$scope._variableArray = Store.variableArray;
+          this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
     };
