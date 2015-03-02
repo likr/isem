@@ -1,6 +1,7 @@
 'use strict';
 import typeVertex = require('../modules/vertex');
 
+import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
 var angular = Injector.angular();
 var egrid   = Injector.egrid();
@@ -19,7 +20,7 @@ export interface API {
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
 }
 
-class Store {
+class Store extends AbstractStore {
   /* local constant */
   static CHANGE_EVENT = 'VariableArrayStore:CHANGE_EVENT';
 
@@ -27,24 +28,23 @@ class Store {
   graph: egrid.core.Graph;
   variableArray: Array<typeVertex.Instance>;
 
-  /* private */
-  private $rootScope: ng.IRootScopeService;
+  /* protected */
+  protected $rootScope: ng.IRootScopeService;
 
   /**
    * @constructor
    */
   constructor() {
+    super();
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
   }
 
   /**
    * @returns {void}
    */
-  private init() {
-    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-    this.$rootScope = rootElement.scope();
+  protected init() {
+    super.init();
     this.graph = egrid.core.graph.adjacencyList();
-
     this.registerWithDispatcher();
   }
 
@@ -132,8 +132,7 @@ class Store {
    * @returns {void}
    */
   addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(Store.CHANGE_EVENT, listener);
+    super.addListener(Store.CHANGE_EVENT, listener);
   }
 
   /**
@@ -141,17 +140,15 @@ class Store {
    * @returns {void}
    */
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    var listeners = (<any>this.$rootScope).$$listeners[Store.CHANGE_EVENT];
-    app.removeListener(listeners, listener);
+    super.removeListener(Store.CHANGE_EVENT, listener);
   }
 
   /**
    * @param {*} err
    * @returns {void}
    */
-  private publishChange(err?: any) {
-    this.$rootScope.$broadcast(Store.CHANGE_EVENT, err);
+  protected publishChange(err?: any) {
+    super.publish(Store.CHANGE_EVENT, err);
   }
 }
 

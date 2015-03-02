@@ -1,6 +1,7 @@
 'use strict';
-import typeVertex = require('./vertex')
+import typeVertex = require('./vertex');
 
+import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
 var angular = Injector.angular();
 var egrid   = Injector.egrid();
@@ -19,27 +20,26 @@ export interface API {
  * @class
  * @classdesc Renderer has a role equivalent to the Store by the Flux-way
  */
-class Renderer {
+class Renderer extends AbstractStore {
   /* local constant */
   static CHANGE_EVENT = 'NetworkDiagramRenderer:CHANGE_EVENT';
 
-  /* private */
-  private $rootScope: ng.IRootScopeService;
+  /* protected */
+  protected $rootScope: ng.IRootScopeService;
 
   /**
    * @constructor
    */
   constructor() {
+    super();
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
   }
 
   /**
    * @returns {void}
    */
-  private init() {
-    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-    this.$rootScope = rootElement.scope();
-
+  protected init() {
+    super.init();
     this.registerWithDispatcher();
   }
 
@@ -195,8 +195,7 @@ class Renderer {
    * @returns {void}
    */
   addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(Renderer.CHANGE_EVENT, listener);
+    super.addListener(Renderer.CHANGE_EVENT, listener);
   }
 
   /**
@@ -204,16 +203,15 @@ class Renderer {
    * @returns {void}
    */
   removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    var listeners = (<any>this.$rootScope).$$listeners[Renderer.CHANGE_EVENT];
-    app.removeListener(listeners, listener);
+    super.removeListener(Renderer.CHANGE_EVENT, listener);
   }
 
   /**
    * @param {*} err
    * @returns {void}
    */
-  private publishChange(err?: any) {
-    this.$rootScope.$broadcast(Renderer.CHANGE_EVENT, err);
+  protected publishChange(err?: any) {
+    super.publish(Renderer.CHANGE_EVENT, err);
   }
 }
 
