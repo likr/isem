@@ -132,10 +132,10 @@ module isem {
 
       // egm
       var egmNodes = nodes.map((d: string) => {
-        return new egrid.Node(d);
+        return new this.egrid.Node(d);
       });
       var egmLinks = links.map((d: typeof typeLink) => {
-        return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
+        return new this.egrid.Link(egmNodes[d.target], egmNodes[d.source]);
       });
       this.dag.nodes(egmNodes).links(egmLinks);
       // NOTICE! Sharing of a nodes' pointer. Maybe this is like a binding for $scope.

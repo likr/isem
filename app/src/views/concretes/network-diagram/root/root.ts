@@ -1,24 +1,32 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../../../scripts/app');
-import vas = require('../../../../scripts/services/variable-array-store');
-import ctac = require('../../../../scripts/services/csv-to-alpha-converter');
+import Injector = require('../../../../scripts/injector');
+var angular = Injector.angular();
 
-interface NetworkDiagramScope extends ng.IScope {
+import IsemInjector = require('../../../../scripts/isem-injector');
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+var Store     = IsemInjector.VariableArrayStore();
+var Renderer  = IsemInjector.NetworkDiagramRenderer();
+
+interface Scope extends ng.IScope {
   _variableArray: string[];
+  _graph: egrid.core.Graph;
 }
 
-class NetworkDiagramController {
+export class Controller {
+  private _changeCallback: (e: ng.IAngularEvent, args: any) => any;
+
   /**
    * @constructor
    * @ngInject
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private $scope: NetworkDiagramScope,
-    private VariableArrayStore: vas,
-    private CsvToAlphaConverter: ctac
+    private $scope: Scope
   ) {
+    // Callbacks must be stored once in the variable
+    // for give to removeListener()
+    this._changeCallback = this.changeCallback();
     this.subscribe();
   }
 
@@ -26,54 +34,62 @@ class NetworkDiagramController {
    * @returns {void}
    */
   private subscribe() {
-    this.$rootScope.$on('isem:addVariable', (e, arg) => {
-      this.VariableArrayStore.addVariable(arg);
-    });
+    Store.addChangeListener(this._changeCallback);
+    Renderer.addChangeListener(void 0);
+  }
 
-    this.$rootScope.$on('isem:importFile', (e, arg) => {
-      var converting = this.CsvToAlphaConverter.convert(arg);
-      converting.then((result) => {
-        console.log('result', result);
-        this.VariableArrayStore.replaceVariableArray(result.nodes);
+  /**
+   * @returns {Function}
+   */
+  private changeCallback(): (e: ng.IAngularEvent, err: any) => void {
+    return (_, err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      // This requires JS native setTimeout because needs forced to $apply
+      setTimeout(() => {
+        this.$scope.$apply(() => {
+          this.$scope._variableArray = Store.variableArray;
+          this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
+        });
+      }, 0); // Immediate execution
+    };
+  }
+}
+
+export class Definition {
+  static styling(tElement: ng.IAugmentedJQuery) {
+    tElement
+      .addClass('container-fluid')
+      .css({
+        position: 'absolute',
+        top: '5em',
+        'overflow-y': 'scroll'
+      }).css({
+        width: '100%',
+        height: app.styles.mainDisplay.height
+      }).css({
+        // for looks, e.g. color, background-color...
       });
-    });
+  }
 
-    this.$rootScope.$on('VariableArrayStore:onChange', (_, __) => {
-      this.$scope._variableArray = this.VariableArrayStore.variableArray;
-    });
+  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+    Definition.styling(tElement);
+    return () => {}; // link is do nothing
+  }
+
+  static ddo() {
+    return {
+      compile: Definition.compile,
+      controller: Controller,
+      controllerAs: 'NetworkDiagramController',
+      restrict: 'E',
+      scope: {}, // use isolate scope and non interface
+      templateUrl: app.viewsDir.networkDiagram + 'root/root.html'
+    }
   }
 }
 
-function styling(tElement: ng.IAugmentedJQuery) {
-  tElement
-    .addClass('container-fluid')
-    .css({
-      position: 'absolute',
-      top: '5em',
-      'overflow-y': 'scroll'
-    }).css({
-      width: '100%',
-      height: app.styles.mainDisplay.height
-    }).css({
-      // for looks, e.g. color, background-color...
-    });
-}
-
-function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-  styling(tElement);
-  return () => {}; // link is do nothing
-}
-
-function ddo() {
-  return {
-    compile: compile,
-    controller: NetworkDiagramController,
-    controllerAs: 'NetworkDiagram',
-    restrict: 'E',
-    scope: {}, // use isolate scope
-    templateUrl: app.viewsDir.networkDiagram + 'root/root.html'
-  }
-}
-
-angular.module(app.appName).directive('isemNetworkDiagram', ddo);
-export = NetworkDiagramController;
+angular.module(app.appName).directive('isemNetworkDiagram', Definition.ddo);

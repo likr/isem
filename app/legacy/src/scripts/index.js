@@ -190,10 +190,10 @@ var isem;
             });
             // egm
             var egmNodes = nodes.map(function (d) {
-                return new egrid.Node(d);
+                return new _this.egrid.Node(d);
             });
             var egmLinks = links.map(function (d) {
-                return new egrid.Link(egmNodes[d.target], egmNodes[d.source]);
+                return new _this.egrid.Link(egmNodes[d.target], egmNodes[d.source]);
             });
             this.dag.nodes(egmNodes).links(egmLinks);
             // NOTICE! Sharing of a nodes' pointer. Maybe this is like a binding for $scope.

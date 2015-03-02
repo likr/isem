@@ -1,7 +1,7 @@
 <div class="row">
   <isem-sub-column
     isem-network-diagram-sub-column
-    isem-io-variable-array="NetworkDiagram.$scope._variableArray"
+    isem-io-variable-array="NetworkDiagramController.$scope._variableArray"
     class="col-md-2"
   ></isem-sub-column>
   <div class="col-md-10" style="
@@ -9,7 +9,9 @@
     width: initial; /* for Modern Browsers */
   "><!-- only use float styling from .col-md-10 -->
     <isem-network-diagram-tool-group></isem-network-diagram-tool-group>
+
     <isem-network-diagram-display></isem-network-diagram-display>
+
     <isem-network-diagram-value-group></isem-network-diagram-value-group>
   </div>
 </div>
