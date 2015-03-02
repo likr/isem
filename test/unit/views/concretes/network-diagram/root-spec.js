@@ -28,7 +28,7 @@ var Controller = (() => {
 })();
 var Definition = NetworkDiagram.Definition;
 
-describe('NetworkDiagram', () => {
+describe('NetworkDiagramRoot', () => {
   describe('Controller', () => {
     describe('#subscribe()', () => {
       before(() => {
@@ -38,13 +38,15 @@ describe('NetworkDiagram', () => {
         Controller.subscribe();
       });
 
-      it('should do Store#addChangeListener()', () => {
-        assert(stubStore.addChangeListener.callCount === 1);
+      it('should give the callback to arg[0] of Store#addListenerToChange()', () => {
+        var actual = stubStore.addListenerToChange.getCall(0).args[0];
+        var expected = Controller.changeCallback();
+        assert(String(actual) === String(expected));
       });
 
-      it('should give the callback to arg[0] of Store#addChangeListener()', () => {
-        var actual = stubStore.addChangeListener.getCall(0).args[0];
-        var expected = Controller.changeCallback();
+      it('should give the callback to arg[0] of Renderer#addListenerToClickAddRelationButton()', () => {
+        var actual = stubRenderer.addListenerToClickAddRelationButton.getCall(0).args[0];
+        var expected = Controller.clickAddRelationButtonCallback();
         assert(String(actual) === String(expected));
       });
     });
