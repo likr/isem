@@ -103,6 +103,7 @@ class Renderer {
         return d.latent ? color.latent : color.observed
       })
       .selectedStrokeColor(color.selectedStroke)
+      .vertexButtons(this.vertexButtons())
       .onClickVertex(() => {
         console.log(arguments);
       })
@@ -119,10 +120,25 @@ class Renderer {
   }
 
   /**
+   * @returns {egrid.core.VertexButton[]}
+   */
+  private vertexButtons(): egrid.core.VertexButton[] {
+    var addRelationButton = {
+      icon: '',
+      onClick: (node: typeVertex.Props, u: number) => {
+        console.log('vertexButtons', node, u);
+      }
+    };
+
+    return [addRelationButton];
+  }
+
+  /**
    * @param {egrid.core.Graph} graph
    * @returns {JQueryPromise<any>}
    */
   private calculate(graph: egrid.core.Graph): JQueryPromise<any> {
+    var tEdge: [number, number]; // Type declaration only
     var solver = semjs.solver();
 
     var variableIndices: {[u: number]: number} = {};
@@ -140,15 +156,15 @@ class Renderer {
 
     var n = variables.length;
 
-    var alpha: [number, number][] = graph.edges()
-      .filter((edge: [number, number]) => {
+    var alpha: Array<typeof tEdge> = graph.edges()
+      .filter((edge: typeof tEdge): boolean => {
         return graph.get(edge[0]).enabled || graph.get(edge[1]).enabled;
       })
-      .map((edge: [number, number]) => {
+      .map<typeof tEdge>((edge: typeof tEdge): typeof tEdge => {
         return [variableIndices[edge[0]], variableIndices[edge[1]]];
       });
 
-    var sigma: [number, number][] = variables.map((_: any, i: number) => {
+    var sigma: Array<typeof tEdge> = variables.map<typeof tEdge>((_: any, i: number) => {
       return [i, i];
     });
 
