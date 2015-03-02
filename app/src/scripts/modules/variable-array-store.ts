@@ -12,17 +12,19 @@ var Converter  = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
 var Vertex     = IsemInjector.Vertex();
 
+declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
   graph: egrid.core.Graph;
   variableArray: string[];
 
-  addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  addListenerToChange     (listener: typeof listenerType): void;
+  removeListenerFromChange(listener: typeof listenerType): void;
 }
 
+var prefix = 'VariableArrayStore:';
 class Store extends AbstractStore {
   /* local constant */
-  static CHANGE_EVENT = 'VariableArrayStore:CHANGE_EVENT';
+  static CHANGE = prefix + 'CHANGE';
 
   /* public */
   graph: egrid.core.Graph;
@@ -59,7 +61,7 @@ class Store extends AbstractStore {
   /**
    * @returns {Function}
    */
-  private onAddVariableCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
+  private onAddVariableCallback(): typeof listenerType {
     return (_, label) => {
       Vertex.addLatentVariable(this.graph, label);
       this.replaceVariableArray();
@@ -70,7 +72,7 @@ class Store extends AbstractStore {
   /**
    * @returns {Function}
    */
-  private onImportFileCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
+  private onImportFileCallback(): typeof listenerType {
     return (_, importedFile) => {
       try {
         var converter = new Converter();
@@ -125,30 +127,17 @@ class Store extends AbstractStore {
     });
   }
 
-  /**
-   * For capsulize event name to other components
-   *
-   * @param {Function} listener
-   * @returns {void}
-   */
-  addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    super.addListener(Store.CHANGE_EVENT, listener);
+  /* for change */
+  addListenerToChange(listener: typeof listenerType) {
+    super.addListener(Store.CHANGE, listener);
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    super.removeListener(Store.CHANGE_EVENT, listener);
+  removeListenerFromChange(listener: typeof listenerType) {
+    super.removeListener(Store.CHANGE, listener);
   }
 
-  /**
-   * @param {*} err
-   * @returns {void}
-   */
   protected publishChange(err?: any) {
-    super.publish(Store.CHANGE_EVENT, err);
+    super.publish(Store.CHANGE, err);
   }
 }
 

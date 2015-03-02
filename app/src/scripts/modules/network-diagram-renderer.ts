@@ -12,18 +12,24 @@ var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
 
 declare var edgeType: [number, number];
+declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  addListenerToChange     (listener: typeof listenerType): void;
+  removeListenerFromChange(listener: typeof listenerType): void;
+
+  addListenerToClickAddRelationButton     (listener: typeof listenerType): void;
+  removeListenerFromClickAddRelationButton(listener: typeof listenerType): void;
 }
 
+var prefix = 'NetworkDiagramRenderer:';
 /**
  * @class
  * @classdesc Renderer has a role equivalent to the Store by the Flux-way
  */
 class Renderer extends AbstractStore {
   /* local constant */
-  static CHANGE_EVENT = 'NetworkDiagramRenderer:CHANGE_EVENT';
+  static CHANGE                    = prefix + 'CHANGE';
+  static CLICK_ADD_RELATION_BUTTON = prefix + 'CLICK_ADD_RELATION_BUTTON';
 
   /* protected */
   protected $rootScope: ng.IRootScopeService;
@@ -54,7 +60,7 @@ class Renderer extends AbstractStore {
   /**
    * @returns {Function}
    */
-  private onUpdateDiagramCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
+  private onUpdateDiagramCallback(): typeof listenerType {
     return (_: any, graph: egrid.core.Graph) => {
       this.calculate(graph).then(this.afterCalculate(graph));
     };
@@ -127,7 +133,7 @@ class Renderer extends AbstractStore {
     var addRelationButton = {
       icon: '',
       onClick: (node: typeVertex.Props, u: number) => {
-        console.log('vertexButtons', node, u);
+        this.publishClickAddRelationButton(u, null);
       }
     };
 
@@ -188,30 +194,30 @@ class Renderer extends AbstractStore {
       });
   }
 
-  /**
-   * For capsulize event name to other components
-   *
-   * @param {Function} listener
-   * @returns {void}
-   */
-  addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    super.addListener(Renderer.CHANGE_EVENT, listener);
+  /* for change */
+  addListenerToChange(listener: typeof listenerType) {
+    super.addListener(Renderer.CHANGE, listener);
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    super.removeListener(Renderer.CHANGE_EVENT, listener);
+  removeListenerFromChange(listener: typeof listenerType) {
+    super.removeListener(Renderer.CHANGE, listener);
   }
 
-  /**
-   * @param {*} err
-   * @returns {void}
-   */
   protected publishChange(err?: any) {
-    super.publish(Renderer.CHANGE_EVENT, err);
+    super.publish(Renderer.CHANGE, err);
+  }
+
+  /* for clickVertexButton */
+  addListenerToClickAddRelationButton(listener: typeof listenerType) {
+    super.addListener(Renderer.CLICK_ADD_RELATION_BUTTON, listener);
+  }
+
+  removeListenerFromClickAddRelationButton(listener: typeof listenerType) {
+    super.removeListener(Renderer.CLICK_ADD_RELATION_BUTTON, listener);
+  }
+
+  protected publishClickAddRelationButton(buttonId: number, err?: any) {
+    super.publish(Renderer.CLICK_ADD_RELATION_BUTTON, err, buttonId);
   }
 }
 

@@ -58,10 +58,12 @@ class AbstractStore {
   /**
    * @param {string} name
    * @param {*}      err
+   * @param {*}      args
    * @returns {void}
    */
-  protected publish(name: string, err?: any) {
-    this.$rootScope.$broadcast(name, err);
+  protected publish(name: string, err?: any, ...args: any[]) {
+    var broadcastArgs = [name, err].concat(args);
+    this.$rootScope.$broadcast.apply(this.$rootScope, broadcastArgs);
   }
 }
 

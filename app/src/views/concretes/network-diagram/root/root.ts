@@ -13,8 +13,10 @@ interface Scope extends ng.IScope {
   _graph: egrid.core.Graph;
 }
 
+declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
 export class Controller {
-  private _changeCallback: (e: ng.IAngularEvent, args: any) => any;
+  private _changeCallback: typeof listenerWithErrorType;
+  private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
 
   /**
    * @constructor
@@ -27,6 +29,7 @@ export class Controller {
     // Callbacks must be stored once in the variable
     // for give to removeListener()
     this._changeCallback = this.changeCallback();
+    this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
     this.subscribe();
   }
 
@@ -34,14 +37,14 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
-    Store.addChangeListener(this._changeCallback);
-    Renderer.addChangeListener(void 0);
+    Store.addListenerToChange(this._changeCallback);
+    Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
   }
 
   /**
    * @returns {Function}
    */
-  private changeCallback(): (e: ng.IAngularEvent, err: any) => void {
+  private changeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
       if (err) {
         console.log(err);
@@ -55,6 +58,15 @@ export class Controller {
           this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
+    return (_, err, vertexId) => {
+      console.log(vertexId);
     };
   }
 }
