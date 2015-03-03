@@ -13,7 +13,7 @@ import Vertex                   = require('./modules/vertex');
  * This will be stubbed when do tests.
  */
 class IsemInjector {
-  static AddRelation(): {open(): void} {
+  static AddRelation(): {open<T>(data: T): void} {
     return require('../views/concretes/dialogs/add-relation/add-relation');
   }
 

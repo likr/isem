@@ -67,7 +67,8 @@ export class Controller {
    */
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
-      AddRelation.open();
+      var data = {vertexId: vertexId};
+      AddRelation.open<typeof data>(data);
     };
   }
 }

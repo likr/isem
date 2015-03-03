@@ -62,24 +62,18 @@ class Renderer extends AbstractStore {
    */
   private onUpdateDiagramCallback(): typeof listenerType {
     return (_: any, graph: egrid.core.Graph) => {
-      this.calculate(graph).then(this.afterCalculate(graph));
-    };
-  }
-
-  /**
-   * @param {egrid.core.Graph} graph
-   * @returns {Function}
-   */
-  private afterCalculate(graph: egrid.core.Graph): () => void {
-    return () => {
       var egm = this.egm(graph);
-      d3.select('#isem-svg-screen')
+      var selection = d3.select('#isem-svg-screen')
         .datum(graph)
         .call(egm)
-        .call(egm.center())
-        .transition()
-        .call(<any>egm) // d3.d.ts does not support egrid.core.EGM
-        .call(<any>egm.center());
+        .call(egm.center());
+
+      this.calculate(graph).then(() => {
+        selection
+          .transition()
+          .call(<any>egm) // d3.d.ts does not support egrid.core.EGM
+          .call(<any>egm.center());
+      });
     };
   }
 

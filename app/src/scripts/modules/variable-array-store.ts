@@ -54,8 +54,20 @@ class Store extends AbstractStore {
    * @returns {void}
    */
   private registerWithDispatcher() {
+    Dispatcher.onAddRelation(this.onAddRelationCallback());
     Dispatcher.onAddVariable(this.onAddVariableCallback());
     Dispatcher.onImportFile(this.onImportFileCallback());
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onAddRelationCallback(): typeof listenerType {
+    return (_, data) => {
+      console.log('onAddRelationCallback', data);
+      this.graph.addEdge(data.idX, data.idY);
+      this.publishChange();
+    };
   }
 
   /**
