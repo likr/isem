@@ -3,10 +3,11 @@ import Injector = require('../../../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var constants = IsemInjector.constants();
-var Store     = IsemInjector.VariableArrayStore();
-var Renderer  = IsemInjector.NetworkDiagramRenderer();
+var AddRelation = IsemInjector.AddRelation();
+var app         = IsemInjector.app();
+var constants   = IsemInjector.constants();
+var Renderer    = IsemInjector.NetworkDiagramRenderer();
+var Store       = IsemInjector.VariableArrayStore();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
@@ -66,7 +67,7 @@ export class Controller {
    */
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
-      console.log(vertexId);
+      AddRelation.open();
     };
   }
 }
