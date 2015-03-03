@@ -1,10 +1,10 @@
 'use strict';
-import Injector = require('../../../../scripts/injector');
+import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 var d3      = Injector.d3();
 var egrid   = Injector.egrid();
 
-import IsemInjector = require('../../../../scripts/isem-injector');
+import IsemInjector = require('../../scripts/isem-injector');
 var app = IsemInjector.app();
 
 interface Scope extends ng.IScope {
@@ -29,7 +29,7 @@ function ddo() {
     restrict: 'E',
     controller: Controller,
     controllerAs: 'Controller',
-    templateUrl: app.viewsDir.networkDiagram + 'display/display.html',
+    templateUrl: app.viewsDir.networkDiagram + 'display.html',
     scope: {}
   }
 }

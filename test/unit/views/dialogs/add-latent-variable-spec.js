@@ -1,10 +1,10 @@
 'use strict';
 var assert    = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon     = require('sinon');
-var constants = require('../../../../../app/src/scripts/constants');
+var constants = require('../../../../app/src/scripts/constants');
 
-require('../../../../mocks/browser/angular');
-var AddLatentVariable = require('../../../../../app/src/views/concretes/dialogs/add-latent-variable/add-latent-variable');
+require('../../../mocks/browser/angular');
+var AddLatentVariable = require('../../../../app/src/views/dialogs/add-latent-variable');
 var ControllerStatic = AddLatentVariable.Controller;
 
 var mockRootScope, stubRootScope, mockScope, stubScope;

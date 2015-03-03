@@ -1,9 +1,9 @@
 'use strict';
 import angular = require('angular');
-import app = require('../../../../scripts/app');
+import app = require('../../scripts/app');
 
-import AddLatentVariable = require('../../dialogs/add-latent-variable/add-latent-variable')
-import ImportFile        = require('../../dialogs/import-file/import-file')
+import AddLatentVariable = require('../dialogs/add-latent-variable')
+import ImportFile        = require('../dialogs/import-file')
 
 class Controller {
   /**
@@ -26,7 +26,7 @@ function ddo() {
     controller: Controller,
     controllerAs: 'Controller',
     restrict: 'E',
-    templateUrl: app.viewsDir.networkDiagram + 'tool-group/tool-group.html'
+    templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
   }
 }
 

@@ -1,8 +1,8 @@
 'use strict';
-import Injector = require('../../../../scripts/injector');
+import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
-import IsemInjector = require('../../../../scripts/isem-injector');
+import IsemInjector = require('../../scripts/isem-injector');
 var AddRelation = IsemInjector.AddRelation();
 var app         = IsemInjector.app();
 var constants   = IsemInjector.constants();
@@ -102,7 +102,7 @@ export class Definition {
       controllerAs: 'NetworkDiagramController',
       restrict: 'E',
       scope: {}, // use isolate scope and non interface
-      templateUrl: app.viewsDir.networkDiagram + 'root/root.html'
+      templateUrl: app.viewsDir.networkDiagram + 'root.html'
     }
   }
 }

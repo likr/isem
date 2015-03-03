@@ -3,11 +3,11 @@ var assert = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon = require('sinon');
 var lolex = require('lolex');
 
-require('../../../../mocks/browser/angular');
-var stubStore    = require('../../../../mocks/isem/variable-array-store').stub;
-var stubRenderer = require('../../../../mocks/isem/network-diagram-renderer').stub;
+require('../../../mocks/browser/angular');
+var stubStore    = require('../../../mocks/isem/variable-array-store').stub;
+var stubRenderer = require('../../../mocks/isem/network-diagram-renderer').stub;
 
-var NetworkDiagram = require('../../../../../app/src/views/concretes/network-diagram/root/root');
+var NetworkDiagram = require('../../../../app/src/views/network-diagram/root');
 var ControllerStatic = NetworkDiagram.Controller;
 
 var mockRootScope, stubRootScope, mockScope, stubScope;

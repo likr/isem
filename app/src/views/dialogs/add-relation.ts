@@ -1,8 +1,8 @@
 'use strict';
-import Injector = require('../../../../scripts/injector');
+import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
-import IsemInjector = require('../../../../scripts/isem-injector');
+import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 
@@ -76,7 +76,7 @@ export class Definition {
       require: '^cwModal',
       restrict: 'E',
       scope: {}, // use isolate scope
-      templateUrl: app.viewsDir.newDialogs + 'add-relation/add-relation.html'
+      templateUrl: app.viewsDir.newDialogs + 'add-relation.html'
     }
   }
 }

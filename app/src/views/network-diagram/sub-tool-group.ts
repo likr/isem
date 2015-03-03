@@ -1,7 +1,7 @@
 'use strict';
 import angular = require('angular');
-import app = require('../../../../scripts/app');
-import styles = require('../../../../scripts/styles');
+import app = require('../../scripts/app');
+import styles = require('../../scripts/styles');
 
 export var height = '4em';
 
@@ -29,7 +29,7 @@ function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.networkDiagram + 'sub-tool-group/sub-tool-group.html'
+    templateUrl: app.viewsDir.networkDiagram + 'sub-tool-group.html'
   }
 }
 

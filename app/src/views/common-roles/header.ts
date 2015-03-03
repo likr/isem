@@ -1,20 +1,21 @@
 'use strict';
 import angular = require('angular');
-import app = require('../../../../scripts/app');
-import styles = require('../../../../scripts/styles');
+import app = require('../../scripts/app');
+import styles = require('../../scripts/styles');
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
     .addClass('container-fluid')
     .css({
-      'z-index': 200,
+      'z-index': 100,
       position: 'fixed',
-      bottom: 0
+      top: 0
     }).css({
       width: '100%',
-      height: styles.isemFooter.height
+      height: styles.isemHeader.height
     }).css({
-      'background-color': '#eee'
+      'background-color': '#333',
+      color: '#eee'
     });
 }
 
@@ -23,12 +24,12 @@ function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) 
   return () => {}; // link is do nothing
 }
 
-function ddo(): ng.IDirective {
+function ddo() {
   return {
     compile: compile,
     restrict: 'E',
-    templateUrl: app.viewsDir.commonRoles + 'footer/footer.html'
+    templateUrl: app.viewsDir.commonRoles + 'header.html'
   }
 }
 
-angular.module(app.appName).directive('isemFooter', ddo);
+angular.module(app.appName).directive('isemHeader', ddo);

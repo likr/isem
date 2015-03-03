@@ -1,14 +1,14 @@
 'use strict';
 var assert    = require('power-assert').customize({output: {maxDepth: 2}});
 var sinon     = require('sinon');
-var constants = require('../../../../../app/src/scripts/constants');
+var constants = require('../../../../app/src/scripts/constants');
 
-require('../../../../mocks/browser/angular');
-var stubD3         = require('../../../../mocks/browser/d3').stub;
-var stubDocument   = require('../../../../mocks/browser/document').stub;
-var stubFileReader = require('../../../../mocks/browser/file-reader').stub;
+require('../../../mocks/browser/angular');
+var stubD3         = require('../../../mocks/browser/d3').stub;
+var stubDocument   = require('../../../mocks/browser/document').stub;
+var stubFileReader = require('../../../mocks/browser/file-reader').stub;
 
-var ImportFile = require('../../../../../app/src/views/concretes/dialogs/import-file/import-file');
+var ImportFile = require('../../../../app/src/views/dialogs/import-file');
 var ControllerStatic = ImportFile.Controller;
 
 var mockRootScope, stubRootScope, mockScope, stubScope;

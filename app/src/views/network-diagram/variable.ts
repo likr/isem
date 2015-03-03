@@ -1,8 +1,8 @@
 'use strict';
 import angular = require('angular');
-import app = require('../../../../scripts/app');
-import styles = require('../../../../scripts/styles');
-import vtg = require('../sub-tool-group/sub-tool-group');
+import app = require('../../scripts/app');
+import styles = require('../../scripts/styles');
+import subToolGroup = require('./sub-tool-group');
 
 interface VariableScope extends ng.IScope {
   variableArray: string[];
@@ -37,7 +37,7 @@ function styling(tElement: ng.IAugmentedJQuery) {
       'overflow-y': 'scroll'
     }).css({
       // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-      height: 'calc' + '(' + mainHeight + ' - ' + vtg.height + ')'
+      height: 'calc' + '(' + mainHeight + ' - ' + subToolGroup.height + ')'
     });
 }
 
@@ -52,7 +52,7 @@ function ddo() {
     controller: VariableController,
     controllerAs: 'Variable',
     restrict: 'E',
-    templateUrl: app.viewsDir.networkDiagram + 'variable/variable.html',
+    templateUrl: app.viewsDir.networkDiagram + 'variable.html',
     scope: {
       variableArray: '=isemIoVariableArray'
     }

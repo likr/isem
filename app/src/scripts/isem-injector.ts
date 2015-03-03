@@ -3,6 +3,8 @@ import app       = require('./app');
 import constants = require('./constants');
 import styles    = require('./styles');
 
+import AddRelation = require('../views/dialogs/add-relation');
+
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
 import NetworkDiagramRenderer   = require('./modules/network-diagram-renderer');
@@ -14,8 +16,8 @@ import Vertex                   = require('./modules/vertex');
  * This will be stubbed when do tests.
  */
 class IsemInjector {
-  static AddRelation(): {open<T>(data: T): void} {
-    return require('../views/concretes/dialogs/add-relation/add-relation');
+  static AddRelation(): typeof AddRelation {
+    return require('../views/dialogs/add-relation');
   }
 
   static app(): typeof app {
