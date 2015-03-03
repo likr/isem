@@ -13,12 +13,14 @@ class Definition {
       .css({
         'z-index': 200,
         position: 'fixed',
-        bottom: 0
+        bottom: 0,
+        'box-sizing': 'border-box'
       }).css({
         width: '100%',
         height: styles.isemFooter.height
       }).css({
-        'background-color': '#eee'
+        'background-color': styles.colors.footerBackground,
+        'border-top': 'solid 1px ' + styles.colors.footerBorder
       });
   }
 

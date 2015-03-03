@@ -18,8 +18,14 @@ class Definition {
         width: '100%',
         height: styles.isemHeader.height
       }).css({
-        'background-color': '#333',
-        color: '#eee'
+        'background': styles.colors.headerGradation,
+        color: styles.colors.headerText
+      });
+
+    tElement.find('h1')
+      .css({
+        'margin-top': (styles.isemHeader.heightRaw * 0.2083) + 'px',
+        'font-size':  (styles.isemHeader.heightRaw * 0.5) + 'px'
       });
   }
 

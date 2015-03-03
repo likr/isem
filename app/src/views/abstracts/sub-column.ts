@@ -11,9 +11,11 @@ class Definition {
     tElement
       .css({
         width: '300px',
-        height: styles.mainDisplay.height
+        height: styles.mainDisplay.height,
+        'box-sizing': 'border-box'
       }).css({
-        'background-color': '#f7f7ff'
+        'background-color': styles.colors.subColumnBackground,
+        'border-right': 'solid 1px ' + styles.colors.footerBorder
       });
   }
 

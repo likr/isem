@@ -80,7 +80,7 @@ export class Definition {
       .addClass('container-fluid')
       .css({
         position: 'absolute',
-        top: '5em',
+        top: styles.isemHeader.height,
         'overflow-y': 'scroll'
       }).css({
         width: '100%',
