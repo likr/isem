@@ -10,11 +10,7 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        width: '300px',
         height: styles.mainDisplay.height
-      }).css({
-        'background-color': styles.colors.subColumnBackground,
-        'border-right': 'solid 1px ' + styles.colors.footerBorder
       }).css(styles.bootstrapCol);
   }
 
@@ -32,4 +28,4 @@ class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemSubColumn', Definition.ddo);
+angular.module(app.appName).directive('isemMainColumn', Definition.ddo);

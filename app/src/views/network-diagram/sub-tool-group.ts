@@ -6,8 +6,6 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app    = IsemInjector.app();
 var styles = IsemInjector.styles();
 
-export var height = '4em';
-
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
@@ -16,10 +14,12 @@ class Definition {
         position: 'absolute',
         bottom: 0
       }).css({
-        width: '100%',
-        height: height
+        width: 'inherit',
+        height: styles.subToolGroup.height
       }).css({
-        'background-color': '#eee'
+        'background-color': styles.colors.toolGroupBackground,
+        'border-top': 'solid 1px ' + styles.colors.subToolGroupBorder,
+        'border-right': 'inherit'
       })
       .css(styles.clearBootstrapMargin)
   }

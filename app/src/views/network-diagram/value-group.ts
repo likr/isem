@@ -6,8 +6,21 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app = IsemInjector.app();
 
 class Definition {
+  static styling(tElement: ng.IAugmentedJQuery) {
+    tElement
+      .css({
+        'width': 'inherit'
+      });
+  }
+
+  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+    Definition.styling(tElement);
+    return () => {}; // link is do nothing
+  }
+
   static ddo() {
     return {
+      compile: Definition.compile,
       restrict: 'E',
       templateUrl: app.viewsDir.networkDiagram + 'value-group.html'
     };

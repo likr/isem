@@ -6,8 +6,6 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app    = IsemInjector.app();
 var styles = IsemInjector.styles();
 
-import subToolGroup = require('./sub-tool-group');
-
 interface Scope extends ng.IScope {
   variableArray(): string[];
 }
@@ -28,13 +26,12 @@ class Controller {
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     var mainHeight = styles.mainDisplay.heightRawExp;
-    tElement
-      .children('div')
+    tElement.children('div')
       .css({
         'overflow-y': 'scroll'
       }).css({
         // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-        height: 'calc' + '(' + mainHeight + ' - ' + subToolGroup.height + ')'
+        height: 'calc' + '(' + mainHeight + ' - ' + styles.subToolGroup.height + ')'
       });
   }
 
