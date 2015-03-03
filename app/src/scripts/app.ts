@@ -53,7 +53,7 @@ function RouteConfig(
   $routeProvider: ng.route.IRouteProvider,
   $locationProvider: ng.ILocationProvider
 ) {
-  // Hack so angular.d.ts does not support arg.
+  // <any> hack so angular.d.ts does not support arg.
   $locationProvider.html5Mode(<any>{
     enabled: true,
     requireBase: false
