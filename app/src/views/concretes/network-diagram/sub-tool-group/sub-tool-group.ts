@@ -1,6 +1,7 @@
 'use strict';
 import angular = require('angular');
 import app = require('../../../../scripts/app');
+import styles = require('../../../../scripts/styles');
 
 export var height = '4em';
 
@@ -16,7 +17,7 @@ function styling(tElement: ng.IAugmentedJQuery) {
     }).css({
       'background-color': '#eee'
     })
-    .css(app.styles.clearBootstrapMargin)
+    .css(styles.clearBootstrapMargin)
 }
 
 function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {

@@ -8,6 +8,7 @@ var app         = IsemInjector.app();
 var constants   = IsemInjector.constants();
 var Renderer    = IsemInjector.NetworkDiagramRenderer();
 var Store       = IsemInjector.VariableArrayStore();
+var styles      = IsemInjector.styles();
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
@@ -83,7 +84,7 @@ export class Definition {
         'overflow-y': 'scroll'
       }).css({
         width: '100%',
-        height: app.styles.mainDisplay.height
+        height: styles.mainDisplay.height
       }).css({
         // for looks, e.g. color, background-color...
       });

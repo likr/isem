@@ -1,6 +1,7 @@
 'use strict';
 import angular = require('angular');
 import app = require('../../../../scripts/app');
+import styles = require('../../../../scripts/styles');
 import vtg = require('../sub-tool-group/sub-tool-group');
 
 interface VariableScope extends ng.IScope {
@@ -29,7 +30,7 @@ class VariableController {
 }
 
 function styling(tElement: ng.IAugmentedJQuery) {
-  var mainHeight = app.styles.mainDisplay.heightRawExp;
+  var mainHeight = styles.mainDisplay.heightRawExp;
   tElement
     .children('div')
     .css({

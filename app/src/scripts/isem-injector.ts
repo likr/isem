@@ -1,6 +1,7 @@
 'use strict';
 import app       = require('./app');
 import constants = require('./constants');
+import styles    = require('./styles');
 
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
@@ -35,6 +36,10 @@ class IsemInjector {
 
   static NetworkDiagramRenderer(): NetworkDiagramRenderer.API {
     return require('./modules/network-diagram-renderer').singleton;
+  }
+
+  static styles(): typeof styles {
+    return require('./styles');
   }
 
   static VariableArrayStore(): VariableArrayStore.API {

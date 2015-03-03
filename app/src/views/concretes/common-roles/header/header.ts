@@ -1,6 +1,7 @@
 'use strict';
 import angular = require('angular');
 import app = require('../../../../scripts/app');
+import styles = require('../../../../scripts/styles');
 
 function styling(tElement: ng.IAugmentedJQuery) {
   tElement
@@ -11,7 +12,7 @@ function styling(tElement: ng.IAugmentedJQuery) {
       top: 0
     }).css({
       width: '100%',
-      height: app.styles.isemHeader.height
+      height: styles.isemHeader.height
     }).css({
       'background-color': '#333',
       color: '#eee'
