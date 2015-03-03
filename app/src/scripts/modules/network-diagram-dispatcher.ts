@@ -1,60 +1,55 @@
 'use strict';
+import AbstractDispatcher = require('../abstracts/dispatcher');
 import Injector = require('../injector');
 var angular = Injector.angular();
 
+// DO NOT change var name of 'constants'
+// by reason of the convenience to find/replace
 import IsemInjector = require('../isem-injector');
 var constants = IsemInjector.constants();
 
+declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  onAddVariable  (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  onImportFile   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  onUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  onAddRelation  (listener: typeof listenerType): void;
+  onAddVariable  (listener: typeof listenerType): void;
+  onImportFile   (listener: typeof listenerType): void;
+  onUpdateDiagram(listener: typeof listenerType): void;
 }
 
-class Dispatcher {
-  /* private */
-  private $rootScope: ng.IRootScopeService;
+class Dispatcher extends AbstractDispatcher {
+  /* protected */
+  protected $rootScope: ng.IRootScopeService;
 
   /**
    * @constructor
    */
   constructor() {
+    super();
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
   }
 
   /**
    * @returns {void}
    */
-  private init() {
-    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-    this.$rootScope = rootElement.scope();
+  protected init() {
+    super.init();
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  onAddVariable(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(constants.ADD_LATENT_VARIABLE, listener);
+  /* methods for add listener */
+  onAddRelation(listener: typeof listenerType) {
+    super.on(constants.ADD_RELATION, listener);
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  onImportFile(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(constants.IMPORT_FILE, listener);
+  onAddVariable(listener: typeof listenerType) {
+    super.on(constants.ADD_LATENT_VARIABLE, listener);
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  onUpdateDiagram(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(constants.UPDATE_DIAGRAM, listener);
+  onImportFile(listener: typeof listenerType) {
+    super.on(constants.IMPORT_FILE, listener);
+  }
+
+  onUpdateDiagram(listener: typeof listenerType) {
+    super.on(constants.UPDATE_DIAGRAM, listener);
   }
 }
 
