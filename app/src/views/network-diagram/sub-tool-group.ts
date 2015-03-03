@@ -20,8 +20,7 @@ class Definition {
         'background-color': styles.colors.toolGroupBackground,
         'border-top': 'solid 1px ' + styles.colors.subToolGroupBorder,
         'border-right': 'inherit'
-      })
-      .css(styles.clearBootstrapMargin)
+      });
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {

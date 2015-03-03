@@ -3,9 +3,10 @@ import typeVertex = require('./vertex');
 
 import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
-var angular = Injector.angular();
-var egrid   = Injector.egrid();
-var semjs   = Injector.semjs();
+var angular  = Injector.angular() ;
+var document = Injector.document();
+var egrid    = Injector.egrid() ;
+var semjs    = Injector.semjs() ;
 
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
@@ -89,6 +90,11 @@ class Renderer extends AbstractStore {
       .domain([0, 2])
       .range([1, 3]);
 
+    var size = [
+      angular.element(document).width() - angular.element('isem-sub-column').width(),
+      angular.element('isem-network-diagram-display').height()
+    ];
+
     var color = {
       latent:         '#eff',
       observed:       '#fee',
@@ -98,7 +104,7 @@ class Renderer extends AbstractStore {
     return egrid.core.egm()
       .dagreRankSep(50)
       .dagreNodeSep(50)
-      .size([1000, 500])
+      .size(size)
       // vertices
       .vertexText      ((d: typeVertex.Props) => d.label)
       .vertexVisibility((d: typeVertex.Props) => d.enabled)

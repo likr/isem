@@ -77,7 +77,6 @@ export class Controller {
 export class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
-      .addClass('container-fluid')
       .css({
         position: 'absolute',
         top: styles.isemHeader.height,

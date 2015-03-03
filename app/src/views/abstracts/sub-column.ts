@@ -10,12 +10,14 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        width: '300px',
+        float: 'left'
+      }).css({
+        width: styles.subColumn.width,
         height: styles.mainDisplay.height
       }).css({
         'background-color': styles.colors.subColumnBackground,
         'border-right': 'solid 1px ' + styles.colors.footerBorder
-      }).css(styles.bootstrapCol);
+      });
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {

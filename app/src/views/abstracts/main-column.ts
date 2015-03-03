@@ -10,8 +10,13 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        height: styles.mainDisplay.height,
+        float: 'left',
+        position: 'absolute'
+      }).css({
+        width: ['calc(', '100%', '-', styles.subColumn.width, ')'].join(' '),
         height: styles.mainDisplay.height
-      }).css(styles.bootstrapCol);
+      });
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {

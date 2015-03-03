@@ -9,7 +9,6 @@ var styles = IsemInjector.styles();
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
-      .addClass('container-fluid')
       .css({
         'z-index': 100,
         position: 'fixed',

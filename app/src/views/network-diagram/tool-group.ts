@@ -25,8 +25,28 @@ class Controller {
 }
 
 class Definition {
+  static styling(tElement: ng.IAugmentedJQuery) {
+    tElement
+      .css({
+        'box-sizing': 'border-box',
+        position: 'absolute'
+      }).css({
+        width: '100%',
+        height: styles.mainToolGroup.height
+      }).css({
+        'background': styles.colors.mainToolGroupBackground,
+        'border-bottom': 'solid 1px ' + styles.colors.footerBorder
+      });
+  }
+
+  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+    Definition.styling(tElement);
+    return () => {}; // link is do nothing
+  }
+
   static ddo() {
     return {
+      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',

@@ -3,13 +3,22 @@ import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../scripts/isem-injector');
-var app = IsemInjector.app();
+var app    = IsemInjector.app();
+var styles = IsemInjector.styles();
 
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        'width': 'inherit'
+        'z-index': 200,
+        position: 'absolute',
+        bottom: 0
+      }).css({
+        width: '100%',
+        height: styles.mainValueGroup.height
+      }).css({
+        'background-color': styles.colors.valueGroupBackground,
+        'border-top': 'solid 1px ' + styles.colors.valueGroupBorder
       });
   }
 
