@@ -1,12 +1,17 @@
 'use strict';
-import angular = require('angular');
-import app = require('../scripts/app');
+import Injector = require('../scripts/injector');
+var angular = Injector.angular();
 
-function ddo() {
-  return {
-    restrict: 'E',
-    templateUrl: 'src/screens/screen-network-diagram.html'
+import IsemInjector = require('../scripts/isem-injector');
+var app = IsemInjector.app();
+
+class Definition {
+  static ddo() {
+    return {
+      restrict: 'E',
+      templateUrl: 'src/screens/screen-network-diagram.html'
+    };
   }
 }
 
-angular.module(app.appName).directive('isemScreenNetworkDiagram', ddo);
+angular.module(app.appName).directive('isemScreenNetworkDiagram', Definition.ddo);

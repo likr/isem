@@ -1,9 +1,12 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../scripts/app');
+import Injector = require('../../scripts/injector');
+var angular = Injector.angular();
 
-import AddLatentVariable = require('../dialogs/add-latent-variable')
-import ImportFile        = require('../dialogs/import-file')
+import IsemInjector = require('../../scripts/isem-injector');
+var AddLatentVariable = IsemInjector.AddLatentVariable();
+var app               = IsemInjector.app();
+var ImportFile        = IsemInjector.ImportFile();
+var styles            = IsemInjector.styles();
 
 class Controller {
   /**
@@ -21,13 +24,15 @@ class Controller {
   }
 }
 
-function ddo() {
-  return {
-    controller: Controller,
-    controllerAs: 'Controller',
-    restrict: 'E',
-    templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
+class Definition {
+  static ddo() {
+    return {
+      controller: Controller,
+      controllerAs: 'Controller',
+      restrict: 'E',
+      templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
+    };
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagramToolGroup', ddo);
+angular.module(app.appName).directive('isemNetworkDiagramToolGroup', Definition.ddo);

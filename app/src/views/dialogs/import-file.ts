@@ -26,9 +26,11 @@ export class Controller {
    * @constructor
    * @ngInject
    */
-  constructor(private $rootScope: ng.IRootScopeService,
-    private $scope: Scope) {
-    //
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private $scope: Scope
+  ) {
+    // Do nothing
   }
 
   /**
@@ -76,12 +78,12 @@ export class Definition {
   static ddo() {
     return {
       controller: Controller,
-      controllerAs: 'ImportFileController',
+      controllerAs: 'Controller',
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
       scope: {}, // use isolate scope
-      templateUrl: app.viewsDir.newDialogs + 'import-file.html'
+      templateUrl: app.viewsDir.dialogs + 'import-file.html'
     };
   }
 }

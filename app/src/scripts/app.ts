@@ -17,12 +17,11 @@ angular.module(appName, externalModule);
  * Specify the directory path
  */
 export var viewsDir = {
-  commonRoles:    'src/views/concretes/common-roles/',
+  commonRoles:    'src/views/common-roles/',
   dialogs:        'src/views/dialogs/',
   directives:     'src/views/directives/',
-  networkDiagram: 'src/views/concretes/network-diagram/',
-  newDialogs:     'src/views/concretes/dialogs/',
-  screens:        'src/views/screens/'
+  networkDiagram: 'src/views/network-diagram/',
+  screens:        'src/screens/'
 };
 
 /**

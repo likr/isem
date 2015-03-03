@@ -80,7 +80,7 @@ describe('DialogImportFile', () => {
       });
 
       it('should return the field of controllerAs including the correct name', () => {
-        assert(Definition.ddo().controllerAs === 'ImportFileController');
+        assert(Definition.ddo().controllerAs === 'Controller');
       });
     });
   });

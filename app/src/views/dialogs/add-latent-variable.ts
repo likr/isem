@@ -20,7 +20,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    //
+    // Do nothing
   }
 
   /**
@@ -50,13 +50,13 @@ export class Definition {
   static ddo() {
     return {
       controller: Controller,
-      controllerAs: 'AddLatentVariableController',
+      controllerAs: 'Controller',
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
       scope: {}, // use isolate scope
-      templateUrl: app.viewsDir.newDialogs + 'add-latent-variable.html'
-    }
+      templateUrl: app.viewsDir.dialogs + 'add-latent-variable.html'
+    };
   }
 }
 

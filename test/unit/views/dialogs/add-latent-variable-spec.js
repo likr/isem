@@ -57,7 +57,7 @@ describe('DialogAddLatentVariable', () => {
       });
 
       it('should return the field of controllerAs including the correct name', () => {
-        assert(Definition.ddo().controllerAs === 'AddLatentVariableController');
+        assert(Definition.ddo().controllerAs === 'Controller');
       });
     });
   });

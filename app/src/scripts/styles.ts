@@ -1,5 +1,4 @@
 'use strict';
-
 var styles: any = {};
 
 styles.isemHeader = {

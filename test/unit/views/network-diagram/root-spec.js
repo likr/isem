@@ -72,7 +72,7 @@ describe('NetworkDiagramRoot', () => {
   describe('Definition', () => {
     describe('.ddo()', () => {
       it('should return the field of controllerAs including the correct name', () => {
-        assert(Definition.ddo().controllerAs === 'NetworkDiagramController');
+        assert(Definition.ddo().controllerAs === 'Controller');
       });
     });
   });

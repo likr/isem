@@ -1,29 +1,34 @@
 'use strict';
-import angular = require('angular');
-import app = require('../../scripts/app');
-import styles = require('../../scripts/styles');
+import Injector = require('../../scripts/injector');
+var angular = Injector.angular();
 
-function styling(tElement: ng.IAugmentedJQuery) {
-  tElement
-    .css({
-      width: '300px',
-      height: styles.mainDisplay.height
-    }).css({
-      'background-color': '#f7f7ff'
-    });
-}
+import IsemInjector = require('../../scripts/isem-injector');
+var app    = IsemInjector.app();
+var styles = IsemInjector.styles();
 
-function compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-  styling(tElement);
-  return () => {}; // link is do nothing
-}
+class Definition {
+  static styling(tElement: ng.IAugmentedJQuery) {
+    tElement
+      .css({
+        width: '300px',
+        height: styles.mainDisplay.height
+      }).css({
+        'background-color': '#f7f7ff'
+      });
+  }
 
-function ddo() {
-  return {
-    compile: compile,
-    restrict: 'E',
-    template: ''
+  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+    Definition.styling(tElement);
+    return () => {}; // link is do nothing
+  }
+
+  static ddo() {
+    return {
+      compile: Definition.compile,
+      restrict: 'E',
+      template: ''
+    };
   }
 }
 
-angular.module(app.appName).directive('isemSubColumn', ddo);
+angular.module(app.appName).directive('isemSubColumn', Definition.ddo);

@@ -99,11 +99,11 @@ export class Definition {
     return {
       compile: Definition.compile,
       controller: Controller,
-      controllerAs: 'NetworkDiagramController',
+      controllerAs: 'Controller',
       restrict: 'E',
       scope: {}, // use isolate scope and non interface
       templateUrl: app.viewsDir.networkDiagram + 'root.html'
-    }
+    };
   }
 }
 

@@ -28,7 +28,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    //
+    // Do nothing
   }
 
   /**
@@ -76,8 +76,8 @@ export class Definition {
       require: '^cwModal',
       restrict: 'E',
       scope: {}, // use isolate scope
-      templateUrl: app.viewsDir.newDialogs + 'add-relation.html'
-    }
+      templateUrl: app.viewsDir.dialogs + 'add-relation.html'
+    };
   }
 }
 
