@@ -33,14 +33,14 @@ export class Controller {
   }
 }
 
-export function open() {
+export function open<T>(data: T) {
   var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-  var Dialog = rootElement.injector().get('Dialog');
+  var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
-  var dialog = new Dialog({
+  var dialog = new Dialog<T>({
     template: '<isem-dialog-add-relation />'
   });
-  dialog.open();
+  dialog.open(data);
 }
 
 export class Definition {
