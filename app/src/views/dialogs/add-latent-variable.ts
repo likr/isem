@@ -25,9 +25,17 @@ export class Controller {
 
   /**
    * @param {string} v - variable
+   * @returns {void}
    */
   add(v: string) {
     this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, v);
+    this.$scope.dialog.close();
+  }
+
+  /**
+   * @returns {void}
+   */
+  cancel() {
     this.$scope.dialog.close();
   }
 }

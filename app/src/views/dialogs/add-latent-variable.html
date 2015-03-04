@@ -1,3 +1,13 @@
-<h1>Dialog!</h1>
-<input ng-model="variableName"/>
-<button ng-click="Controller.add(variableName)"></button>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h1 class="modal-title">潜在変数を追加</h1>
+</div>
+
+<div class="modal-body">
+  <label>変数名: <input ng-model="variableName"/></label>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" ng-click="Controller.cancel()">キャンセル</button>
+  <button type="button" class="btn btn-primary" ng-click="Controller.add(variableName)">追加</button>
+</div>
