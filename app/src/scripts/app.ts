@@ -11,6 +11,7 @@ var angular = Injector.angular();
 
 export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute', 'cwModal'];
+// e.g. 'ja', 'en'... see src/scripts/localized
 export var defaultLocale = 'ja';
 angular.module(appName, externalModule);
 
@@ -39,7 +40,7 @@ function RouteConfig(
     requireBase: false
   });
   $routeProvider
-    .when('/', {template: '<isem-screen-network-diagram></isem-screen-network-diagram>'})
+    .when('/', {template: '<isem-screen-network-diagram isem-io-locale="$root.locale"></isem-screen-network-diagram>'})
     .otherwise({redirectTo: '/'});
 }
 

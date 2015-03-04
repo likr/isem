@@ -9,7 +9,10 @@ class Definition {
   static ddo() {
     return {
       restrict: 'E',
-      templateUrl: 'src/screens/screen-network-diagram.html'
+      templateUrl: 'src/screens/screen-network-diagram.html',
+      scope: {
+        locale: '&isemIoLocale'
+      }
     };
   }
 }

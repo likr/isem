@@ -6,6 +6,38 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app    = IsemInjector.app();
 var styles = IsemInjector.styles();
 
+interface Scope extends ng.IScope {
+  localized: any;
+  locale(): string;
+}
+
+export class Controller {
+  /**
+   * @constructor
+   * @ngInject
+   */
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private $scope: Scope
+  ) {
+    this.initLocalizedLabel(this.$scope.locale());
+  }
+
+  private initLocalizedLabel(locale: string) {
+    var language: any = {};
+    switch (locale) {
+      case 'en':
+        language = require('../../scripts/localized/en').isemHeader;
+        break;
+      case 'ja':
+        language = require('../../scripts/localized/ja').isemHeader;
+        break;
+    }
+
+    this.$scope.localized = language;
+  }
+}
+
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
@@ -36,8 +68,13 @@ class Definition {
   static ddo() {
     return {
       compile: Definition.compile,
+      controller: Controller,
+      controllerAs: 'Controller',
       restrict: 'E',
-      templateUrl: app.viewsDir.commonRoles + 'header.html'
+      templateUrl: app.viewsDir.commonRoles + 'header.html',
+      scope: {
+        locale: '&isemIoLocale'
+      }
     };
   }
 }
