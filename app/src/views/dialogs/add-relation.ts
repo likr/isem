@@ -11,6 +11,9 @@ interface Scope extends ng.IScope {
   vertexIdX: number;
   vertexIdY: number;
   direction: Direction;
+
+  localized: any;
+  locale(): string;
 }
 
 enum Direction {
@@ -28,7 +31,26 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    // Do nothing
+    this.$scope.direction = Direction.xToY;
+    this.initLocalizedLabel(this.$scope.locale());
+  }
+
+  /**
+   * @param {string} locale
+   * @returns {void}
+   */
+  private initLocalizedLabel(locale: string) {
+    var language: any = {};
+    switch (locale) {
+      case 'en':
+        language = require('../../scripts/localized/en').isemDialogAddRelation;
+        break;
+      case 'ja':
+        language = require('../../scripts/localized/ja').isemDialogAddRelation;
+        break;
+    }
+
+    this.$scope.localized = language;
   }
 
   /**
@@ -50,6 +72,13 @@ export class Controller {
     this.$rootScope.$broadcast(constants.ADD_RELATION, data);
     this.$scope.dialog.close();
   }
+
+  /**
+   * @returns {void}
+   */
+  cancel() {
+    this.$scope.dialog.close();
+  }
 }
 
 export function open<T>(data: T) {
@@ -57,7 +86,7 @@ export function open<T>(data: T) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<T>({
-    template: '<isem-dialog-add-relation />'
+    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />'
   });
   dialog.open(data);
 }
@@ -75,7 +104,9 @@ export class Definition {
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
-      scope: {}, // use isolate scope
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.dialogs + 'add-relation.html'
     };
   }

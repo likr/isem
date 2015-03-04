@@ -25,6 +25,10 @@ export class Controller {
     this.initLocalizedLabel(this.$scope.locale());
   }
 
+  /**
+   * @param {string} locale
+   * @returns {void}
+   */
   private initLocalizedLabel(locale: string) {
     var language: any = {};
     switch (locale) {

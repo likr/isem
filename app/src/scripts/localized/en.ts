@@ -10,3 +10,14 @@ export var isemDialogAddLatentVariable = {
   buttonCancel:  () => 'Cancel',
   buttonPrimary: () => 'Add'
 };
+
+export var isemDialogAddRelation = {
+  title:           () => 'Add Relation',
+  inputLabelX:     () => 'Variable X',
+  inputLabelY:     () => 'Variable Y',
+  directionXtoY:   () => '↓',
+  directionMutual: () => '↑↓',
+  directionYtoX:   () => '↑',
+  buttonCancel:    () => 'Cancel',
+  buttonPrimary:   () => 'Add'
+};
