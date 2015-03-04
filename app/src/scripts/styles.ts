@@ -19,7 +19,7 @@ styles.mainValueGroup.height = styles.mainValueGroup.heightRaw + 'px';
 
 styles.mainDisplay = {};
 styles.mainDisplay.heightRawExp = ['(100vh', '-', styles.isemHeader.height, '-', styles.isemFooter.height, ')'].join(' ');
-styles.mainDisplay.height = 'calc' + styles.mainDisplay.heightRawExp
+styles.mainDisplay.height = 'calc' + styles.mainDisplay.heightRawExp;
 
 styles.subToolGroup = {};
 styles.subToolGroup.heightRaw = 48;
