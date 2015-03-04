@@ -6,9 +6,36 @@ import IsemInjector = require('../../scripts/isem-injector');
 var AddLatentVariable = IsemInjector.AddLatentVariable();
 var app               = IsemInjector.app();
 var ImportFile        = IsemInjector.ImportFile();
+var localized         = IsemInjector.localized();
 var styles            = IsemInjector.styles();
 
+var directiveName = 'isemNetworkDiagramToolGroup';
+
+interface Scope extends ng.IScope {
+  localized: any;
+  locale(): string;
+}
+
 class Controller {
+  /**
+   * @constructor
+   * @ngInject
+   */
+  constructor(
+    private $rootScope: ng.IRootScopeService,
+    private $scope: Scope
+  ) {
+    this.initLocalizedLabel(this.$scope.locale());
+  }
+
+  /**
+   * @param {string} locale
+   * @returns {void}
+   */
+  private initLocalizedLabel(locale: string) {
+    this.$scope.localized = localized(locale, directiveName);
+  }
+
   /**
    * @returns {void}
    */
@@ -50,9 +77,12 @@ class Definition {
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
     };
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagramToolGroup', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

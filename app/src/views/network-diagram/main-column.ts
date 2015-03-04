@@ -9,8 +9,10 @@ class Definition {
   static ddo() {
     return {
       restrict: 'A',
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.networkDiagram + 'main-column.html',
-      scope: {}
     };
   }
 }

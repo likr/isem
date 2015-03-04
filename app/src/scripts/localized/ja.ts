@@ -4,6 +4,11 @@ export var isemHeader = {
   title: () => '共分散構造分析'
 };
 
+export var isemNetworkDiagramToolGroup = {
+  openAddVariable: () => '潜在変数を追加…',
+  openImportFile:  () => '読み込み…'
+};
+
 export var isemDialogAddLatentVariable = {
   title:         () => '潜在変数を追加',
   inputLabel:    () => '変数名',

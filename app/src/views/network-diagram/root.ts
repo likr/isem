@@ -100,7 +100,9 @@ export class Definition {
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
-      scope: {}, // use isolate scope and non interface
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.networkDiagram + 'root.html'
     };
   }

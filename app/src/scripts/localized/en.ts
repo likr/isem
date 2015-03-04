@@ -4,6 +4,11 @@ export var isemHeader = {
   title: () => 'Interactive Structural Equation Modeling'
 };
 
+export var isemNetworkDiagramToolGroup = {
+  openAddVariable: () => 'Add Latent Variable…',
+  openImportFile:  () => 'Import File…'
+};
+
 export var isemDialogAddLatentVariable = {
   title:         () => 'Add Latent Variable',
   inputLabel:    () => 'Name',
