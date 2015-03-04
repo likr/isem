@@ -21,3 +21,13 @@ export var isemDialogAddRelation = {
   buttonCancel:    () => 'Cancel',
   buttonPrimary:   () => 'Add'
 };
+
+export var isemDialogImportFile = {
+  title:           () => 'Import File',
+  encodingUTF8:    () => 'UTF-8',
+  encodingSJIS:    () => 'Shift_JIS',
+  fileInput:       () => 'CSV',
+  downloadSample:  () => 'Download a sample',
+  buttonCancel:    () => 'Cancel',
+  buttonPrimary:   () => 'Import'
+};

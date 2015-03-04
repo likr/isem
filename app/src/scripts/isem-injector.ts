@@ -45,6 +45,22 @@ class IsemInjector {
     return require('../views/dialogs/import-file');
   }
 
+  static localized(): (locale: string, directiveName: string) => any {
+    return (locale, directiveName) => {
+      var localized: any = {};
+      switch (locale) {
+        case 'en':
+          localized = require('./localized/en')[directiveName];
+          break;
+        case 'ja':
+          localized = require('./localized/ja')[directiveName];
+          break;
+      }
+
+      return localized;
+    };
+  }
+
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
     return require('./modules/network-diagram-dispatcher').singleton;
   }

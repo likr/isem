@@ -5,6 +5,9 @@ var angular = Injector.angular();
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
+var localized = IsemInjector.localized();
+
+var directiveName = 'isemDialogAddRelation';
 
 interface Scope extends ng.IScope {
   dialog: any;
@@ -40,17 +43,7 @@ export class Controller {
    * @returns {void}
    */
   private initLocalizedLabel(locale: string) {
-    var language: any = {};
-    switch (locale) {
-      case 'en':
-        language = require('../../scripts/localized/en').isemDialogAddRelation;
-        break;
-      case 'ja':
-        language = require('../../scripts/localized/ja').isemDialogAddRelation;
-        break;
-    }
-
-    this.$scope.localized = language;
+    this.$scope.localized = localized(locale, directiveName);
   }
 
   /**
@@ -112,4 +105,4 @@ export class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemDialogAddRelation', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

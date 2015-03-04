@@ -8,9 +8,16 @@ var FileReader = Injector.FileReader();
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
+var localized = IsemInjector.localized();
+
+var directiveName = 'isemDialogImportFile';
 
 interface Scope extends ng.IScope {
   dialog: any;
+  encoding: string;
+
+  localized: any;
+  locale(): string;
 }
 
 interface EventAltered extends Event {
@@ -30,7 +37,16 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    // Do nothing
+    this.$scope.encoding = 'utf-8';
+    this.initLocalizedLabel(this.$scope.locale());
+  }
+
+  /**
+   * @param {string} locale
+   * @returns {void}
+   */
+  private initLocalizedLabel(locale: string) {
+    this.$scope.localized = localized(locale, directiveName);
   }
 
   /**
@@ -40,9 +56,8 @@ export class Controller {
     var reader = new FileReader();
     reader.onload = this.fileReaderOnLoad();
 
-    var file     = (<HTMLInputElement>document.getElementById('fileInput')).files[0];
-    var encoding = (<HTMLInputElement>document.querySelectorAll('.encoding:checked')[0]).value;
-    reader.readAsText(file, encoding);
+    var file = (<HTMLInputElement>document.getElementById('file-input')).files[0];
+    reader.readAsText(file, this.$scope.encoding);
 
     this.$scope.dialog.close();
   }
@@ -58,6 +73,13 @@ export class Controller {
       this.$rootScope.$broadcast(constants.IMPORT_FILE, data);
     };
   }
+
+  /**
+   * @returns {void}
+   */
+  cancel() {
+    this.$scope.dialog.close();
+  }
 }
 
 export function open() {
@@ -65,7 +87,7 @@ export function open() {
   var Dialog = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog({
-    template: '<isem-dialog-import-file />'
+    template: '<isem-dialog-import-file isem-io-locale="$root.locale" />'
   });
   dialog.open();
 }
@@ -82,10 +104,12 @@ export class Definition {
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
-      scope: {}, // use isolate scope
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.dialogs + 'import-file.html'
     };
   }
 }
 
-angular.module(app.appName).directive('isemDialogImportFile', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

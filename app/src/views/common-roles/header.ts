@@ -3,8 +3,11 @@ import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../scripts/isem-injector');
-var app    = IsemInjector.app();
-var styles = IsemInjector.styles();
+var app       = IsemInjector.app();
+var styles    = IsemInjector.styles();
+var localized = IsemInjector.localized();
+
+var directiveName = 'isemHeader';
 
 interface Scope extends ng.IScope {
   localized: any;
@@ -17,24 +20,13 @@ export class Controller {
    * @ngInject
    */
   constructor(
-    private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
     this.initLocalizedLabel(this.$scope.locale());
   }
 
   private initLocalizedLabel(locale: string) {
-    var language: any = {};
-    switch (locale) {
-      case 'en':
-        language = require('../../scripts/localized/en').isemHeader;
-        break;
-      case 'ja':
-        language = require('../../scripts/localized/ja').isemHeader;
-        break;
-    }
-
-    this.$scope.localized = language;
+    this.$scope.localized = localized(locale, directiveName);
   }
 }
 
@@ -79,4 +71,4 @@ class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemHeader', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);
