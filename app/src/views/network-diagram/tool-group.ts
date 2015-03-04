@@ -64,6 +64,18 @@ class Definition {
         'background': styles.colors.mainToolGroupBackground,
         'border-bottom': 'solid 1px ' + styles.colors.footerBorder
       });
+
+    var marginTopRaw = 12;
+    tElement.children('div')
+      .css({
+        'margin-top':  marginTopRaw + 'px',
+        'margin-left': (marginTopRaw * 1.333) + 'px'
+      });
+
+    tElement.find('button')
+      .css({
+        'margin-right': (marginTopRaw * 0.666) + 'px'
+      });
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {

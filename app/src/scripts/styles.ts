@@ -29,6 +29,10 @@ styles.subColumn = {};
 styles.subColumn.widthRaw = 300;
 styles.subColumn.width = styles.subColumn.widthRaw + 'px';
 
+styles.window = {};
+styles.window.marginRaw = 12;
+styles.window.margin = styles.window.marginRaw + 'px';
+
 styles.colors = {
   headerText: '#f7f7f7',
 
@@ -48,9 +52,13 @@ styles.colors = {
   valueGroupBorder:    '#dee1e4',
 
   // egrid colors
-  latentBackground:   '#eeffff',
-  observedBackground: '#ffeeee',
-  selectedStroke:     '#55ff55'
+  diagramBackground:  '#ffffff',
+  latentBackground:   '#f2cee0',
+  observedBackground: '#e3f6fd',
+  selectedStroke:     '#daf984',
+  stroke:             '#1f1d1e',
+  edgeColor1:         '#71a9f7', // ugly property name!!
+  edgeColor2:         '#df3b57'
 };
 
 export = styles;

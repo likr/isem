@@ -100,12 +100,14 @@ class Renderer extends AbstractStore {
       .dagreRankSep(50)
       .dagreNodeSep(50)
       .size(size)
+      .backgroundColor(styles.colors.diagramBackground)
       // vertices
       .vertexText      ((d: typeVertex.Props) => d.label)
       .vertexVisibility((d: typeVertex.Props) => d.enabled)
       .vertexColor((d: typeVertex.Props) => {
         return d.latent ? styles.colors.latentBackground : styles.colors.observedBackground
       })
+      .strokeColor(styles.colors.stroke)
       .selectedStrokeColor(styles.colors.selectedStroke)
       .vertexButtons(this.vertexButtons())
       .onClickVertex(() => {
@@ -113,7 +115,7 @@ class Renderer extends AbstractStore {
       })
       // edges
       .edgeColor((u: number, v: number) => {
-        return (graph.get(u, v).coefficient >= 0) ? 'blue' : 'red';
+        return (graph.get(u, v).coefficient >= 0) ? styles.colors.edgeColor1 : styles.colors.edgeColor2;
       })
       .edgeWidth((u: number, v: number) => {
         return edgeWidthScale(Math.abs(graph.get(u, v).coefficient));

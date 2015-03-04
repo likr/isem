@@ -48,6 +48,7 @@ class Definition {
     tElement.find('h1')
       .css({
         'margin-top': (styles.isemHeader.heightRaw * 0.2083) + 'px',
+        'margin-left': styles.window.margin,
         'font-size':  (styles.isemHeader.heightRaw * 0.5) + 'px'
       });
   }
