@@ -11,6 +11,7 @@ var semjs    = Injector.semjs() ;
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
+var styles     = IsemInjector.styles();
 
 declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
@@ -91,15 +92,9 @@ class Renderer extends AbstractStore {
       .range([1, 3]);
 
     var size = [
-      angular.element(document).width() - angular.element('isem-sub-column').width(),
+      angular.element('isem-main-column').width(),
       angular.element('isem-network-diagram-display').height()
     ];
-
-    var color = {
-      latent:         '#eff',
-      observed:       '#fee',
-      selectedStroke: '#5f5'
-    };
 
     return egrid.core.egm()
       .dagreRankSep(50)
@@ -109,9 +104,9 @@ class Renderer extends AbstractStore {
       .vertexText      ((d: typeVertex.Props) => d.label)
       .vertexVisibility((d: typeVertex.Props) => d.enabled)
       .vertexColor((d: typeVertex.Props) => {
-        return d.latent ? color.latent : color.observed
+        return d.latent ? styles.colors.latentBackground : styles.colors.observedBackground
       })
-      .selectedStrokeColor(color.selectedStroke)
+      .selectedStrokeColor(styles.colors.selectedStroke)
       .vertexButtons(this.vertexButtons())
       .onClickVertex(() => {
         console.log(arguments);
