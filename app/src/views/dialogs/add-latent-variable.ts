@@ -9,6 +9,8 @@ var constants = IsemInjector.constants();
 interface Scope extends ng.IScope {
   dialog: any;
   variableName: string;
+  localized: any;
+  locale(): string;
 }
 
 export class Controller {
@@ -20,7 +22,21 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    // Do nothing
+    this.initLocalizedLabel(this.$scope.locale());
+  }
+
+  private initLocalizedLabel(locale: string) {
+    var language: any = {};
+    switch (locale) {
+      case 'en':
+        language = require('../../scripts/localized/en').isemDialogAddLatentVariable;
+        break;
+      case 'ja':
+        language = require('../../scripts/localized/ja').isemDialogAddLatentVariable;
+        break;
+    }
+
+    this.$scope.localized = language;
   }
 
   /**
@@ -45,7 +61,7 @@ export function open() {
   var Dialog = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog({
-    template: '<isem-dialog-add-latent-variable />'
+    template: '<isem-dialog-add-latent-variable isem-io-locale="$root.locale" />'
   });
   dialog.open();
 }
@@ -62,7 +78,9 @@ export class Definition {
       link: Definition.link,
       require: '^cwModal',
       restrict: 'E',
-      scope: {}, // use isolate scope
+      scope: {
+        locale: '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.dialogs + 'add-latent-variable.html'
     };
   }

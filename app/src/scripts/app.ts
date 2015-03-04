@@ -11,6 +11,7 @@ var angular = Injector.angular();
 
 export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute', 'cwModal'];
+export var defaultLocale = 'ja';
 angular.module(appName, externalModule);
 
 /**
@@ -42,4 +43,13 @@ function RouteConfig(
     .otherwise({redirectTo: '/'});
 }
 
+/**
+ * @constructor
+ * @ngInject
+ */
+function RunCallback($rootScope: any) {
+  $rootScope.locale = defaultLocale;
+}
+
 angular.module(appName).config(RouteConfig);
+angular.module(appName).run(RunCallback);
