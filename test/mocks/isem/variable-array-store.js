@@ -4,12 +4,12 @@ var IsemInjector = require('../../../app/src/scripts/isem-injector');
 
 function mock() {}
 mock.prototype.variableArray = 'dummyVariableArray';
-mock.prototype.addChangeListener = () => {};
+mock.prototype.addListenerToChange = () => {};
 
 sinon.stub(IsemInjector, 'VariableArrayStore').returns(mock.prototype);
 
 var stub = {
-  addChangeListener: sinon.stub(mock.prototype, 'addChangeListener')
+  addListenerToChange: sinon.stub(mock.prototype, 'addListenerToChange')
 };
 
 module.exports.mock = mock;
