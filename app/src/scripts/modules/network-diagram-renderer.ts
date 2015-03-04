@@ -3,13 +3,15 @@ import typeVertex = require('./vertex');
 
 import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
-var angular = Injector.angular();
-var egrid   = Injector.egrid();
-var semjs   = Injector.semjs();
+var angular  = Injector.angular() ;
+var document = Injector.document();
+var egrid    = Injector.egrid() ;
+var semjs    = Injector.semjs() ;
 
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
+var styles     = IsemInjector.styles();
 
 declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
@@ -89,30 +91,31 @@ class Renderer extends AbstractStore {
       .domain([0, 2])
       .range([1, 3]);
 
-    var color = {
-      latent:         '#eff',
-      observed:       '#fee',
-      selectedStroke: '#5f5'
-    };
+    var size = [
+      angular.element('isem-main-column').width(),
+      angular.element('isem-network-diagram-display').height()
+    ];
 
     return egrid.core.egm()
       .dagreRankSep(50)
       .dagreNodeSep(50)
-      .size([1000, 500])
+      .size(size)
+      .backgroundColor(styles.colors.diagramBackground)
       // vertices
       .vertexText      ((d: typeVertex.Props) => d.label)
       .vertexVisibility((d: typeVertex.Props) => d.enabled)
       .vertexColor((d: typeVertex.Props) => {
-        return d.latent ? color.latent : color.observed
+        return d.latent ? styles.colors.latentBackground : styles.colors.observedBackground
       })
-      .selectedStrokeColor(color.selectedStroke)
+      .strokeColor(styles.colors.stroke)
+      .selectedStrokeColor(styles.colors.selectedStroke)
       .vertexButtons(this.vertexButtons())
       .onClickVertex(() => {
         console.log(arguments);
       })
       // edges
       .edgeColor((u: number, v: number) => {
-        return (graph.get(u, v).coefficient >= 0) ? 'blue' : 'red';
+        return (graph.get(u, v).coefficient >= 0) ? styles.colors.edgeColor1 : styles.colors.edgeColor2;
       })
       .edgeWidth((u: number, v: number) => {
         return edgeWidthScale(Math.abs(graph.get(u, v).coefficient));
