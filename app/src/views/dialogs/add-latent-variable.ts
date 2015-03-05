@@ -6,6 +6,7 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var localized = IsemInjector.localized();
+var Logger    = IsemInjector.Logger();
 
 var directiveName = 'isemDialogAddLatentVariable';
 
@@ -25,6 +26,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
+    Logger.trace(Logger.t(), __filename, 'constructor');
     this.initLocalizedLabel(this.$scope.locale());
   }
 
@@ -41,6 +43,7 @@ export class Controller {
    * @returns {void}
    */
   add(v: string) {
+    Logger.trace(Logger.t(), __filename, '#add()');
     this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, v);
     this.$scope.dialog.close();
   }
@@ -49,11 +52,13 @@ export class Controller {
    * @returns {void}
    */
   cancel() {
+    Logger.trace(Logger.t(), __filename, '#cancel()');
     this.$scope.dialog.close();
   }
 }
 
 export function open() {
+  Logger.trace(Logger.t(), __filename, 'open()');
   var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
   var Dialog = rootElement.injector().get('Dialog');
 

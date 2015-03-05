@@ -9,6 +9,7 @@ import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var localized = IsemInjector.localized();
+var Logger    = IsemInjector.Logger();
 
 var directiveName = 'isemDialogImportFile';
 
@@ -37,6 +38,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
+    Logger.trace(Logger.t(), __filename, 'constructor');
     this.$scope.encoding = 'utf-8';
     this.initLocalizedLabel(this.$scope.locale());
   }
@@ -53,6 +55,7 @@ export class Controller {
    * @returns {void}
    */
   importFile() {
+    Logger.trace(Logger.t(), __filename, '#importFile()');
     var reader = new FileReader();
     reader.onload = this.fileReaderOnLoad();
 
@@ -78,11 +81,13 @@ export class Controller {
    * @returns {void}
    */
   cancel() {
+    Logger.trace(Logger.t(), __filename, '#cancel()');
     this.$scope.dialog.close();
   }
 }
 
 export function open() {
+  Logger.trace(Logger.t(), __filename, 'open()');
   var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
   var Dialog = rootElement.injector().get('Dialog');
 

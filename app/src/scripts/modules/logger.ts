@@ -21,7 +21,7 @@ class Logger {
   private static logging(level: Level): Function {
     if (Logger.level === Level.OFF) {return () => {}}
 
-    var levelBelow  = level <= Logger.level;
+    var levelBelow = level <= Logger.level;
     if (level === Level.TRACE && levelBelow) {return console.log  .bind(console)}
     if (level === Level.DEBUG && levelBelow) {return console.log  .bind(console)}
     if (level === Level.INFO  && levelBelow) {return console.info .bind(console)}
