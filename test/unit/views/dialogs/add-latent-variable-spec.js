@@ -17,7 +17,8 @@ var Controller = (() => {
   };
 
   mockScope = {
-    dialog: {close: () => {}}
+    dialog: {close: () => {}},
+    locale: () => 'ja'
   };
   stubScope = {
     dialog: {

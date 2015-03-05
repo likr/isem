@@ -21,7 +21,8 @@ var Controller = (() => {
   };
 
   mockScope = {
-    dialog: {close: () => {}}
+    dialog: {close: () => {}},
+    locale: () => 'ja'
   };
   stubScope = {
     dialog: {
@@ -36,10 +37,8 @@ describe('DialogImportFile', () => {
   describe('Controller', () => {
     describe('#importFile()', () => {
       var files = ['dummy', null];
-      var encoding = [{value: 'dummyEncoding'}, null];
       before(() => {
-        stubDocument.getElementById.withArgs('fileInput').returns({files: files});
-        stubDocument.querySelectorAll.withArgs('.encoding:checked').returns(encoding);
+        stubDocument.getElementById.withArgs('file-input').returns({files: files});
         Controller.importFile();
       });
 
@@ -48,7 +47,8 @@ describe('DialogImportFile', () => {
       });
 
       it('should give the correct value to arg[1] of readAsText()', () => {
-        assert(stubFileReader.readAsText.getCall(0).args[1] === 'dummyEncoding');
+        // utf-8 is used as a default
+        assert(stubFileReader.readAsText.getCall(0).args[1] === 'utf-8');
       });
 
       it('should do close()', () => {
