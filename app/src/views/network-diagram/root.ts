@@ -21,8 +21,9 @@ interface Scope extends ng.IScope {
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
 export class Controller {
-  private _changeCallback: typeof listenerWithErrorType;
+  private _changeCallback:                 typeof listenerWithErrorType;
   private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
+  private _clickVertexCallback:            typeof listenerWithErrorType;
 
   /**
    * @constructor
@@ -35,8 +36,9 @@ export class Controller {
     Logger.trace(Logger.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
-    this._changeCallback = this.changeCallback();
+    this._changeCallback                 = this.changeCallback();
     this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
+    this._clickVertexCallback            = this.clickVertexCallback();
     this.subscribe();
   }
 
@@ -47,6 +49,7 @@ export class Controller {
     Logger.trace(Logger.t(), __filename, '#subscribe()');
     Store.addListenerToChange(this._changeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
+    Renderer.addListenerToClickVertex(this._clickVertexCallback);
   }
 
   /**
@@ -81,6 +84,15 @@ export class Controller {
         variableArray: this.$scope.variableArray
       };
       AddRelation.open<typeof data>(data);
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private clickVertexCallback(): typeof listenerWithErrorType {
+    return (_, err, vertexId) => {
+      Logger.trace(Logger.t(), __filename, '#clickVertexCallback()', vertexId);
     };
   }
 }
