@@ -32,6 +32,11 @@
       "repo": "https://github.com/likr/egrid-core.git",
       "ref": "c868001edf94300096b2b7404fadacb9c6dd68e8",
       "path": "egrid-core.d.ts"
+    },
+    "cw-modal/cw-modal.d.ts": {
+      "repo": "https://github.com/armorik83/cw-modal.git",
+      "ref": "a975886d0957151d4c684fca8603e3b9a04d726e",
+      "path": "api/cw-modal.d.ts"
     }
   }
 }
