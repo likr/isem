@@ -10,13 +10,14 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        float: 'left'
-      }).css({
-        width: styles.subColumn.width,
-        height: styles.mainDisplay.height
-      }).css({
+        // positioning
+        float: 'left',
+        // size
+        width:  styles.subColumn.width,
+        height: styles.mainDisplay.height,
+        // visually
         'background-color': styles.colors.subColumnBackground,
-        'border-right': 'solid 1px ' + styles.colors.footerBorder
+        'border-right':     'solid 1px ' + styles.colors.footerBorder
       });
   }
 

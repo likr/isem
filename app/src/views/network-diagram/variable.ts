@@ -26,12 +26,13 @@ class Controller {
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     var mainHeight = styles.mainDisplay.heightRawExp;
+    // do not specify 'width: 100%' because of the display position of scroll bar shifted.
     tElement.children('div')
       .css({
-        'overflow-y': 'scroll'
-      }).css({
-        // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-        height: 'calc' + '(' + mainHeight + ' - ' + styles.subToolGroup.height + ')'
+        // positioning
+        'overflow-y': 'scroll',
+        // size
+        height: ['calc(', mainHeight, '-', styles.subToolGroup.height, ')'].join(' ')
       });
   }
 

@@ -10,16 +10,17 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
         'z-index': 200,
-        position: 'fixed',
-        bottom: 0,
-        'box-sizing': 'border-box'
-      }).css({
-        width: '100%',
-        height: styles.isemFooter.height
-      }).css({
+        position:  'fixed',
+        bottom:    0,
+        // size
+        'box-sizing': 'border-box',
+        width:        '100%',
+        height:       styles.isemFooter.height,
+        // visually
         'background-color': styles.colors.footerBackground,
-        'border-top': 'solid 1px ' + styles.colors.footerBorder
+        'border-top':       'solid 1px ' + styles.colors.footerBorder
       });
   }
 

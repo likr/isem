@@ -10,15 +10,16 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
         'z-index': 200,
-        position: 'absolute',
-        bottom: 0
-      }).css({
-        width: '100%',
-        height: styles.mainValueGroup.height
-      }).css({
+        position:  'absolute',
+        bottom:    0,
+        // size
+        width:  '100%',
+        height: styles.mainValueGroup.height,
+        // visually
         'background-color': styles.colors.valueGroupBackground,
-        'border-top': 'solid 1px ' + styles.colors.valueGroupBorder
+        'border-top':       'solid 1px ' + styles.colors.valueGroupBorder
       });
   }
 

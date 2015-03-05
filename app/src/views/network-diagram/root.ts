@@ -78,14 +78,15 @@ export class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        position: 'absolute',
-        top: styles.isemHeader.height,
-        'overflow-y': 'scroll'
-      }).css({
+        // positioning
+        position:     'absolute',
+        top:          styles.isemHeader.height,
+        'overflow-y': 'scroll',
+        // size
         width: '100%',
         height: styles.mainDisplay.height
-      }).css({
-        // for looks, e.g. color, background-color...
+        // visually
+        // none
       });
   }
 

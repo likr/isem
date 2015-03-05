@@ -10,12 +10,12 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
+        float:    'left',
+        position: 'absolute',
+        // size
         height: styles.mainDisplay.height,
-        float: 'left',
-        position: 'absolute'
-      }).css({
-        width: ['calc(', '100%', '-', styles.subColumn.width, ')'].join(' '),
-        height: styles.mainDisplay.height
+        width:  ['calc(', '100%', '-', styles.subColumn.width, ')'].join(' ')
       });
   }
 
