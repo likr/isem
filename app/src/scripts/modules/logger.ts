@@ -6,85 +6,40 @@ enum Level {
   ERROR,
   WARN,
   INFO,
-  DEBUG
+  DEBUG,
+  TRACE
 }
 
 class Logger {
   // set level
-  static level = Level.DEBUG;
+  static level = Level.TRACE;
 
   /**
-   * @param {Level}      level
-   * @param {IArguments} message
-   * @returns {void}
+   * @param {Level} level
+   * @returns {Function}
    */
-  private static logging(level: Level, message: IArguments) {
-    if (Logger.level === Level.OFF) {return}
-    var args    = Array.prototype.slice.call(message);
-    var logArgs = [new Date().toISOString() + ' |'].concat(args);
+  private static logging(level: Level): Function {
+    if (Logger.level === Level.OFF) {return () => {}}
 
-    if (level === Level.DEBUG && level <= Logger.level) {
-      console.log.apply(console, logArgs);
-      return;
-    }
-    if (level === Level.INFO && level <= Logger.level) {
-      console.info.apply(console, logArgs);
-      return;
-    }
-    if (level === Level.WARN && level <= Logger.level) {
-      console.warn.apply(console, logArgs);
-      return;
-    }
-    if (level === Level.ERROR && level <= Logger.level) {
-      console.error.apply(console, logArgs);
-      return;
-    }
-    if (level === Level.FATAL && level <= Logger.level) {
-      var fatalLogArgs = ['[FATAL]'].concat(logArgs);
-      console.error.apply(console, fatalLogArgs);
-      return;
-    }
+    var levelBelow  = level <= Logger.level;
+    var dateString  = new Date().toISOString() + ' |';
+    var fatalString = dateString + '[FATAL]';
+
+    if (level === Level.TRACE && levelBelow) {return console.log  .bind(console, dateString)}
+    if (level === Level.DEBUG && levelBelow) {return console.log  .bind(console, dateString)}
+    if (level === Level.INFO  && levelBelow) {return console.info .bind(console, dateString)}
+    if (level === Level.WARN  && levelBelow) {return console.warn .bind(console, dateString)}
+    if (level === Level.ERROR && levelBelow) {return console.error.bind(console, dateString)}
+    if (level === Level.FATAL && levelBelow) {return console.error.bind(console, fatalString)}
+    return () => {};
   }
 
-  /* public */
-  static debug(...args: any[]) {
-    Logger.logging(Level.DEBUG, arguments);
-  }
-
-  static debugTrace(...args: any[]) {
-    if (Logger.level === Level.OFF) {return}
-    Logger.debug(arguments);
-    console.trace();
-  }
-
-  static info(...args: any[]) {
-    Logger.logging(Level.INFO, arguments);
-  }
-
-  static infoTrace(...args: any[]) {
-    if (Logger.level === Level.OFF) {return}
-    Logger.info(arguments);
-    console.trace();
-  }
-
-  static warn(...args: any[]) {
-    Logger.logging(Level.WARN, arguments);
-  }
-
-  static warnTrace(...args: any[]) {
-    if (Logger.level === Level.OFF) {return}
-    Logger.warn(arguments);
-    console.trace();
-  }
-
-  static error(...args: any[]) {
-    if (Logger.level === Level.OFF) {return}
-    Logger.logging(Level.ERROR, arguments);
-  }
-
-  static fatal(...args: any[]) {
-    Logger.logging(Level.FATAL, arguments);
-  }
+  static trace = Logger.logging(Level.TRACE);
+  static debug = Logger.logging(Level.DEBUG);
+  static info  = Logger.logging(Level.INFO);
+  static warn  = Logger.logging(Level.WARN);
+  static error = Logger.logging(Level.ERROR);
+  static fatal = Logger.logging(Level.FATAL);
 }
 
 export = Logger;
