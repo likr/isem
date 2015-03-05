@@ -6,6 +6,7 @@ import IsemInjector = require('../../scripts/isem-injector');
 var AddRelation = IsemInjector.AddRelation();
 var app         = IsemInjector.app();
 var constants   = IsemInjector.constants();
+var Logger      = IsemInjector.Logger();
 var Renderer    = IsemInjector.NetworkDiagramRenderer();
 var Store       = IsemInjector.VariableArrayStore();
 var styles      = IsemInjector.styles();
@@ -49,7 +50,7 @@ export class Controller {
   private changeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
       if (err) {
-        console.log(err);
+        Logger.error(err);
         return;
       }
 
