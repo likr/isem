@@ -17,11 +17,6 @@ module.exports = function(grunt) {
         'testRoot':     'test',
         'testEs5':      'test-es5',
         'testEspowerd': 'test-espowered'
-      },
-      legacy: {
-        'app':    'app/legacy',
-        'tsMain': 'app/legacy/src/scripts',
-        'jsMain': 'app/legacy/src/scripts'
       }
     },
 
@@ -68,12 +63,6 @@ module.exports = function(grunt) {
           '<%= opt.client.testEs5 %>',
           '<%= opt.client.testEspowerd %>'
         ]
-      },
-      legacy: {
-        src: [
-          '<%= opt.legacy.jsMain %>/**/*.js',
-          '<%= opt.legacy.jsMain %>/**/*.js.map'
-        ]
       }
     },
 
@@ -104,30 +93,6 @@ module.exports = function(grunt) {
       client: {
         expand: true,
         src: ['./<%= opt.client.jsMain %>/bundle.js']
-      },
-      legacy: {
-        expand: true,
-        src: ['./<%= opt.legacy.jsMain %>/index.js']
-      }
-    },
-
-    protractor: {
-      options: {
-        keepAlive: true, // If false, the grunt process stops when the test fails.
-        noColor: false, // If true, protractor will not use colors in its output.
-        args: {
-          // Arguments passed to the command
-        }
-      },
-      fast: {
-        options: {
-          configFile: "./protractor.conf.js"
-        }
-      },
-      needDelay: {
-        options: {
-          configFile: "./protractor-delay.conf.js"
-        }
       }
     },
 
@@ -144,48 +109,25 @@ module.exports = function(grunt) {
         options: {
           sourceMap: false // Incompatible with browserify.
         }
-      },
-      legacy: {
-        files: {
-          'app/legacy/src/scripts/index.js': ['<%= opt.legacy.tsMain %>/index.ts']
-        },
-        options: {
-          sourceMap: true,
-          fast: 'never'
-        }
-      }
-    },
-
-    wiredep: {
-      legacy: {
-        src: ['<%= opt.legacy.app %>/index.html'],
-        exclude: []
       }
     }
   });
 
   grunt.registerTask('basic', [
     'clean',
-    'ts:client',
-    'browserify',
-    'ngAnnotate'
+    'ts'
   ]);
 
   grunt.registerTask('test', [
-    'clean',
-    'ts:client',
+    'basic',
     'babel',
     'espower',
     'mochaTest'
   ]);
 
-  grunt.registerTask('e2e', [
-    'basic',
-    'babel',
-    'protractor'
-  ]);
-
   grunt.registerTask('start', [
-    'basic'
+    'basic',
+    'browserify',
+    'ngAnnotate'
   ]);
 };
