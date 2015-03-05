@@ -14,8 +14,7 @@ var styles      = IsemInjector.styles();
 var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
-  _variableArray: string[];
-  _graph: egrid.core.Graph;
+  variableArray: string[];
 }
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
@@ -62,7 +61,7 @@ export class Controller {
       // This requires JS native setTimeout because needs forced to $apply
       setTimeout(() => {
         this.$scope.$apply(() => {
-          this.$scope._variableArray = Store.variableArray;
+          this.$scope.variableArray = Store.variableArray;
           this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
