@@ -6,7 +6,7 @@
 <div class="modal-body">
   <div class="form-group">
     <label for="vertex-id-x">{{localized.inputLabelX()}}</label>
-    <input  id="vertex-id-x" type="text" class="form-control" ng-model="vertexIdX" />
+    <select id="vertex-id-x" ng-model="vertexIdX" ng-options="v.vertexId as v.label for v in variableArray"></select>
   </div>
 
   <div class="form-group">
@@ -26,7 +26,7 @@
 
   <div class="form-group">
     <label for="vertex-id-y">{{localized.inputLabelY()}}</label>
-    <input  id="vertex-id-y" type="text" class="form-control" ng-model="vertexIdY" />
+    <select id="vertex-id-y" ng-model="vertexIdY" ng-options="v.vertexId as v.label for v in variableArray"></select>
   </div>
 </div>
 

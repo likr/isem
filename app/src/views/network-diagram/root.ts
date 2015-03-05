@@ -1,4 +1,6 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
@@ -14,7 +16,7 @@ var styles      = IsemInjector.styles();
 var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
-  variableArray: string[];
+  variableArray: Array<typeVertex.Instance>;
 }
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
@@ -74,7 +76,10 @@ export class Controller {
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
       Logger.trace(Logger.t(), __filename, '#clickAddRelationButtonCallback()');
-      var data = {vertexId: vertexId};
+      var data = {
+        vertexId: vertexId,
+        variableArray: this.$scope.variableArray
+      };
       AddRelation.open<typeof data>(data);
     };
   }

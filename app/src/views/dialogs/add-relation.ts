@@ -12,9 +12,10 @@ var directiveName = 'isemDialogAddRelation';
 
 interface Scope extends ng.IScope {
   dialog: any;
+  direction: Direction;
+  variableArray: any;
   vertexIdX: number;
   vertexIdY: number;
-  direction: Direction;
 
   localized: any;
   locale(): string;
@@ -92,7 +93,8 @@ export function open<T>(data: T) {
 export class Definition {
   static link($scope: Scope, _: any, __: any, cwModal: any) {
     $scope.dialog = cwModal.dialog;
-    $scope.vertexIdX = $scope.dialog.data.vertexId;
+    $scope.vertexIdX     = $scope.dialog.data.vertexId;
+    $scope.variableArray = $scope.dialog.data.variableArray;
   }
 
   static ddo() {
