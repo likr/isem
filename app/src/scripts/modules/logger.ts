@@ -22,16 +22,17 @@ class Logger {
     if (Logger.level === Level.OFF) {return () => {}}
 
     var levelBelow  = level <= Logger.level;
-    var dateString  = new Date().toISOString() + ' |';
-    var fatalString = dateString + '[FATAL]';
-
-    if (level === Level.TRACE && levelBelow) {return console.log  .bind(console, dateString)}
-    if (level === Level.DEBUG && levelBelow) {return console.log  .bind(console, dateString)}
-    if (level === Level.INFO  && levelBelow) {return console.info .bind(console, dateString)}
-    if (level === Level.WARN  && levelBelow) {return console.warn .bind(console, dateString)}
-    if (level === Level.ERROR && levelBelow) {return console.error.bind(console, dateString)}
-    if (level === Level.FATAL && levelBelow) {return console.error.bind(console, fatalString)}
+    if (level === Level.TRACE && levelBelow) {return console.log  .bind(console)}
+    if (level === Level.DEBUG && levelBelow) {return console.log  .bind(console)}
+    if (level === Level.INFO  && levelBelow) {return console.info .bind(console)}
+    if (level === Level.WARN  && levelBelow) {return console.warn .bind(console)}
+    if (level === Level.ERROR && levelBelow) {return console.error.bind(console)}
+    if (level === Level.FATAL && levelBelow) {return console.error.bind(console, '[FATAL]')}
     return () => {};
+  }
+
+  static t() {
+    return new Date().toISOString() + ' |';
   }
 
   static trace = Logger.logging(Level.TRACE);
