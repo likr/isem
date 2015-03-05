@@ -174,16 +174,16 @@ describe('VariableArrayStore', () => {
     });
   });
 
-  describe('#addChangeListener()', () => {
-    var dummy = 'addChangeListenerListener';
+  describe('#addListenerToChange()', () => {
+    var dummy = 'listener';
     beforeEach(() => {
       stubRootScope.$on.reset();
       Store.init();
-      Store.addChangeListener(dummy);
+      Store.addListenerToChange(dummy);
     });
 
     it('should give the event name to arg[0] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+      assert(stubRootScope.$on.getCall(0).args[0] === Store.constructor.CHANGE);
     });
 
     it('should give the listener to arg[1] of $on()', () => {
@@ -202,7 +202,7 @@ describe('VariableArrayStore', () => {
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE_EVENT);
+        assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE);
       });
 
       it('should NOT give to arg[1] of $broadcast()', () => {

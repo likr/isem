@@ -28,7 +28,7 @@
   "dependencies": {
     "angular": "1.3.12",
     "angular-route": "1.3.12",
-    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#c7e2061be95dd51611e833cc255ed68b16baa85d",
+    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#a975886d0957151d4c684fca8603e3b9a04d726e",
     "d3": "3.5.5",
     "egrid-core": "^1.2.1",
     "jquery": "2.1.3",

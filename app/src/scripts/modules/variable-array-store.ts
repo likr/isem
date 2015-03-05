@@ -1,6 +1,7 @@
 'use strict';
 import typeVertex = require('../modules/vertex');
 
+import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
 var angular = Injector.angular();
 var egrid   = Injector.egrid();
@@ -11,40 +12,41 @@ var Converter  = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
 var Vertex     = IsemInjector.Vertex();
 
+declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
   graph: egrid.core.Graph;
   variableArray: string[];
 
-  addChangeListener   (listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any): void;
+  addListenerToChange     (listener: typeof listenerType): void;
+  removeListenerFromChange(listener: typeof listenerType): void;
 }
 
-class Store {
+var prefix = 'VariableArrayStore:';
+class Store extends AbstractStore {
   /* local constant */
-  static CHANGE_EVENT = 'VariableArrayStore:CHANGE_EVENT';
+  static CHANGE = prefix + 'CHANGE';
 
   /* public */
   graph: egrid.core.Graph;
   variableArray: Array<typeVertex.Instance>;
 
-  /* private */
-  private $rootScope: ng.IRootScopeService;
+  /* protected */
+  protected $rootScope: ng.IRootScopeService;
 
   /**
    * @constructor
    */
   constructor() {
+    super();
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
   }
 
   /**
    * @returns {void}
    */
-  private init() {
-    var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
-    this.$rootScope = rootElement.scope();
+  protected init() {
+    super.init();
     this.graph = egrid.core.graph.adjacencyList();
-
     this.registerWithDispatcher();
   }
 
@@ -52,6 +54,7 @@ class Store {
    * @returns {void}
    */
   private registerWithDispatcher() {
+    Dispatcher.onAddRelation(this.onAddRelationCallback());
     Dispatcher.onAddVariable(this.onAddVariableCallback());
     Dispatcher.onImportFile(this.onImportFileCallback());
   }
@@ -59,7 +62,18 @@ class Store {
   /**
    * @returns {Function}
    */
-  private onAddVariableCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
+  private onAddRelationCallback(): typeof listenerType {
+    return (_, data) => {
+      console.log('onAddRelationCallback', data);
+      this.graph.addEdge(data.idX, data.idY);
+      this.publishChange();
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onAddVariableCallback(): typeof listenerType {
     return (_, label) => {
       Vertex.addLatentVariable(this.graph, label);
       this.replaceVariableArray();
@@ -70,7 +84,7 @@ class Store {
   /**
    * @returns {Function}
    */
-  private onImportFileCallback(): (ev: ng.IAngularEvent, ...args: any[]) => any {
+  private onImportFileCallback(): typeof listenerType {
     return (_, importedFile) => {
       try {
         var converter = new Converter();
@@ -125,33 +139,17 @@ class Store {
     });
   }
 
-  /**
-   * For capsulize event name to other components
-   *
-   * @param {Function} listener
-   * @returns {void}
-   */
-  addChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(Store.CHANGE_EVENT, listener);
+  /* for change */
+  addListenerToChange(listener: typeof listenerType) {
+    super.addListener(Store.CHANGE, listener);
   }
 
-  /**
-   * @param {Function} listener
-   * @returns {void}
-   */
-  removeChangeListener(listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    var listeners = (<any>this.$rootScope).$$listeners[Store.CHANGE_EVENT];
-    app.removeListener(listeners, listener);
+  removeListenerFromChange(listener: typeof listenerType) {
+    super.removeListener(Store.CHANGE, listener);
   }
 
-  /**
-   * @param {*} err
-   * @returns {void}
-   */
-  private publishChange(err?: any) {
-    this.$rootScope.$broadcast(Store.CHANGE_EVENT, err);
+  protected publishChange(err?: any) {
+    super.publish(Store.CHANGE, err);
   }
 }
 
