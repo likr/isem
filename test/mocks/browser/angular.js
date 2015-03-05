@@ -6,7 +6,8 @@ function mockAngular() {}
 mockAngular.module = () => {
   return {
     config: () => {},
-    directive: () => {}
+    directive: () => {},
+    run: () => {}
   };
 };
 mockAngular.element = () => {};
@@ -23,19 +24,18 @@ mockRootScope.$on = () => {};
 
 sinon.stub(Injector, 'angular').returns(mockAngular);
 
-module.exports.stubAngular = {
-  element: sinon.stub(mockAngular, 'element').withArgs('.ng-scope').returns(mockElements)
-};
-
-module.exports.stubElements = {
-  eq: sinon.stub(mockElements, 'eq').withArgs(0).returns(mockRootElement)
-};
-
-module.exports.stubRootElement = {
-  scope: sinon.stub(mockRootElement, 'scope').returns(mockRootScope)
-};
-
-module.exports.stubRootScope = {
-  $broadcast: sinon.stub(mockRootScope, '$broadcast'),
-  $on:        sinon.stub(mockRootScope, '$on')
+module.exports = {
+  stubAngular: {
+    element: sinon.stub(mockAngular, 'element').withArgs('.ng-scope').returns(mockElements)
+  },
+  stubElements: {
+    eq: sinon.stub(mockElements, 'eq').withArgs(0).returns(mockRootElement)
+  },
+  stubRootElement: {
+    scope: sinon.stub(mockRootElement, 'scope').returns(mockRootScope)
+  },
+  stubRootScope: {
+    $broadcast: sinon.stub(mockRootScope, '$broadcast'),
+    $on:        sinon.stub(mockRootScope, '$on')
+  }
 };
