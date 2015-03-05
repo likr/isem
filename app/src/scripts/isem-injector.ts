@@ -6,6 +6,7 @@ import styles    = require('./styles');
 
 /* modules */
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
+import Logger                   = require('./modules/logger');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
 import NetworkDiagramRenderer   = require('./modules/network-diagram-renderer');
 import VariableArrayStore       = require('./modules/variable-array-store');
@@ -59,6 +60,10 @@ class IsemInjector {
 
       return localized;
     };
+  }
+
+  static Logger(): typeof Logger {
+    return require('./modules/logger');
   }
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {

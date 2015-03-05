@@ -6,9 +6,12 @@ import IsemInjector = require('../../scripts/isem-injector');
 var AddRelation = IsemInjector.AddRelation();
 var app         = IsemInjector.app();
 var constants   = IsemInjector.constants();
+var Logger      = IsemInjector.Logger();
 var Renderer    = IsemInjector.NetworkDiagramRenderer();
 var Store       = IsemInjector.VariableArrayStore();
 var styles      = IsemInjector.styles();
+
+var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
   _variableArray: string[];
@@ -28,6 +31,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
+    Logger.trace(Logger.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
     this._changeCallback = this.changeCallback();
@@ -39,6 +43,7 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
+    Logger.trace(Logger.t(), __filename, '#subscribe()');
     Store.addListenerToChange(this._changeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
   }
@@ -48,8 +53,9 @@ export class Controller {
    */
   private changeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
+      Logger.trace(Logger.t(), __filename, '#changeCallback()');
       if (err) {
-        console.log(err);
+        Logger.error(err);
         return;
       }
 
@@ -68,6 +74,7 @@ export class Controller {
    */
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
+      Logger.trace(Logger.t(), __filename, '#clickAddRelationButtonCallback()');
       var data = {vertexId: vertexId};
       AddRelation.open<typeof data>(data);
     };
@@ -109,4 +116,4 @@ export class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagram', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);
