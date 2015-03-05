@@ -1,5 +1,8 @@
 'use strict';
-import typeVertex = require('../modules/vertex');
+import typeVertex      = require('../modules/vertex');
+
+import AddRelation = require('../../views/dialogs/add-relation');
+import Direction   = AddRelation.Direction
 
 import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
@@ -67,7 +70,14 @@ class Store extends AbstractStore {
   private onAddRelationCallback(): typeof listenerType {
     return (_, data) => {
       Logger.debug(Logger.t(), __filename, '#onAddRelationCallback()', data);
-      this.graph.addEdge(data.idX, data.idY);
+      if (data.direction === Direction.xToY) {
+        this.graph.addEdge(data.idX, data.idY);
+      } else if (data.direction === Direction.mutual) {
+        this.graph.addEdge(data.idX, data.idY);
+        this.graph.addEdge(data.idY, data.idX);
+      } else if (data.direction === Direction.yToX) {
+        this.graph.addEdge(data.idY, data.idX);
+      }
       this.publishChange();
     };
   }

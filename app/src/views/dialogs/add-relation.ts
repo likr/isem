@@ -21,10 +21,10 @@ interface Scope extends ng.IScope {
   locale(): string;
 }
 
-enum Direction {
+export enum Direction {
   xToY,
   mutual,
-  yTox
+  yToX
 }
 
 export class Controller {
