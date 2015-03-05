@@ -22,6 +22,9 @@ export interface API {
 
   addListenerToClickAddRelationButton     (listener: typeof listenerType): void;
   removeListenerFromClickAddRelationButton(listener: typeof listenerType): void;
+
+  addListenerToClickVertex     (listener: typeof listenerType): void;
+  removeListenerFromClickVertex(listener: typeof listenerType): void;
 }
 
 var prefix = 'NetworkDiagramRenderer:';
@@ -33,6 +36,7 @@ class Renderer extends AbstractStore {
   /* local constant */
   static CHANGE                    = prefix + 'CHANGE';
   static CLICK_ADD_RELATION_BUTTON = prefix + 'CLICK_ADD_RELATION_BUTTON';
+  static CLICK_VERTEX              = prefix + 'CLICK_VERTEX';
 
   /* protected */
   protected $rootScope: ng.IRootScopeService;
@@ -114,8 +118,8 @@ class Renderer extends AbstractStore {
       .strokeColor(styles.colors.stroke)
       .selectedStrokeColor(styles.colors.selectedStroke)
       .vertexButtons(this.vertexButtons())
-      .onClickVertex(() => {
-        console.log(arguments);
+      .onClickVertex((d: typeVertex.Props, u: number) => {
+        this.publishClickVertex(u, null);
       })
       // edges
       .edgeColor((u: number, v: number) => {
@@ -208,7 +212,6 @@ class Renderer extends AbstractStore {
   }
 
   protected publishChange(err?: any) {
-    Logger.trace(Logger.t(), __filename, '#publishChange()');
     super.publish(Renderer.CHANGE, err);
   }
 
@@ -222,8 +225,20 @@ class Renderer extends AbstractStore {
   }
 
   protected publishClickAddRelationButton(buttonId: number, err?: any) {
-    Logger.trace(Logger.t(), __filename, '#publishClickAddRelationButton()');
     super.publish(Renderer.CLICK_ADD_RELATION_BUTTON, err, buttonId);
+  }
+
+  /* for clickVertexButton */
+  addListenerToClickVertex(listener: typeof listenerType) {
+    super.addListener(Renderer.CLICK_VERTEX, listener);
+  }
+
+  removeListenerFromClickVertex(listener: typeof listenerType) {
+    super.removeListener(Renderer.CLICK_VERTEX, listener);
+  }
+
+  protected publishClickVertex(vertexId: number, err?: any) {
+    super.publish(Renderer.CLICK_VERTEX, err, vertexId);
   }
 }
 

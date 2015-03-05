@@ -64,7 +64,7 @@ describe('NetworkDiagramRoot', () => {
 
       it('should set to $scope', () => {
         clock.tick(0); // Fire setTimeout
-        assert(Controller.$scope._variableArray === 'dummyVariableArray');
+        assert(Controller.$scope.variableArray === 'dummyVariableArray');
       });
     });
   });

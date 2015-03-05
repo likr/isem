@@ -1,4 +1,6 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
@@ -14,14 +16,14 @@ var styles      = IsemInjector.styles();
 var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
-  _variableArray: string[];
-  _graph: egrid.core.Graph;
+  variableArray: Array<typeVertex.Instance>;
 }
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
 export class Controller {
-  private _changeCallback: typeof listenerWithErrorType;
+  private _changeCallback:                 typeof listenerWithErrorType;
   private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
+  private _clickVertexCallback:            typeof listenerWithErrorType;
 
   /**
    * @constructor
@@ -34,8 +36,9 @@ export class Controller {
     Logger.trace(Logger.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
-    this._changeCallback = this.changeCallback();
+    this._changeCallback                 = this.changeCallback();
     this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
+    this._clickVertexCallback            = this.clickVertexCallback();
     this.subscribe();
   }
 
@@ -46,6 +49,7 @@ export class Controller {
     Logger.trace(Logger.t(), __filename, '#subscribe()');
     Store.addListenerToChange(this._changeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
+    Renderer.addListenerToClickVertex(this._clickVertexCallback);
   }
 
   /**
@@ -62,7 +66,7 @@ export class Controller {
       // This requires JS native setTimeout because needs forced to $apply
       setTimeout(() => {
         this.$scope.$apply(() => {
-          this.$scope._variableArray = Store.variableArray;
+          this.$scope.variableArray = Store.variableArray;
           this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
@@ -75,8 +79,20 @@ export class Controller {
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
       Logger.trace(Logger.t(), __filename, '#clickAddRelationButtonCallback()');
-      var data = {vertexId: vertexId};
+      var data = {
+        vertexId: vertexId,
+        variableArray: this.$scope.variableArray
+      };
       AddRelation.open<typeof data>(data);
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private clickVertexCallback(): typeof listenerWithErrorType {
+    return (_, err, vertexId) => {
+      Logger.trace(Logger.t(), __filename, '#clickVertexCallback()', vertexId);
     };
   }
 }

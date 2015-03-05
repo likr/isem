@@ -6,10 +6,11 @@ export interface Constructor {
 }
 
 export interface Props {
-  label:   string;
-  latent:  boolean;
-  enabled: boolean;
-  data:    number[];
+  label:    string;
+  latent:   boolean;
+  enabled:  boolean;
+  data:     number[];
+  vertexId: number;
 }
 
 export interface Instance extends Props {
@@ -17,10 +18,11 @@ export interface Instance extends Props {
 }
 
 class Vertex implements Props {
-  public label:   string;
-  public latent:  boolean;
-  public enabled: boolean;
-  public data:    number[];
+  label:    string;
+  latent:   boolean;
+  enabled:  boolean;
+  data:     number[];
+  vertexId: number;
 
   /**
    * @constructor
