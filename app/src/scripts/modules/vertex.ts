@@ -2,7 +2,7 @@
 
 export interface Constructor {
   addObservedVariable(adjacencyList: egrid.core.Graph, label: string, data: number[]): Instance;
-  addLatentVariable(adjacencyList: egrid.core.Graph, label: string): Instance;
+  addLatentVariable  (adjacencyList: egrid.core.Graph, label: string): Instance;
 }
 
 export interface Props {
@@ -75,5 +75,8 @@ class Vertex implements Props {
   }
 }
 
-module.exports.addObservedVariable = Vertex.addObservedVariable;
-module.exports.addLatentVariable   = Vertex.addLatentVariable;
+
+module.exports = {
+  addObservedVariable: Vertex.addObservedVariable,
+  addLatentVariable:   Vertex.addLatentVariable
+};
