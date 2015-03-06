@@ -16,14 +16,19 @@ var styles      = IsemInjector.styles();
 var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
-  variableArray: Array<typeVertex.Instance>;
+  variableArray:  Array<typeVertex.Instance>;
+  attributeArray: Array<{name: string; value: number}>;
 }
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
 export class Controller {
-  private _changeCallback:                 typeof listenerWithErrorType;
+  /* Store */
+  private _storeChangeCallback: typeof listenerWithErrorType;
+
+  /* Renderer */
   private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
   private _clickVertexCallback:            typeof listenerWithErrorType;
+  private _rendererChangeCallback:         typeof listenerWithErrorType;
 
   /**
    * @constructor
@@ -36,9 +41,11 @@ export class Controller {
     log.trace(log.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
-    this._changeCallback                 = this.changeCallback();
+    this._storeChangeCallback = this.storeChangeCallback();
+
     this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
     this._clickVertexCallback            = this.clickVertexCallback();
+    this._rendererChangeCallback         = this.rendererChangeCallback();
     this.subscribe();
   }
 
@@ -47,17 +54,18 @@ export class Controller {
    */
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
-    Store.addListenerToChange(this._changeCallback);
+    Store.addListenerToChange(this._storeChangeCallback);
+    Renderer.addListenerToChange                (this._rendererChangeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
-    Renderer.addListenerToClickVertex(this._clickVertexCallback);
+    Renderer.addListenerToClickVertex           (this._clickVertexCallback);
   }
 
   /**
    * @returns {Function}
    */
-  private changeCallback(): typeof listenerWithErrorType {
+  private storeChangeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
-      log.trace(log.t(), __filename, '#changeCallback()');
+      log.trace(log.t(), __filename, '#storeChangeCallback()');
       if (err) {
         log.error(err);
         return;
@@ -79,6 +87,11 @@ export class Controller {
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
       log.trace(log.t(), __filename, '#clickAddRelationButtonCallback()');
+      if (err) {
+        log.error(err);
+        return;
+      }
+
       var data = {
         vertexId: vertexId,
         variableArray: this.$scope.variableArray
@@ -93,6 +106,31 @@ export class Controller {
   private clickVertexCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
       log.trace(log.t(), __filename, '#clickVertexCallback()', vertexId);
+      if (err) {
+        log.error(err);
+        return;
+      }
+      // Do nothing
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private rendererChangeCallback(): typeof listenerWithErrorType {
+    return (_, err) => {
+      log.trace(log.t(), __filename, '#rendererChangeCallback()');
+      if (err) {
+        log.error(err);
+        return;
+      }
+
+      // This requires JS native setTimeout because needs forced to $apply
+      setTimeout(() => {
+        this.$scope.$apply(() => {
+          this.$scope.attributeArray = Renderer.attributeArray;
+        });
+      }, 0);
     };
   }
 }
