@@ -90,7 +90,7 @@ class Store extends AbstractStore {
     return (_, label) => {
       log.trace(log.t(), __filename, '#onAddVariableCallback()');
       Vertex.addLatentVariable(this.graph, label);
-      this.replaceVariableArray();
+      this.updateVariableArray();
       this.publishChange();
     };
   }
@@ -106,7 +106,7 @@ class Store extends AbstractStore {
       vertex.enabled = !vertex.enabled;
       this.graph.set(vertexId, vertex);
 
-      this.replaceVariableArray();
+      this.updateVariableArray();
       this.publishChange();
     };
   }
@@ -135,9 +135,11 @@ class Store extends AbstractStore {
   }
 
   /**
+   * Update variable array by replace from graph.vertices().map()
+   *
    * @returns {void}
    */
-  private replaceVariableArray() {
+  private updateVariableArray() {
     this.variableArray = this.graph.vertices().map((u) => {
       var vertex = this.graph.get(u);
       vertex.vertexId = u;
@@ -153,7 +155,7 @@ class Store extends AbstractStore {
     result.nodes.forEach((label: string, i: number) => {
       return Vertex.addObservedVariable(this.graph, label, result.S[i]);
     });
-    this.replaceVariableArray();
+    this.updateVariableArray();
   }
 
   /**
