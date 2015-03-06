@@ -10,16 +10,17 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
         'z-index': 200,
-        position: 'absolute',
-        bottom: 0
-      }).css({
-        width: 'inherit',
-        height: styles.subToolGroup.height
-      }).css({
+        position:  'absolute',
+        bottom:    0,
+        // size
+        width:  'inherit',
+        height: styles.subToolGroup.height,
+        // visually
         'background-color': styles.colors.toolGroupBackground,
-        'border-top': 'solid 1px ' + styles.colors.subToolGroupBorder,
-        'border-right': 'inherit'
+        'border-top':       'solid 1px ' + styles.colors.subToolGroupBorder,
+        'border-right':     'inherit'
       });
   }
 

@@ -55,13 +55,14 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
+        position: 'absolute',
+        // size
         'box-sizing': 'border-box',
-        position: 'absolute'
-      }).css({
-        width: '100%',
-        height: styles.mainToolGroup.height
-      }).css({
-        'background': styles.colors.mainToolGroupBackground,
+        width:        '100%',
+        height:       styles.mainToolGroup.height,
+        // visually
+        'background':    styles.colors.mainToolGroupBackground,
         'border-bottom': 'solid 1px ' + styles.colors.footerBorder
       });
 

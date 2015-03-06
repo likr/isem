@@ -34,19 +34,21 @@ class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
+        // positioning
         'z-index': 100,
-        position: 'fixed',
-        top: 0
-      }).css({
-        width: '100%',
-        height: styles.isemHeader.height
-      }).css({
+        position:  'fixed',
+        top:       0,
+        // size
+        width:  '100%',
+        height: styles.isemHeader.height,
+        // visually
         'background': styles.colors.headerGradation,
-        color: styles.colors.headerText
+        color:        styles.colors.headerText
       });
 
     tElement.find('h1')
       .css({
+        // size
         'margin-top': (styles.isemHeader.heightRaw * 0.2083) + 'px',
         'margin-left': styles.window.margin,
         'font-size':  (styles.isemHeader.heightRaw * 0.5) + 'px'
