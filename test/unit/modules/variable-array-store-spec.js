@@ -29,6 +29,12 @@ describe('VariableArrayStore', () => {
       Store.registerWithDispatcher();
     });
 
+    it('should give the callback to arg[0] of Dispatcher#onAddRelation()', () => {
+      var actual = stubDispatcher.onAddRelation.getCall(0).args[0];
+      var expected = Store.onAddRelationCallback();
+      assert(String(actual) === String(expected));
+    });
+
     it('should give the callback to arg[0] of Dispatcher#onAddVariable()', () => {
       var actual = stubDispatcher.onAddVariable.getCall(0).args[0];
       var expected = Store.onAddVariableCallback();
@@ -38,6 +44,12 @@ describe('VariableArrayStore', () => {
     it('should give the callback to arg[0] of Dispatcher#onImportFile()', () => {
       var actual = stubDispatcher.onImportFile.getCall(0).args[0];
       var expected = Store.onImportFileCallback();
+      assert(String(actual) === String(expected));
+    });
+
+    it('should give the callback to arg[0] of Dispatcher#onToggleVertexDisplay()', () => {
+      var actual = stubDispatcher.onToggleVertexDisplay.getCall(0).args[0];
+      var expected = Store.onToggleVertexDisplayCallback();
       assert(String(actual) === String(expected));
     });
   });

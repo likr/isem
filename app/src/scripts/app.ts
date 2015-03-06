@@ -1,5 +1,6 @@
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../../typings/angularjs/angular-route.d.ts" />
+/// <reference path="../../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../../typings/cw-log/cw-log.d.ts" />
 /// <reference path="../../../typings/cw-modal/cw-modal.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="../../../typings/egrid-core/egrid-core.d.ts" />

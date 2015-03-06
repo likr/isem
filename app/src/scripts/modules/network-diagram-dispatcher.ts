@@ -10,10 +10,11 @@ var constants = IsemInjector.constants();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  onAddRelation  (listener: typeof listenerType): void;
-  onAddVariable  (listener: typeof listenerType): void;
-  onImportFile   (listener: typeof listenerType): void;
-  onUpdateDiagram(listener: typeof listenerType): void;
+  onAddRelation        (listener: typeof listenerType): void;
+  onAddVariable        (listener: typeof listenerType): void;
+  onImportFile         (listener: typeof listenerType): void;
+  onToggleVertexDisplay(listener: typeof listenerType): void;
+  onUpdateDiagram      (listener: typeof listenerType): void;
 }
 
 class Dispatcher extends AbstractDispatcher {
@@ -46,6 +47,10 @@ class Dispatcher extends AbstractDispatcher {
 
   onImportFile(listener: typeof listenerType) {
     super.on(constants.IMPORT_FILE, listener);
+  }
+
+  onToggleVertexDisplay(listener: typeof listenerType) {
+    super.on(constants.TOGGLE_VERTEX_DISPLAY, listener);
   }
 
   onUpdateDiagram(listener: typeof listenerType) {

@@ -37,6 +37,11 @@
       "repo": "https://github.com/armorik83/cw-modal.git",
       "ref": "a975886d0957151d4c684fca8603e3b9a04d726e",
       "path": "api/cw-modal.d.ts"
+    },
+    "cw-log/cw-log.d.ts": {
+      "repo": "https://github.com/armorik83/cw-log.git",
+      "ref": "9f52f947a8055f31bdd84cb494b6965be01f6006",
+      "path": "cw-log.d.ts"
     }
   }
 }
