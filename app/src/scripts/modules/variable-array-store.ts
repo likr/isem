@@ -18,7 +18,7 @@ var Vertex     = IsemInjector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  graph:         egrid.core.Graph<typeVertex.Props>;
+  graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
   addListenerToChange     (listener: typeof listenerType): void;
@@ -31,7 +31,7 @@ class Store extends AbstractStore {
   static CHANGE = prefix + 'CHANGE';
 
   /* public */
-  graph:         egrid.core.Graph<typeVertex.Props>;
+  graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
   /* protected */
@@ -51,7 +51,7 @@ class Store extends AbstractStore {
   protected init() {
     super.init();
     log.trace(log.t(), __filename, '#init()');
-    this.graph = egrid.core.graph.adjacencyList<typeVertex.Props>();
+    this.graph = egrid.core.graph.adjacencyList<typeVertex.Props, any>();
     this.registerWithDispatcher();
   }
 
