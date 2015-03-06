@@ -25,6 +25,8 @@ class Definition {
   }
 
   static ddo() {
+    // Do NOT specify to the field of 'scope'
+    // because of this directive is an abstract.
     return {
       compile: Definition.compile,
       restrict: 'E',
