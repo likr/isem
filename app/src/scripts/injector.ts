@@ -1,5 +1,6 @@
 'use strict';
 import i_angular = require('angular');
+import cwlog = require('cw-log');
 
 /**
  * Injector is the class that injects libraries for the browser only.
@@ -28,6 +29,10 @@ class Injector {
 
   static FileReader(): typeof FileReader {
     return FileReader;
+  }
+
+  static log(): cwlog.Log {
+    return require('cw-log').logger(6);
   }
 
   static semjs(): typeof sem {

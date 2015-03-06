@@ -1,4 +1,6 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
@@ -7,7 +9,7 @@ var app    = IsemInjector.app();
 var styles = IsemInjector.styles();
 
 interface Scope extends ng.IScope {
-  variableArray(): string[];
+  variableArray(): Array<typeVertex.Props>;
 }
 
 class Controller {
@@ -26,12 +28,27 @@ class Controller {
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     var mainHeight = styles.mainDisplay.heightRawExp;
+    // do not specify 'width: 100%' because of the display position of scroll bar shifted.
     tElement.children('div')
       .css({
-        'overflow-y': 'scroll'
-      }).css({
-        // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-        height: 'calc' + '(' + mainHeight + ' - ' + styles.subToolGroup.height + ')'
+        // positioning
+        'overflow-y': 'scroll',
+        // size
+        height: ['calc(', mainHeight, '-', styles.subToolGroup.height, ')'].join(' ')
+      });
+
+    tElement.find('ul')
+      .css({
+        // size
+        'margin-top': '24px',
+        // visually
+        'list-style': 'none'
+      });
+
+    tElement.find('li')
+      .css({
+        // size
+        'margin-top': '6px'
       });
   }
 

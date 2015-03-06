@@ -1,6 +1,7 @@
 'use strict';
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
@@ -25,6 +26,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
+    log.trace(log.t(), __filename, 'constructor');
     this.initLocalizedLabel(this.$scope.locale());
   }
 
@@ -41,6 +43,7 @@ export class Controller {
    * @returns {void}
    */
   add(v: string) {
+    log.trace(log.t(), __filename, '#add()');
     this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, v);
     this.$scope.dialog.close();
   }
@@ -49,11 +52,13 @@ export class Controller {
    * @returns {void}
    */
   cancel() {
+    log.trace(log.t(), __filename, '#cancel()');
     this.$scope.dialog.close();
   }
 }
 
 export function open() {
+  log.trace(log.t(), __filename, 'open()');
   var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
   var Dialog = rootElement.injector().get('Dialog');
 

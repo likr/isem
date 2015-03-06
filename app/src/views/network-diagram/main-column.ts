@@ -10,7 +10,8 @@ class Definition {
     return {
       restrict: 'A',
       scope: {
-        locale: '&isemIoLocale'
+        attributeArray: '&isemIoAttributeArray',
+        locale:         '&isemIoLocale'
       },
       templateUrl: app.viewsDir.networkDiagram + 'main-column.html',
     };

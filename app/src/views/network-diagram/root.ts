@@ -1,6 +1,9 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var AddRelation = IsemInjector.AddRelation();
@@ -10,15 +13,22 @@ var Renderer    = IsemInjector.NetworkDiagramRenderer();
 var Store       = IsemInjector.VariableArrayStore();
 var styles      = IsemInjector.styles();
 
+var directiveName = 'isemNetworkDiagram';
+
 interface Scope extends ng.IScope {
-  _variableArray: string[];
-  _graph: egrid.core.Graph;
+  variableArray:  Array<typeVertex.Instance>;
+  attributeArray: Array<{name: string; value: number}>;
 }
 
 declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
 export class Controller {
-  private _changeCallback: typeof listenerWithErrorType;
+  /* Store */
+  private _storeChangeCallback: typeof listenerWithErrorType;
+
+  /* Renderer */
   private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
+  private _clickVertexCallback:            typeof listenerWithErrorType;
+  private _rendererChangeCallback:         typeof listenerWithErrorType;
 
   /**
    * @constructor
@@ -28,10 +38,14 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
+    log.trace(log.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
-    this._changeCallback = this.changeCallback();
+    this._storeChangeCallback = this.storeChangeCallback();
+
     this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
+    this._clickVertexCallback            = this.clickVertexCallback();
+    this._rendererChangeCallback         = this.rendererChangeCallback();
     this.subscribe();
   }
 
@@ -39,24 +53,28 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
-    Store.addListenerToChange(this._changeCallback);
+    log.trace(log.t(), __filename, '#subscribe()');
+    Store.addListenerToChange(this._storeChangeCallback);
+    Renderer.addListenerToChange                (this._rendererChangeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
+    Renderer.addListenerToClickVertex           (this._clickVertexCallback);
   }
 
   /**
    * @returns {Function}
    */
-  private changeCallback(): typeof listenerWithErrorType {
+  private storeChangeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
+      log.trace(log.t(), __filename, '#storeChangeCallback()');
       if (err) {
-        console.log(err);
+        log.error(err);
         return;
       }
 
       // This requires JS native setTimeout because needs forced to $apply
       setTimeout(() => {
         this.$scope.$apply(() => {
-          this.$scope._variableArray = Store.variableArray;
+          this.$scope.variableArray = Store.variableArray;
           this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
@@ -68,8 +86,51 @@ export class Controller {
    */
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
-      var data = {vertexId: vertexId};
+      log.trace(log.t(), __filename, '#clickAddRelationButtonCallback()');
+      if (err) {
+        log.error(err);
+        return;
+      }
+
+      var data = {
+        vertexId: vertexId,
+        variableArray: this.$scope.variableArray
+      };
       AddRelation.open<typeof data>(data);
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private clickVertexCallback(): typeof listenerWithErrorType {
+    return (_, err, vertexId) => {
+      log.trace(log.t(), __filename, '#clickVertexCallback()', vertexId);
+      if (err) {
+        log.error(err);
+        return;
+      }
+      // Do nothing
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private rendererChangeCallback(): typeof listenerWithErrorType {
+    return (_, err) => {
+      log.trace(log.t(), __filename, '#rendererChangeCallback()');
+      if (err) {
+        log.error(err);
+        return;
+      }
+
+      // This requires JS native setTimeout because needs forced to $apply
+      setTimeout(() => {
+        this.$scope.$apply(() => {
+          this.$scope.attributeArray = Renderer.attributeArray;
+        });
+      }, 0);
     };
   }
 }
@@ -78,14 +139,15 @@ export class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
       .css({
-        position: 'absolute',
-        top: styles.isemHeader.height,
-        'overflow-y': 'scroll'
-      }).css({
+        // positioning
+        position:     'absolute',
+        top:          styles.isemHeader.height,
+        'overflow-y': 'scroll',
+        // size
         width: '100%',
         height: styles.mainDisplay.height
-      }).css({
-        // for looks, e.g. color, background-color...
+        // visually
+        // none
       });
   }
 
@@ -108,4 +170,4 @@ export class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemNetworkDiagram', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);
