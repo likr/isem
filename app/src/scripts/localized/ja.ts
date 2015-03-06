@@ -27,6 +27,12 @@ export var isemDialogAddRelation = {
   buttonPrimary:   () => '追加'
 };
 
+export var isemDialogManageRelation = {
+  title:           () => 'パスの管理',
+  buttonCancel:    () => 'キャンセル',
+  buttonPrimary:   () => 'チェックしたパスを削除'
+};
+
 export var isemDialogImportFile = {
   title:           () => 'ファイル読み込み',
   encodingUTF8:    () => 'UTF-8',

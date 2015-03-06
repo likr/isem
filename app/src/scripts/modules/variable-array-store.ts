@@ -18,6 +18,7 @@ var Vertex     = IsemInjector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
+  edgeArray:     [number, number][];
   graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
@@ -31,6 +32,7 @@ class Store extends AbstractStore {
   static CHANGE = prefix + 'CHANGE';
 
   /* public */
+  edgeArray:     [number, number][];
   graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
@@ -59,10 +61,11 @@ class Store extends AbstractStore {
    * @returns {void}
    */
   private registerWithDispatcher() {
-    Dispatcher.onAddRelation(this.onAddRelationCallback());
-    Dispatcher.onAddVariable(this.onAddVariableCallback());
+    Dispatcher.onAddRelation        (this.onAddRelationCallback());
+    Dispatcher.onAddVariable        (this.onAddVariableCallback());
+    Dispatcher.onImportFile         (this.onImportFileCallback());
+    Dispatcher.onRemoveRelation     (this.onRemoveRelationCallback());
     Dispatcher.onToggleVertexDisplay(this.onToggleVertexDisplayCallback());
-    Dispatcher.onImportFile(this.onImportFileCallback());
   }
 
   /**
@@ -71,6 +74,7 @@ class Store extends AbstractStore {
   private onAddRelationCallback(): typeof listenerType {
     return (_, data) => {
       log.debug(log.t(), __filename, '#onAddRelationCallback()', data);
+
       if (data.direction === Direction.xToY) {
         this.graph.addEdge(data.idX, data.idY);
       } else if (data.direction === Direction.mutual) {
@@ -79,6 +83,8 @@ class Store extends AbstractStore {
       } else if (data.direction === Direction.yToX) {
         this.graph.addEdge(data.idY, data.idX);
       }
+
+      this.updateStore();
       this.publishChange();
     };
   }
@@ -89,24 +95,10 @@ class Store extends AbstractStore {
   private onAddVariableCallback(): typeof listenerType {
     return (_, label) => {
       log.trace(log.t(), __filename, '#onAddVariableCallback()');
+
       Vertex.addLatentVariable(this.graph, label);
-      this.updateVariableArray();
-      this.publishChange();
-    };
-  }
 
-  /**
-   * @returns {Function}
-   */
-  private onToggleVertexDisplayCallback(): typeof listenerType {
-    return (_: any, vertexId: number) => {
-      log.trace(log.t(), __filename, '#onToggleVertexDisplayCallback()', vertexId);
-
-      var vertex = this.graph.get(vertexId);
-      vertex.enabled = !vertex.enabled;
-      this.graph.set(vertexId, vertex);
-
-      this.updateVariableArray();
+      this.updateStore();
       this.publishChange();
     };
   }
@@ -135,6 +127,46 @@ class Store extends AbstractStore {
   }
 
   /**
+   * @returns {Function}
+   */
+  private onRemoveRelationCallback(): typeof listenerType {
+    return (_: any, removeTarget: Array<{u: number; v: number}>) => {
+      log.debug(log.t(), __filename, '#onRemoveRelationCallback()', removeTarget);
+
+      removeTarget.forEach((target) => {
+        this.graph.removeEdge(target.u, target.v);
+      });
+
+      this.updateStore();
+      this.publishChange();
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onToggleVertexDisplayCallback(): typeof listenerType {
+    return (_: any, vertexId: number) => {
+      log.trace(log.t(), __filename, '#onToggleVertexDisplayCallback()', vertexId);
+
+      var vertex = this.graph.get(vertexId);
+      vertex.enabled = !vertex.enabled;
+      this.graph.set(vertexId, vertex);
+
+      this.updateStore();
+      this.publishChange();
+    };
+  }
+
+  /**
+   * @returns {void}
+   */
+  private updateStore() {
+    this.updateVariableArray();
+    this.updateEdgeArray();
+  }
+
+  /**
    * Update variable array by replace from graph.vertices().map()
    *
    * @returns {void}
@@ -150,12 +182,19 @@ class Store extends AbstractStore {
   /**
    * @returns {void}
    */
+  private updateEdgeArray() {
+    this.edgeArray = this.graph.edges();
+  }
+
+  /**
+   * @returns {void}
+   */
   private replaceAllVertex(result: {nodes: string[]; S: number[][]}) {
     this.removeAllVertex();
     result.nodes.forEach((label: string, i: number) => {
       return Vertex.addObservedVariable(this.graph, label, result.S[i]);
     });
-    this.updateVariableArray();
+    this.updateStore();
   }
 
   /**

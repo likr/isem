@@ -10,23 +10,17 @@ var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var localized = IsemInjector.localized();
 
-var directiveName = 'isemDialogAddRelation';
+var directiveName = 'isemDialogManageRelation';
 
 interface Scope extends ng.IScope {
   dialog: any;
-  direction: Direction;
   variableArray: Array<typeVertex.Props>;
-  vertexIdX: number;
-  vertexIdY: number;
+  edgeArray: [number, number][];
+  managedEdgeList: any;
+  u: number;
 
   localized: any;
   locale(): string;
-}
-
-export enum Direction {
-  xToY,
-  mutual,
-  yToX
 }
 
 export class Controller {
@@ -43,11 +37,12 @@ export class Controller {
 
   init() {
     log.trace(log.t(), __filename, '#init()', this.$scope);
-    this.$scope.direction     = Direction.xToY;
+    this.$scope.edgeArray     = this.$scope.dialog.data.edgeArray;
     this.$scope.variableArray = this.$scope.dialog.data.variableArray;
-    this.$scope.vertexIdX     = this.$scope.dialog.data.vertexId;
+    this.$scope.u             = this.$scope.dialog.data.vertexId;
 
     this.initLocalizedLabel(this.$scope.locale());
+    this.generateManagedEdgeList();
   }
 
   /**
@@ -59,24 +54,51 @@ export class Controller {
   }
 
   /**
-   * @param {*} idX - actually string or number, it needs number
-   * @param {*} idY - ditto
-   * @param {*} direction - actually string or number, it needs Direction
+   * @returns {[number, number][]}
    */
-  add(idX: any, idY: any, direction: any) {
-    log.debug(log.t(), __filename, '#add()', arguments);
-    var data = {
-      idX: parseInt(idX, 10),
-      idY: parseInt(idY, 10),
-      direction: parseInt(direction, 10)
-    };
+  private generateManagedEdgeList() {
+    var filtered = this.filterRelatedEdge();
+    var labels: any = {};
+    this.$scope.variableArray.forEach((v) => {
+      labels[v.vertexId] = v.label;
+    });
 
-    if (Object.keys(Direction).indexOf(String(data.direction)) === -1) {
-      log.error(log.t(), __filename, 'The value "direction" is an invalid value', data.direction);
-      return;
+    this.$scope.managedEdgeList = filtered.map((edge: [number, number]) => {
+      return {
+        uLabel:   labels[edge[0]],
+        u:        edge[0],
+        vLabel:   labels[edge[1]],
+        v:        edge[1],
+        selected: false
+      };
+    });
+  }
+
+  /**
+   * @returns {[number, number][]}
+   */
+  private filterRelatedEdge(): [number, number][] {
+    log.trace(log.t(), __filename, '#filterRelatedEdge()', this.$scope.edgeArray);
+
+    if (this.$scope.edgeArray == null) {
+      log.info(log.t(), __filename, 'edgeArray is empty');
+      return [];
     }
 
-    this.$rootScope.$broadcast(constants.ADD_RELATION, data);
+    return this.$scope.edgeArray.filter((edge: [number, number]) => {
+      return this.$scope.u === edge[0];
+    });
+  }
+
+  /**
+   * @returns {void}
+   */
+  remove() {
+    log.debug(log.t(), __filename, '#remove()', arguments);
+    var removeTarget = this.$scope.managedEdgeList.filter((row: any) => {
+      return row.selected;
+    });
+    this.$rootScope.$broadcast(constants.REMOVE_RELATION, removeTarget);
     this.$scope.dialog.close();
   }
 
@@ -95,7 +117,7 @@ export function open<T>(data: T) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<T>({
-    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-manage-relation isem-io-locale="$root.locale" />'
   });
   dialog.open(data);
 }
@@ -119,7 +141,7 @@ export class Definition {
       scope: {
         locale: '&isemIoLocale'
       },
-      templateUrl: app.viewsDir.dialogs + 'add-relation.html'
+      templateUrl: app.viewsDir.dialogs + 'manage-relation.html'
     };
   }
 }

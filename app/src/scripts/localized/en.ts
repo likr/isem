@@ -27,6 +27,12 @@ export var isemDialogAddRelation = {
   buttonPrimary:   () => 'Add'
 };
 
+export var isemDialogManageRelation = {
+  title:           () => 'Manage Relation',
+  buttonCancel:    () => 'Cancel',
+  buttonPrimary:   () => 'Remove Checked'
+};
+
 export var isemDialogImportFile = {
   title:           () => 'Import File',
   encodingUTF8:    () => 'UTF-8',
