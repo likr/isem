@@ -40,7 +40,13 @@ describe('NetworkDiagramRoot', () => {
 
       it('should give the callback to arg[0] of Store#addListenerToChange()', () => {
         var actual = stubStore.addListenerToChange.getCall(0).args[0];
-        var expected = Controller.changeCallback();
+        var expected = Controller.storeChangeCallback();
+        assert(String(actual) === String(expected));
+      });
+
+      it('should give the callback to arg[0] of Renderer#addListenerToChange()', () => {
+        var actual = stubRenderer.addListenerToChange.getCall(0).args[0];
+        var expected = Controller.rendererChangeCallback();
         assert(String(actual) === String(expected));
       });
 
@@ -49,13 +55,19 @@ describe('NetworkDiagramRoot', () => {
         var expected = Controller.clickAddRelationButtonCallback();
         assert(String(actual) === String(expected));
       });
+
+      it('should give the callback to arg[0] of Renderer#addListenerToClickVertex()', () => {
+        var actual = stubRenderer.addListenerToClickVertex.getCall(0).args[0];
+        var expected = Controller.clickVertexCallback();
+        assert(String(actual) === String(expected));
+      });
     });
 
-    describe('#changeCallback()', () => {
+    describe('#storeChangeCallback()', () => {
       var clock;
       before(() => {
         clock = lolex.install(global);
-        Controller.changeCallback()();
+        Controller.storeChangeCallback()();
       });
 
       after(() => {
