@@ -4,9 +4,10 @@ import app       = require('./app');
 import constants = require('./constants');
 import styles    = require('./styles');
 
+import cwlog = require('cw-log');
+
 /* modules */
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
-import Logger                   = require('./modules/logger');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
 import NetworkDiagramRenderer   = require('./modules/network-diagram-renderer');
 import VariableArrayStore       = require('./modules/variable-array-store');
@@ -62,8 +63,8 @@ class IsemInjector {
     };
   }
 
-  static Logger(): typeof Logger {
-    return require('./modules/logger');
+  static Logger(): cwlog.Log {
+    return require('cw-log').logger(6);
   }
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
