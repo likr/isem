@@ -15,6 +15,7 @@ import Vertex                   = require('./modules/vertex');
 import AddLatentVariable = require('../views/dialogs/add-latent-variable');
 import AddRelation       = require('../views/dialogs/add-relation');
 import ImportFile        = require('../views/dialogs/import-file');
+import ManageRelation    = require('../views/dialogs/manage-relation');
 
 /**
  * Injector is the class that injects modules in the domain of isem.
@@ -59,6 +60,10 @@ class IsemInjector {
 
       return localized;
     };
+  }
+
+  static ManageRelation(): typeof ManageRelation {
+    return require('../views/dialogs/manage-relation');
   }
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
