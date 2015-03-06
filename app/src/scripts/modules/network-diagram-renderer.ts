@@ -17,6 +17,8 @@ var styles     = IsemInjector.styles();
 declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
+  attributeArray: Array<{name: string; value: number}>;
+
   addListenerToChange     (listener: typeof listenerType): void;
   removeListenerFromChange(listener: typeof listenerType): void;
 
@@ -37,6 +39,9 @@ class Renderer extends AbstractStore {
   static CHANGE                    = prefix + 'CHANGE';
   static CLICK_ADD_RELATION_BUTTON = prefix + 'CLICK_ADD_RELATION_BUTTON';
   static CLICK_VERTEX              = prefix + 'CLICK_VERTEX';
+
+  /* public */
+  attributeArray: Array<{name: string; value: number}>;
 
   /* protected */
   protected $rootScope: ng.IRootScopeService;
@@ -69,7 +74,7 @@ class Renderer extends AbstractStore {
    * @returns {Function}
    */
   private onUpdateDiagramCallback(): typeof listenerType {
-    return (_: any, graph: egrid.core.Graph<typeVertex.Props>) => {
+    return (_: any, graph: egrid.core.Graph<typeVertex.Props, any>) => {
       log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
       var egm = this.egm(graph);
 
@@ -92,7 +97,7 @@ class Renderer extends AbstractStore {
    * @param {egrid.core.Graph} graph
    * @returns {egrid.core.EGM}
    */
-  private egm(graph: egrid.core.Graph<typeVertex.Props>): egrid.core.EGM<typeVertex.Props> {
+  private egm(graph: egrid.core.Graph<typeVertex.Props, any>): egrid.core.EGM<typeVertex.Props, any> {
     log.trace(log.t(), __filename, '#egm()');
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
@@ -151,7 +156,7 @@ class Renderer extends AbstractStore {
    * @param {egrid.core.Graph} graph
    * @returns {JQueryPromise<any>}
    */
-  private calculate(graph: egrid.core.Graph<typeVertex.Props>): JQueryPromise<any> {
+  private calculate(graph: egrid.core.Graph<typeVertex.Props, any>): JQueryPromise<any> {
     log.trace(log.t(), __filename, '#calculate()');
     var solver = semjs.solver();
 
@@ -194,12 +199,31 @@ class Renderer extends AbstractStore {
 
     return solver(n, alpha, sigma, S)
       .then((result: any) => {
+        log.debug(log.t(), __filename, '#calculate() solver then', result.attributes);
         result.alpha.forEach((path: any) => {
           var u = variableIds[path[0]];
           var v = variableIds[path[1]];
           graph.get(u, v).coefficient = path[2];
         });
+        this.setattributeArray(result.attributes);
       });
+  }
+
+  setattributeArray(attrs: Array<{name: string; value: number}>) {
+    //this.attributes = attrs;
+
+    // mocking
+    this.attributeArray = [
+      {name: 'Chi-square/df', value: Math.random()},
+      {name: 'RMSEA',         value: Math.random()},
+      {name: 'SRMR',          value: Math.random()},
+      {name: 'GFI',           value: Math.random()},
+      {name: 'AGFI',          value: Math.random()},
+      {name: 'CFI',           value: Math.random()},
+      {name: 'NFI',           value: Math.random()}
+    ];
+
+    this.publishChange();
   }
 
   /* for change */

@@ -15,8 +15,9 @@ class Definition {
         position:  'absolute',
         bottom:    0,
         // size
-        width:  '100%',
-        height: styles.mainValueGroup.height,
+        width:         '100%',
+        height:        styles.mainValueGroup.height,
+        'padding-top': '1em',
         // visually
         'background-color': styles.colors.valueGroupBackground,
         'border-top':       'solid 1px ' + styles.colors.valueGroupBorder
@@ -32,6 +33,10 @@ class Definition {
     return {
       compile: Definition.compile,
       restrict: 'E',
+      scope: {
+        attributeArray: '&isemIoAttributeArray',
+        locale:         '&isemIoLocale'
+      },
       templateUrl: app.viewsDir.networkDiagram + 'value-group.html'
     };
   }
