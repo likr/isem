@@ -8,12 +8,12 @@ import AbstractStore = require('../abstracts/store');
 import Injector = require('../injector');
 var angular = Injector.angular();
 var egrid   = Injector.egrid();
+var log     = Injector.log();
 
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Converter  = IsemInjector.CsvToAlphaConverter();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
-var Logger     = IsemInjector.Logger();
 var Vertex     = IsemInjector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
@@ -50,7 +50,7 @@ class Store extends AbstractStore {
    */
   protected init() {
     super.init();
-    Logger.trace(Logger.t(), __filename, '#init()');
+    log.trace(log.t(), __filename, '#init()');
     this.graph = egrid.core.graph.adjacencyList();
     this.registerWithDispatcher();
   }
@@ -69,7 +69,7 @@ class Store extends AbstractStore {
    */
   private onAddRelationCallback(): typeof listenerType {
     return (_, data) => {
-      Logger.debug(Logger.t(), __filename, '#onAddRelationCallback()', data);
+      log.debug(log.t(), __filename, '#onAddRelationCallback()', data);
       if (data.direction === Direction.xToY) {
         this.graph.addEdge(data.idX, data.idY);
       } else if (data.direction === Direction.mutual) {
@@ -87,7 +87,7 @@ class Store extends AbstractStore {
    */
   private onAddVariableCallback(): typeof listenerType {
     return (_, label) => {
-      Logger.trace(Logger.t(), __filename, '#onAddVariableCallback()');
+      log.trace(log.t(), __filename, '#onAddVariableCallback()');
       Vertex.addLatentVariable(this.graph, label);
       this.replaceVariableArray();
       this.publishChange();
@@ -99,7 +99,7 @@ class Store extends AbstractStore {
    */
   private onImportFileCallback(): typeof listenerType {
     return (_, importedFile) => {
-      Logger.trace(Logger.t(), __filename, '#onImportFileCallback()');
+      log.trace(log.t(), __filename, '#onImportFileCallback()');
       try {
         var converter = new Converter();
         var result = converter.convert(importedFile);
@@ -147,7 +147,7 @@ class Store extends AbstractStore {
    * @returns {void}
    */
   private removeAllVertex() {
-    Logger.trace(Logger.t(), __filename, '#removeAllVertex()');
+    log.trace(log.t(), __filename, '#removeAllVertex()');
     this.graph.vertices().forEach((u: number) => {
       this.graph.clearVertex(u);
       this.graph.removeVertex(u);
@@ -164,7 +164,7 @@ class Store extends AbstractStore {
   }
 
   protected publishChange(err?: any) {
-    Logger.trace(Logger.t(), __filename, '#publishChange()');
+    log.trace(log.t(), __filename, '#publishChange()');
     super.publish(Store.CHANGE, err);
   }
 }

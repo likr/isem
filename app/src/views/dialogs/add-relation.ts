@@ -1,12 +1,12 @@
 'use strict';
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var localized = IsemInjector.localized();
-var Logger    = IsemInjector.Logger();
 
 var directiveName = 'isemDialogAddRelation';
 
@@ -36,7 +36,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    Logger.trace(Logger.t(), __filename, 'constructor');
+    log.trace(log.t(), __filename, 'constructor');
     this.$scope.direction = Direction.xToY;
     this.initLocalizedLabel(this.$scope.locale());
   }
@@ -55,7 +55,7 @@ export class Controller {
    * @param {*} direction - actually string or number, it needs Direction
    */
   add(idX: any, idY: any, direction: any) {
-    Logger.debug(Logger.t(), __filename, '#add()', arguments);
+    log.debug(log.t(), __filename, '#add()', arguments);
     var data = {
       idX: parseInt(idX, 10),
       idY: parseInt(idY, 10),
@@ -74,13 +74,13 @@ export class Controller {
    * @returns {void}
    */
   cancel() {
-    Logger.trace(Logger.t(), __filename, '#cancel()');
+    log.trace(log.t(), __filename, '#cancel()');
     this.$scope.dialog.close();
   }
 }
 
 export function open<T>(data: T) {
-  Logger.debug(Logger.t(), __filename, 'open()', arguments);
+  log.debug(log.t(), __filename, 'open()', arguments);
   var rootElement = <ng.IAugmentedJQuery>angular.element('.ng-scope').eq(0);
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 

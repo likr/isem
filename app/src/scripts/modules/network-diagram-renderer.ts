@@ -6,12 +6,12 @@ import Injector = require('../injector');
 var angular  = Injector.angular() ;
 var document = Injector.document();
 var egrid    = Injector.egrid() ;
+var log      = Injector.log();
 var semjs    = Injector.semjs() ;
 
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
-var Logger     = IsemInjector.Logger();
 var styles     = IsemInjector.styles();
 
 declare var edgeType: [number, number];
@@ -54,7 +54,7 @@ class Renderer extends AbstractStore {
    */
   protected init() {
     super.init();
-    Logger.trace(Logger.t(), __filename, '#init()');
+    log.trace(log.t(), __filename, '#init()');
     this.registerWithDispatcher();
   }
 
@@ -70,7 +70,7 @@ class Renderer extends AbstractStore {
    */
   private onUpdateDiagramCallback(): typeof listenerType {
     return (_: any, graph: egrid.core.Graph) => {
-      Logger.trace(Logger.t(), __filename, '#onUpdateDiagramCallback()');
+      log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
       var egm = this.egm(graph);
 
       var render = () => {
@@ -93,7 +93,7 @@ class Renderer extends AbstractStore {
    * @returns {egrid.core.EGM}
    */
   private egm(graph: egrid.core.Graph): egrid.core.EGM {
-    Logger.trace(Logger.t(), __filename, '#egm()');
+    log.trace(log.t(), __filename, '#egm()');
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
       .domain([0, 2])
@@ -152,7 +152,7 @@ class Renderer extends AbstractStore {
    * @returns {JQueryPromise<any>}
    */
   private calculate(graph: egrid.core.Graph): JQueryPromise<any> {
-    Logger.trace(Logger.t(), __filename, '#calculate()');
+    log.trace(log.t(), __filename, '#calculate()');
     var solver = semjs.solver();
 
     var variableIndices: {[u: number]: number} = {};

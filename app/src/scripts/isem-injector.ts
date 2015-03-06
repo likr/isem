@@ -4,8 +4,6 @@ import app       = require('./app');
 import constants = require('./constants');
 import styles    = require('./styles');
 
-import cwlog = require('cw-log');
-
 /* modules */
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
 import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher');
@@ -61,10 +59,6 @@ class IsemInjector {
 
       return localized;
     };
-  }
-
-  static Logger(): cwlog.Log {
-    return require('cw-log').logger(6);
   }
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {

@@ -3,12 +3,12 @@ import typeVertex = require('../../scripts/modules/vertex');
 
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var AddRelation = IsemInjector.AddRelation();
 var app         = IsemInjector.app();
 var constants   = IsemInjector.constants();
-var Logger      = IsemInjector.Logger();
 var Renderer    = IsemInjector.NetworkDiagramRenderer();
 var Store       = IsemInjector.VariableArrayStore();
 var styles      = IsemInjector.styles();
@@ -33,7 +33,7 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    Logger.trace(Logger.t(), __filename, 'constructor');
+    log.trace(log.t(), __filename, 'constructor');
     // Callbacks must be stored once in the variable
     // for give to removeListener()
     this._changeCallback                 = this.changeCallback();
@@ -46,7 +46,7 @@ export class Controller {
    * @returns {void}
    */
   private subscribe() {
-    Logger.trace(Logger.t(), __filename, '#subscribe()');
+    log.trace(log.t(), __filename, '#subscribe()');
     Store.addListenerToChange(this._changeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
     Renderer.addListenerToClickVertex(this._clickVertexCallback);
@@ -57,9 +57,9 @@ export class Controller {
    */
   private changeCallback(): typeof listenerWithErrorType {
     return (_, err) => {
-      Logger.trace(Logger.t(), __filename, '#changeCallback()');
+      log.trace(log.t(), __filename, '#changeCallback()');
       if (err) {
-        Logger.error(err);
+        log.error(err);
         return;
       }
 
@@ -78,7 +78,7 @@ export class Controller {
    */
   private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
-      Logger.trace(Logger.t(), __filename, '#clickAddRelationButtonCallback()');
+      log.trace(log.t(), __filename, '#clickAddRelationButtonCallback()');
       var data = {
         vertexId: vertexId,
         variableArray: this.$scope.variableArray
@@ -92,7 +92,7 @@ export class Controller {
    */
   private clickVertexCallback(): typeof listenerWithErrorType {
     return (_, err, vertexId) => {
-      Logger.trace(Logger.t(), __filename, '#clickVertexCallback()', vertexId);
+      log.trace(log.t(), __filename, '#clickVertexCallback()', vertexId);
     };
   }
 }
