@@ -18,8 +18,8 @@ var Vertex     = IsemInjector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  graph:         egrid.core.Graph;
-  variableArray: Array<typeVertex.Instance>;
+  graph:         egrid.core.Graph<typeVertex.Props>;
+  variableArray: Array<typeVertex.Props>;
 
   addListenerToChange     (listener: typeof listenerType): void;
   removeListenerFromChange(listener: typeof listenerType): void;
@@ -31,8 +31,8 @@ class Store extends AbstractStore {
   static CHANGE = prefix + 'CHANGE';
 
   /* public */
-  graph:         egrid.core.Graph;
-  variableArray: Array<typeVertex.Instance>;
+  graph:         egrid.core.Graph<typeVertex.Props>;
+  variableArray: Array<typeVertex.Props>;
 
   /* protected */
   protected $rootScope: ng.IRootScopeService;
@@ -51,7 +51,7 @@ class Store extends AbstractStore {
   protected init() {
     super.init();
     log.trace(log.t(), __filename, '#init()');
-    this.graph = egrid.core.graph.adjacencyList();
+    this.graph = egrid.core.graph.adjacencyList<typeVertex.Props>();
     this.registerWithDispatcher();
   }
 
@@ -61,6 +61,7 @@ class Store extends AbstractStore {
   private registerWithDispatcher() {
     Dispatcher.onAddRelation(this.onAddRelationCallback());
     Dispatcher.onAddVariable(this.onAddVariableCallback());
+    Dispatcher.onToggleVertexDisplay(this.onToggleVertexDisplayCallback());
     Dispatcher.onImportFile(this.onImportFileCallback());
   }
 
@@ -89,7 +90,23 @@ class Store extends AbstractStore {
     return (_, label) => {
       log.trace(log.t(), __filename, '#onAddVariableCallback()');
       Vertex.addLatentVariable(this.graph, label);
-      this.replaceVariableArray();
+      this.updateVariableArray();
+      this.publishChange();
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onToggleVertexDisplayCallback(): typeof listenerType {
+    return (_: any, vertexId: number) => {
+      log.trace(log.t(), __filename, '#onToggleVertexDisplayCallback()', vertexId);
+
+      var vertex = this.graph.get(vertexId);
+      vertex.enabled = !vertex.enabled;
+      this.graph.set(vertexId, vertex);
+
+      this.updateVariableArray();
       this.publishChange();
     };
   }
@@ -118,10 +135,12 @@ class Store extends AbstractStore {
   }
 
   /**
+   * Update variable array by replace from graph.vertices().map()
+   *
    * @returns {void}
    */
-  private replaceVariableArray() {
-    this.variableArray = <any>this.graph.vertices().map((u) => {
+  private updateVariableArray() {
+    this.variableArray = this.graph.vertices().map((u) => {
       var vertex = this.graph.get(u);
       vertex.vertexId = u;
       return vertex;
@@ -136,7 +155,7 @@ class Store extends AbstractStore {
     result.nodes.forEach((label: string, i: number) => {
       return Vertex.addObservedVariable(this.graph, label, result.S[i]);
     });
-    this.replaceVariableArray();
+    this.updateVariableArray();
   }
 
   /**
