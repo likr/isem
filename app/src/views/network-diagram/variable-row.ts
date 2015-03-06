@@ -20,9 +20,19 @@ class Controller {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private $scope: Scope
+    private $scope: Scope,
+    private $element: ng.IAugmentedJQuery
   ) {
-    // Do nothing
+    //
+  }
+
+  /**
+   *
+   * @returns {typeVertex.Props}
+   */
+  variable(): typeVertex.Props {
+    Controller.updateClassForIcon(this.$scope.variable(), this.$element);
+    return this.$scope.variable();
   }
 
   /**
@@ -32,19 +42,35 @@ class Controller {
     var id = this.$scope.variable().vertexId;
     this.$rootScope.$broadcast(constants.TOGGLE_VERTEX_DISPLAY, id);
   }
+
+  /**
+   * @returns {void}
+   */
+  static updateClassForIcon(variable: typeVertex.Props, element: ng.IAugmentedJQuery) {
+    var disabled = 'isem-vertex-disabled';
+    var enabled  = 'isem-vertex-enabled';
+
+    if (variable.enabled) {
+      element.removeClass(disabled).addClass(enabled);
+      return;
+    }
+    element.removeClass(enabled).addClass(disabled);
+  }
 }
 
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
     tElement
-      .css({
-        //
-      });
+      .addClass('isem-vertex-enabled');
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
     Definition.styling(tElement);
-    return () => {}; // link is do nothing
+    return Definition.link;
+  }
+
+  static link($scope: Scope, iElement: ng.IAugmentedJQuery) {
+    Controller.updateClassForIcon($scope.variable(), iElement);
   }
 
   static ddo() {

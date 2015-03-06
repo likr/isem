@@ -36,6 +36,20 @@ class Definition {
         // size
         height: ['calc(', mainHeight, '-', styles.subToolGroup.height, ')'].join(' ')
       });
+
+    tElement.find('ul')
+      .css({
+        // size
+        'margin-top': '24px',
+        // visually
+        'list-style': 'none'
+      });
+
+    tElement.find('li')
+      .css({
+        // size
+        'margin-top': '6px'
+      });
   }
 
   static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
