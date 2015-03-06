@@ -69,7 +69,7 @@ class Renderer extends AbstractStore {
    * @returns {Function}
    */
   private onUpdateDiagramCallback(): typeof listenerType {
-    return (_: any, graph: egrid.core.Graph) => {
+    return (_: any, graph: egrid.core.Graph<typeVertex.Props>) => {
       log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
       var egm = this.egm(graph);
 
@@ -92,7 +92,7 @@ class Renderer extends AbstractStore {
    * @param {egrid.core.Graph} graph
    * @returns {egrid.core.EGM}
    */
-  private egm(graph: egrid.core.Graph): egrid.core.EGM {
+  private egm(graph: egrid.core.Graph<typeVertex.Props>): egrid.core.EGM<typeVertex.Props> {
     log.trace(log.t(), __filename, '#egm()');
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
@@ -110,8 +110,8 @@ class Renderer extends AbstractStore {
       .size(size)
       .backgroundColor(styles.colors.diagramBackground)
       // vertices
-      .vertexText      ((d: typeVertex.Props) => d.label)
-      .vertexVisibility((d: typeVertex.Props) => d.enabled)
+      .vertexText        ((d: typeVertex.Props) => d.label)
+      .vertexAveilability((d: typeVertex.Props) => d.enabled)
       .vertexColor((d: typeVertex.Props) => {
         return d.latent ? styles.colors.latentBackground : styles.colors.observedBackground
       })
@@ -151,14 +151,14 @@ class Renderer extends AbstractStore {
    * @param {egrid.core.Graph} graph
    * @returns {JQueryPromise<any>}
    */
-  private calculate(graph: egrid.core.Graph): JQueryPromise<any> {
+  private calculate(graph: egrid.core.Graph<typeVertex.Props>): JQueryPromise<any> {
     log.trace(log.t(), __filename, '#calculate()');
     var solver = semjs.solver();
 
     var variableIndices: {[u: number]: number} = {};
     var variableIds: {[i: number]: number} = {};
 
-    var variables: typeVertex.Props[] = graph.vertices()
+    var variables: Array<typeVertex.Props> = graph.vertices()
       .filter((u: number) => {
         return graph.get(u).enabled;
       })

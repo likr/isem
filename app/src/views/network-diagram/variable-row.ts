@@ -5,11 +5,12 @@ import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../scripts/isem-injector');
-var app    = IsemInjector.app();
-var styles = IsemInjector.styles();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+var styles    = IsemInjector.styles();
 
 interface Scope extends ng.IScope {
-  variableArray(): Array<typeVertex.Props>;
+  variable(): typeVertex.Props;
 }
 
 class Controller {
@@ -23,18 +24,21 @@ class Controller {
   ) {
     // Do nothing
   }
+
+  /**
+   * @returns {void}
+   */
+  toggleDisplay() {
+    var id = this.$scope.variable().vertexId;
+    this.$rootScope.$broadcast(constants.TOGGLE_VERTEX_DISPLAY, id);
+  }
 }
 
 class Definition {
   static styling(tElement: ng.IAugmentedJQuery) {
-    var mainHeight = styles.mainDisplay.heightRawExp;
-    // do not specify 'width: 100%' because of the display position of scroll bar shifted.
-    tElement.children('div')
+    tElement
       .css({
-        // positioning
-        'overflow-y': 'scroll',
-        // size
-        height: ['calc(', mainHeight, '-', styles.subToolGroup.height, ')'].join(' ')
+        //
       });
   }
 
@@ -49,12 +53,12 @@ class Definition {
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
-      templateUrl: app.viewsDir.networkDiagram + 'variable.html',
+      templateUrl: app.viewsDir.networkDiagram + 'variable-row.html',
       scope: {
-        variableArray: '&isemIoVariableArray'
+        variable: '&isemIoVariable'
       }
     };
   }
 }
 
-angular.module(app.appName).directive('isemVariable', Definition.ddo);
+angular.module(app.appName).directive('isemVariableRow', Definition.ddo);
