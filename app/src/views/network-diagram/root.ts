@@ -6,17 +6,20 @@ var angular = Injector.angular();
 var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
-var AddRelation = IsemInjector.AddRelation();
-var app         = IsemInjector.app();
-var constants   = IsemInjector.constants();
-var Renderer    = IsemInjector.NetworkDiagramRenderer();
-var Store       = IsemInjector.VariableArrayStore();
-var styles      = IsemInjector.styles();
+var app       = IsemInjector.app();
+var constants = IsemInjector.constants();
+var Renderer  = IsemInjector.NetworkDiagramRenderer();
+var Store     = IsemInjector.VariableArrayStore();
+var styles    = IsemInjector.styles();
+
+var AddRelation    = IsemInjector.AddRelation();
+var ManageRelation = IsemInjector.ManageRelation();
 
 var directiveName = 'isemNetworkDiagram';
 
 interface Scope extends ng.IScope {
   variableArray:  Array<typeVertex.Instance>;
+  edgeArray:      [number, number][];
   attributeArray: Array<{name: string; value: number}>;
 }
 
@@ -27,6 +30,7 @@ export class Controller {
 
   /* Renderer */
   private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
+  private _clickManageRelationCallback:    typeof listenerWithErrorType;
   private _clickVertexCallback:            typeof listenerWithErrorType;
   private _rendererChangeCallback:         typeof listenerWithErrorType;
 
@@ -44,6 +48,7 @@ export class Controller {
     this._storeChangeCallback = this.storeChangeCallback();
 
     this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
+    this._clickManageRelationCallback    = this.clickManageRelationCallback();
     this._clickVertexCallback            = this.clickVertexCallback();
     this._rendererChangeCallback         = this.rendererChangeCallback();
     this.subscribe();
@@ -57,6 +62,7 @@ export class Controller {
     Store.addListenerToChange(this._storeChangeCallback);
     Renderer.addListenerToChange                (this._rendererChangeCallback);
     Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
+    Renderer.addListenerToClickManageRelation   (this._clickManageRelationCallback);
     Renderer.addListenerToClickVertex           (this._clickVertexCallback);
   }
 
@@ -75,6 +81,7 @@ export class Controller {
       setTimeout(() => {
         this.$scope.$apply(() => {
           this.$scope.variableArray = Store.variableArray;
+          this.$scope.edgeArray     = Store.edgeArray;
           this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
         });
       }, 0); // Immediate execution
@@ -97,6 +104,26 @@ export class Controller {
         variableArray: this.$scope.variableArray
       };
       AddRelation.open<typeof data>(data);
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private clickManageRelationCallback(): typeof listenerWithErrorType {
+    return (_, err, vertexId) => {
+      log.trace(log.t(), __filename, '#clickManageRelationCallback()');
+      if (err) {
+        log.error(err);
+        return;
+      }
+
+      var data = {
+        vertexId: vertexId,
+        variableArray: this.$scope.variableArray,
+        edgeArray: this.$scope.edgeArray
+      };
+      ManageRelation.open<typeof data>(data);
     };
   }
 

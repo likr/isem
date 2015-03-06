@@ -25,6 +25,9 @@ export interface API {
   addListenerToClickAddRelationButton     (listener: typeof listenerType): void;
   removeListenerFromClickAddRelationButton(listener: typeof listenerType): void;
 
+  addListenerToClickManageRelation     (listener: typeof listenerType): void;
+  removeListenerFromClickManageRelation(listener: typeof listenerType): void;
+
   addListenerToClickVertex     (listener: typeof listenerType): void;
   removeListenerFromClickVertex(listener: typeof listenerType): void;
 }
@@ -38,6 +41,7 @@ class Renderer extends AbstractStore {
   /* local constant */
   static CHANGE                    = prefix + 'CHANGE';
   static CLICK_ADD_RELATION_BUTTON = prefix + 'CLICK_ADD_RELATION_BUTTON';
+  static CLICK_MANAGE_RELATION     = prefix + 'CLICK_MANAGE_RELATION';
   static CLICK_VERTEX              = prefix + 'CLICK_VERTEX';
 
   /* public */
@@ -142,14 +146,24 @@ class Renderer extends AbstractStore {
    * @returns {egrid.core.VertexButton[]}
    */
   private vertexButtons(): egrid.core.VertexButton[] {
-    var addRelationButton = {
+    var addRelation = {
       icon: '',
       onClick: (node: typeVertex.Props, u: number) => {
         this.publishClickAddRelationButton(u, null);
       }
     };
 
-    return [addRelationButton];
+    var manageRelation = {
+      icon: '',
+      onClick: (node: typeVertex.Props, u: number) => {
+        this.publishClickManageRelation(u, null);
+      }
+    };
+
+    return [
+      addRelation,
+      manageRelation
+    ];
   }
 
   /**
@@ -250,6 +264,19 @@ class Renderer extends AbstractStore {
 
   protected publishClickAddRelationButton(buttonId: number, err?: any) {
     super.publish(Renderer.CLICK_ADD_RELATION_BUTTON, err, buttonId);
+  }
+
+  /* for clickManageRelation */
+  addListenerToClickManageRelation(listener: typeof listenerType) {
+    super.addListener(Renderer.CLICK_MANAGE_RELATION, listener);
+  }
+
+  removeListenerFromClickManageRelation(listener: typeof listenerType) {
+    super.removeListener(Renderer.CLICK_MANAGE_RELATION, listener);
+  }
+
+  protected publishClickManageRelation(buttonId: number, err?: any) {
+    super.publish(Renderer.CLICK_MANAGE_RELATION, err, buttonId);
   }
 
   /* for clickVertexButton */
