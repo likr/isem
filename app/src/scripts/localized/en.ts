@@ -6,7 +6,8 @@ export var isemHeader = {
 
 export var isemNetworkDiagramToolGroup = {
   openAddVariable: () => 'Add Latent Variable…',
-  openImportFile:  () => 'Import File…'
+  openImportFile:  () => 'Import File…',
+  updateDiagram:   () => 'Update'
 };
 
 export var isemDialogAddLatentVariable = {
@@ -20,9 +21,9 @@ export var isemDialogAddRelation = {
   title:           () => 'Add Relation',
   inputLabelX:     () => 'Variable X',
   inputLabelY:     () => 'Variable Y',
-  directionXtoY:   () => '↓',
+  directionXtoY:   () => '↑',
   directionMutual: () => '↑↓',
-  directionYtoX:   () => '↑',
+  directionYtoX:   () => '↓',
   buttonCancel:    () => 'Cancel',
   buttonPrimary:   () => 'Add'
 };

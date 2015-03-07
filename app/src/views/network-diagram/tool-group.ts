@@ -5,6 +5,7 @@ var angular = Injector.angular();
 import IsemInjector = require('../../scripts/isem-injector');
 var AddLatentVariable = IsemInjector.AddLatentVariable();
 var app               = IsemInjector.app();
+var constants         = IsemInjector.constants();
 var ImportFile        = IsemInjector.ImportFile();
 var localized         = IsemInjector.localized();
 var styles            = IsemInjector.styles();
@@ -48,6 +49,13 @@ class Controller {
    */
   openImportFile() {
     ImportFile.open();
+  }
+
+  /**
+   * @returns {void}
+   */
+  updateDiagram() {
+    this.$rootScope.$broadcast(constants.REDRAW_DIAGRAM);
   }
 }
 

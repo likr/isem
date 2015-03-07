@@ -17,7 +17,7 @@ interface Scope extends ng.IScope {
   variableArray: Array<typeVertex.Props>;
   edgeArray: [number, number][];
   managedEdgeList: any;
-  u: number;
+  vertexId: number;
 
   localized: any;
   locale(): string;
@@ -39,7 +39,7 @@ export class Controller {
     log.trace(log.t(), __filename, '#init()', this.$scope);
     this.$scope.edgeArray     = this.$scope.dialog.data.edgeArray;
     this.$scope.variableArray = this.$scope.dialog.data.variableArray;
-    this.$scope.u             = this.$scope.dialog.data.vertexId;
+    this.$scope.vertexId      = this.$scope.dialog.data.vertexId;
 
     this.initLocalizedLabel(this.$scope.locale());
     this.generateManagedEdgeList();
@@ -57,7 +57,13 @@ export class Controller {
    * @returns {[number, number][]}
    */
   private generateManagedEdgeList() {
-    var filtered = this.filterRelatedEdge();
+    var filtered = (() => {
+      // I do not think of a good variable name... sorry!
+      var send    = this.filterRelatedEdge();
+      var receive = this.filterRelatedEdge(true);
+      return send.concat(receive);
+    })();
+
     var labels: any = {};
     this.$scope.variableArray.forEach((v) => {
       labels[v.vertexId] = v.label;
@@ -75,18 +81,20 @@ export class Controller {
   }
 
   /**
+   * @params {boolean} opposite
    * @returns {[number, number][]}
    */
-  private filterRelatedEdge(): [number, number][] {
-    log.trace(log.t(), __filename, '#filterRelatedEdge()', this.$scope.edgeArray);
+  private filterRelatedEdge(opposite: boolean = false): [number, number][] {
+    log.trace(log.t(), __filename, '#filterRelatedEdge()', this.$scope.edgeArray, opposite);
 
     if (this.$scope.edgeArray == null) {
       log.info(log.t(), __filename, 'edgeArray is empty');
       return [];
     }
 
+    var anchored = opposite? 1 : 0;
     return this.$scope.edgeArray.filter((edge: [number, number]) => {
-      return this.$scope.u === edge[0];
+      return this.$scope.vertexId === edge[anchored];
     });
   }
 
