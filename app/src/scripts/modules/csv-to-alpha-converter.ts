@@ -1,7 +1,6 @@
 'use strict';
 import Injector = require('../injector');
 var angular = Injector.angular();
-var semjs   = Injector.semjs();
 
 class CsvToAlphaConverter {
   /**
@@ -38,15 +37,15 @@ class CsvToAlphaConverter {
   /**
    * @param {*} data
    * @param {string[]} vars
-   * @returns {string[]}
+   * @returns {number[][]}
    */
   private makeS(data: Array<{[label: string]: string}>, vars: string[]): number[][] {
     var x = vars.map((key: string): number[] => {
       return data.map((d: {[label: string]: string}): number => {
-        return parseInt(d[key], 10);
+        return parseFloat(d[key]);
       });
     });
-    return semjs.stats.cov(x);
+    return x;
   }
 }
 
