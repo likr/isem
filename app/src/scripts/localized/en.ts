@@ -20,9 +20,9 @@ export var isemDialogAddRelation = {
   title:           () => 'Add Relation',
   inputLabelX:     () => 'Variable X',
   inputLabelY:     () => 'Variable Y',
-  directionXtoY:   () => '↓',
+  directionXtoY:   () => '↑',
   directionMutual: () => '↑↓',
-  directionYtoX:   () => '↑',
+  directionYtoX:   () => '↓',
   buttonCancel:    () => 'Cancel',
   buttonPrimary:   () => 'Add'
 };

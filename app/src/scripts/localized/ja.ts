@@ -20,9 +20,9 @@ export var isemDialogAddRelation = {
   title:           () => 'パスを追加',
   inputLabelX:     () => '変数X',
   inputLabelY:     () => '変数Y',
-  directionXtoY:   () => '↓',
+  directionXtoY:   () => '↑',
   directionMutual: () => '↑↓',
-  directionYtoX:   () => '↑',
+  directionYtoX:   () => '↓',
   buttonCancel:    () => 'キャンセル',
   buttonPrimary:   () => '追加'
 };
