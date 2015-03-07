@@ -64,6 +64,7 @@ class Store extends AbstractStore {
     Dispatcher.onAddRelation        (this.onAddRelationCallback());
     Dispatcher.onAddVariable        (this.onAddVariableCallback());
     Dispatcher.onImportFile         (this.onImportFileCallback());
+    Dispatcher.onRedrawDiagram      (this.onRedrawDiagramCallback());
     Dispatcher.onRemoveRelation     (this.onRemoveRelationCallback());
     Dispatcher.onToggleVertexDisplay(this.onToggleVertexDisplayCallback());
   }
@@ -122,6 +123,16 @@ class Store extends AbstractStore {
       }
 
       this.replaceAllVertex(result);
+      this.publishChange();
+    };
+  }
+
+  /**
+   * @returns {Function}
+   */
+  private onRedrawDiagramCallback(): typeof listenerType {
+    return (_, __) => {
+      log.trace(log.t(), __filename, '#onRedrawDiagramCallback()');
       this.publishChange();
     };
   }

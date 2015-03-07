@@ -6,7 +6,8 @@ export var isemHeader = {
 
 export var isemNetworkDiagramToolGroup = {
   openAddVariable: () => '潜在変数を追加…',
-  openImportFile:  () => '読み込み…'
+  openImportFile:  () => '読み込み…',
+  updateDiagram:   () => '更新'
 };
 
 export var isemDialogAddLatentVariable = {
@@ -20,9 +21,9 @@ export var isemDialogAddRelation = {
   title:           () => 'パスを追加',
   inputLabelX:     () => '変数X',
   inputLabelY:     () => '変数Y',
-  directionXtoY:   () => '↓',
+  directionXtoY:   () => '↑',
   directionMutual: () => '↑↓',
-  directionYtoX:   () => '↑',
+  directionYtoX:   () => '↓',
   buttonCancel:    () => 'キャンセル',
   buttonPrimary:   () => '追加'
 };
