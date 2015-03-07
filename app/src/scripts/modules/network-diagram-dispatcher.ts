@@ -13,6 +13,7 @@ export interface API {
   onAddRelation        (listener: typeof listenerType): void;
   onAddVariable        (listener: typeof listenerType): void;
   onImportFile         (listener: typeof listenerType): void;
+  onRedrawDiagram      (listener: typeof listenerType): void;
   onRemoveRelation     (listener: typeof listenerType): void;
   onToggleVertexDisplay(listener: typeof listenerType): void;
   onUpdateDiagram      (listener: typeof listenerType): void;
@@ -48,6 +49,10 @@ class Dispatcher extends AbstractDispatcher {
 
   onImportFile(listener: typeof listenerType) {
     super.on(constants.IMPORT_FILE, listener);
+  }
+
+  onRedrawDiagram(listener: typeof listenerType) {
+    super.on(constants.REDRAW_DIAGRAM, listener);
   }
 
   onRemoveRelation(listener: typeof listenerType) {

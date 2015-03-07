@@ -6,7 +6,8 @@ export var isemHeader = {
 
 export var isemNetworkDiagramToolGroup = {
   openAddVariable: () => 'Add Latent Variable…',
-  openImportFile:  () => 'Import File…'
+  openImportFile:  () => 'Import File…',
+  updateDiagram:   () => 'Update'
 };
 
 export var isemDialogAddLatentVariable = {
