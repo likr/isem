@@ -61,12 +61,15 @@ class Store extends AbstractStore {
    * @returns {void}
    */
   private registerWithDispatcher() {
-    Dispatcher.onAddRelation        (this.onAddRelationCallback());
-    Dispatcher.onAddVariable        (this.onAddVariableCallback());
-    Dispatcher.onImportFile         (this.onImportFileCallback());
-    Dispatcher.onRedrawDiagram      (this.onRedrawDiagramCallback());
-    Dispatcher.onRemoveRelation     (this.onRemoveRelationCallback());
-    Dispatcher.onToggleVertexDisplay(this.onToggleVertexDisplayCallback());
+    Dispatcher.onAddRelation   (this.onAddRelationCallback());
+    Dispatcher.onAddVariable   (this.onAddVariableCallback());
+    Dispatcher.onImportFile    (this.onImportFileCallback());
+    Dispatcher.onRedrawDiagram (this.onRedrawDiagramCallback());
+    Dispatcher.onRemoveRelation(this.onRemoveRelationCallback());
+
+    Dispatcher.onDisableVertexDisplay(this.onDisableVertexDisplayCallback());
+    Dispatcher.onEnableVertexDisplay (this.onEnableVertexDisplayCallback());
+    Dispatcher.onToggleVertexDisplay (this.onToggleVertexDisplayCallback());
   }
 
   /**
@@ -154,6 +157,40 @@ class Store extends AbstractStore {
   }
 
   /**
+   * callback args "vertexId" is received type number|number[]
+   *
+   * @returns {Function}
+   */
+  private onDisableVertexDisplayCallback(): typeof listenerType {
+    return (_: any, vertexId: any) => {
+      log.trace(log.t(), __filename, '#onDisableVertexDisplayCallback()', vertexId);
+
+      var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
+      this.setEnabledToMultipleVertices(ids, false);
+
+      this.updateStore();
+      this.publishChange();
+    };
+  }
+
+  /**
+   * callback args "vertexId" is received type number|number[]
+   *
+   * @returns {Function}
+   */
+  private onEnableVertexDisplayCallback(): typeof listenerType {
+    return (_: any, vertexId: any) => {
+      log.trace(log.t(), __filename, '#onEnableVertexDisplayCallback()', vertexId);
+
+      var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
+      this.setEnabledToMultipleVertices(ids, true);
+
+      this.updateStore();
+      this.publishChange();
+    };
+  }
+
+  /**
    * @returns {Function}
    */
   private onToggleVertexDisplayCallback(): typeof listenerType {
@@ -167,6 +204,18 @@ class Store extends AbstractStore {
       this.updateStore();
       this.publishChange();
     };
+  }
+
+  /**
+   * @param {number[]} ids
+   * @param {boolean}  state
+   */
+  private setEnabledToMultipleVertices(ids: number[], state: boolean) {
+    ids.forEach((id) => {
+      var vertex = this.graph.get(id);
+      vertex.enabled = state;
+      this.graph.set(id, vertex);
+    });
   }
 
   /**
