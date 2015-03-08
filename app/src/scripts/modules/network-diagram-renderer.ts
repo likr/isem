@@ -189,6 +189,18 @@ class Renderer extends AbstractStore {
 
     var n = variables.length;
 
+    if (n === 1) {
+      // solver() returns an error when a length is 1.
+      log.warn(log.t(), __filename, '#calculate(), variables.length === 1, aborting');
+      return <any>{then: (cb: any) => cb()};
+    }
+    if (n < 1) {
+      // Occurs TypeError at semjs/src/stats/cov.coffee#L3
+      // http://git.io/pIS8
+      log.warn(log.t(), __filename, '#calculate(), variables.length < 1, aborting');
+      return <any>{then: (cb: any) => cb()};
+    }
+
     var alpha: Array<typeof edgeType> = graph.edges()
       .filter((edge: typeof edgeType): boolean => {
         return graph.get(edge[0]).enabled || graph.get(edge[1]).enabled;
