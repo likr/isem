@@ -1,5 +1,8 @@
 <div>
   <button class="btn btn-default" ng-click="Controller.openImportFile()">{{localized.openImportFile()}}</button>
-  <button class="btn btn-default" ng-click="Controller.newLatentVariable()">{{localized.newLatentVariable()}}</button>
+  <isem-gui-new-latent-variable
+    isem-io-locale="locale()"
+    isem-io-variable-array="variableArray()"
+  ></isem-gui-new-latent-variable>
   <button class="btn btn-default" ng-click="Controller.updateDiagram()">{{localized.updateDiagram()}}</button>
 </div>

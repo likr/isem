@@ -3,6 +3,7 @@ import typeVertex = require('../../scripts/modules/vertex');
 
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var AddLatentVariable = IsemInjector.AddLatentVariable();
@@ -43,14 +44,6 @@ class Controller {
   /**
    * @returns {void}
    */
-  newLatentVariable() {
-    var name = this.$scope.localized.defaultVariableName();
-    this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, name);
-  }
-
-  /**
-   * @returns {void}
-   */
   openAddVariable() {
     AddLatentVariable.open();
   }
@@ -71,8 +64,9 @@ class Controller {
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
+  static styling(element: ng.IAugmentedJQuery) {
+    log.trace(log.t(), __filename, 'styling');
+    element
       .css({
         // positioning
         position: 'absolute',
@@ -85,22 +79,25 @@ class Definition {
         'border-bottom': 'solid 1px ' + styles.colors.footerBorder
       });
 
-    var marginTopRaw = 12;
-    tElement.children('div')
+    var marginTop = 12;
+    element.children('div')
       .css({
-        'margin-top':  marginTopRaw + 'px',
-        'margin-left': (marginTopRaw * 1.333) + 'px'
+        'margin-top':  marginTop + 'px',
+        'margin-left': (marginTop * 1.333) + 'px'
       });
 
-    tElement.find('button')
+    element.find('button')
       .css({
-        'margin-right': (marginTopRaw * 0.666) + 'px'
+        'margin-right': (marginTop * 0.666) + 'px'
       });
   }
 
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
+  static compile(tElement: ng.IAugmentedJQuery) {
+    return Definition.link;
+  }
+
+  static link(_: any, iElement: ng.IAugmentedJQuery) {
+    Definition.styling(iElement);
   }
 
   static ddo() {

@@ -1,17 +1,5 @@
 'use strict';
 
-export var isemHeader = {
-  title: () => 'Interactive Structural Equation Modeling'
-};
-
-export var isemNetworkDiagramToolGroup = {
-  defaultVariableName: () => 'Untitled',
-  newLatentVariable:   () => 'New Latent Variable',
-  openAddVariable:     () => 'Add Latent Variable…',
-  openImportFile:      () => 'Import File…',
-  updateDiagram:       () => 'Update'
-};
-
 export var isemDialogAddLatentVariable = {
   title:         () => 'Add Latent Variable',
   inputLabel:    () => 'Name',
@@ -44,4 +32,19 @@ export var isemDialogImportFile = {
   downloadSample:  () => 'Download a sample',
   buttonCancel:    () => 'Cancel',
   buttonPrimary:   () => 'Import'
+};
+
+export var isemGuiNewLatentVariable = {
+  defaultVariableName: () => 'Untitled',
+  label:               () => 'New Latent Variable'
+};
+
+export var isemHeader = {
+  title: () => 'Interactive Structural Equation Modeling'
+};
+
+export var isemNetworkDiagramToolGroup = {
+  openAddVariable: () => 'Add Latent Variable…',
+  openImportFile:  () => 'Import File…',
+  updateDiagram:   () => 'Update'
 };
