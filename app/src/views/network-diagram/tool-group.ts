@@ -1,4 +1,6 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
@@ -15,6 +17,7 @@ var directiveName = 'isemNetworkDiagramToolGroup';
 interface Scope extends ng.IScope {
   localized: any;
   locale(): string;
+  variableArray(): Array<typeVertex.Props>;
 }
 
 class Controller {
@@ -35,6 +38,14 @@ class Controller {
    */
   private initLocalizedLabel(locale: string) {
     this.$scope.localized = localized(locale, directiveName);
+  }
+
+  /**
+   * @returns {void}
+   */
+  newLatentVariable() {
+    var name = this.$scope.localized.defaultVariableName();
+    this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, name);
   }
 
   /**
@@ -99,7 +110,8 @@ class Definition {
       controllerAs: 'Controller',
       restrict: 'E',
       scope: {
-        locale: '&isemIoLocale'
+        locale:        '&isemIoLocale',
+        variableArray: '&isemIoVariableArray'
       },
       templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
     };

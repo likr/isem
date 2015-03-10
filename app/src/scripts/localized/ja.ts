@@ -5,9 +5,11 @@ export var isemHeader = {
 };
 
 export var isemNetworkDiagramToolGroup = {
-  openAddVariable: () => '潜在変数を追加…',
-  openImportFile:  () => '読み込み…',
-  updateDiagram:   () => '更新'
+  defaultVariableName: () => '名称未設定',
+  newLatentVariable:   () => '新規潜在変数',
+  openAddVariable:     () => '潜在変数を追加…',
+  openImportFile:      () => '読み込み…',
+  updateDiagram:       () => '更新'
 };
 
 export var isemDialogAddLatentVariable = {
