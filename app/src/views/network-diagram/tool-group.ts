@@ -11,7 +11,6 @@ var app               = IsemInjector.app();
 var constants         = IsemInjector.constants();
 var ImportFile        = IsemInjector.ImportFile();
 var localized         = IsemInjector.localized();
-var styles            = IsemInjector.styles();
 
 var directiveName = 'isemNetworkDiagramToolGroup';
 
@@ -64,45 +63,8 @@ class Controller {
 }
 
 class Definition {
-  static styling(element: ng.IAugmentedJQuery) {
-    log.trace(log.t(), __filename, 'styling');
-    element
-      .css({
-        // positioning
-        position: 'absolute',
-        // size
-        'box-sizing': 'border-box',
-        width:        '100%',
-        height:       styles.mainToolGroup.height,
-        // visually
-        'background':    styles.colors.mainToolGroupBackground,
-        'border-bottom': 'solid 1px ' + styles.colors.footerBorder
-      });
-
-    var marginTop = 12;
-    element.children('div')
-      .css({
-        'margin-top':  marginTop + 'px',
-        'margin-left': (marginTop * 1.333) + 'px'
-      });
-
-    element.find('button')
-      .css({
-        'margin-right': (marginTop * 0.666) + 'px'
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery) {
-    return Definition.link;
-  }
-
-  static link(_: any, iElement: ng.IAugmentedJQuery) {
-    Definition.styling(iElement);
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',

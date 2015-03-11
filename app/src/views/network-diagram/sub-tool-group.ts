@@ -10,6 +10,8 @@ var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var styles    = IsemInjector.styles();
 
+var directiveName = 'isemSubToolGroup';
+
 interface Scope extends ng.IScope {
   variableArray(): Array<typeVertex.Props>;
 }
@@ -53,39 +55,10 @@ class Controller {
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .css({
-        // positioning
-        'z-index': 200,
-        position:  'absolute',
-        bottom:    0,
-        // size
-        width:  'inherit',
-        height: styles.subToolGroup.height,
-        // visually
-        'background-color': styles.colors.toolGroupBackground,
-        'border-top':       'solid 1px ' + styles.colors.subToolGroupBorder,
-        'border-right':     'inherit'
-      });
-
-    tElement.find('.glyphicon')
-      .css({
-        // size
-        margin: '15px 0 0 40px'
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
-  }
-
   static ddo() {
     return {
       controller: Controller,
       controllerAs: 'Controller',
-      compile: Definition.compile,
       restrict: 'E',
       scope: {
         variableArray: '&isemIoVariableArray'
@@ -95,4 +68,4 @@ class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemSubToolGroup', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);
