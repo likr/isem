@@ -1,15 +1,5 @@
 'use strict';
 
-export var isemHeader = {
-  title: () => '共分散構造分析'
-};
-
-export var isemNetworkDiagramToolGroup = {
-  openAddVariable: () => '潜在変数を追加…',
-  openImportFile:  () => '読み込み…',
-  updateDiagram:   () => '更新'
-};
-
 export var isemDialogAddLatentVariable = {
   title:         () => '潜在変数を追加',
   inputLabel:    () => '変数名',
@@ -42,4 +32,19 @@ export var isemDialogImportFile = {
   downloadSample:  () => 'サンプルファイル',
   buttonCancel:    () => 'キャンセル',
   buttonPrimary:   () => 'OK'
+};
+
+export var isemGuiNewLatentVariable = {
+  defaultVariableName: () => '名称未設定',
+  label:               () => '新規潜在変数'
+};
+
+export var isemHeader = {
+  title: () => '共分散構造分析'
+};
+
+export var isemNetworkDiagramToolGroup = {
+  openAddVariable:     () => '潜在変数を追加…',
+  openImportFile:      () => '読み込み…',
+  updateDiagram:       () => '更新'
 };

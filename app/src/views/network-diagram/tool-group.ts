@@ -1,6 +1,9 @@
 'use strict';
+import typeVertex = require('../../scripts/modules/vertex');
+
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
+var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var AddLatentVariable = IsemInjector.AddLatentVariable();
@@ -8,13 +11,13 @@ var app               = IsemInjector.app();
 var constants         = IsemInjector.constants();
 var ImportFile        = IsemInjector.ImportFile();
 var localized         = IsemInjector.localized();
-var styles            = IsemInjector.styles();
 
 var directiveName = 'isemNetworkDiagramToolGroup';
 
 interface Scope extends ng.IScope {
   localized: any;
   locale(): string;
+  variableArray(): Array<typeVertex.Props>;
 }
 
 class Controller {
@@ -60,46 +63,14 @@ class Controller {
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .css({
-        // positioning
-        position: 'absolute',
-        // size
-        'box-sizing': 'border-box',
-        width:        '100%',
-        height:       styles.mainToolGroup.height,
-        // visually
-        'background':    styles.colors.mainToolGroupBackground,
-        'border-bottom': 'solid 1px ' + styles.colors.footerBorder
-      });
-
-    var marginTopRaw = 12;
-    tElement.children('div')
-      .css({
-        'margin-top':  marginTopRaw + 'px',
-        'margin-left': (marginTopRaw * 1.333) + 'px'
-      });
-
-    tElement.find('button')
-      .css({
-        'margin-right': (marginTopRaw * 0.666) + 'px'
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
       scope: {
-        locale: '&isemIoLocale'
+        locale:        '&isemIoLocale',
+        variableArray: '&isemIoVariableArray'
       },
       templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
     };
