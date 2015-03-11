@@ -5,15 +5,15 @@
 node_modules/
 npm-debug.log
 
-# for bower
-bower_components/
-
 # for grunt
 .tscache/
 coverage/
+test-es5/
 test-espowered/
 typings/
-es5/
+
+# for Less
+bundle.css
 
 # for TypeScript
 *.js
