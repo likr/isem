@@ -14,7 +14,7 @@ class CsvToAlphaConverter {
    * @params {Array} data
    * @returns {Object}
    */
-  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][];} {
+  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]} {
     var singleData = data[0];
     var nodes = this.makeNodes(singleData);
     var S     = this.makeS(data, nodes);
