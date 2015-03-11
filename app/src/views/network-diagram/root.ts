@@ -163,29 +163,8 @@ export class Controller {
 }
 
 export class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .css({
-        // positioning
-        position:     'absolute',
-        top:          styles.isemHeader.height,
-        'overflow-y': 'scroll',
-        // size
-        width: '100%',
-        height: styles.mainDisplay.height
-        // visually
-        // none
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
