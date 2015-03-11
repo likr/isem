@@ -68,157 +68,147 @@ class Store extends AbstractStore {
   protected init() {
     super.init();
     log.trace(log.t(), __filename, '#init()');
+
     this.graph = egrid.core.graph.adjacencyList<typeVertex.Props, any>();
-    this.registerWithDispatcher();
+
+    Dispatcher.addHandlers({
+      addRelation:          this.addRelation.bind(this),
+      addVariable:          this.addVariable.bind(this),
+      importFile:           this.importFile.bind(this),
+      redrawDiagram:        this.redrawDiagram.bind(this),
+      removeRelation:       this.removeRelation.bind(this),
+      disableVertexDisplay: this.disableVertexDisplay.bind(this),
+      enableVertexDisplay:  this.enableVertexDisplay.bind(this),
+      toggleVertexDisplay:  this.toggleVertexDisplay.bind(this)
+    });
+  }
+
+  /**
+   * @param {*} _ - event non-use
+   * @param {{direction: Direction, idX: number, idY: number}} data
+   * @returns {void}
+   */
+  private addRelation(_: any, data: {direction: Direction; idX: number; idY: number}) {
+    log.debug(log.t(), __filename, '#addRelation()', data);
+
+    if (data.direction === Direction.xToY) {
+      this.graph.addEdge(data.idX, data.idY);
+    } else if (data.direction === Direction.mutual) {
+      this.graph.addEdge(data.idX, data.idY);
+      this.graph.addEdge(data.idY, data.idX);
+    } else if (data.direction === Direction.yToX) {
+      this.graph.addEdge(data.idY, data.idX);
+    }
+
+    this.updateStore();
+    this.publish();
+  }
+
+  /**
+   * @param {*} _ - event non-use
+   * @param {string} label
+   * @returns {void}
+   */
+  private addVariable(_: any, label: string) {
+    log.trace(log.t(), __filename, '#addVariable()');
+
+    Vertex.addLatentVariable(this.graph, label);
+
+    this.updateStore();
+    this.publish();
+  }
+
+  /**
+   * @param {*} _ - event non-use
+   * @param {Array<{string: string}>} importedFile
+   * @returns {void}
+   */
+  private importFile(_: any, importedFile: Array<{[label: string]: string}>) {
+    log.trace(log.t(), __filename, '#importFile()');
+
+    try {
+      var converter = new Converter();
+      var result = converter.convert(importedFile);
+    } catch (e) {
+      return this.publish(e);
+    }
+
+    if (!result) {
+      return this.publish(new Error('There is no converted result from the imported file'));
+    }
+
+    this.replaceAllVertex(result);
+    this.publish();
   }
 
   /**
    * @returns {void}
    */
-  private registerWithDispatcher() {
-    Dispatcher.onAddRelation   (this.onAddRelationCallback());
-    Dispatcher.onAddVariable   (this.onAddVariableCallback());
-    Dispatcher.onImportFile    (this.onImportFileCallback());
-    Dispatcher.onRedrawDiagram (this.onRedrawDiagramCallback());
-    Dispatcher.onRemoveRelation(this.onRemoveRelationCallback());
-
-    Dispatcher.onDisableVertexDisplay(this.onDisableVertexDisplayCallback());
-    Dispatcher.onEnableVertexDisplay (this.onEnableVertexDisplayCallback());
-    Dispatcher.onToggleVertexDisplay (this.onToggleVertexDisplayCallback());
+  private redrawDiagram() {
+    log.trace(log.t(), __filename, '#redrawDiagram()');
+    this.publish();
   }
 
   /**
-   * @returns {Function}
+   * @param {*} _ - event non-use
+   * @param {Array<{u: number, v: number}>} removeTarget
+   * @returns {void}
    */
-  private onAddRelationCallback(): typeof listenerType {
-    return (_, data) => {
-      log.debug(log.t(), __filename, '#onAddRelationCallback()', data);
+  private removeRelation(_: any, removeTarget: Array<{u: number; v: number}>) {
+    log.debug(log.t(), __filename, '#removeRelation()', removeTarget);
 
-      if (data.direction === Direction.xToY) {
-        this.graph.addEdge(data.idX, data.idY);
-      } else if (data.direction === Direction.mutual) {
-        this.graph.addEdge(data.idX, data.idY);
-        this.graph.addEdge(data.idY, data.idX);
-      } else if (data.direction === Direction.yToX) {
-        this.graph.addEdge(data.idY, data.idX);
-      }
+    removeTarget.forEach((target) => {
+      this.graph.removeEdge(target.u, target.v);
+    });
 
-      this.updateStore();
-      this.publish();
-    };
+    this.updateStore();
+    this.publish();
   }
 
   /**
-   * @returns {Function}
+   * @param {*} _ - event non-use
+   * @param {number|number[]} vertexId - id or ids
+   * @returns {void}
    */
-  private onAddVariableCallback(): typeof listenerType {
-    return (_, label) => {
-      log.trace(log.t(), __filename, '#onAddVariableCallback()');
+  private disableVertexDisplay(_: any, vertexId: any) {
+    log.trace(log.t(), __filename, '#disableVertexDisplay()', vertexId);
 
-      Vertex.addLatentVariable(this.graph, label);
+    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
+    this.setEnabledToMultipleVertices(ids, false);
 
-      this.updateStore();
-      this.publish();
-    };
+    this.updateStore();
+    this.publish();
   }
 
   /**
-   * @returns {Function}
+   * @param {*} _ - event non-use
+   * @param {number|number[]} vertexId - id or ids
+   * @returns {void}
    */
-  private onImportFileCallback(): typeof listenerType {
-    return (_, importedFile) => {
-      log.trace(log.t(), __filename, '#onImportFileCallback()');
-      try {
-        var converter = new Converter();
-        var result = converter.convert(importedFile);
-      } catch (e) {
-        return this.publish(e);
-      }
+  private enableVertexDisplay(_: any, vertexId: any) {
+    log.trace(log.t(), __filename, '#enableVertexDisplay()', vertexId);
 
-      if (!result) {
-        var err = new Error('There is no converted result from the imported file');
-        return this.publish(err);
-      }
+    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
+    this.setEnabledToMultipleVertices(ids, true);
 
-      this.replaceAllVertex(result);
-      this.publish();
-    };
+    this.updateStore();
+    this.publish();
   }
 
   /**
-   * @returns {Function}
+   * @param {*} _ - event non-use
+   * @param {number} vertexId
+   * @returns {void}
    */
-  private onRedrawDiagramCallback(): typeof listenerType {
-    return (_, __) => {
-      log.trace(log.t(), __filename, '#onRedrawDiagramCallback()');
-      this.publish();
-    };
-  }
+  private toggleVertexDisplay(_: any, vertexId: number) {
+    log.trace(log.t(), __filename, '#toggleVertexDisplay()', vertexId);
 
-  /**
-   * @returns {Function}
-   */
-  private onRemoveRelationCallback(): typeof listenerType {
-    return (_: any, removeTarget: Array<{u: number; v: number}>) => {
-      log.debug(log.t(), __filename, '#onRemoveRelationCallback()', removeTarget);
+    var vertex = this.graph.get(vertexId);
+    vertex.enabled = !vertex.enabled;
+    this.graph.set(vertexId, vertex);
 
-      removeTarget.forEach((target) => {
-        this.graph.removeEdge(target.u, target.v);
-      });
-
-      this.updateStore();
-      this.publish();
-    };
-  }
-
-  /**
-   * callback args "vertexId" is received type number|number[]
-   *
-   * @returns {Function}
-   */
-  private onDisableVertexDisplayCallback(): typeof listenerType {
-    return (_: any, vertexId: any) => {
-      log.trace(log.t(), __filename, '#onDisableVertexDisplayCallback()', vertexId);
-
-      var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-      this.setEnabledToMultipleVertices(ids, false);
-
-      this.updateStore();
-      this.publish();
-    };
-  }
-
-  /**
-   * callback args "vertexId" is received type number|number[]
-   *
-   * @returns {Function}
-   */
-  private onEnableVertexDisplayCallback(): typeof listenerType {
-    return (_: any, vertexId: any) => {
-      log.trace(log.t(), __filename, '#onEnableVertexDisplayCallback()', vertexId);
-
-      var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-      this.setEnabledToMultipleVertices(ids, true);
-
-      this.updateStore();
-      this.publish();
-    };
-  }
-
-  /**
-   * @returns {Function}
-   */
-  private onToggleVertexDisplayCallback(): typeof listenerType {
-    return (_: any, vertexId: number) => {
-      log.trace(log.t(), __filename, '#onToggleVertexDisplayCallback()', vertexId);
-
-      var vertex = this.graph.get(vertexId);
-      vertex.enabled = !vertex.enabled;
-      this.graph.set(vertexId, vertex);
-
-      this.updateStore();
-      this.publish();
-    };
+    this.updateStore();
+    this.publish();
   }
 
   /**
