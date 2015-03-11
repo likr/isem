@@ -83,15 +83,12 @@ class Renderer extends AbstractStore {
   private onUpdateDiagramCallback(): typeof listenerType {
     return (_: any, graph: egrid.core.Graph<typeVertex.Props, any>) => {
       log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
-      if (!this.egm) {
-        this.egm = this.defaultEgm(graph);
-      }
 
-      var size = [
+      this.initEgm(graph);
+      this.egm.size([
         angular.element('isem-main-column').width(),
         angular.element('isem-network-diagram-display').height()
-      ];
-      this.egm.size(size);
+      ]);
 
       var render = () => {
         d3.select('#isem-svg-screen')
@@ -103,9 +100,17 @@ class Renderer extends AbstractStore {
       render();
 
       if (graph.vertices().length <= 0) {return}
-
       this.calculate(graph).then(render);
     };
+  }
+
+  /**
+   * Initialize egrid.core.egm() only once
+   *
+   * @param {egrid.core.Graph} graph
+   */
+  private initEgm(graph: egrid.core.Graph<typeVertex.Props, any>) {
+    this.egm = this.egm || this.defaultEgm(graph);
   }
 
   /**
@@ -114,6 +119,7 @@ class Renderer extends AbstractStore {
    */
   private defaultEgm(graph: egrid.core.Graph<typeVertex.Props, any>): egrid.core.EGM<typeVertex.Props, any> {
     log.trace(log.t(), __filename, '#defaultEgm()');
+
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
       .domain([0, 2])
