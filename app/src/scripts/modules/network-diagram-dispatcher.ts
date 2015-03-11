@@ -10,16 +10,24 @@ var constants = IsemInjector.constants();
 
 declare var lsnrType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
-  onAddRelation   (listener: typeof lsnrType): void;
-  onAddVariable   (listener: typeof lsnrType): void;
-  onImportFile    (listener: typeof lsnrType): void;
-  onRedrawDiagram (listener: typeof lsnrType): void;
-  onRemoveRelation(listener: typeof lsnrType): void;
-  onUpdateDiagram (listener: typeof lsnrType): void;
+  addHandlers(handlers: any): void;
 
-  onDisableVertexDisplay(listener: typeof lsnrType): void;
-  onEnableVertexDisplay (listener: typeof lsnrType): void;
-  onToggleVertexDisplay (listener: typeof lsnrType): void;
+  onAddEgmHandler (lsnr: typeof lsnrType): void;
+  onAddRelation   (lsnr: typeof lsnrType): void;
+  onAddVariable   (lsnr: typeof lsnrType): void;
+  onImportFile    (lsnr: typeof lsnrType): void;
+  onRedrawDiagram (lsnr: typeof lsnrType): void;
+  onRemoveRelation(lsnr: typeof lsnrType): void;
+  onUpdateDiagram (lsnr: typeof lsnrType): void;
+
+  onDisableVertexDisplay(lsnr: typeof lsnrType): void;
+  onEnableVertexDisplay (lsnr: typeof lsnrType): void;
+  onToggleVertexDisplay (lsnr: typeof lsnrType): void;
+}
+
+interface Handlers {
+  addEgmHandlers: typeof lsnrType;
+  updateDiagram:  typeof lsnrType;
 }
 
 class Dispatcher extends AbstractDispatcher {
@@ -39,6 +47,14 @@ class Dispatcher extends AbstractDispatcher {
    */
   protected init() {
     super.init();
+  }
+
+  /**
+   * @param {*} handlers
+   */
+  addHandlers(handlers: Handlers) {
+    super.on(constants.UPDATE_DIAGRAM,   handlers.updateDiagram);
+    super.on(constants.ADD_EGM_HANDLERS, handlers.addEgmHandlers);
   }
 
   /* methods for add listener */

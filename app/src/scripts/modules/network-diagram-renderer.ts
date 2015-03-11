@@ -21,15 +21,11 @@ export interface API {
 
   addListenerToChange     (listener: typeof listenerType): void;
   removeListenerFromChange(listener: typeof listenerType): void;
+}
 
-  addListenerToClickAddRelationButton     (listener: typeof listenerType): void;
-  removeListenerFromClickAddRelationButton(listener: typeof listenerType): void;
-
-  addListenerToClickManageRelation     (listener: typeof listenerType): void;
-  removeListenerFromClickManageRelation(listener: typeof listenerType): void;
-
-  addListenerToClickVertex     (listener: typeof listenerType): void;
-  removeListenerFromClickVertex(listener: typeof listenerType): void;
+export interface EgmHandlers {
+  onClickVertex: (d: typeVertex.Props, vertexId: number) => void;
+  vertexButtons: egrid.core.VertexButton[];
 }
 
 var prefix = 'NetworkDiagramRenderer:';
@@ -39,10 +35,7 @@ var prefix = 'NetworkDiagramRenderer:';
  */
 class Renderer extends AbstractStore {
   /* local constant */
-  static CHANGE                    = prefix + 'CHANGE';
-  static CLICK_ADD_RELATION_BUTTON = prefix + 'CLICK_ADD_RELATION_BUTTON';
-  static CLICK_MANAGE_RELATION     = prefix + 'CLICK_MANAGE_RELATION';
-  static CLICK_VERTEX              = prefix + 'CLICK_VERTEX';
+  static CHANGE = prefix + 'CHANGE';
 
   /* public */
   attributeArray: Array<{name: string; value: number}>;
@@ -74,34 +67,52 @@ class Renderer extends AbstractStore {
    * @returns {void}
    */
   private registerWithDispatcher() {
-    Dispatcher.onUpdateDiagram(this.onUpdateDiagramCallback());
+    Dispatcher.addHandlers({
+      addEgmHandlers: this.addEgmHandlers.bind(this),
+      updateDiagram:  this.updateDiagram.bind(this)
+    });
   }
 
   /**
+   * @param {*} e - event non-use
+   * @param {EgmHandlers} handlers
+   */
+  private addEgmHandlers(e: any, handlers: EgmHandlers) {
+    if (!this.egm) {
+      this.publishChange(new Error('The egm has not been initialized'));
+      return;
+    }
+
+    this.egm
+      .onClickVertex(handlers.onClickVertex)
+      .vertexButtons(handlers.vertexButtons);
+  }
+
+  /**
+   * @param {*} e - event non-use
+   * @param {egrid.core.Graph} graph
    * @returns {Function}
    */
-  private onUpdateDiagramCallback(): typeof listenerType {
-    return (_: any, graph: egrid.core.Graph<typeVertex.Props, any>) => {
-      log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
+  private updateDiagram(e: any, graph: egrid.core.Graph<typeVertex.Props, any>) {
+    log.trace(log.t(), __filename, '#updateDiagram()', graph);
 
-      this.initEgm(graph);
-      this.egm.size([
-        angular.element('isem-main-column').width(),
-        angular.element('isem-network-diagram-display').height()
-      ]);
+    this.initEgm(graph);
+    this.egm.size([
+      angular.element('isem-main-column').width(),
+      angular.element('isem-network-diagram-display').height()
+    ]);
 
-      var render = () => {
-        d3.select('#isem-svg-screen')
-          .datum(graph)
-          .transition()
-          .call(<any>this.egm) // d3.d.ts does not support egrid.core.EGM
-          .call(<any>this.egm.center());
-      };
-      render();
-
-      if (graph.vertices().length <= 0) {return}
-      this.calculate(graph).then(render);
+    var render = () => {
+      d3.select('#isem-svg-screen')
+        .datum(graph)
+        .transition()
+        .call(<any>this.egm) // d3.d.ts does not support egrid.core.EGM
+        .call(<any>this.egm.center());
     };
+    render();
+
+    if (graph.vertices().length <= 0) {return}
+    this.calculate(graph).then(render);
   }
 
   /**
@@ -137,10 +148,6 @@ class Renderer extends AbstractStore {
       })
       .strokeColor(styles.colors.stroke)
       .selectedStrokeColor(styles.colors.selectedStroke)
-      .vertexButtons(this.vertexButtons())
-      .onClickVertex((d: typeVertex.Props, u: number) => {
-        this.publishClickVertex(u, null);
-      })
       // edges
       .edgeColor((u: number, v: number) => {
         return (graph.get(u, v).coefficient >= 0) ? styles.colors.edgeColor1 : styles.colors.edgeColor2;
@@ -153,29 +160,7 @@ class Renderer extends AbstractStore {
       });
   }
 
-  /**
-   * @returns {egrid.core.VertexButton[]}
-   */
-  private vertexButtons(): egrid.core.VertexButton[] {
-    var addRelation = {
-      icon: '',
-      onClick: (node: typeVertex.Props, u: number) => {
-        this.publishClickAddRelationButton(u, null);
-      }
-    };
 
-    var manageRelation = {
-      icon: '',
-      onClick: (node: typeVertex.Props, u: number) => {
-        this.publishClickManageRelation(u, null);
-      }
-    };
-
-    return [
-      addRelation,
-      manageRelation
-    ];
-  }
 
   /**
    * @param {egrid.core.Graph} graph
@@ -274,45 +259,6 @@ class Renderer extends AbstractStore {
 
   protected publishChange(err?: any) {
     super.publish(Renderer.CHANGE, err);
-  }
-
-  /* for clickVertexButton */
-  addListenerToClickAddRelationButton(listener: typeof listenerType) {
-    super.addListener(Renderer.CLICK_ADD_RELATION_BUTTON, listener);
-  }
-
-  removeListenerFromClickAddRelationButton(listener: typeof listenerType) {
-    super.removeListener(Renderer.CLICK_ADD_RELATION_BUTTON, listener);
-  }
-
-  protected publishClickAddRelationButton(buttonId: number, err?: any) {
-    super.publish(Renderer.CLICK_ADD_RELATION_BUTTON, err, buttonId);
-  }
-
-  /* for clickManageRelation */
-  addListenerToClickManageRelation(listener: typeof listenerType) {
-    super.addListener(Renderer.CLICK_MANAGE_RELATION, listener);
-  }
-
-  removeListenerFromClickManageRelation(listener: typeof listenerType) {
-    super.removeListener(Renderer.CLICK_MANAGE_RELATION, listener);
-  }
-
-  protected publishClickManageRelation(buttonId: number, err?: any) {
-    super.publish(Renderer.CLICK_MANAGE_RELATION, err, buttonId);
-  }
-
-  /* for clickVertexButton */
-  addListenerToClickVertex(listener: typeof listenerType) {
-    super.addListener(Renderer.CLICK_VERTEX, listener);
-  }
-
-  removeListenerFromClickVertex(listener: typeof listenerType) {
-    super.removeListener(Renderer.CLICK_VERTEX, listener);
-  }
-
-  protected publishClickVertex(vertexId: number, err?: any) {
-    super.publish(Renderer.CLICK_VERTEX, err, vertexId);
   }
 }
 

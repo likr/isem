@@ -49,18 +49,6 @@ describe('NetworkDiagramRoot', () => {
         var expected = Controller.rendererChangeCallback();
         assert(String(actual) === String(expected));
       });
-
-      it('should give the callback to arg[0] of Renderer#addListenerToClickAddRelationButton()', () => {
-        var actual = stubRenderer.addListenerToClickAddRelationButton.getCall(0).args[0];
-        var expected = Controller.clickAddRelationButtonCallback();
-        assert(String(actual) === String(expected));
-      });
-
-      it('should give the callback to arg[0] of Renderer#addListenerToClickVertex()', () => {
-        var actual = stubRenderer.addListenerToClickVertex.getCall(0).args[0];
-        var expected = Controller.clickVertexCallback();
-        assert(String(actual) === String(expected));
-      });
     });
 
     describe('#storeChangeCallback()', () => {
