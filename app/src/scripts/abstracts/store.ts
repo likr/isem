@@ -29,7 +29,7 @@ class AbstractStore {
    * @param   {string}   name
    * @returns {{dispose: (function(): void)}}
    */
-  addListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any): {dispose(): void} {
+  baseAddListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any): {dispose(): void} {
     if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(name, listener);
 
@@ -67,7 +67,7 @@ class AbstractStore {
    * @param {*}      args
    * @returns {void}
    */
-  protected publish(name: string, err?: any, ...args: any[]) {
+  protected basePublish(name: string, err?: any, ...args: any[]) {
     var broadcastArgs = [name, err].concat(args);
     this.$rootScope.$broadcast.apply(this.$rootScope, broadcastArgs);
   }

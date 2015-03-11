@@ -17,7 +17,7 @@ declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
   attributeArray: Array<{name: string; value: number}>;
-  addListenerToChange(listener: typeof listenerType): any;
+  addListener(listener: typeof listenerType): any;
 }
 
 export interface EgmHandlers {
@@ -51,6 +51,22 @@ class Renderer extends AbstractStore {
   }
 
   /**
+   * @param {function(ev: ng.IAngularEvent, ...args: *[]): *} listener
+   * @returns {{dispose: (function(): void)}}
+   */
+  addListener(listener: typeof listenerType): {dispose(): any} {
+    return super.baseAddListener(Renderer.CHANGE, listener);
+  }
+
+  /**
+   * @param {*} err
+   * @returns {void}
+   */
+  protected publish(err?: any) {
+    super.basePublish(Renderer.CHANGE, err);
+  }
+
+  /**
    * @returns {void}
    */
   protected init() {
@@ -70,7 +86,7 @@ class Renderer extends AbstractStore {
    */
   private addEgmHandlers(e: any, handlers: EgmHandlers) {
     if (!this.egm) {
-      this.publishChange(new Error('The egm has not been initialized'));
+      this.publish(new Error('The egm has not been initialized'));
       return;
     }
 
@@ -249,16 +265,7 @@ class Renderer extends AbstractStore {
       {name: 'NFI',           value: Math.random()}
     ];
 
-    this.publishChange();
-  }
-
-  /* for change */
-  addListenerToChange(listener: typeof listenerType): {dispose(): any} {
-    return super.addListener(Renderer.CHANGE, listener);
-  }
-
-  protected publishChange(err?: any) {
-    super.publish(Renderer.CHANGE, err);
+    this.publish();
   }
 }
 

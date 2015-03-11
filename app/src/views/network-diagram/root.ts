@@ -46,8 +46,8 @@ export class Controller {
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
 
-    this.storeDisposer    = Store.addListenerToChange(this.storeChangeCallback.bind(this));
-    this.rendererDisposer = Renderer.addListenerToChange(this.rendererChangeCallback.bind(this));
+    this.storeDisposer    = Store.addListener(this.storeChangeHandler.bind(this));
+    this.rendererDisposer = Renderer.addListener(this.rendererChangeHandler.bind(this));
   }
 
   /**
@@ -55,8 +55,8 @@ export class Controller {
    * @param {*} err - error
    * @returns {void}
    */
-  private storeChangeCallback(e: any, err?: any) {
-    log.trace(log.t(), __filename, '#storeChangeCallback()');
+  private storeChangeHandler(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#storeChangeHandler()');
     if (err) {
       log.error(log.t(), __filename, err.message);
       return;
@@ -81,8 +81,8 @@ export class Controller {
    * @param {*} err - error
    * @returns {void}
    */
-  private rendererChangeCallback(e: any, err?: any) {
-    log.trace(log.t(), __filename, '#rendererChangeCallback()');
+  private rendererChangeHandler(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#rendererChangeHandler()');
     if (err) {
       log.error(log.t(), __filename, err.message);
       return;

@@ -13,9 +13,7 @@ var dummyResult   = converterTestDouble.dummyResult;
 
 var Store = require('../../../app/src/scripts/modules/variable-array-store').singleton;
 
-function allReset(stubs) {
-  Object.keys(stubs).forEach(v => stubs[v].reset());
-}
+import {allReset} from '../../utils';
 
 describe('VariableArrayStore', () => {
   beforeEach(() => {
@@ -55,15 +53,15 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#onAddVariableCallback()', () => {
-    var publishChange;
+    var publish;
     beforeEach(() => {
-      publishChange = sinon.stub(Store, 'publishChange');
+      publish = sinon.stub(Store, 'publish');
       Store.variableArray = [{label: 'dummy42', vertexId: 42}];
       Store.onAddVariableCallback()(null, '2ndDummy');
     });
 
     afterEach(() => {
-      publishChange.restore();
+      publish.restore();
     });
 
     it('should replace variables to Store.variableArray', () => {
@@ -75,8 +73,8 @@ describe('VariableArrayStore', () => {
       assert.deepEqual(Store.variableArray, expected);
     });
 
-    it('should do #publishChange()', () => {
-      assert(publishChange.callCount === 1);
+    it('should do #basePublish()', () => {
+      assert(publish.callCount === 1);
     });
   });
 
@@ -87,14 +85,14 @@ describe('VariableArrayStore', () => {
       stubConverter.convert = sinon.stub(mockConverter.prototype, 'convert');
     }
 
-    var publishChange, removeAllVertex;
+    var publish, removeAllVertex;
     beforeEach(() => {
-      publishChange   = sinon.stub(Store, 'publishChange');
+      publish         = sinon.stub(Store, 'publish');
       removeAllVertex = sinon.stub(Store, 'removeAllVertex');
     });
 
     afterEach(() => {
-      publishChange.restore();
+      publish.restore();
       removeAllVertex.restore();
     });
 
@@ -120,8 +118,8 @@ describe('VariableArrayStore', () => {
         assert.deepEqual(Store.variableArray, expected);
       });
 
-      it('should do #publishChange()', () => {
-        assert(publishChange.callCount === 1);
+      it('should do #basePublish()', () => {
+        assert(publish.callCount === 1);
       });
     });
 
@@ -133,8 +131,8 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should give the error object to arg[0] of #publishChange()', () => {
-        var error = publishChange.getCall(0).args[0];
+      it('should give the error object to arg[0] of #basePublish()', () => {
+        var error = publish.getCall(0).args[0];
         assert(error.name === 'TypeError');
       });
 
@@ -151,8 +149,8 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should give the error object to arg[0] of #publishChange()', () => {
-        var error = publishChange.getCall(0).args[0];
+      it('should give the error object to arg[0] of #basePublish()', () => {
+        var error = publish.getCall(0).args[0];
         assert(error.name === 'Error');
       });
 
@@ -186,12 +184,12 @@ describe('VariableArrayStore', () => {
     });
   });
 
-  describe('#addListenerToChange()', () => {
+  describe('#addListener()', () => {
     var dummy = 'listener';
     beforeEach(() => {
       stubRootScope.$on.reset();
       Store.init();
-      Store.addListenerToChange(dummy);
+      Store.addListener(dummy);
     });
 
     it('should give the event name to arg[0] of $on()', () => {
@@ -203,14 +201,14 @@ describe('VariableArrayStore', () => {
     });
   });
 
-  describe('#publishChange()', () => {
+  describe('#publish()', () => {
     afterEach(() => {
       stubRootScope.$broadcast.reset();
     });
 
     context('when normal', () => {
       beforeEach(() => {
-        Store.publishChange();
+        Store.publish();
       });
 
       it('should give the event name to arg[0] of $broadcast()', () => {
@@ -226,7 +224,7 @@ describe('VariableArrayStore', () => {
       var err;
       beforeEach(() => {
         err = new Error('dummy');
-        Store.publishChange(err);
+        Store.publish(err);
       });
 
       it('should give the error object to arg[1] of $broadcast()', () => {

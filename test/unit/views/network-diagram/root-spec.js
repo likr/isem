@@ -28,37 +28,34 @@ var Controller = (() => {
 })();
 var Definition = NetworkDiagram.Definition;
 
+import {allReset} from '../../../utils';
+
 describe('NetworkDiagramRoot', () => {
   describe('Controller', () => {
     describe('#subscribe()', () => {
-      before(() => {
-        Object.keys(stubStore).forEach((v, _) => {
-          stubStore[v].restore();
-        });
+      beforeEach(() => {
+        allReset(stubStore);
+        allReset(stubRenderer);
         Controller.subscribe();
       });
 
-      it('should give the callback to arg[0] of Store#addListenerToChange()', () => {
-        var actual = stubStore.addListenerToChange.getCall(0).args[0];
-        var expected = Controller.storeChangeCallback();
-        assert(String(actual) === String(expected));
+      it('should do Store#addListener()', () => {
+        assert(stubStore.addListener.callCount === 1);
       });
 
-      it('should give the callback to arg[0] of Renderer#addListenerToChange()', () => {
-        var actual = stubRenderer.addListenerToChange.getCall(0).args[0];
-        var expected = Controller.rendererChangeCallback();
-        assert(String(actual) === String(expected));
+      it('should do Renderer#addListener()', () => {
+        assert(stubRenderer.addListener.callCount === 1);
       });
     });
 
-    describe('#storeChangeCallback()', () => {
+    describe('#storeChangeHandler()', () => {
       var clock;
-      before(() => {
+      beforeEach(() => {
         clock = lolex.install(global);
-        Controller.storeChangeCallback()();
+        Controller.storeChangeHandler();
       });
 
-      after(() => {
+      afterEach(() => {
         clock.uninstall();
       });
 
