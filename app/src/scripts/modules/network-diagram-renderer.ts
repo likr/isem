@@ -50,6 +50,9 @@ class Renderer extends AbstractStore {
   /* protected */
   protected $rootScope: ng.IRootScopeService;
 
+  /* private */
+  private egm: egrid.core.EGM<typeVertex.Props, any>;
+
   /**
    * @constructor
    */
@@ -80,14 +83,22 @@ class Renderer extends AbstractStore {
   private onUpdateDiagramCallback(): typeof listenerType {
     return (_: any, graph: egrid.core.Graph<typeVertex.Props, any>) => {
       log.trace(log.t(), __filename, '#onUpdateDiagramCallback()');
-      var egm = this.egm(graph);
+      if (!this.egm) {
+        this.egm = this.defaultEgm(graph);
+      }
+
+      var size = [
+        angular.element('isem-main-column').width(),
+        angular.element('isem-network-diagram-display').height()
+      ];
+      this.egm.size(size);
 
       var render = () => {
         d3.select('#isem-svg-screen')
           .datum(graph)
           .transition()
-          .call(<any>egm) // d3.d.ts does not support egrid.core.EGM
-          .call(<any>egm.center());
+          .call(<any>this.egm) // d3.d.ts does not support egrid.core.EGM
+          .call(<any>this.egm.center());
       };
       render();
 
@@ -101,22 +112,16 @@ class Renderer extends AbstractStore {
    * @param {egrid.core.Graph} graph
    * @returns {egrid.core.EGM}
    */
-  private egm(graph: egrid.core.Graph<typeVertex.Props, any>): egrid.core.EGM<typeVertex.Props, any> {
-    log.trace(log.t(), __filename, '#egm()');
+  private defaultEgm(graph: egrid.core.Graph<typeVertex.Props, any>): egrid.core.EGM<typeVertex.Props, any> {
+    log.trace(log.t(), __filename, '#defaultEgm()');
     var edgeTextFormat = d3.format('4.3g');
     var edgeWidthScale = d3.scale.linear()
       .domain([0, 2])
       .range([1, 3]);
 
-    var size = [
-      angular.element('isem-main-column').width(),
-      angular.element('isem-network-diagram-display').height()
-    ];
-
     return egrid.core.egm()
       .dagreRankSep(50)
       .dagreNodeSep(50)
-      .size(size)
       .backgroundColor(styles.colors.diagramBackground)
       // vertices
       .vertexText        ((d: typeVertex.Props) => d.label)
