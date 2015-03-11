@@ -3,7 +3,6 @@ import typeVertex = require('../../scripts/modules/vertex');
 
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
-var log     = Injector.log();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
@@ -27,7 +26,6 @@ class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    console.log('isemGuiNewLatentVariable constructor',  this.$scope.locale());
     this.initLocalizedLabel(this.$scope.locale());
   }
 
@@ -112,19 +110,8 @@ class Controller {
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    // noop
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    log.trace(log.t(), __filename, 'compile');
-    Definition.styling(tElement);
-    return () => {}; // link is noop
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
