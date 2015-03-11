@@ -3,16 +3,12 @@ var sinon = require('sinon');
 var IsemInjector = require('../../../app/src/scripts/isem-injector');
 
 function mock() {}
-mock.prototype.addListenerToChange = () => {};
-mock.prototype.addListenerToClickAddRelationButton = () => {};
-mock.prototype.addListenerToClickVertex = () => {};
+mock.prototype.addListener = () => {};
 
 sinon.stub(IsemInjector, 'NetworkDiagramRenderer').returns(mock.prototype);
 
 var stub = {
-  addListenerToChange:                 sinon.stub(mock.prototype, 'addListenerToChange'),
-  addListenerToClickAddRelationButton: sinon.stub(mock.prototype, 'addListenerToClickAddRelationButton'),
-  addListenerToClickVertex:            sinon.stub(mock.prototype, 'addListenerToClickVertex')
+  addListener: sinon.stub(mock.prototype, 'addListener')
 };
 
 module.exports = {

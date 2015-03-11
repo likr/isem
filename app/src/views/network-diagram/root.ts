@@ -1,5 +1,6 @@
 'use strict';
-import typeVertex = require('../../scripts/modules/vertex');
+import typeVertex   = require('../../scripts/modules/vertex');
+import typeRenderer = require('../../scripts/modules/network-diagram-renderer');
 
 import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
@@ -10,7 +11,6 @@ var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var Renderer  = IsemInjector.NetworkDiagramRenderer();
 var Store     = IsemInjector.VariableArrayStore();
-var styles    = IsemInjector.styles();
 
 var AddRelation    = IsemInjector.AddRelation();
 var ManageRelation = IsemInjector.ManageRelation();
@@ -23,16 +23,10 @@ interface Scope extends ng.IScope {
   attributeArray: Array<{name: string; value: number}>;
 }
 
-declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
+declare var disposer: {dispose(): void};
 export class Controller {
-  /* Store */
-  private _storeChangeCallback: typeof listenerWithErrorType;
-
-  /* Renderer */
-  private _clickAddRelationButtonCallback: typeof listenerWithErrorType;
-  private _clickManageRelationCallback:    typeof listenerWithErrorType;
-  private _clickVertexCallback:            typeof listenerWithErrorType;
-  private _rendererChangeCallback:         typeof listenerWithErrorType;
+  private storeDisposer:    typeof disposer;
+  private rendererDisposer: typeof disposer;
 
   /**
    * @constructor
@@ -43,14 +37,6 @@ export class Controller {
     private $scope: Scope
   ) {
     log.trace(log.t(), __filename, 'constructor');
-    // Callbacks must be stored once in the variable
-    // for give to removeListener()
-    this._storeChangeCallback = this.storeChangeCallback();
-
-    this._clickAddRelationButtonCallback = this.clickAddRelationButtonCallback();
-    this._clickManageRelationCallback    = this.clickManageRelationCallback();
-    this._clickVertexCallback            = this.clickVertexCallback();
-    this._rendererChangeCallback         = this.rendererChangeCallback();
     this.subscribe();
   }
 
@@ -59,133 +45,123 @@ export class Controller {
    */
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
-    Store.addListenerToChange(this._storeChangeCallback);
-    Renderer.addListenerToChange                (this._rendererChangeCallback);
-    Renderer.addListenerToClickAddRelationButton(this._clickAddRelationButtonCallback);
-    Renderer.addListenerToClickManageRelation   (this._clickManageRelationCallback);
-    Renderer.addListenerToClickVertex           (this._clickVertexCallback);
+
+    this.storeDisposer    = Store.addListener(this.storeChangeHandler.bind(this));
+    this.rendererDisposer = Renderer.addListener(this.rendererChangeHandler.bind(this));
   }
 
   /**
-   * @returns {Function}
+   * @param {*} e - event non-use
+   * @param {*} err - error
+   * @returns {void}
    */
-  private storeChangeCallback(): typeof listenerWithErrorType {
-    return (_, err) => {
-      log.trace(log.t(), __filename, '#storeChangeCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
+  private storeChangeHandler(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#storeChangeHandler()');
+    if (err) {
+      log.error(log.t(), __filename, err.message);
+      return;
+    }
 
-      // This requires JS native setTimeout because needs forced to $apply
-      setTimeout(() => {
-        this.$scope.$apply(() => {
-          this.$scope.variableArray = Store.variableArray;
-          this.$scope.edgeArray     = Store.edgeArray;
-          this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
-        });
-      }, 0); // Immediate execution
+    var apply = () => {
+      this.$scope.$apply(() => {
+        this.$scope.variableArray = Store.variableArray;
+        this.$scope.edgeArray     = Store.edgeArray;
+        this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
+        this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
+      });
+    };
+
+    // This requires JS native setTimeout because needs forced to $apply
+    // Immediate execution
+    setTimeout(apply, 0);
+  }
+
+  /**
+   * @param {*} e - event non-use
+   * @param {*} err - error
+   * @returns {void}
+   */
+  private rendererChangeHandler(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#rendererChangeHandler()');
+    if (err) {
+      log.error(log.t(), __filename, err.message);
+      return;
+    }
+
+    var apply = () => {
+      this.$scope.$apply(() => {
+        this.$scope.attributeArray = Renderer.attributeArray;
+      });
+    };
+
+    // This requires JS native setTimeout because needs forced to $apply
+    // Immediate execution
+    setTimeout(apply, 0);
+  }
+
+  /**
+   * @returns {Renderer.EgmHandlers}
+   */
+  private egmHandlers(): typeRenderer.EgmHandlers {
+    var vertexButtons: egrid.core.VertexButton[] = [
+      {
+        icon: '',
+        onClick: this.addRelationButtonHandler.bind(this)
+      }, {
+        icon: '',
+        onClick: this.manageRelationButtonHandler.bind(this)
+      }
+    ];
+
+    return {
+      onClickVertex: this.onClickVertex.bind(this),
+      vertexButtons: vertexButtons
     };
   }
 
   /**
-   * @returns {Function}
+   * @param {Vertex.Props} d
+   * @param {number} vertexId
+   * @returns {void}
    */
-  private clickAddRelationButtonCallback(): typeof listenerWithErrorType {
-    return (_, err, vertexId) => {
-      log.trace(log.t(), __filename, '#clickAddRelationButtonCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
+  private addRelationButtonHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#addRelationButtonHandler()', vertexId);
 
-      var data = {
-        vertexId: vertexId,
-        variableArray: this.$scope.variableArray
-      };
-      AddRelation.open<typeof data>(data);
+    var data = {
+      vertexId: vertexId,
+      variableArray: this.$scope.variableArray
     };
+    AddRelation.open<typeof data>(data);
   }
 
   /**
-   * @returns {Function}
+   * @param {Vertex.Props} d
+   * @param {number} vertexId
+   * @returns {void}
    */
-  private clickManageRelationCallback(): typeof listenerWithErrorType {
-    return (_, err, vertexId) => {
-      log.trace(log.t(), __filename, '#clickManageRelationCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
+  private manageRelationButtonHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#manageRelationButtonHandler()', vertexId);
 
-      var data = {
-        vertexId: vertexId,
-        variableArray: this.$scope.variableArray,
-        edgeArray: this.$scope.edgeArray
-      };
-      ManageRelation.open<typeof data>(data);
+    var data = {
+      vertexId: vertexId,
+      variableArray: this.$scope.variableArray,
+      edgeArray: this.$scope.edgeArray
     };
+    ManageRelation.open<typeof data>(data);
   }
 
   /**
-   * @returns {Function}
+   * @returns {void}
    */
-  private clickVertexCallback(): typeof listenerWithErrorType {
-    return (_, err, vertexId) => {
-      log.trace(log.t(), __filename, '#clickVertexCallback()', vertexId);
-      if (err) {
-        log.error(err);
-        return;
-      }
-      // Do nothing
-    };
-  }
-
-  /**
-   * @returns {Function}
-   */
-  private rendererChangeCallback(): typeof listenerWithErrorType {
-    return (_, err) => {
-      log.trace(log.t(), __filename, '#rendererChangeCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
-
-      // This requires JS native setTimeout because needs forced to $apply
-      setTimeout(() => {
-        this.$scope.$apply(() => {
-          this.$scope.attributeArray = Renderer.attributeArray;
-        });
-      }, 0);
-    };
+  private onClickVertex(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#onClickVertex()', vertexId);
+    // noop
   }
 }
 
 export class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .css({
-        // positioning
-        position:     'absolute',
-        top:          styles.isemHeader.height,
-        'overflow-y': 'scroll',
-        // size
-        width: '100%',
-        height: styles.mainDisplay.height
-        // visually
-        // none
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',

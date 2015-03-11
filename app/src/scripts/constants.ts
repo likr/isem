@@ -1,6 +1,7 @@
 'use strict';
 
 var prefix = 'isem:';
+export var ADD_EGM_HANDLERS    = prefix + 'ADD_EGM_HANDLERS';
 export var ADD_LATENT_VARIABLE = prefix + 'ADD_LATENT_VARIABLE';
 export var ADD_RELATION        = prefix + 'ADD_RELATION';
 export var IMPORT_FILE         = prefix + 'IMPORT_FILE';

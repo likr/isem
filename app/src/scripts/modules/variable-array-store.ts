@@ -22,8 +22,7 @@ export interface API {
   graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
-  addListenerToChange     (listener: typeof listenerType): void;
-  removeListenerFromChange(listener: typeof listenerType): void;
+  addListener(listener: typeof listenerType): {dispose(): void};
 }
 
 var prefix = 'VariableArrayStore:';
@@ -45,6 +44,22 @@ class Store extends AbstractStore {
   constructor() {
     super();
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
+  }
+
+  /**
+   * @param {function(ev: ng.IAngularEvent, ...args: *[]): *} listener
+   * @returns {{dispose: (function(): void)}}
+   */
+  addListener(listener: typeof listenerType): {dispose(): any} {
+    return super.baseAddListener(Store.CHANGE, listener);
+  }
+
+  /**
+   * @param {*} err
+   * @returns {void}
+   */
+  protected publish(err?: any) {
+    super.basePublish(Store.CHANGE, err);
   }
 
   /**
@@ -89,7 +104,7 @@ class Store extends AbstractStore {
       }
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -103,7 +118,7 @@ class Store extends AbstractStore {
       Vertex.addLatentVariable(this.graph, label);
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -117,16 +132,16 @@ class Store extends AbstractStore {
         var converter = new Converter();
         var result = converter.convert(importedFile);
       } catch (e) {
-        return this.publishChange(e);
+        return this.publish(e);
       }
 
       if (!result) {
         var err = new Error('There is no converted result from the imported file');
-        return this.publishChange(err);
+        return this.publish(err);
       }
 
       this.replaceAllVertex(result);
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -136,7 +151,7 @@ class Store extends AbstractStore {
   private onRedrawDiagramCallback(): typeof listenerType {
     return (_, __) => {
       log.trace(log.t(), __filename, '#onRedrawDiagramCallback()');
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -152,7 +167,7 @@ class Store extends AbstractStore {
       });
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -169,7 +184,7 @@ class Store extends AbstractStore {
       this.setEnabledToMultipleVertices(ids, false);
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -186,7 +201,7 @@ class Store extends AbstractStore {
       this.setEnabledToMultipleVertices(ids, true);
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -202,7 +217,7 @@ class Store extends AbstractStore {
       this.graph.set(vertexId, vertex);
 
       this.updateStore();
-      this.publishChange();
+      this.publish();
     };
   }
 
@@ -270,20 +285,6 @@ class Store extends AbstractStore {
       this.graph.clearVertex(u);
       this.graph.removeVertex(u);
     });
-  }
-
-  /* for change */
-  addListenerToChange(listener: typeof listenerType) {
-    super.addListener(Store.CHANGE, listener);
-  }
-
-  removeListenerFromChange(listener: typeof listenerType) {
-    super.removeListener(Store.CHANGE, listener);
-  }
-
-  protected publishChange(err?: any) {
-    log.trace(log.t(), __filename, '#publishChange()');
-    super.publish(Store.CHANGE, err);
   }
 }
 
