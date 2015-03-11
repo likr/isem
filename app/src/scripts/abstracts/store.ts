@@ -25,13 +25,19 @@ class AbstractStore {
   /**
    * For capsulize event name to other components
    *
-   * @param {Function} listener
-   * @param {string}   name
-   * @returns {void}
+   * @param   {Function} listener
+   * @param   {string}   name
+   * @returns {{dispose: (function(): void)}}
    */
-  addListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
+  addListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any): {dispose(): void} {
     if (!this.$rootScope) {this.init()}
     this.$rootScope.$on(name, listener);
+
+    return {
+      dispose: () => {
+        this.removeListener(name, listener);
+      }
+    };
   }
 
   /**

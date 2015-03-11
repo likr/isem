@@ -22,8 +22,7 @@ export interface API {
   graph:         egrid.core.Graph<typeVertex.Props, any>;
   variableArray: Array<typeVertex.Props>;
 
-  addListenerToChange     (listener: typeof listenerType): void;
-  removeListenerFromChange(listener: typeof listenerType): void;
+  addListenerToChange(listener: typeof listenerType): {dispose(): void};
 }
 
 var prefix = 'VariableArrayStore:';
@@ -273,12 +272,8 @@ class Store extends AbstractStore {
   }
 
   /* for change */
-  addListenerToChange(listener: typeof listenerType) {
-    super.addListener(Store.CHANGE, listener);
-  }
-
-  removeListenerFromChange(listener: typeof listenerType) {
-    super.removeListener(Store.CHANGE, listener);
+  addListenerToChange(listener: typeof listenerType): {dispose(): any} {
+    return super.addListener(Store.CHANGE, listener);
   }
 
   protected publishChange(err?: any) {

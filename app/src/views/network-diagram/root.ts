@@ -24,10 +24,10 @@ interface Scope extends ng.IScope {
   attributeArray: Array<{name: string; value: number}>;
 }
 
-declare var listenerWithErrorType: (ev: ng.IAngularEvent, err?: any, ...args: any[]) => any;
+declare var disposer: {dispose(): void};
 export class Controller {
-  private _storeChangeCallback:    typeof listenerWithErrorType;
-  private _rendererChangeCallback: typeof listenerWithErrorType;
+  private storeDisposer:    typeof disposer;
+  private rendererDisposer: typeof disposer;
 
   /**
    * @constructor
@@ -38,10 +38,6 @@ export class Controller {
     private $scope: Scope
   ) {
     log.trace(log.t(), __filename, 'constructor');
-    // Callbacks must be stored once in the variable
-    // for give to removeListener()
-    this._storeChangeCallback    = this.storeChangeCallback();
-    this._rendererChangeCallback = this.rendererChangeCallback();
     this.subscribe();
   }
 
@@ -50,31 +46,58 @@ export class Controller {
    */
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
-    Store.addListenerToChange(this._storeChangeCallback);
-    Renderer.addListenerToChange(this._rendererChangeCallback);
+
+    this.storeDisposer    = Store.addListenerToChange(this.storeChangeCallback.bind(this));
+    this.rendererDisposer = Renderer.addListenerToChange(this.rendererChangeCallback.bind(this));
   }
 
   /**
-   * @returns {Function}
+   * @param {*} e - event non-use
+   * @param {*} err - error
+   * @returns {void}
    */
-  private storeChangeCallback(): typeof listenerWithErrorType {
-    return (_, err) => {
-      log.trace(log.t(), __filename, '#storeChangeCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
+  private storeChangeCallback(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#storeChangeCallback()');
+    if (err) {
+      log.error(log.t(), __filename, err.message);
+      return;
+    }
 
-      // This requires JS native setTimeout because needs forced to $apply
-      setTimeout(() => {
-        this.$scope.$apply(() => {
-          this.$scope.variableArray = Store.variableArray;
-          this.$scope.edgeArray     = Store.edgeArray;
-          this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
-          this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
-        });
-      }, 0); // Immediate execution
+    var apply = () => {
+      this.$scope.$apply(() => {
+        this.$scope.variableArray = Store.variableArray;
+        this.$scope.edgeArray     = Store.edgeArray;
+        this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
+        this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
+      });
     };
+
+    // This requires JS native setTimeout because needs forced to $apply
+    // Immediate execution
+    setTimeout(apply, 0);
+  }
+
+  /**
+   * @param {*} e - event non-use
+   * @param {*} err - error
+   * @returns {void}
+   */
+  private rendererChangeCallback(e: any, err?: any) {
+    log.trace(log.t(), __filename, '#rendererChangeCallback()');
+    if (err) {
+      log.error(log.t(), __filename, err.message);
+      return;
+    }
+
+    var apply = () => {
+      this.$scope.$apply(() => {
+        this.$scope.attributeArray = Renderer.attributeArray;
+      });
+    };
+
+    // This requires JS native setTimeout because needs forced to $apply
+    // Immediate execution
+    setTimeout(apply, 0);
   }
 
   /**
@@ -134,26 +157,6 @@ export class Controller {
   private onClickVertex(d: typeVertex.Props, vertexId: number) {
     log.trace(log.t(), __filename, '#onClickVertex()', vertexId);
     // noop
-  }
-
-  /**
-   * @returns {Function}
-   */
-  private rendererChangeCallback(): typeof listenerWithErrorType {
-    return (_, err) => {
-      log.trace(log.t(), __filename, '#rendererChangeCallback()');
-      if (err) {
-        log.error(err);
-        return;
-      }
-
-      // This requires JS native setTimeout because needs forced to $apply
-      setTimeout(() => {
-        this.$scope.$apply(() => {
-          this.$scope.attributeArray = Renderer.attributeArray;
-        });
-      }, 0);
-    };
   }
 }
 

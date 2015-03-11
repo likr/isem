@@ -19,8 +19,7 @@ declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
   attributeArray: Array<{name: string; value: number}>;
 
-  addListenerToChange     (listener: typeof listenerType): void;
-  removeListenerFromChange(listener: typeof listenerType): void;
+  addListenerToChange(listener: typeof listenerType): any;
 }
 
 export interface EgmHandlers {
@@ -28,14 +27,13 @@ export interface EgmHandlers {
   vertexButtons: egrid.core.VertexButton[];
 }
 
-var prefix = 'NetworkDiagramRenderer:';
 /**
  * @class
  * @classdesc Renderer has a role equivalent to the Store by the Flux-way
  */
 class Renderer extends AbstractStore {
   /* local constant */
-  static CHANGE = prefix + 'CHANGE';
+  static CHANGE = 'NetworkDiagramRenderer:CHANGE';
 
   /* public */
   attributeArray: Array<{name: string; value: number}>;
@@ -60,13 +58,7 @@ class Renderer extends AbstractStore {
   protected init() {
     super.init();
     log.trace(log.t(), __filename, '#init()');
-    this.registerWithDispatcher();
-  }
 
-  /**
-   * @returns {void}
-   */
-  private registerWithDispatcher() {
     Dispatcher.addHandlers({
       addEgmHandlers: this.addEgmHandlers.bind(this),
       updateDiagram:  this.updateDiagram.bind(this)
@@ -76,6 +68,7 @@ class Renderer extends AbstractStore {
   /**
    * @param {*} e - event non-use
    * @param {EgmHandlers} handlers
+   * @returns {void}
    */
   private addEgmHandlers(e: any, handlers: EgmHandlers) {
     if (!this.egm) {
@@ -91,7 +84,7 @@ class Renderer extends AbstractStore {
   /**
    * @param {*} e - event non-use
    * @param {egrid.core.Graph} graph
-   * @returns {Function}
+   * @returns {void}
    */
   private updateDiagram(e: any, graph: egrid.core.Graph<typeVertex.Props, any>) {
     log.trace(log.t(), __filename, '#updateDiagram()', graph);
@@ -119,6 +112,7 @@ class Renderer extends AbstractStore {
    * Initialize egrid.core.egm() only once
    *
    * @param {egrid.core.Graph} graph
+   * @returns {void}
    */
   private initEgm(graph: egrid.core.Graph<typeVertex.Props, any>) {
     this.egm = this.egm || this.defaultEgm(graph);
@@ -231,6 +225,10 @@ class Renderer extends AbstractStore {
       });
   }
 
+  /**
+   * @param {{name: string, value: number}[]} attrs
+   * @returns {void}
+   */
   setattributeArray(attrs: Array<{name: string; value: number}>) {
     //this.attributes = attrs;
 
@@ -249,12 +247,8 @@ class Renderer extends AbstractStore {
   }
 
   /* for change */
-  addListenerToChange(listener: typeof listenerType) {
-    super.addListener(Renderer.CHANGE, listener);
-  }
-
-  removeListenerFromChange(listener: typeof listenerType) {
-    super.removeListener(Renderer.CHANGE, listener);
+  addListenerToChange(listener: typeof listenerType): {dispose(): any} {
+    return super.addListener(Renderer.CHANGE, listener);
   }
 
   protected publishChange(err?: any) {
