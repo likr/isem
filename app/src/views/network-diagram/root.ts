@@ -11,7 +11,6 @@ var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
 var Renderer  = IsemInjector.NetworkDiagramRenderer();
 var Store     = IsemInjector.VariableArrayStore();
-var styles    = IsemInjector.styles();
 
 var AddRelation    = IsemInjector.AddRelation();
 var ManageRelation = IsemInjector.ManageRelation();

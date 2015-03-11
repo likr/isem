@@ -8,7 +8,6 @@ var log     = Injector.log();
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
-var styles    = IsemInjector.styles();
 
 var directiveName = 'isemSubToolGroup';
 
@@ -25,7 +24,7 @@ class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    //
+    // noop
   }
 
   /**

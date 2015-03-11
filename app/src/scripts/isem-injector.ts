@@ -74,10 +74,6 @@ class IsemInjector {
     return require('./modules/network-diagram-renderer').singleton;
   }
 
-  static styles(): typeof styles {
-    return require('./styles');
-  }
-
   static VariableArrayStore(): VariableArrayStore.API {
     return require('./modules/variable-array-store').singleton;
   }

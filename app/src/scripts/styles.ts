@@ -34,23 +34,6 @@ styles.window.marginRaw = 12;
 styles.window.margin = styles.window.marginRaw + 'px';
 
 styles.colors = {
-  headerText: '#f7f7f7',
-
-  // UI background
-  footerBackground:        '#e0e0e0',
-  mainToolGroupBackground: '#f5f5f5',
-  subColumnBackground:     '#dde2e8',
-  toolGroupBackground:     '#e8e9e8',
-  valueGroupBackground:    '#f0f1f3',
-  headerGradation: 'linear-gradient(#585858, #434343)',
-
-  // UI border
-  footerBorder:        '#a3a3a3',
-  mainToolGroupBorder: '#c7c7c7',
-  subColumnBorder:     '#b8b8b8',
-  subToolGroupBorder:  '#c7c7c7',
-  valueGroupBorder:    '#dee1e4',
-
   // egrid colors
   diagramBackground:  '#ffffff',
   latentBackground:   '#f2cee0',

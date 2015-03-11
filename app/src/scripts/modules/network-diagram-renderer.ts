@@ -12,13 +12,11 @@ var semjs    = Injector.semjs() ;
 import IsemInjector = require('../isem-injector');
 var app        = IsemInjector.app();
 var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
-var styles     = IsemInjector.styles();
 
 declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
   attributeArray: Array<{name: string; value: number}>;
-
   addListenerToChange(listener: typeof listenerType): any;
 }
 
@@ -130,21 +128,31 @@ class Renderer extends AbstractStore {
       .domain([0, 2])
       .range([1, 3]);
 
+    var colors = {
+      diagramBackground:  '#ffffff',
+      edgeColor1:         '#71a9f7', // ugly property name!!
+      edgeColor2:         '#df3b57',
+      latentBackground:   '#f2cee0',
+      observedBackground: '#e3f6fd',
+      selectedStroke:     '#daf984',
+      stroke:             '#1f1d1e'
+    };
+
     return egrid.core.egm()
       .dagreRankSep(50)
       .dagreNodeSep(50)
-      .backgroundColor(styles.colors.diagramBackground)
+      .backgroundColor(colors.diagramBackground)
       // vertices
       .vertexText        ((d: typeVertex.Props) => d.label)
       .vertexAveilability((d: typeVertex.Props) => d.enabled)
       .vertexColor((d: typeVertex.Props) => {
-        return d.latent ? styles.colors.latentBackground : styles.colors.observedBackground
+        return d.latent ? colors.latentBackground : colors.observedBackground
       })
-      .strokeColor(styles.colors.stroke)
-      .selectedStrokeColor(styles.colors.selectedStroke)
+      .strokeColor(colors.stroke)
+      .selectedStrokeColor(colors.selectedStroke)
       // edges
       .edgeColor((u: number, v: number) => {
-        return (graph.get(u, v).coefficient >= 0) ? styles.colors.edgeColor1 : styles.colors.edgeColor2;
+        return (graph.get(u, v).coefficient >= 0) ? colors.edgeColor1 : colors.edgeColor2;
       })
       .edgeWidth((u: number, v: number) => {
         return edgeWidthScale(Math.abs(graph.get(u, v).coefficient));
@@ -153,8 +161,6 @@ class Renderer extends AbstractStore {
         return edgeTextFormat(graph.get(u, v).coefficient);
       });
   }
-
-
 
   /**
    * @param {egrid.core.Graph} graph

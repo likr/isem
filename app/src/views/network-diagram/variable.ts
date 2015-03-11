@@ -5,8 +5,7 @@ import Injector = require('../../scripts/injector');
 var angular = Injector.angular();
 
 import IsemInjector = require('../../scripts/isem-injector');
-var app    = IsemInjector.app();
-var styles = IsemInjector.styles();
+var app = IsemInjector.app();
 
 var directiveName = 'isemVariable';
 
