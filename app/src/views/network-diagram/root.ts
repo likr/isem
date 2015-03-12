@@ -14,6 +14,7 @@ var Store     = IsemInjector.VariableArrayStore();
 
 var AddRelation    = IsemInjector.AddRelation();
 var ManageRelation = IsemInjector.ManageRelation();
+var RenameVariable = IsemInjector.RenameVariable();
 
 var directiveName = 'isemNetworkDiagram';
 
@@ -101,6 +102,9 @@ export class Controller {
       }, {
         icon: '',
         onClick: this.manageRelationButtonHandler.bind(this)
+      }, {
+        icon: '',
+        onClick: this.renameVariableButtonHandler.bind(this)
       }
     ];
 
@@ -139,6 +143,21 @@ export class Controller {
       edgeArray: this.$scope.edgeArray
     };
     ManageRelation.open<typeof data>(data);
+  }
+
+  /**
+   * @param {Vertex.Props} d
+   * @param {number} vertexId
+   * @returns {void}
+   */
+  private renameVariableButtonHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#renameVariableButtonHandler()', vertexId);
+
+    var data = {
+      vertexId: vertexId,
+      variableName: d.label
+    };
+    RenameVariable.open(data);
   }
 
   /**

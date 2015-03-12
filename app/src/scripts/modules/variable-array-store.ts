@@ -78,6 +78,7 @@ class Store extends AbstractStore {
       importFile:           this.importFile          .bind(this),
       redrawDiagram:        this.redrawDiagram       .bind(this),
       removeRelation:       this.removeRelation      .bind(this),
+      renameVariable:       this.renameVariable      .bind(this),
       toggleVertexDisplay:  this.toggleVertexDisplay .bind(this)
     });
   }
@@ -169,6 +170,20 @@ class Store extends AbstractStore {
 
   /**
    * @param {*} _ - event non-use
+   * @param {{u: number, label: string}} data
+   * @returns {void}
+   */
+  private renameVariable(_: any, data: {u: number; label: string}) {
+    log.debug(log.t(), __filename, '#renameVariable()', data);
+
+    Vertex.renameVariable(this.graph, data.u, data.label);
+
+    this.updateStore();
+    this.publish();
+  }
+
+  /**
+   * @param {*} _ - event non-use
    * @param {number|number[]} vertexId - id or ids
    * @returns {void}
    */
@@ -202,12 +217,10 @@ class Store extends AbstractStore {
    * @param {number} vertexId
    * @returns {void}
    */
-  private toggleVertexDisplay(_: any, vertexId: number) {
-    log.trace(log.t(), __filename, '#toggleVertexDisplay()', vertexId);
+  private toggleVertexDisplay(_: any, u: number) {
+    log.trace(log.t(), __filename, '#toggleVertexDisplay()', u);
 
-    var vertex = this.graph.get(vertexId);
-    vertex.enabled = !vertex.enabled;
-    this.graph.set(vertexId, vertex);
+    Vertex.toggleEnabled(this.graph, u);
 
     this.updateStore();
     this.publish();
@@ -218,11 +231,7 @@ class Store extends AbstractStore {
    * @param {boolean}  state
    */
   private setEnabledToMultipleVertices(ids: number[], state: boolean) {
-    ids.forEach((id) => {
-      var vertex = this.graph.get(id);
-      vertex.enabled = state;
-      this.graph.set(id, vertex);
-    });
+    ids.forEach(u => Vertex.setEnabled(this.graph, u, state));
   }
 
   /**

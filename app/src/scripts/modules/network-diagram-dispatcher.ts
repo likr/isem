@@ -18,6 +18,7 @@ interface Handlers {
   importFile:           typeof lsnrType;
   redrawDiagram:        typeof lsnrType;
   removeRelation:       typeof lsnrType;
+  renameVariable:       typeof lsnrType;
   toggleVertexDisplay:  typeof lsnrType;
   updateDiagram:        typeof lsnrType;
 }
@@ -57,6 +58,7 @@ class Dispatcher extends AbstractDispatcher {
     super.on(constants.IMPORT_FILE,            handlers.importFile);
     super.on(constants.REDRAW_DIAGRAM,         handlers.redrawDiagram);
     super.on(constants.REMOVE_RELATION,        handlers.removeRelation);
+    super.on(constants.RENAME_VARIABLE,        handlers.renameVariable);
     super.on(constants.TOGGLE_VERTEX_DISPLAY,  handlers.toggleVertexDisplay);
     super.on(constants.UPDATE_DIAGRAM,         handlers.updateDiagram);
     super.on(constants.UPDATE_DIAGRAM,         handlers.updateDiagram);
