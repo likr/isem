@@ -164,6 +164,7 @@ class Renderer extends AbstractStore {
       .vertexColor((d: typeVertex.Props) => {
         return d.latent ? colors.latentBackground : colors.observedBackground
       })
+      .maxTextLength(30)
       .strokeColor(colors.stroke)
       .selectedStrokeColor(colors.selectedStroke)
       // edges
