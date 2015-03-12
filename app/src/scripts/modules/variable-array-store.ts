@@ -263,10 +263,10 @@ class Store extends AbstractStore {
   /**
    * @returns {void}
    */
-  private replaceAllVertex(result: {nodes: string[]; S: number[][]}) {
+  private replaceAllVertex(result: {labels: string[]; dataArray: number[][]}) {
     this.removeAllVertex();
-    result.nodes.forEach((label: string, i: number) => {
-      return Vertex.addObservedVariable(this.graph, label, result.S[i]);
+    result.labels.forEach((label: string, i: number) => {
+      return Vertex.addObservedVariable(this.graph, label, result.dataArray[i]);
     });
     this.updateStore();
   }

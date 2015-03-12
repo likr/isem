@@ -7,12 +7,12 @@ export function mockConverter() {}
 mockConverter.convert = () => {};
 
 export var dummyResult = {
-  nodes: [
+  labels: [
     'dummyNodes1',
     'dummyNodes2',
     'dummyNodes3'
   ],
-  S: [
+  dataArray: [
     [1, 2],
     [3, 4],
     [5, 6]

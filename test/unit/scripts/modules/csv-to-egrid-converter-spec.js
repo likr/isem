@@ -16,8 +16,8 @@ describe('CsvToEgridConverter', () => {
         {A: 890, B: 123, C: 456}
       ];
       var expected = {
-        nodes: ['A', 'B', 'C'],
-        S: [[123, 12, 901, 890], [456, 345, 234, 123], [789, 678, 567, 456]]
+        labels:    ['A', 'B', 'C'],
+        dataArray: [[123, 12, 901, 890], [456, 345, 234, 123], [789, 678, 567, 456]]
       };
       var result = Converter.convert(data);
       assert.deepEqual(result, expected);

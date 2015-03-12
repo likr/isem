@@ -1,7 +1,7 @@
 'use strict';
 
 export interface API {
-  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]};
+  convert(data: Array<{[label: string]: string}>): {labels: string[]; dataArray: number[][]};
 }
 
 class CsvToEgridConverter {
@@ -9,18 +9,18 @@ class CsvToEgridConverter {
    * @params {Array} data
    * @returns {Object}
    */
-  static convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]} {
+  static convert(data: Array<{[label: string]: string}>): {labels: string[]; dataArray: number[][]} {
     var singleData = data[0];
-    var nodes = CsvToEgridConverter.makeNodes(singleData);
-    var S     = CsvToEgridConverter.makeS(data, nodes);
-    return {nodes: nodes, S: S};
+    var labels    = CsvToEgridConverter.makeLabels(singleData);
+    var dataArray = CsvToEgridConverter.makeDataArray(data, labels);
+    return {labels: labels, dataArray: dataArray};
   }
 
   /**
    * @param {Object} data
    * @returns {string[]}
    */
-  private static makeNodes(data: {[label: string]: string}): string[] {
+  private static makeLabels(data: {[label: string]: string}): string[] {
     var labels: string[] = [];
     var v: string;
     for (v in data) {
@@ -31,13 +31,12 @@ class CsvToEgridConverter {
 
   /**
    * @param {*} data
-   * @param {string[]} vars
+   * @param {string[]} labels
    * @returns {number[][]}
    */
-  private static makeS(data: Array<{[label: string]: string}>, vars: string[]): number[][] {
-    var typeD: {[label: string]: string};
-    var x = vars.map((key: string) => {
-      return data.map((d: typeof typeD) => {
+  private static makeDataArray(data: Array<{[label: string]: string}>, labels: string[]): number[][] {
+    var x = labels.map((key: string) => {
+      return data.map((d: {[label: string]: string}) => {
         return parseFloat(d[key]);
       });
     });
