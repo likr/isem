@@ -10,7 +10,7 @@ import {Definition} from '../../../app/src/screens/screen-network-diagram';
 
 describe('ScreenNetworkDiagram', () => {
   describe('Definition.ddo()', () => {
-    it('should specify "&" in the all fields within "scope"', () => {
+    it('should be specified "&" in the all fields within "scope"', () => {
       let scopeFirstLetter = Object.keys(Definition.ddo().scope).map((key) => {
         return Definition.ddo().scope[key].slice(0, 1);
       });

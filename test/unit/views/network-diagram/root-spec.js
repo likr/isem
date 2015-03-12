@@ -37,11 +37,11 @@ describe('NetworkDiagramRoot', () => {
       Controller.subscribe();
     });
 
-    it('should do Store#addListener()', () => {
+    it('should be done Store#addListener()', () => {
       assert(stubStore.addListener.callCount === 1);
     });
 
-    it('should do Renderer#addListener()', () => {
+    it('should be done Renderer#addListener()', () => {
       assert(stubRenderer.addListener.callCount === 1);
     });
   });
@@ -58,7 +58,7 @@ describe('NetworkDiagramRoot', () => {
       clock.uninstall();
     });
 
-    it('should set to $scope', (done) => {
+    it('should be set to $scope', (done) => {
       promise.then(() => {
         assert(Controller.$scope.variableArray === 'dummyVariableArray');
         done();
@@ -67,7 +67,7 @@ describe('NetworkDiagramRoot', () => {
   });
 
   describe('Definition.ddo()', () => {
-    it('should return the field of controllerAs including the correct name', () => {
+    it('should be returned the field of controllerAs including the correct name', () => {
       assert(Definition.ddo().controllerAs === 'Controller');
     });
   });

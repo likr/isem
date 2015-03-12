@@ -23,7 +23,7 @@ describe('VariableArrayStore', () => {
       Store.init();
     });
 
-    it('should do Dispatcher#addHandlers()', () => {
+    it('should be done Dispatcher#addHandlers()', () => {
       assert(stubDispatcher.addHandlers.callCount === 1);
     });
   });
@@ -40,7 +40,7 @@ describe('VariableArrayStore', () => {
       publish.restore();
     });
 
-    it('should replace variables to Store.variableArray', () => {
+    it('should be replaced variables to Store.variableArray', () => {
       var expected = [
         {label: 'dummy42', vertexId: 42},
         {label: 'dummy43', vertexId: 43},
@@ -49,7 +49,7 @@ describe('VariableArrayStore', () => {
       assert.deepEqual(Store.variableArray, expected);
     });
 
-    it('should do #basePublish()', () => {
+    it('should be done #basePublish()', () => {
       assert(publish.callCount === 1);
     });
   });
@@ -77,15 +77,15 @@ describe('VariableArrayStore', () => {
         Store.importFile(null, 'dummy');
       });
 
-      it('should give the callbacks arg to arg[0] of Converter#convert()', () => {
+      it('should be given the callbacks arg to arg[0] of Converter#convert()', () => {
         assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
       });
 
-      it('should do #removeAllVertex()', () => {
+      it('should be done #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 1);
       });
 
-      it('should replace variables to Store.variableArray', () => {
+      it('should be replaced variables to Store.variableArray', () => {
         var expected = [
           {label: 'dummy42', vertexId: 42},
           {label: 'dummy43', vertexId: 43},
@@ -94,7 +94,7 @@ describe('VariableArrayStore', () => {
         assert.deepEqual(Store.variableArray, expected);
       });
 
-      it('should do #basePublish()', () => {
+      it('should be done #basePublish()', () => {
         assert(publish.callCount === 1);
       });
     });
@@ -107,12 +107,12 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should give the error object to arg[0] of #basePublish()', () => {
+      it('should be given the error object to arg[0] of #basePublish()', () => {
         var error = publish.getCall(0).args[0];
         assert(error.name === 'TypeError');
       });
 
-      it('should NOT do #removeAllVertex()', () => {
+      it('should NOT be done #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 0);
       });
     });
@@ -125,12 +125,12 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should give the error object to arg[0] of #basePublish()', () => {
+      it('should be given the error object to arg[0] of #basePublish()', () => {
         var error = publish.getCall(0).args[0];
         assert(error.name === 'Error');
       });
 
-      it('should NOT do #removeAllVertex()', () => {
+      it('should NOT be done #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 0);
       });
     });
@@ -141,11 +141,11 @@ describe('VariableArrayStore', () => {
       Store.removeAllVertex();
     });
 
-    it('should do AdjacencyList#clearVertex() 3 times', () => {
+    it('should be done AdjacencyList#clearVertex() 3 times', () => {
       assert(stubAdjacencyList.clearVertex.callCount === 3);
     });
 
-    it('should do AdjacencyList#removeVertex() 3 times', () => {
+    it('should be done AdjacencyList#removeVertex() 3 times', () => {
       assert(stubAdjacencyList.removeVertex.callCount === 3);
     });
 

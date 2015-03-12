@@ -45,16 +45,16 @@ describe('DialogImportFile', () => {
         Controller.importFile();
       });
 
-      it('should give the correct value to arg[0] of readAsText()', () => {
+      it('should be given the correct value to arg[0] of readAsText()', () => {
         assert(stubFileReader.readAsText.getCall(0).args[0] === files[0]);
       });
 
-      it('should give the correct value to arg[1] of readAsText()', () => {
+      it('should be given the correct value to arg[1] of readAsText()', () => {
         // utf-8 is used as a default
         assert(stubFileReader.readAsText.getCall(0).args[1] === 'utf-8');
       });
 
-      it('should do close()', () => {
+      it('should be done close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
     });
@@ -66,11 +66,11 @@ describe('DialogImportFile', () => {
         Controller.fileReaderOnLoad()(event);
       });
 
-      it('should give the event name to arg[0] of $broadcast()', () => {
+      it('should be given the event name to arg[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.IMPORT_FILE);
       });
 
-      it('should give the value to arg[1] of $broadcast()', () => {
+      it('should be given the value to arg[1] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[1] === 'dummyParsed');
       });
     });
@@ -78,11 +78,11 @@ describe('DialogImportFile', () => {
 
   describe('Definition', () => {
     describe('.ddo()', () => {
-      it('should return the field of require including the other controller', () => {
+      it('should be returned the field of require including the other controller', () => {
         assert(Definition.ddo().require === '^cwModal');
       });
 
-      it('should return the field of controllerAs including the correct name', () => {
+      it('should be returned the field of controllerAs including the correct name', () => {
         assert(Definition.ddo().controllerAs === 'Controller');
       });
     });

@@ -21,7 +21,7 @@ describe('Localized', () => {
   let jaAllKeys = getAll(ja).keys;
   let enAllKeys = getAll(en).keys;
 
-  it('should specify the directive name without shortage in all languages', () => {
+  it('should be specified the directive name without shortage in all languages', () => {
     let base = jaNames.length;
     let otherLanguageLength = [
       enNames.length
@@ -37,7 +37,7 @@ describe('Localized', () => {
    * @returns {void}
    */
   function validationEachKeys(locale, allKeys) {
-    it('should specify each keys without shortage between ja and ' + locale, () => {
+    it('should be specified each keys without shortage between ja and ' + locale, () => {
       assert.deepEqual(jaAllKeys, allKeys);
     });
   }
