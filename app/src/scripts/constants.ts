@@ -7,6 +7,7 @@ export var ADD_RELATION        = prefix + 'ADD_RELATION';
 export var IMPORT_FILE         = prefix + 'IMPORT_FILE';
 export var REDRAW_DIAGRAM      = prefix + 'REDRAW_DIAGRAM';
 export var REMOVE_RELATION     = prefix + 'REMOVE_RELATION';
+export var RENAME_VARIABLE     = prefix + 'RENAME_VARIABLE';
 export var UPDATE_DIAGRAM      = prefix + 'UPDATE_DIAGRAM';
 
 export var DISABLE_VERTEX_DISPLAY = prefix + 'DISABLE_VERTEX_DISPLAY';

@@ -75,7 +75,7 @@ class Renderer extends AbstractStore {
 
     Dispatcher.addHandlers({
       addEgmHandlers: this.addEgmHandlers.bind(this),
-      updateDiagram:  this.updateDiagram.bind(this)
+      updateDiagram:  this.updateDiagram .bind(this)
     });
   }
 
@@ -164,6 +164,7 @@ class Renderer extends AbstractStore {
       .vertexColor((d: typeVertex.Props) => {
         return d.latent ? colors.latentBackground : colors.observedBackground
       })
+      .maxTextLength(30)
       .strokeColor(colors.stroke)
       .selectedStrokeColor(colors.selectedStroke)
       // edges

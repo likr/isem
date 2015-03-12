@@ -14,6 +14,7 @@ var Store     = IsemInjector.VariableArrayStore();
 
 var AddRelation    = IsemInjector.AddRelation();
 var ManageRelation = IsemInjector.ManageRelation();
+var RenameVariable = IsemInjector.RenameVariable();
 
 var directiveName = 'isemNetworkDiagram';
 
@@ -34,7 +35,8 @@ export class Controller {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private $scope: Scope
+    private $scope: Scope,
+    private $timeout: ng.ITimeoutService
   ) {
     log.trace(log.t(), __filename, 'constructor');
     this.subscribe();
@@ -46,7 +48,7 @@ export class Controller {
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
 
-    this.storeDisposer    = Store.addListener(this.storeChangeHandler.bind(this));
+    this.storeDisposer    = Store   .addListener(this.storeChangeHandler.bind(this));
     this.rendererDisposer = Renderer.addListener(this.rendererChangeHandler.bind(this));
   }
 
@@ -62,18 +64,13 @@ export class Controller {
       return;
     }
 
-    var apply = () => {
-      this.$scope.$apply(() => {
-        this.$scope.variableArray = Store.variableArray;
-        this.$scope.edgeArray     = Store.edgeArray;
-        this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
-        this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
-      });
-    };
-
-    // This requires JS native setTimeout because needs forced to $apply
-    // Immediate execution
-    setTimeout(apply, 0);
+    // This requires $timeout because needs forced to $apply
+    this.$timeout(() => {
+      this.$scope.variableArray = Store.variableArray;
+      this.$scope.edgeArray     = Store.edgeArray;
+      this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
+      this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
+    }, 0);
   }
 
   /**
@@ -88,15 +85,10 @@ export class Controller {
       return;
     }
 
-    var apply = () => {
-      this.$scope.$apply(() => {
-        this.$scope.attributeArray = Renderer.attributeArray;
-      });
-    };
-
-    // This requires JS native setTimeout because needs forced to $apply
-    // Immediate execution
-    setTimeout(apply, 0);
+    // This requires $timeout because needs forced to $apply
+    this.$timeout(() => {
+      this.$scope.attributeArray = Renderer.attributeArray;
+    });
   }
 
   /**
@@ -110,11 +102,14 @@ export class Controller {
       }, {
         icon: '',
         onClick: this.manageRelationButtonHandler.bind(this)
+      }, {
+        icon: '',
+        onClick: this.renameVariableButtonHandler.bind(this)
       }
     ];
 
     return {
-      onClickVertex: this.onClickVertex.bind(this),
+      onClickVertex: this.clickVertexHandler.bind(this),
       vertexButtons: vertexButtons
     };
   }
@@ -151,10 +146,25 @@ export class Controller {
   }
 
   /**
+   * @param {Vertex.Props} d
+   * @param {number} vertexId
    * @returns {void}
    */
-  private onClickVertex(d: typeVertex.Props, vertexId: number) {
-    log.trace(log.t(), __filename, '#onClickVertex()', vertexId);
+  private renameVariableButtonHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#renameVariableButtonHandler()', vertexId);
+
+    var data = {
+      vertexId: vertexId,
+      variableName: d.label
+    };
+    RenameVariable.open(data);
+  }
+
+  /**
+   * @returns {void}
+   */
+  private clickVertexHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#clickVertexHandler()', vertexId);
     // noop
   }
 }

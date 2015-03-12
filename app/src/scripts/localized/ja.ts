@@ -18,12 +18,6 @@ export var isemDialogAddRelation = {
   buttonPrimary:   () => '追加'
 };
 
-export var isemDialogManageRelation = {
-  title:           () => 'パスの管理',
-  buttonCancel:    () => 'キャンセル',
-  buttonPrimary:   () => 'チェックしたパスを削除'
-};
-
 export var isemDialogImportFile = {
   title:           () => 'ファイル読み込み',
   encodingUTF8:    () => 'UTF-8',
@@ -32,6 +26,19 @@ export var isemDialogImportFile = {
   downloadSample:  () => 'サンプルファイル',
   buttonCancel:    () => 'キャンセル',
   buttonPrimary:   () => 'OK'
+};
+
+export var isemDialogManageRelation = {
+  title:           () => 'パスの管理',
+  buttonCancel:    () => 'キャンセル',
+  buttonPrimary:   () => 'チェックしたパスを削除'
+};
+
+export var isemDialogRenameVariable = {
+  title:         () => '変数名を変更',
+  inputLabel:    () => '変数名',
+  buttonCancel:  () => 'キャンセル',
+  buttonPrimary: () => 'OK'
 };
 
 export var isemGuiNewLatentVariable = {

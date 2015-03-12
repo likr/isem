@@ -1,10 +1,5 @@
 'use strict';
 
-export interface Constructor {
-  addObservedVariable(adjacencyList: egrid.core.Graph<Props, any>, label: string, data: number[]): Instance;
-  addLatentVariable  (adjacencyList: egrid.core.Graph<Props, any>, label: string): Instance;
-}
-
 export interface Props {
   label:    string;
   latent:   boolean;
@@ -57,27 +52,57 @@ class Vertex implements Props {
     return copy;
   }
 
-  /**
-   * @param {egrid.core.Graph}  adjacencyList
-   * @param {string} label
-   * @param {number[]} data
-   * @returns {Vertex}
-   */
-  static addObservedVariable(adjacencyList: egrid.core.Graph<Props, any>, label: string, data: number[]) {
-    return new Vertex(adjacencyList, label, false, data);
-  }
-
-  /**
-   * @param {egrid.core.Graph}  adjacencyList
-   * @param {string} label
-   * @returns {Vertex}
-   */
-  static addLatentVariable(adjacencyList: egrid.core.Graph<Props, any>, label: string) {
-    return new Vertex(adjacencyList, label, true);
-  }
 }
 
-module.exports = {
-  addObservedVariable: Vertex.addObservedVariable,
-  addLatentVariable:   Vertex.addLatentVariable
-};
+/**
+ * @param   {egrid.core.Graph} adjacencyList
+ * @param   {string}   label
+ * @param   {number[]} data
+ * @returns {Vertex}
+ */
+export function addObservedVariable(adjacencyList: egrid.core.Graph<Props, any>, label: string, data: number[]) {
+  return new Vertex(adjacencyList, label, false, data);
+}
+
+/**
+ * @param   {egrid.core.Graph} adjacencyList
+ * @param   {string} label
+ * @returns {Vertex}
+ */
+export function addLatentVariable(adjacencyList: egrid.core.Graph<Props, any>, label: string) {
+  return new Vertex(adjacencyList, label, true);
+}
+
+/**
+ * @param   {egrid.core.Graph} adjacencyList
+ * @param   {number} u
+ * @param   {string} newLabel
+ * @returns {void}
+ */
+export function renameVariable(adjacencyList: egrid.core.Graph<Props, any>, u: number, newLabel: string) {
+  var vertex = adjacencyList.get(u);
+  vertex.label = newLabel;
+  adjacencyList.set(u, vertex);
+}
+
+/**
+ * @param   {egrid.core.Graph} adjacencyList
+ * @param   {number}  u
+ * @param   {boolean} state
+ * @returns {void}
+ */
+export function setEnabled(adjacencyList: egrid.core.Graph<Props, any>, u: number, state: boolean) {
+  var vertex = adjacencyList.get(u);
+  vertex.enabled = state;
+  adjacencyList.set(u, vertex);
+}
+
+/**
+ * @param   {egrid.core.Graph} adjacencyList
+ * @param   {number} u
+ * @returns {void}
+ */
+export function toggleEnabled(adjacencyList: egrid.core.Graph<Props, any>, u: number) {
+  var vertex = adjacencyList.get(u);
+  setEnabled(adjacencyList, u, !vertex.enabled);
+}
