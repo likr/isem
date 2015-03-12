@@ -7,7 +7,12 @@ var angular = Injector.angular();
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
 var constants = IsemInjector.constants();
-var styles    = IsemInjector.styles();
+
+var directiveName = 'isemVariableRow';
+
+/* className constants */
+var VERTEX_ENABLED  = 'isem-vertex-enabled';
+var VERTEX_DISABLED = 'isem-vertex-disabled';
 
 interface Scope extends ng.IScope {
   variable(): typeVertex.Props;
@@ -23,11 +28,10 @@ class Controller {
     private $scope: Scope,
     private $element: ng.IAugmentedJQuery
   ) {
-    //
+    // noop
   }
 
   /**
-   *
    * @returns {typeVertex.Props}
    */
   variable(): typeVertex.Props {
@@ -47,24 +51,20 @@ class Controller {
    * @returns {void}
    */
   static updateClassForIcon(variable: typeVertex.Props, element: ng.IAugmentedJQuery) {
-    var disabled = 'isem-vertex-disabled';
-    var enabled  = 'isem-vertex-enabled';
-
     if (variable.enabled) {
-      element.removeClass(disabled).addClass(enabled);
+      element.removeClass(VERTEX_DISABLED).addClass(VERTEX_ENABLED);
       return;
     }
-    element.removeClass(enabled).addClass(disabled);
+    element.removeClass(VERTEX_ENABLED).addClass(VERTEX_DISABLED);
   }
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .addClass('isem-vertex-enabled');
+  static styling(element: ng.IAugmentedJQuery) {
+    element.addClass(VERTEX_ENABLED);
   }
 
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
+  static compile(tElement: ng.IAugmentedJQuery) {
     Definition.styling(tElement);
     return Definition.link;
   }
@@ -79,12 +79,12 @@ class Definition {
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
-      templateUrl: app.viewsDir.networkDiagram + 'variable-row.html',
       scope: {
         variable: '&isemIoVariable'
-      }
+      },
+      templateUrl: app.viewsDir.networkDiagram + 'variable-row.html'
     };
   }
 }
 
-angular.module(app.appName).directive('isemVariableRow', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

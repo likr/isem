@@ -1,0 +1,20 @@
+isem-variable {
+  & > div {
+    // positioning
+    overflow-y: scroll;
+    // size
+    height: ~'calc(@{isem-main-display-height-rawexp} - @{isem-sub-tool-group-height})'
+    /* do not specify 'width: 100%' because of the display position of scroll bar shifted */
+  }
+
+  ul {
+    // size
+    margin-top: 24px;
+    // visually
+    list-style: none;
+
+    li {
+      margin-top: 6px;
+    }
+  }
+}
