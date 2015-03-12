@@ -1,20 +1,19 @@
 'use strict';
-import typeVertex      = require('../modules/vertex');
-
+/* Use only typing */
+import typeVertex  = require('../modules/vertex');
 import AddRelation = require('../../views/dialogs/add-relation');
 import Direction   = AddRelation.Direction
 
 import AbstractStore = require('../abstracts/store');
-import Injector = require('../injector');
-var angular = Injector.angular();
-var egrid   = Injector.egrid();
-var log     = Injector.log();
+import injector = require('../injector');
+var angular = injector.angular();
+var app     = injector.app();
+var egrid   = injector.egrid();
+var log     = injector.log();
 
-import IsemInjector = require('../isem-injector');
-var app        = IsemInjector.app();
-var Converter  = IsemInjector.CsvToAlphaConverter();
-var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
-var Vertex     = IsemInjector.Vertex();
+var Converter  = injector.CsvToAlphaConverter();
+var Dispatcher = injector.NetworkDiagramDispatcher();
+var Vertex     = injector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {

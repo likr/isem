@@ -1,20 +1,22 @@
 'use strict';
+/* Use only typing */
 import typeVertex   = require('../../scripts/modules/vertex');
 import typeRenderer = require('../../scripts/modules/network-diagram-renderer');
 
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
-var log     = Injector.log();
+import injector = require('../../scripts/injector');
+var angular   = injector.angular();
+var app       = injector.app();
+var constants = injector.constants();
+var log       = injector.log();
 
-import IsemInjector = require('../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var constants = IsemInjector.constants();
-var Renderer  = IsemInjector.NetworkDiagramRenderer();
-var Store     = IsemInjector.VariableArrayStore();
+/* stores */
+var Renderer = injector.NetworkDiagramRenderer();
+var Store    = injector.VariableArrayStore();
 
-var AddRelation    = IsemInjector.AddRelation();
-var ManageRelation = IsemInjector.ManageRelation();
-var RenameVariable = IsemInjector.RenameVariable();
+/* dialogs */
+var AddRelation    = injector.AddRelation();
+var ManageRelation = injector.ManageRelation();
+var RenameVariable = injector.RenameVariable();
 
 var directiveName = 'isemNetworkDiagram';
 

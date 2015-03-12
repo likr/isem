@@ -1,12 +1,9 @@
 'use strict';
 import AbstractDispatcher = require('../abstracts/dispatcher');
-import Injector = require('../injector');
-var angular = Injector.angular();
 
-// DO NOT change var name of 'constants'
-// by reason of the convenience to find/replace
-import IsemInjector = require('../isem-injector');
-var constants = IsemInjector.constants();
+import injector = require('../injector');
+var angular   = injector.angular();
+var constants = injector.constants();
 
 declare var lsnrType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 interface Handlers {

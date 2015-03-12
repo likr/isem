@@ -1,6 +1,6 @@
 'use strict';
-import Injector = require('../injector');
-var angular = Injector.angular();
+import injector = require('../injector');
+var angular = injector.angular();
 
 class AbstractStore {
   /* protected */
@@ -10,8 +10,8 @@ class AbstractStore {
    * @constructor
    */
   constructor() {
-    // Do nothing
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
+    // noop
   }
 
   /**

@@ -1,15 +1,8 @@
 'use strict';
-import Injector = require('../injector');
-var angular = Injector.angular();
+import injector = require('../injector');
+var angular = injector.angular();
 
 class CsvToAlphaConverter {
-  /**
-   * @constructor
-   */
-  constructor() {
-    // Do nothing
-  }
-
   /**
    * @params {Array} data
    * @returns {Object}

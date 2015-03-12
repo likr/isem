@@ -1,5 +1,4 @@
 'use strict';
-
 export interface Props {
   label:    string;
   latent:   boolean;
@@ -9,7 +8,7 @@ export interface Props {
 }
 
 export interface Instance extends Props {
-  //
+  // no defined
 }
 
 class Vertex implements Props {
@@ -51,7 +50,6 @@ class Vertex implements Props {
     }
     return copy;
   }
-
 }
 
 /**

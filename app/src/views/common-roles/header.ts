@@ -1,10 +1,8 @@
 'use strict';
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
-
-import IsemInjector = require('../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var localized = IsemInjector.localized();
+import injector = require('../../scripts/injector');
+var angular   = injector.angular();
+var app       = injector.app();
+var localized = injector.localized();
 
 var directiveName = 'isemHeader';
 
@@ -21,11 +19,7 @@ export class Controller {
   constructor(
     private $scope: Scope
   ) {
-    this.initLocalizedLabel(this.$scope.locale());
-  }
-
-  private initLocalizedLabel(locale: string) {
-    this.$scope.localized = localized(locale, directiveName);
+    this.$scope.localized = localized(this.$scope.locale(), directiveName);
   }
 }
 
