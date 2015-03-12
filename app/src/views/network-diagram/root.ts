@@ -105,7 +105,7 @@ export class Controller {
     ];
 
     return {
-      onClickVertex: this.onClickVertex.bind(this),
+      onClickVertex: this.clickVertexHandler.bind(this),
       vertexButtons: vertexButtons
     };
   }
@@ -144,8 +144,8 @@ export class Controller {
   /**
    * @returns {void}
    */
-  private onClickVertex(d: typeVertex.Props, vertexId: number) {
-    log.trace(log.t(), __filename, '#onClickVertex()', vertexId);
+  private clickVertexHandler(d: typeVertex.Props, vertexId: number) {
+    log.trace(log.t(), __filename, '#clickVertexHandler()', vertexId);
     // noop
   }
 }

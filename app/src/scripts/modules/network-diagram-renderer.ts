@@ -75,7 +75,7 @@ class Renderer extends AbstractStore {
 
     Dispatcher.addHandlers({
       addEgmHandlers: this.addEgmHandlers.bind(this),
-      updateDiagram:  this.updateDiagram.bind(this)
+      updateDiagram:  this.updateDiagram .bind(this)
     });
   }
 
