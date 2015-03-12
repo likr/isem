@@ -1,18 +1,24 @@
 'use strict';
-var assert = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon = require('sinon');
-var lolex = require('lolex');
+import constants from '../../../../app/src/scripts/constants';
+import lolex from 'lolex';
+import powerAssert from 'power-assert';
+import sinon from 'sinon';
+import {allReset} from '../../../utils';
+let assert = powerAssert.customize({output: {maxDepth: 2}});
 
-require('../../../mocks/browser/angular');
-require('../../../mocks/browser/promise');
-var stubStore    = require('../../../mocks/isem/variable-array-store').stub;
-var stubRenderer = require('../../../mocks/isem/network-diagram-renderer').stub;
+/* stubbing */
+import '../../../mocks/browser/angular';
+import '../../../mocks/browser/promise';
+import {stubStore}    from '../../../mocks/isem/variable-array-store';
+import {stubRenderer} from '../../../mocks/isem/network-diagram-renderer';
 
-var NetworkDiagram = require('../../../../app/src/views/network-diagram/root');
-var ControllerStatic = NetworkDiagram.Controller;
-
+/* mocking */
+import {
+  Controller as ControllerStatic,
+  Definition
+} from '../../../../app/src/views/network-diagram/root';
 var mockRootScope, stubRootScope, mockScope;
-var Controller = (() => {
+let Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
   };
@@ -22,9 +28,6 @@ var Controller = (() => {
   mockScope = {};
   return new ControllerStatic(mockRootScope, mockScope, global.setTimeout);
 })();
-var Definition = NetworkDiagram.Definition;
-
-import {allReset} from '../../../utils';
 
 describe('NetworkDiagramRoot', () => {
   describe('Controller#subscribe()', () => {

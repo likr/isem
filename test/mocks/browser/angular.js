@@ -1,7 +1,8 @@
 'use strict';
-var sinon = require('sinon');
-var Injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
+/* mocks */
 function mockAngular() {}
 mockAngular.module = () => {
   return {
@@ -22,20 +23,22 @@ function mockRootScope() {}
 mockRootScope.$broadcast = () => {};
 mockRootScope.$on = () => {};
 
-sinon.stub(Injector, 'angular').returns(mockAngular);
+/* stubs */
+sinon.stub(injector, 'angular').returns(mockAngular);
 
-module.exports = {
-  stubAngular: {
-    element: sinon.stub(mockAngular, 'element').withArgs('.ng-scope').returns(mockElements)
-  },
-  stubElements: {
-    eq: sinon.stub(mockElements, 'eq').withArgs(0).returns(mockRootElement)
-  },
-  stubRootElement: {
-    scope: sinon.stub(mockRootElement, 'scope').returns(mockRootScope)
-  },
-  stubRootScope: {
-    $broadcast: sinon.stub(mockRootScope, '$broadcast'),
-    $on:        sinon.stub(mockRootScope, '$on')
-  }
+export var stubAngular = {
+  element: sinon.stub(mockAngular, 'element').withArgs('.ng-scope').returns(mockElements)
+};
+
+export var stubElements = {
+  eq: sinon.stub(mockElements, 'eq').withArgs(0).returns(mockRootElement)
+};
+
+export var stubRootElement = {
+  scope: sinon.stub(mockRootElement, 'scope').returns(mockRootScope)
+};
+
+export var stubRootScope = {
+  $broadcast: sinon.stub(mockRootScope, '$broadcast'),
+  $on:        sinon.stub(mockRootScope, '$on')
 };

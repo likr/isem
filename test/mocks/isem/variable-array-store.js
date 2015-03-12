@@ -1,18 +1,15 @@
 'use strict';
-var sinon = require('sinon');
-var injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mock() {}
-mock.prototype.variableArray = 'dummyVariableArray';
-mock.prototype.addListener = () => {};
+/* mocks */
+export function mockStore() {}
+mockStore.prototype.variableArray = 'dummyVariableArray';
+mockStore.prototype.addListener = () => {};
 
-sinon.stub(injector, 'VariableArrayStore').returns(mock.prototype);
+/* stubs */
+sinon.stub(injector, 'VariableArrayStore').returns(mockStore.prototype);
 
-var stub = {
-  addListener: sinon.stub(mock.prototype, 'addListener')
-};
-
-module.exports = {
-  mock: mock,
-  stub: stub
+export var stubStore = {
+  addListener: sinon.stub(mockStore.prototype, 'addListener')
 };

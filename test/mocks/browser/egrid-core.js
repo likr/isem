@@ -1,31 +1,34 @@
 'use strict';
-var sinon = require('sinon');
-var Injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
+/* mocks */
 function mockAdjacencyList() {}
 mockAdjacencyList.addVertex = () => {};
 mockAdjacencyList.clearVertex = () => {};
 mockAdjacencyList.edges = () => {};
+mockAdjacencyList.removeVertex = () => {};
+mockAdjacencyList.vertices = () => {};
+
 mockAdjacencyList.get = (u) => {
   return {
     label: 'dummy' + u
   };
 };
-mockAdjacencyList.removeVertex = () => {};
-mockAdjacencyList.vertices = () => {};
 
 function mockGraph() {}
 mockGraph.adjacencyList = () => mockAdjacencyList;
 
-var mockEgrid = {
+export var mockEgrid = {
   core: {
     graph: mockGraph
   }
 };
 
-sinon.stub(Injector, 'egrid').returns(mockEgrid);
+/* stubs */
+sinon.stub(injector, 'egrid').returns(mockEgrid);
 
-var stubAdjacencyList = {
+export var stubAdjacencyList = {
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
   get:          sinon.stub(mockAdjacencyList, 'get', mockAdjacencyList.get),
@@ -38,12 +41,6 @@ var stubAdjacencyList = {
   stub.returns(i + 1);
 })(stubAdjacencyList.addVertex);
 
-var stubGraph = {
+export var stubGraph = {
   adjacencyList: sinon.stub(mockGraph, 'adjacencyList').returns(mockAdjacencyList)
-};
-
-module.exports = {
-  mockEgrid: mockEgrid,
-  stubAdjacencyList: stubAdjacencyList,
-  stubGraph: stubGraph
 };

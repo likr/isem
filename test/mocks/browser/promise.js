@@ -1,5 +1,6 @@
 'use strict';
-var sinon = require('sinon');
-var injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
+/* stubs */
 sinon.stub(injector, 'Promise').returns(Promise);

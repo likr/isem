@@ -1,17 +1,14 @@
 'use strict';
-var sinon = require('sinon');
-var injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mock() {}
-mock.prototype.addHandlers = () => {};
+/* mocks */
+export function mockDispatcher() {}
+mockDispatcher.prototype.addHandlers = () => {};
 
-sinon.stub(injector, 'NetworkDiagramDispatcher').returns(mock.prototype);
+/* stubs */
+sinon.stub(injector, 'NetworkDiagramDispatcher').returns(mockDispatcher.prototype);
 
-var stub = {
-  addHandlers: sinon.stub(mock.prototype, 'addHandlers')
-};
-
-module.exports = {
-  mock: mock,
-  stub: stub
+export var stubDispatcher = {
+  addHandlers: sinon.stub(mockDispatcher.prototype, 'addHandlers')
 };

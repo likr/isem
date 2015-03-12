@@ -1,11 +1,11 @@
 'use strict';
-var assert    = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon     = require('sinon');
-var constants = require('../../../app/src/scripts/constants');
+import constants from '../../../app/src/scripts/constants';
+import powerAssert from 'power-assert';
+import sinon from 'sinon';
+let assert = powerAssert.customize({output: {maxDepth: 2}});
 
-var stubRootScope = require('../../mocks/browser/angular').stubRootScope;
-
-var Dispatcher = require('../../../app/src/scripts/modules/network-diagram-dispatcher').singleton;
+import {stubRootScope} from '../../mocks/browser/angular';
+import {singleton as Dispatcher} from '../../../app/src/scripts/modules/network-diagram-dispatcher';
 
 describe('NetworkDiagramDispatcher', () => {
   // no tests

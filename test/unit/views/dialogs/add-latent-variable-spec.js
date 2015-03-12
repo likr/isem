@@ -1,14 +1,19 @@
 'use strict';
-var assert    = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon     = require('sinon');
-var constants = require('../../../../app/src/scripts/constants');
+import constants from '../../../../app/src/scripts/constants';
+import powerAssert from 'power-assert';
+import sinon from 'sinon';
+let assert = powerAssert.customize({output: {maxDepth: 2}});
 
-require('../../../mocks/browser/angular');
-var AddLatentVariable = require('../../../../app/src/views/dialogs/add-latent-variable');
-var ControllerStatic = AddLatentVariable.Controller;
+/* stubbing */
+import '../../../mocks/browser/angular';
 
+/* mocking */
+import {
+  Controller as ControllerStatic,
+  Definition
+} from '../../../../app/src/views/dialogs/add-latent-variable';
 var mockRootScope, stubRootScope, mockScope, stubScope;
-var Controller = (() => {
+let Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
   };
@@ -27,7 +32,6 @@ var Controller = (() => {
   };
   return new ControllerStatic(mockRootScope, mockScope);
 })();
-var Definition = AddLatentVariable.Definition;
 
 describe('DialogAddLatentVariable', () => {
   describe('Controller', () => {

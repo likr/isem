@@ -1,13 +1,12 @@
 'use strict';
-var sinon = require('sinon');
-var injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mock() {}
-mock.prototype.convert = () => {};
+/* mocks */
+export function mockConverter() {}
+mockConverter.prototype.convert = () => {};
 
-sinon.stub(injector, 'CsvToAlphaConverter').returns(mock);
-
-var dummyResult = {
+export var dummyResult = {
   nodes: [
     'dummyNodes1',
     'dummyNodes2',
@@ -20,10 +19,9 @@ var dummyResult = {
   ]
 };
 
-var stub = {
-  convert: sinon.stub(mock.prototype, 'convert').returns(dummyResult)
-};
+/* stubs */
+sinon.stub(injector, 'CsvToAlphaConverter').returns(mockConverter);
 
-module.exports.mock = mock;
-module.exports.stub = stub;
-module.exports.dummyResult = dummyResult;
+export var stubConverter = {
+  convert: sinon.stub(mockConverter.prototype, 'convert').returns(dummyResult)
+};

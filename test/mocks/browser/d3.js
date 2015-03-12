@@ -1,22 +1,21 @@
 'use strict';
-var sinon = require('sinon');
-var Injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-var mockCsv = {
+/* mocks */
+let mockCsv = {
   parse: () => {}
 };
 
-var mockD3 = {
+export var mockD3 = {
   csv: mockCsv
 };
 
-sinon.stub(Injector, 'd3').returns(mockD3);
+/* stubs */
+sinon.stub(injector, 'd3').returns(mockD3);
 
-var stubD3 = {
+export var stubD3 = {
   csv: {
     parse: sinon.stub(mockCsv, 'parse')
   }
 };
-
-module.exports.mock = mockD3;
-module.exports.stub = stubD3;
