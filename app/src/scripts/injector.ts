@@ -3,7 +3,7 @@
 import typeAngular = require('angular');
 import cwlog       = require('cw-log');
 
-/* globals */
+/* isem globals */
 import app       = require('./app');
 import constants = require('./constants');
 
@@ -24,25 +24,18 @@ import RenameVariable    = require('../views/dialogs/rename-variable');
 /**
  * Injector is the class that injects libraries
  * This will be stubbed when do tests
+ *
+ * Implemented as a static in the class
+ * because of define the same name as a global defined
+ * (e.g. document, FileReader)
  */
 class Injector {
-  static AddLatentVariable(): typeof AddLatentVariable {
-    return require('../views/dialogs/add-latent-variable');
-  }
-
-  static AddRelation(): typeof AddRelation {
-    return require('../views/dialogs/add-relation');
-  }
-
+  /* for browser */
   static angular(): typeof typeAngular {
     var angular = require('angular');
     require('angular-route');
     require('cw-modal');
     return angular;
-  }
-
-  static app(): typeof app {
-    return require('./app');
   }
 
   static d3(): D3.Base {
@@ -70,16 +63,13 @@ class Injector {
     return require('semjs');
   }
 
+  /* for isem */
+  static app(): typeof app {
+    return require('./app');
+  }
+
   static constants(): typeof constants {
     return require('./constants');
-  }
-
-  static CsvToAlphaConverter(): typeof CsvToAlphaConverter {
-    return require('./modules/csv-to-alpha-converter');
-  }
-
-  static ImportFile(): typeof ImportFile {
-    return require('../views/dialogs/import-file');
   }
 
   static localized(): (locale: string, directiveName: string) => any {
@@ -98,8 +88,9 @@ class Injector {
     };
   }
 
-  static ManageRelation(): typeof ManageRelation {
-    return require('../views/dialogs/manage-relation');
+  /* modules */
+  static CsvToAlphaConverter(): typeof CsvToAlphaConverter {
+    return require('./modules/csv-to-alpha-converter');
   }
 
   static NetworkDiagramDispatcher(): NetworkDiagramDispatcher.API {
@@ -110,16 +101,33 @@ class Injector {
     return require('./modules/network-diagram-renderer').singleton;
   }
 
-  static RenameVariable(): typeof RenameVariable {
-    return require('../views/dialogs/rename-variable');
-  }
-
   static VariableArrayStore(): VariableArrayStore.API {
     return require('./modules/variable-array-store').singleton;
   }
 
   static Vertex(): typeof Vertex {
     return require('./modules/vertex');
+  }
+
+  /* views */
+  static AddLatentVariable(): typeof AddLatentVariable {
+    return require('../views/dialogs/add-latent-variable');
+  }
+
+  static AddRelation(): typeof AddRelation {
+    return require('../views/dialogs/add-relation');
+  }
+
+  static ImportFile(): typeof ImportFile {
+    return require('../views/dialogs/import-file');
+  }
+
+  static ManageRelation(): typeof ManageRelation {
+    return require('../views/dialogs/manage-relation');
+  }
+
+  static RenameVariable(): typeof RenameVariable {
+    return require('../views/dialogs/rename-variable');
   }
 }
 
