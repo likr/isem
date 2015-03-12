@@ -2,7 +2,6 @@
 /* globals */
 import app       = require('./app');
 import constants = require('./constants');
-import styles    = require('./styles');
 
 /* modules */
 import CsvToAlphaConverter      = require('./modules/csv-to-alpha-converter');
