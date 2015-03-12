@@ -28,8 +28,10 @@ interface Scope extends ng.IScope {
 
 declare var disposer: {dispose(): void};
 export class Controller {
-  private storeDisposer:    typeof disposer;
-  private rendererDisposer: typeof disposer;
+  private disposer: {
+    store?:    typeof disposer;
+    renderer?: typeof disposer;
+  };
 
   /**
    * @constructor
@@ -50,8 +52,9 @@ export class Controller {
   private subscribe() {
     log.trace(log.t(), __filename, '#subscribe()');
 
-    this.storeDisposer    = Store   .addListener(this.storeChangeHandler.bind(this));
-    this.rendererDisposer = Renderer.addListener(this.rendererChangeHandler.bind(this));
+    this.disposer = this.disposer || {};
+    this.disposer.store    = Store   .addListener(this.storeChangeHandler.bind(this));
+    this.disposer.renderer = Renderer.addListener(this.rendererChangeHandler.bind(this));
   }
 
   /**
