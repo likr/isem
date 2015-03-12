@@ -9,17 +9,22 @@ import IsemInjector = require('../isem-injector');
 var constants = IsemInjector.constants();
 
 declare var lsnrType: (ev: ng.IAngularEvent, ...args: any[]) => any;
-export interface API {
-  onAddRelation   (listener: typeof lsnrType): void;
-  onAddVariable   (listener: typeof lsnrType): void;
-  onImportFile    (listener: typeof lsnrType): void;
-  onRedrawDiagram (listener: typeof lsnrType): void;
-  onRemoveRelation(listener: typeof lsnrType): void;
-  onUpdateDiagram (listener: typeof lsnrType): void;
+interface Handlers {
+  addEgmHandlers:       typeof lsnrType;
+  addRelation:          typeof lsnrType;
+  addVariable:          typeof lsnrType;
+  disableVertexDisplay: typeof lsnrType;
+  enableVertexDisplay:  typeof lsnrType;
+  importFile:           typeof lsnrType;
+  redrawDiagram:        typeof lsnrType;
+  removeRelation:       typeof lsnrType;
+  renameVariable:       typeof lsnrType;
+  toggleVertexDisplay:  typeof lsnrType;
+  updateDiagram:        typeof lsnrType;
+}
 
-  onDisableVertexDisplay(listener: typeof lsnrType): void;
-  onEnableVertexDisplay (listener: typeof lsnrType): void;
-  onToggleVertexDisplay (listener: typeof lsnrType): void;
+export interface API {
+  addHandlers(handlers: any): void;
 }
 
 class Dispatcher extends AbstractDispatcher {
@@ -41,18 +46,23 @@ class Dispatcher extends AbstractDispatcher {
     super.init();
   }
 
-  /* methods for add listener */
-  onAddRelation   (lsnr: typeof lsnrType) {super.on(constants.ADD_RELATION, lsnr)}
-  onAddVariable   (lsnr: typeof lsnrType) {super.on(constants.ADD_LATENT_VARIABLE, lsnr)}
-  onImportFile    (lsnr: typeof lsnrType) {super.on(constants.IMPORT_FILE, lsnr)}
-  onRedrawDiagram (lsnr: typeof lsnrType) {super.on(constants.REDRAW_DIAGRAM, lsnr)}
-  onRemoveRelation(lsnr: typeof lsnrType) {super.on(constants.REMOVE_RELATION, lsnr)}
-  onUpdateDiagram (lsnr: typeof lsnrType) {super.on(constants.UPDATE_DIAGRAM, lsnr)}
-
-  /* control vertex display */
-  onDisableVertexDisplay(lsnr: typeof lsnrType) {super.on(constants.DISABLE_VERTEX_DISPLAY, lsnr)}
-  onEnableVertexDisplay (lsnr: typeof lsnrType) {super.on(constants.ENABLE_VERTEX_DISPLAY, lsnr)}
-  onToggleVertexDisplay (lsnr: typeof lsnrType) {super.on(constants.TOGGLE_VERTEX_DISPLAY, lsnr)}
+  /**
+   * @param {*} handlers
+   */
+  addHandlers(handlers: Handlers) {
+    super.on(constants.ADD_EGM_HANDLERS,       handlers.addEgmHandlers);
+    super.on(constants.ADD_LATENT_VARIABLE,    handlers.addVariable);
+    super.on(constants.ADD_RELATION,           handlers.addRelation);
+    super.on(constants.DISABLE_VERTEX_DISPLAY, handlers.disableVertexDisplay);
+    super.on(constants.ENABLE_VERTEX_DISPLAY,  handlers.enableVertexDisplay);
+    super.on(constants.IMPORT_FILE,            handlers.importFile);
+    super.on(constants.REDRAW_DIAGRAM,         handlers.redrawDiagram);
+    super.on(constants.REMOVE_RELATION,        handlers.removeRelation);
+    super.on(constants.RENAME_VARIABLE,        handlers.renameVariable);
+    super.on(constants.TOGGLE_VERTEX_DISPLAY,  handlers.toggleVertexDisplay);
+    super.on(constants.UPDATE_DIAGRAM,         handlers.updateDiagram);
+    super.on(constants.UPDATE_DIAGRAM,         handlers.updateDiagram);
+  }
 }
 
 export var singleton = new Dispatcher();

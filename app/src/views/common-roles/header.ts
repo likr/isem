@@ -4,7 +4,6 @@ var angular = Injector.angular();
 
 import IsemInjector = require('../../scripts/isem-injector');
 var app       = IsemInjector.app();
-var styles    = IsemInjector.styles();
 var localized = IsemInjector.localized();
 
 var directiveName = 'isemHeader';
@@ -31,45 +30,15 @@ export class Controller {
 }
 
 class Definition {
-  static styling(tElement: ng.IAugmentedJQuery) {
-    tElement
-      .css({
-        // positioning
-        'z-index': 100,
-        position:  'fixed',
-        top:       0,
-        // size
-        width:  '100%',
-        height: styles.isemHeader.height,
-        // visually
-        'background': styles.colors.headerGradation,
-        color:        styles.colors.headerText
-      });
-
-    tElement.find('h1')
-      .css({
-        // size
-        'margin-top': (styles.isemHeader.heightRaw * 0.2083) + 'px',
-        'margin-left': styles.window.margin,
-        'font-size':  (styles.isemHeader.heightRaw * 0.5) + 'px'
-      });
-  }
-
-  static compile(tElement: ng.IAugmentedJQuery, tAttrs: ng.IAttributes, _: any) {
-    Definition.styling(tElement);
-    return () => {}; // link is do nothing
-  }
-
   static ddo() {
     return {
-      compile: Definition.compile,
       controller: Controller,
       controllerAs: 'Controller',
       restrict: 'E',
-      templateUrl: app.viewsDir.commonRoles + 'header.html',
       scope: {
         locale: '&isemIoLocale'
-      }
+      },
+      templateUrl: app.viewsDir.commonRoles + 'header.html',
     };
   }
 }

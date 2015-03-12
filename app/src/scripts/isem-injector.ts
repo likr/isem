@@ -16,6 +16,7 @@ import AddLatentVariable = require('../views/dialogs/add-latent-variable');
 import AddRelation       = require('../views/dialogs/add-relation');
 import ImportFile        = require('../views/dialogs/import-file');
 import ManageRelation    = require('../views/dialogs/manage-relation');
+import RenameVariable    = require('../views/dialogs/rename-variable');
 
 /**
  * Injector is the class that injects modules in the domain of isem.
@@ -74,15 +75,15 @@ class IsemInjector {
     return require('./modules/network-diagram-renderer').singleton;
   }
 
-  static styles(): typeof styles {
-    return require('./styles');
+  static RenameVariable(): typeof RenameVariable {
+    return require('../views/dialogs/rename-variable');
   }
 
   static VariableArrayStore(): VariableArrayStore.API {
     return require('./modules/variable-array-store').singleton;
   }
 
-  static Vertex(): Vertex.Constructor {
+  static Vertex(): typeof Vertex {
     return require('./modules/vertex');
   }
 }

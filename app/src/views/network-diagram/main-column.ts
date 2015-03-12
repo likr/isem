@@ -11,9 +11,10 @@ class Definition {
       restrict: 'A',
       scope: {
         attributeArray: '&isemIoAttributeArray',
-        locale:         '&isemIoLocale'
+        locale:         '&isemIoLocale',
+        variableArray:  '&isemIoVariableArray'
       },
-      templateUrl: app.viewsDir.networkDiagram + 'main-column.html',
+      templateUrl: app.viewsDir.networkDiagram + 'main-column.html'
     };
   }
 }
