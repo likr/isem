@@ -20,7 +20,7 @@ export var dummyResult = {
 };
 
 /* stubs */
-sinon.stub(injector, 'CsvToAlphaConverter').returns(mockConverter);
+sinon.stub(injector, 'CsvToEgridConverter').returns(mockConverter);
 
 export var stubConverter = {
   convert: sinon.stub(mockConverter, 'convert').returns(dummyResult)

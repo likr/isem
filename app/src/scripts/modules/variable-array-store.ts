@@ -11,7 +11,7 @@ var app     = injector.app();
 var egrid   = injector.egrid();
 var log     = injector.log();
 
-var Converter  = injector.CsvToAlphaConverter();
+var Converter  = injector.CsvToEgridConverter();
 var Dispatcher = injector.NetworkDiagramDispatcher();
 var Vertex     = injector.Vertex();
 

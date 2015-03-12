@@ -4,9 +4,9 @@ import powerAssert from 'power-assert';
 import sinon from 'sinon';
 let assert = powerAssert.customize({output: {maxDepth: 3}});
 
-import Converter from '../../../../app/src/scripts/modules/csv-to-alpha-converter';
+import Converter from '../../../../app/src/scripts/modules/csv-to-egrid-converter';
 
-describe('CsvToAlphaConverter', () => {
+describe('CsvToEgridConverter', () => {
   describe('.convert()', () => {
     it('should be converted correctly', () => {
       var data = [

@@ -8,7 +8,7 @@ let assert = powerAssert.customize({output: {maxDepth: 2}});
 import '../../../mocks/browser/angular';
 import {stubAdjacencyList} from '../../../mocks/browser/egrid-core';
 import {stubDispatcher}    from '../../../mocks/isem/network-diagram-dispatcher';
-import {mockConverter, stubConverter} from '../../../mocks/isem/csv-to-alpha-converter';
+import {mockConverter, stubConverter} from '../../../mocks/isem/csv-to-egrid-converter';
 
 import {singleton as Store} from '../../../../app/src/scripts/modules/variable-array-store'
 

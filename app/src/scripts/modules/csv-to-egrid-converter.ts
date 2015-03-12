@@ -4,15 +4,15 @@ export interface API {
   convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]};
 }
 
-class CsvToAlphaConverter {
+class CsvToEgridConverter {
   /**
    * @params {Array} data
    * @returns {Object}
    */
   static convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]} {
     var singleData = data[0];
-    var nodes = CsvToAlphaConverter.makeNodes(singleData);
-    var S     = CsvToAlphaConverter.makeS(data, nodes);
+    var nodes = CsvToEgridConverter.makeNodes(singleData);
+    var S     = CsvToEgridConverter.makeS(data, nodes);
     return {nodes: nodes, S: S};
   }
 
@@ -45,4 +45,4 @@ class CsvToAlphaConverter {
   }
 }
 
-module.exports.convert = CsvToAlphaConverter.convert;
+module.exports.convert = CsvToEgridConverter.convert;
