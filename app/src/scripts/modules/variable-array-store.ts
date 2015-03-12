@@ -25,10 +25,9 @@ export interface API {
   addListener(listener: typeof listenerType): {dispose(): void};
 }
 
-var prefix = 'VariableArrayStore:';
 class Store extends AbstractStore {
   /* local constant */
-  static CHANGE = prefix + 'CHANGE';
+  static CHANGE = 'VariableArrayStore:CHANGE';
 
   /* public */
   edgeArray:     [number, number][];
@@ -72,14 +71,14 @@ class Store extends AbstractStore {
     this.graph = egrid.core.graph.adjacencyList<typeVertex.Props, any>();
 
     Dispatcher.addHandlers({
-      addRelation:          this.addRelation.bind(this),
-      addVariable:          this.addVariable.bind(this),
-      importFile:           this.importFile.bind(this),
-      redrawDiagram:        this.redrawDiagram.bind(this),
-      removeRelation:       this.removeRelation.bind(this),
+      addRelation:          this.addRelation         .bind(this),
+      addVariable:          this.addVariable         .bind(this),
       disableVertexDisplay: this.disableVertexDisplay.bind(this),
-      enableVertexDisplay:  this.enableVertexDisplay.bind(this),
-      toggleVertexDisplay:  this.toggleVertexDisplay.bind(this)
+      enableVertexDisplay:  this.enableVertexDisplay .bind(this),
+      importFile:           this.importFile          .bind(this),
+      redrawDiagram:        this.redrawDiagram       .bind(this),
+      removeRelation:       this.removeRelation      .bind(this),
+      toggleVertexDisplay:  this.toggleVertexDisplay .bind(this)
     });
   }
 
@@ -91,13 +90,15 @@ class Store extends AbstractStore {
   private addRelation(_: any, data: {direction: Direction; idX: number; idY: number}) {
     log.debug(log.t(), __filename, '#addRelation()', data);
 
+    var x = data.idX;
+    var y = data.idY;
     if (data.direction === Direction.xToY) {
-      this.graph.addEdge(data.idX, data.idY);
+      this.graph.addEdge(x, y);
     } else if (data.direction === Direction.mutual) {
-      this.graph.addEdge(data.idX, data.idY);
-      this.graph.addEdge(data.idY, data.idX);
+      this.graph.addEdge(x, y);
+      this.graph.addEdge(y, x);
     } else if (data.direction === Direction.yToX) {
-      this.graph.addEdge(data.idY, data.idX);
+      this.graph.addEdge(y, x);
     }
 
     this.updateStore();
@@ -146,6 +147,7 @@ class Store extends AbstractStore {
    */
   private redrawDiagram() {
     log.trace(log.t(), __filename, '#redrawDiagram()');
+
     this.publish();
   }
 
@@ -271,6 +273,7 @@ class Store extends AbstractStore {
    */
   private removeAllVertex() {
     log.trace(log.t(), __filename, '#removeAllVertex()');
+
     this.graph.vertices().forEach((u: number) => {
       this.graph.clearVertex(u);
       this.graph.removeVertex(u);
