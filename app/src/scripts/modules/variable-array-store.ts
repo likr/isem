@@ -128,8 +128,7 @@ class Store extends AbstractStore {
     log.trace(log.t(), __filename, '#importFile()');
 
     try {
-      var converter = new Converter();
-      var result = converter.convert(importedFile);
+      var result = Converter.convert(importedFile);
     } catch (e) {
       return this.publish(e);
     }

@@ -93,7 +93,7 @@ class Injector {
   }
 
   /* modules */
-  static CsvToAlphaConverter(): typeof CsvToAlphaConverter {
+  static CsvToAlphaConverter(): CsvToAlphaConverter.API {
     return require('./modules/csv-to-alpha-converter');
   }
 

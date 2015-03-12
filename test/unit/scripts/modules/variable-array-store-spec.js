@@ -58,7 +58,7 @@ describe('VariableArrayStore', () => {
     // commonize for afterEach
     function stubConverterConvertRestore() {
       stubConverter.convert.restore();
-      stubConverter.convert = sinon.stub(mockConverter.prototype, 'convert');
+      stubConverter.convert = sinon.stub(mockConverter, 'convert');
     }
 
     var publish, removeAllVertex;

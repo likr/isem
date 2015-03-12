@@ -1,16 +1,18 @@
 'use strict';
-import injector = require('../injector');
-var angular = injector.angular();
+
+export interface API {
+  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]};
+}
 
 class CsvToAlphaConverter {
   /**
    * @params {Array} data
    * @returns {Object}
    */
-  convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]} {
+  static convert(data: Array<{[label: string]: string}>): {nodes: string[]; S: number[][]} {
     var singleData = data[0];
-    var nodes = this.makeNodes(singleData);
-    var S     = this.makeS(data, nodes);
+    var nodes = CsvToAlphaConverter.makeNodes(singleData);
+    var S     = CsvToAlphaConverter.makeS(data, nodes);
     return {nodes: nodes, S: S};
   }
 
@@ -18,7 +20,7 @@ class CsvToAlphaConverter {
    * @param {Object} data
    * @returns {string[]}
    */
-  private makeNodes(data: {[label: string]: string}): string[] {
+  private static makeNodes(data: {[label: string]: string}): string[] {
     var labels: string[] = [];
     var v: string;
     for (v in data) {
@@ -32,9 +34,10 @@ class CsvToAlphaConverter {
    * @param {string[]} vars
    * @returns {number[][]}
    */
-  private makeS(data: Array<{[label: string]: string}>, vars: string[]): number[][] {
-    var x = vars.map((key: string): number[] => {
-      return data.map((d: {[label: string]: string}): number => {
+  private static makeS(data: Array<{[label: string]: string}>, vars: string[]): number[][] {
+    var typeD: {[label: string]: string};
+    var x = vars.map((key: string) => {
+      return data.map((d: typeof typeD) => {
         return parseFloat(d[key]);
       });
     });
@@ -42,4 +45,4 @@ class CsvToAlphaConverter {
   }
 }
 
-export = CsvToAlphaConverter;
+module.exports.convert = CsvToAlphaConverter.convert;

@@ -4,7 +4,7 @@ import injector from '../../../app/src/scripts/injector';
 
 /* mocks */
 export function mockConverter() {}
-mockConverter.prototype.convert = () => {};
+mockConverter.convert = () => {};
 
 export var dummyResult = {
   nodes: [
@@ -23,5 +23,5 @@ export var dummyResult = {
 sinon.stub(injector, 'CsvToAlphaConverter').returns(mockConverter);
 
 export var stubConverter = {
-  convert: sinon.stub(mockConverter.prototype, 'convert').returns(dummyResult)
+  convert: sinon.stub(mockConverter, 'convert').returns(dummyResult)
 };
