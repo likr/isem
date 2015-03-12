@@ -18,46 +18,25 @@ import {allReset} from '../../utils';
 describe('VariableArrayStore', () => {
   beforeEach(() => {
     allReset(stubAdjacencyList);
-    Store.init(); // require for inject mocks!
+    allReset(stubDispatcher);
   });
 
-  describe('#registerWithDispatcher()', () => {
+  describe('#init()', () => {
     beforeEach(() => {
-      allReset(stubDispatcher);
-      Store.registerWithDispatcher();
+      Store.init();
     });
 
-    it('should give the callback to arg[0] of Dispatcher#onAddRelation()', () => {
-      var actual = stubDispatcher.onAddRelation.getCall(0).args[0];
-      var expected = Store.onAddRelationCallback();
-      assert(String(actual) === String(expected));
-    });
-
-    it('should give the callback to arg[0] of Dispatcher#onAddVariable()', () => {
-      var actual = stubDispatcher.onAddVariable.getCall(0).args[0];
-      var expected = Store.onAddVariableCallback();
-      assert(String(actual) === String(expected));
-    });
-
-    it('should give the callback to arg[0] of Dispatcher#onImportFile()', () => {
-      var actual = stubDispatcher.onImportFile.getCall(0).args[0];
-      var expected = Store.onImportFileCallback();
-      assert(String(actual) === String(expected));
-    });
-
-    it('should give the callback to arg[0] of Dispatcher#onToggleVertexDisplay()', () => {
-      var actual = stubDispatcher.onToggleVertexDisplay.getCall(0).args[0];
-      var expected = Store.onToggleVertexDisplayCallback();
-      assert(String(actual) === String(expected));
+    it('should do Dispatcher#addHandlers()', () => {
+      assert(stubDispatcher.addHandlers.callCount === 1);
     });
   });
 
-  describe('#onAddVariableCallback()', () => {
+  describe('#addVariable()', () => {
     var publish;
     beforeEach(() => {
       publish = sinon.stub(Store, 'publish');
       Store.variableArray = [{label: 'dummy42', vertexId: 42}];
-      Store.onAddVariableCallback()(null, '2ndDummy');
+      Store.addVariable(null, '2ndDummy');
     });
 
     afterEach(() => {
@@ -78,7 +57,7 @@ describe('VariableArrayStore', () => {
     });
   });
 
-  describe('#onImportFileCallback()', () => {
+  describe('#importFile()', () => {
     // commonize for afterEach
     function stubConverterConvertRestore() {
       stubConverter.convert.restore();
@@ -98,7 +77,7 @@ describe('VariableArrayStore', () => {
 
     context('when normal', () => {
       beforeEach(() => {
-        Store.onImportFileCallback()(null, 'dummy');
+        Store.importFile(null, 'dummy');
       });
 
       it('should give the callbacks arg to arg[0] of Converter#convert()', () => {
@@ -126,7 +105,7 @@ describe('VariableArrayStore', () => {
     context('when converter threw', () => {
       beforeEach(() => {
         stubConverter.convert.throws('TypeError');
-        Store.onImportFileCallback()(null, 'dummy');
+        Store.importFile(null, 'dummy');
       });
 
       afterEach(stubConverterConvertRestore);
@@ -144,7 +123,7 @@ describe('VariableArrayStore', () => {
     context('when returned no result', () => {
       beforeEach(() => {
         stubConverter.convert.returns(void 0);
-        Store.onImportFileCallback()(null, 'dummy');
+        Store.importFile(null, 'dummy');
       });
 
       afterEach(stubConverterConvertRestore);
@@ -181,55 +160,6 @@ describe('VariableArrayStore', () => {
         stub.getCall(2).args[0]
       ];
       assert.deepEqual(actual, [42, 43, 44]);
-    });
-  });
-
-  describe('#addListener()', () => {
-    var dummy = 'listener';
-    beforeEach(() => {
-      stubRootScope.$on.reset();
-      Store.init();
-      Store.addListener(dummy);
-    });
-
-    it('should give the event name to arg[0] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[0] === Store.constructor.CHANGE);
-    });
-
-    it('should give the listener to arg[1] of $on()', () => {
-      assert(stubRootScope.$on.getCall(0).args[1] === dummy);
-    });
-  });
-
-  describe('#publish()', () => {
-    afterEach(() => {
-      stubRootScope.$broadcast.reset();
-    });
-
-    context('when normal', () => {
-      beforeEach(() => {
-        Store.publish();
-      });
-
-      it('should give the event name to arg[0] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[0] === Store.constructor.CHANGE);
-      });
-
-      it('should NOT give to arg[1] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[1] === void 0);
-      });
-    });
-
-    context('when an error', () => {
-      var err;
-      beforeEach(() => {
-        err = new Error('dummy');
-        Store.publish(err);
-      });
-
-      it('should give the error object to arg[1] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[1] === err);
-      });
     });
   });
 });

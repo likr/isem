@@ -8,6 +8,7 @@ var angular   = injector.angular();
 var app       = injector.app();
 var constants = injector.constants();
 var log       = injector.log();
+var Promise   = injector.Promise();
 
 /* stores */
 var Renderer = injector.NetworkDiagramRenderer();
@@ -58,41 +59,47 @@ export class Controller {
   }
 
   /**
-   * @param {*} e - event non-use
+   * @param {*} _ - event non-use
    * @param {*} err - error
-   * @returns {void}
+   * @returns {ng.IPromise<any>}
    */
-  private storeChangeHandler(e: any, err?: any) {
+  private storeChangeHandler(_: any, err?: any): ng.IPromise<any> {
     log.trace(log.t(), __filename, '#storeChangeHandler()');
     if (err) {
       log.error(log.t(), __filename, err.message);
-      return;
+      return <ng.IPromise<any>>{then: (cb: any) => cb()};
     }
 
-    // This requires $timeout because needs forced to $apply
-    this.$timeout(() => {
-      this.$scope.variableArray = Store.variableArray;
-      this.$scope.edgeArray     = Store.edgeArray;
-      this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
-      this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
-    }, 0);
+    return new Promise((done) => {
+      // This requires $timeout because needs forced to $apply
+      this.$timeout(() => {
+        this.$scope.variableArray = Store.variableArray;
+        this.$scope.edgeArray     = Store.edgeArray;
+        this.$rootScope.$broadcast(constants.UPDATE_DIAGRAM, Store.graph);
+        this.$rootScope.$broadcast(constants.ADD_EGM_HANDLERS, this.egmHandlers());
+        done();
+      }, 0);
+    });
   }
 
   /**
    * @param {*} e - event non-use
    * @param {*} err - error
-   * @returns {void}
+   * @returns {ng.IPromise<any>}
    */
-  private rendererChangeHandler(e: any, err?: any) {
+  private rendererChangeHandler(e: any, err?: any): ng.IPromise<any> {
     log.trace(log.t(), __filename, '#rendererChangeHandler()');
     if (err) {
       log.error(log.t(), __filename, err.message);
-      return;
+      return <ng.IPromise<any>>{then: (cb: any) => cb()};
     }
 
-    // This requires $timeout because needs forced to $apply
-    this.$timeout(() => {
-      this.$scope.attributeArray = Renderer.attributeArray;
+    return new Promise((done) => {
+      // This requires $timeout because needs forced to $apply
+      this.$timeout(() => {
+        this.$scope.attributeArray = Renderer.attributeArray;
+        done();
+      }, 0);
     });
   }
 

@@ -1,11 +1,11 @@
 'use strict';
 var sinon = require('sinon');
-var IsemInjector = require('../../../app/src/scripts/isem-injector');
+var injector = require('../../../app/src/scripts/injector');
 
 function mock() {}
 mock.prototype.addListener = () => {};
 
-sinon.stub(IsemInjector, 'NetworkDiagramRenderer').returns(mock.prototype);
+sinon.stub(injector, 'NetworkDiagramRenderer').returns(mock.prototype);
 
 var stub = {
   addListener: sinon.stub(mock.prototype, 'addListener')

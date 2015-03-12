@@ -4,13 +4,14 @@ var sinon = require('sinon');
 var lolex = require('lolex');
 
 require('../../../mocks/browser/angular');
+require('../../../mocks/browser/promise');
 var stubStore    = require('../../../mocks/isem/variable-array-store').stub;
 var stubRenderer = require('../../../mocks/isem/network-diagram-renderer').stub;
 
 var NetworkDiagram = require('../../../../app/src/views/network-diagram/root');
 var ControllerStatic = NetworkDiagram.Controller;
 
-var mockRootScope, stubRootScope, mockScope, stubScope;
+var mockRootScope, stubRootScope, mockScope;
 var Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
@@ -18,59 +19,53 @@ var Controller = (() => {
   stubRootScope = {
     $broadcast: sinon.stub(mockRootScope, '$broadcast')
   };
-  mockScope = {
-    $apply: () => {}
-  };
-  stubScope = {
-    $apply: sinon.stub(mockScope, '$apply', (cb) => {cb()})
-  };
-  return new ControllerStatic(mockRootScope, mockScope);
+  mockScope = {};
+  return new ControllerStatic(mockRootScope, mockScope, global.setTimeout);
 })();
 var Definition = NetworkDiagram.Definition;
 
 import {allReset} from '../../../utils';
 
 describe('NetworkDiagramRoot', () => {
-  describe('Controller', () => {
-    describe('#subscribe()', () => {
-      beforeEach(() => {
-        allReset(stubStore);
-        allReset(stubRenderer);
-        Controller.subscribe();
-      });
-
-      it('should do Store#addListener()', () => {
-        assert(stubStore.addListener.callCount === 1);
-      });
-
-      it('should do Renderer#addListener()', () => {
-        assert(stubRenderer.addListener.callCount === 1);
-      });
+  describe('Controller#subscribe()', () => {
+    beforeEach(() => {
+      allReset(stubStore);
+      allReset(stubRenderer);
+      Controller.subscribe();
     });
 
-    describe('#storeChangeHandler()', () => {
-      var clock;
-      beforeEach(() => {
-        clock = lolex.install(global);
-        Controller.storeChangeHandler();
-      });
+    it('should do Store#addListener()', () => {
+      assert(stubStore.addListener.callCount === 1);
+    });
 
-      afterEach(() => {
-        clock.uninstall();
-      });
+    it('should do Renderer#addListener()', () => {
+      assert(stubRenderer.addListener.callCount === 1);
+    });
+  });
 
-      it('should set to $scope', () => {
-        clock.tick(0); // Fire setTimeout
+  describe('Controller#storeChangeHandler()', () => {
+    var clock, promise;
+    beforeEach(() => {
+      clock = lolex.install(global);
+      promise = Controller.storeChangeHandler();
+      clock.tick(0); // Fire setTimeout
+    });
+
+    afterEach(() => {
+      clock.uninstall();
+    });
+
+    it('should set to $scope', (done) => {
+      promise.then(() => {
         assert(Controller.$scope.variableArray === 'dummyVariableArray');
+        done();
       });
     });
   });
 
-  describe('Definition', () => {
-    describe('.ddo()', () => {
-      it('should return the field of controllerAs including the correct name', () => {
-        assert(Definition.ddo().controllerAs === 'Controller');
-      });
+  describe('Definition.ddo()', () => {
+    it('should return the field of controllerAs including the correct name', () => {
+      assert(Definition.ddo().controllerAs === 'Controller');
     });
   });
 

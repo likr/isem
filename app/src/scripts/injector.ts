@@ -56,7 +56,11 @@ class Injector {
   }
 
   static log(): cwlog.Log {
-    return require('cw-log').logger(6);
+    return require('cw-log').logger(0);
+  }
+
+  static Promise(): ng.IQService {
+    return Injector.angular().injector(['ng']).get('$q');
   }
 
   static semjs(): typeof sem {

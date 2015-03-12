@@ -1,12 +1,12 @@
 'use strict';
 var sinon = require('sinon');
-var IsemInjector = require('../../../app/src/scripts/isem-injector');
+var injector = require('../../../app/src/scripts/injector');
 
 function mock() {}
 mock.prototype.variableArray = 'dummyVariableArray';
 mock.prototype.addListener = () => {};
 
-sinon.stub(IsemInjector, 'VariableArrayStore').returns(mock.prototype);
+sinon.stub(injector, 'VariableArrayStore').returns(mock.prototype);
 
 var stub = {
   addListener: sinon.stub(mock.prototype, 'addListener')

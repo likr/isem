@@ -1,11 +1,11 @@
 'use strict';
 var sinon = require('sinon');
-var IsemInjector = require('../../../app/src/scripts/isem-injector');
+var injector = require('../../../app/src/scripts/injector');
 
 function mock() {}
 mock.prototype.convert = () => {};
 
-sinon.stub(IsemInjector, 'CsvToAlphaConverter').returns(mock);
+sinon.stub(injector, 'CsvToAlphaConverter').returns(mock);
 
 var dummyResult = {
   nodes: [
