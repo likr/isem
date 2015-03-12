@@ -5,6 +5,7 @@ var Injector = require('../../../app/src/scripts/injector');
 function mockAdjacencyList() {}
 mockAdjacencyList.addVertex = () => {};
 mockAdjacencyList.clearVertex = () => {};
+mockAdjacencyList.edges = () => {};
 mockAdjacencyList.get = (u) => {
   return {
     label: 'dummy' + u

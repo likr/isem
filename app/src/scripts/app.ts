@@ -23,6 +23,7 @@ export var viewsDir = {
   commonRoles:    'src/views/common-roles/',
   dialogs:        'src/views/dialogs/',
   directives:     'src/views/directives/',
+  gui:            'src/views/gui/',
   networkDiagram: 'src/views/network-diagram/',
   screens:        'src/screens/'
 };

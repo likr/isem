@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     opt: {
       client: {
         'app':          'app',
+        'styles':       'app/src/styles',
         'tsMain':       'app/src',
         'jsMain':       'app/src',
         'testRoot':     'test',
@@ -29,7 +30,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: '<%= opt.client.testRoot %>/',
-            src: ['**/*-spec.js', 'mocks/**/*.js'],
+            src: ['**/*-spec.js', 'mocks/**/*.js', 'utils.js'],
             dest: '<%= opt.client.testEs5 %>/'
           }
         ]
@@ -54,6 +55,7 @@ module.exports = function(grunt) {
       client: {
         src: [
           './*.js.map',
+          '<%= opt.client.styles %>/**/*.css',
           '<%= opt.client.jsMain %>/**/*.js',
           '<%= opt.client.jsMain %>/**/*.js.map',
         ]
@@ -77,6 +79,17 @@ module.exports = function(grunt) {
             ext: '.js'
           }
         ]
+      }
+    },
+
+    less: {
+      development: {
+        options: {
+          paths: ['<%= opt.client.styles %>']
+        },
+        files: {
+          'app/src/styles/bundle.css': '<%= opt.client.styles %>/app.less'
+        }
       }
     },
 
@@ -115,6 +128,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('basic', [
     'clean',
+    'less',
     'ts'
   ]);
 
