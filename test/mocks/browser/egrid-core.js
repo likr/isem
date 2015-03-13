@@ -4,6 +4,7 @@ import injector from '../../../app/src/scripts/injector';
 
 /* mocks */
 function mockAdjacencyList() {}
+mockAdjacencyList.addEdge = () => {};
 mockAdjacencyList.addVertex = () => {};
 mockAdjacencyList.clearVertex = () => {};
 mockAdjacencyList.edges = () => {};
@@ -46,6 +47,7 @@ export const mockEgrid = {
 sinon.stub(injector, 'egrid').returns(mockEgrid);
 
 export const stubAdjacencyList = {
+  addEdge:      sinon.stub(mockAdjacencyList, 'addEdge'),
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
   get:          sinon.stub(mockAdjacencyList, 'get', mockAdjacencyList.get),

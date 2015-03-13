@@ -1,8 +1,10 @@
 'use strict';
 import powerAssert from 'power-assert';
 import sinon from 'sinon';
-import {allReset} from '../../../utils';
+import * as utils from '../../../utils';
 const assert = powerAssert.customize({output: {maxDepth: 2}});
+
+import {Direction} from '../../../../app/src/views/dialogs/add-relation'
 
 /* stubbing */
 import '../../../mocks/browser/angular';
@@ -14,8 +16,8 @@ import {singleton as Store} from '../../../../app/src/scripts/modules/variable-a
 
 describe('VariableArrayStore', () => {
   beforeEach(() => {
-    allReset(stubAdjacencyList);
-    allReset(stubDispatcher);
+    utils.allReset(stubAdjacencyList);
+    utils.allReset(stubDispatcher);
   });
 
   describe('#init()', () => {
@@ -25,6 +27,94 @@ describe('VariableArrayStore', () => {
 
     it('should be done Dispatcher#addHandlers()', () => {
       assert(stubDispatcher.addHandlers.callCount === 1);
+    });
+  });
+
+  describe('#addRelation()', () => {
+    var stubStore;
+    beforeEach(() => {
+      stubStore = {
+        updateStore: sinon.stub(Store, 'updateStore'),
+        publish:     sinon.stub(Store, 'publish')
+      };
+    });
+
+    afterEach(() => {
+      utils.allRestore(stubStore);
+    });
+
+    context('when the direction x to y', () => {
+      beforeEach(() => {
+        const data = {direction: Direction.xToY, idX: 1, idY: 8};
+        Store.addRelation(null, data);
+      });
+
+      it('should be done graph#addEdge() once', () => {
+        assert(stubAdjacencyList.addEdge.callCount === 1);
+      });
+
+      it('should be set to graph#addEdge()', () => {
+        assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 1);
+        assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 8);
+      });
+
+      it('should be called #updateStore()', () => {
+        assert(stubStore.updateStore.callCount === 1);
+      });
+
+      it('should be called #publish()', () => {
+        assert(stubStore.publish.callCount === 1);
+      });
+    });
+
+    context('when the direction mutual', () => {
+      beforeEach(() => {
+        const data = {direction: Direction.mutual, idX: 1, idY: 8};
+        Store.addRelation(null, data);
+      });
+
+      it('should be done graph#addEdge() twice', () => {
+        assert(stubAdjacencyList.addEdge.callCount === 2);
+      });
+
+      it('should be set to graph#addEdge()', () => {
+        assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 1);
+        assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 8);
+        assert(stubAdjacencyList.addEdge.getCall(1).args[0] === 8);
+        assert(stubAdjacencyList.addEdge.getCall(1).args[1] === 1);
+      });
+
+      it('should be called #updateStore()', () => {
+        assert(stubStore.updateStore.callCount === 1);
+      });
+
+      it('should be called #publish()', () => {
+        assert(stubStore.publish.callCount === 1);
+      });
+    });
+
+    context('when the direction y to x', () => {
+      beforeEach(() => {
+        const data = {direction: Direction.yToX, idX: 1, idY: 8};
+        Store.addRelation(null, data);
+      });
+
+      it('should be done graph#addEdge() once', () => {
+        assert(stubAdjacencyList.addEdge.callCount === 1);
+      });
+
+      it('should be set to graph#addEdge()', () => {
+        assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 8);
+        assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 1);
+      });
+
+      it('should be called #updateStore()', () => {
+        assert(stubStore.updateStore.callCount === 1);
+      });
+
+      it('should be called #publish()', () => {
+        assert(stubStore.publish.callCount === 1);
+      });
     });
   });
 
