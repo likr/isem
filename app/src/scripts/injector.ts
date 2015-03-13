@@ -56,7 +56,7 @@ class Injector {
   }
 
   static log(): cwlog.Log {
-    return require('cw-log').logger(6);
+    return require('cw-log').logger(4);
   }
 
   static Promise(): ng.IQService {

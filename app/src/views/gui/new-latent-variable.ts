@@ -15,7 +15,7 @@ interface Scope extends ng.IScope {
   variableArray(): Array<typeVertex.Props>;
 }
 
-class Controller {
+export class Controller {
   /**
    * @constructor
    * @ngInject
@@ -39,63 +39,62 @@ class Controller {
     })(this.$scope.variableArray());
     var defaultName = this.$scope.localized.defaultVariableName();
 
-    var name = this.createNewLatentVariableName(labelArray, defaultName);
+    var name = Controller.createNewLatentVariableName(labelArray, defaultName);
     this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, name);
   }
 
   /**
    * @param {string[]} labelArray
-   * @param {string} defaultName
+   * @param {string} _defaultName
    * @returns {string}
    */
-  private createNewLatentVariableName(labelArray: string[], defaultName: string) {
-    var isDefault = (v: string) => {
-      return v.split(' ')[0] === defaultName;
-    };
+  private static createNewLatentVariableName(labelArray: string[], _defaultName: string) {
+    function isDefault(label: string): boolean {
+      return label.split(' ')[0] === _defaultName;
+    }
 
-    var alreadyExists = labelArray.some((v) => {
-      return isDefault(v);
+    function getSerial(label: string): number {
+      var numPart = label.split(' ').slice(1).join(' ');
+      if (/\D/.test(numPart)) {return NaN}
+      return parseInt(numPart, 10);
+    }
+
+    function defaultName(n?: number): string {
+      if (!n || n < 2) {return _defaultName}
+      return [_defaultName, n].join(' ');
+    }
+
+    /***** body *****/
+    if (!labelArray) {return defaultName()}
+    if (labelArray.length === 1 && labelArray[0] === _defaultName) {return defaultName(2)}
+
+    var alwaysExists = labelArray.some(label => isDefault(label));
+    if (!alwaysExists) {return defaultName()}
+
+    var next: number;
+    var cache: number[] = [];
+    labelArray.forEach((label) => {
+      if (!isDefault(label)) {return}
+      if (label === _defaultName) {
+        next = 2;
+        cache.forEach((v) => {
+          next = (next === v) ? next + 1 : next;
+        });
+        return;
+      }
+      var s = getSerial(label);
+      if (next === s) {
+        next += 1;
+        cache.forEach((v) => {
+          next = (next === v) ? next + 1 : next;
+        });
+        return;
+      }
+      cache.push(s);
+      cache.sort((a, b) => a - b);
     });
 
-    var name = (() => {
-      if (!alreadyExists || !labelArray) {return defaultName}
-
-      var existsDefaultWithoutNumber = false;
-      var min: number;
-      var max = 2;
-
-      var retName: string;
-      labelArray.forEach((v) => {
-        if (!isDefault(v)) {return}
-
-        if (v.split(' ').length === 1) {
-          existsDefaultWithoutNumber = true;
-          min = 1;
-        }
-
-        var num = parseInt(v.split(' ').pop(), 10);
-
-        if (isNaN(num)) {
-          retName = [defaultName, max].join(' ');
-          return;
-        }
-
-        min = (!min || num < min) ? num : min;
-        if (max === num) {
-          max += 1;
-        }
-
-        if (min === 1 && !existsDefaultWithoutNumber) {
-          retName = defaultName;
-          return;
-        }
-        retName = [defaultName, max].join(' ');
-      });
-
-      return retName;
-    })();
-
-    return name;
+    return defaultName(next);
   }
 }
 
