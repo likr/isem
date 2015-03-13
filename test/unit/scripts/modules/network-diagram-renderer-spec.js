@@ -2,7 +2,7 @@
 import constants from '../../../../app/src/scripts/constants';
 import powerAssert from 'power-assert';
 import sinon from 'sinon';
-import {allReset} from '../../../utils';
+import {resetAll} from '../../../utils';
 const assert = powerAssert.customize({output: {maxDepth: 2}});
 
 /* stubbing */
@@ -14,8 +14,8 @@ import {singleton as Renderer} from '../../../../app/src/scripts/modules/network
 
 describe('NetworkDiagramRenderer', () => {
   beforeEach(() => {
-    allReset(stubDispatcher);
-    allReset(stubEgm);
+    resetAll(stubDispatcher);
+    resetAll(stubEgm);
   });
 
   describe('#init()', () => {

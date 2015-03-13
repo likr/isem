@@ -17,9 +17,9 @@ import {singleton as Store} from '../../../../app/src/scripts/modules/variable-a
 
 describe('VariableArrayStore', () => {
   beforeEach(() => {
-    utils.allReset(stubAdjacencyList);
-    utils.allReset(stubDispatcher);
-    utils.allReset(stubVertex);
+    utils.resetAll(stubAdjacencyList);
+    utils.resetAll(stubDispatcher);
+    utils.resetAll(stubVertex);
   });
 
   describe('#init()', () => {
@@ -42,7 +42,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     context('when the direction x to y', () => {
@@ -132,7 +132,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be replaced variables to Store.variableArray', () => {
@@ -169,7 +169,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     context('when normal', () => {
@@ -246,7 +246,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be called #publish()', () => {
@@ -271,7 +271,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be called graph.removeEdge() same number of times as removeTarget.length', () => {
@@ -307,7 +307,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be given to Vertex.renameVariable()', () => {
@@ -338,7 +338,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be given to #setEnabledToMultipleVertices()', () => {
@@ -369,7 +369,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be given to #setEnabledToMultipleVertices()', () => {
@@ -398,7 +398,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be given to Vertex.toggleEnabled()', () => {
@@ -424,8 +424,8 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allReset(stubVertex);
-      utils.allRestore(spyStore);
+      utils.resetAll(stubVertex);
+      utils.restoreAll(spyStore);
     });
 
     context('when give one id', () => {
@@ -518,7 +518,7 @@ describe('VariableArrayStore', () => {
     });
 
     afterEach(() => {
-      utils.allRestore(spyStore);
+      utils.restoreAll(spyStore);
     });
 
     it('should be called Vertex.addObservedVariable() 3 times', () => {

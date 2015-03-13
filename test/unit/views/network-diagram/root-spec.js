@@ -3,7 +3,7 @@ import constants from '../../../../app/src/scripts/constants';
 import lolex from 'lolex';
 import powerAssert from 'power-assert';
 import sinon from 'sinon';
-import {allReset} from '../../../utils';
+import {resetAll} from '../../../utils';
 const assert = powerAssert.customize({output: {maxDepth: 2}});
 
 /* stubbing */
@@ -32,8 +32,8 @@ let Controller = (() => {
 describe('NetworkDiagramRoot', () => {
   describe('Controller#subscribe()', () => {
     beforeEach(() => {
-      allReset(stubStore);
-      allReset(stubRenderer);
+      resetAll(stubStore);
+      resetAll(stubRenderer);
       Controller.subscribe();
     });
 
