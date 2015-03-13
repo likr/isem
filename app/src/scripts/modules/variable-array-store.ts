@@ -188,8 +188,7 @@ class Store extends AbstractStore {
   private disableVertexDisplay(_: any, vertexId: any) {
     log.trace(log.t(), __filename, '#disableVertexDisplay()', vertexId);
 
-    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-    this.setEnabledToMultipleVertices(ids, false);
+    this.setEnabledToMultipleVertices(vertexId, false);
 
     this.updateStore();
     this.publish();
@@ -203,8 +202,7 @@ class Store extends AbstractStore {
   private enableVertexDisplay(_: any, vertexId: any) {
     log.trace(log.t(), __filename, '#enableVertexDisplay()', vertexId);
 
-    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-    this.setEnabledToMultipleVertices(ids, true);
+    this.setEnabledToMultipleVertices(vertexId, true);
 
     this.updateStore();
     this.publish();
@@ -225,10 +223,11 @@ class Store extends AbstractStore {
   }
 
   /**
-   * @param {number[]} ids
+   * @param {number|number[]} vertexId - id or ids
    * @param {boolean}  state
    */
-  private setEnabledToMultipleVertices(ids: number[], state: boolean) {
+  private setEnabledToMultipleVertices(vertexId: any, state: boolean) {
+    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
     ids.forEach(u => Vertex.setEnabled(this.graph, u, state));
   }
 

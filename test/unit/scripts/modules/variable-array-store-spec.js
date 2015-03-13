@@ -10,6 +10,7 @@ import {Direction} from '../../../../app/src/views/dialogs/add-relation'
 import '../../../mocks/browser/angular';
 import {stubAdjacencyList} from '../../../mocks/browser/egrid-core';
 import {stubDispatcher}    from '../../../mocks/isem/network-diagram-dispatcher';
+import {stubVertex}        from '../../../mocks/isem/vertex';
 import {mockConverter, stubConverter} from '../../../mocks/isem/csv-to-egrid-converter';
 
 import {singleton as Store} from '../../../../app/src/scripts/modules/variable-array-store'
@@ -18,6 +19,7 @@ describe('VariableArrayStore', () => {
   beforeEach(() => {
     utils.allReset(stubAdjacencyList);
     utils.allReset(stubDispatcher);
+    utils.allReset(stubVertex);
   });
 
   describe('#init()', () => {
@@ -292,6 +294,98 @@ describe('VariableArrayStore', () => {
     });
   });
 
+  describe('#renameVariable()', () => {
+    const data = {u: 1, label: 'label'};
+
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+      Store.renameVariable(null, data);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be given to Vertex.renameVariable()', () => {
+      assert(stubVertex.renameVariable.getCall(0).args[1] === data.u);
+      assert(stubVertex.renameVariable.getCall(0).args[2] === data.label);
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
+    });
+  });
+
+  describe('#disableVertexDisplay()', () => {
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        setEnabledToMultipleVertices: sinon.spy(Store, 'setEnabledToMultipleVertices'),
+
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+
+      Store.disableVertexDisplay(null, [42, 43, 44]);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be given to #setEnabledToMultipleVertices()', () => {
+      assert.deepEqual(spyStore.setEnabledToMultipleVertices.getCall(0).args[0], [42, 43, 44]);
+      assert          (spyStore.setEnabledToMultipleVertices.getCall(0).args[1] === false);
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
+    });
+  });
+
+  describe('#enableVertexDisplay()', () => {
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        setEnabledToMultipleVertices: sinon.spy(Store, 'setEnabledToMultipleVertices'),
+
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+
+      Store.enableVertexDisplay(null, [42, 43, 44]);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be given to #setEnabledToMultipleVertices()', () => {
+      assert.deepEqual(spyStore.setEnabledToMultipleVertices.getCall(0).args[0], [42, 43, 44]);
+      assert          (spyStore.setEnabledToMultipleVertices.getCall(0).args[1] === true);
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
+    });
+  });
+  
   describe('#removeAllVertex()', () => {
     beforeEach(() => {
       Store.removeAllVertex();
