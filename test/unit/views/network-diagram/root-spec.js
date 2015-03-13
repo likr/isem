@@ -37,11 +37,11 @@ describe('NetworkDiagramRoot', () => {
       Controller.subscribe();
     });
 
-    it('should be done Store#addListener()', () => {
+    it('should be called Store#addListener()', () => {
       assert(stubStore.addListener.callCount === 1);
     });
 
-    it('should be done Renderer#addListener()', () => {
+    it('should be called Renderer#addListener()', () => {
       assert(stubRenderer.addListener.callCount === 1);
     });
   });

@@ -54,7 +54,7 @@ describe('DialogImportFile', () => {
         assert(stubFileReader.readAsText.getCall(0).args[1] === 'utf-8');
       });
 
-      it('should be done close()', () => {
+      it('should be called close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
     });

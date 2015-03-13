@@ -23,7 +23,7 @@ describe('NetworkDiagramRenderer', () => {
       Renderer.init();
     });
 
-    it('should be done Dispatcher#addHandlers()', () => {
+    it('should be called Dispatcher#addHandlers()', () => {
       assert(stubDispatcher.addHandlers.callCount === 1);
     });
   });

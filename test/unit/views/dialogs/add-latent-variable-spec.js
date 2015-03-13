@@ -49,7 +49,7 @@ describe('DialogAddLatentVariable', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[1] === dummy);
       });
 
-      it('should be done close()', () => {
+      it('should be called close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
     });

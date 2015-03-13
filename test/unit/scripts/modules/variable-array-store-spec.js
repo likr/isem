@@ -25,7 +25,7 @@ describe('VariableArrayStore', () => {
       Store.init();
     });
 
-    it('should be done Dispatcher#addHandlers()', () => {
+    it('should be called Dispatcher#addHandlers()', () => {
       assert(stubDispatcher.addHandlers.callCount === 1);
     });
   });
@@ -49,7 +49,7 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be done graph#addEdge() once', () => {
+      it('should be called graph#addEdge() once', () => {
         assert(stubAdjacencyList.addEdge.callCount === 1);
       });
 
@@ -73,7 +73,7 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be done graph#addEdge() twice', () => {
+      it('should be called graph#addEdge() twice', () => {
         assert(stubAdjacencyList.addEdge.callCount === 2);
       });
 
@@ -99,7 +99,7 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be done graph#addEdge() once', () => {
+      it('should be called graph#addEdge() once', () => {
         assert(stubAdjacencyList.addEdge.callCount === 1);
       });
 
@@ -139,7 +139,7 @@ describe('VariableArrayStore', () => {
       assert.deepEqual(Store.variableArray, expected);
     });
 
-    it('should be done #basePublish()', () => {
+    it('should be called #basePublish()', () => {
       assert(publish.callCount === 1);
     });
   });
@@ -171,7 +171,7 @@ describe('VariableArrayStore', () => {
         assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
       });
 
-      it('should be done #removeAllVertex()', () => {
+      it('should be called #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 1);
       });
 
@@ -184,7 +184,7 @@ describe('VariableArrayStore', () => {
         assert.deepEqual(Store.variableArray, expected);
       });
 
-      it('should be done #basePublish()', () => {
+      it('should be called #basePublish()', () => {
         assert(publish.callCount === 1);
       });
     });
@@ -231,11 +231,11 @@ describe('VariableArrayStore', () => {
       Store.removeAllVertex();
     });
 
-    it('should be done AdjacencyList#clearVertex() 3 times', () => {
+    it('should be called AdjacencyList#clearVertex() 3 times', () => {
       assert(stubAdjacencyList.clearVertex.callCount === 3);
     });
 
-    it('should be done AdjacencyList#removeVertex() 3 times', () => {
+    it('should be called AdjacencyList#removeVertex() 3 times', () => {
       assert(stubAdjacencyList.removeVertex.callCount === 3);
     });
 
