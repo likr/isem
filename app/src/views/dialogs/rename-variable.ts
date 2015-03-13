@@ -76,12 +76,13 @@ export function open(data: DialogData) {
 }
 
 export class Definition {
-  static link($scope: Scope, _: any, __: any, controllers: any) {
+  static link($scope: Scope, iElement: ng.IAugmentedJQuery, __: any, controllers: any) {
     var cwModal = controllers[0];
     var self    = controllers[1];
 
     $scope.dialog = cwModal.dialog;
     self.init();
+    iElement.find('input:visible').eq(0).focus();
   }
 
   static ddo() {
