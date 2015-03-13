@@ -31,16 +31,16 @@ describe('VariableArrayStore', () => {
   });
 
   describe('#addRelation()', () => {
-    var stubStore;
+    var spyStore;
     beforeEach(() => {
-      stubStore = {
-        updateStore: sinon.stub(Store, 'updateStore'),
-        publish:     sinon.stub(Store, 'publish')
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
       };
     });
 
     afterEach(() => {
-      utils.allRestore(stubStore);
+      utils.allRestore(spyStore);
     });
 
     context('when the direction x to y', () => {
@@ -59,11 +59,11 @@ describe('VariableArrayStore', () => {
       });
 
       it('should be called #updateStore()', () => {
-        assert(stubStore.updateStore.callCount === 1);
+        assert(spyStore.updateStore.callCount === 1);
       });
 
       it('should be called #publish()', () => {
-        assert(stubStore.publish.callCount === 1);
+        assert(spyStore.publish.callCount === 1);
       });
     });
 
@@ -85,11 +85,11 @@ describe('VariableArrayStore', () => {
       });
 
       it('should be called #updateStore()', () => {
-        assert(stubStore.updateStore.callCount === 1);
+        assert(spyStore.updateStore.callCount === 1);
       });
 
       it('should be called #publish()', () => {
-        assert(stubStore.publish.callCount === 1);
+        assert(spyStore.publish.callCount === 1);
       });
     });
 
@@ -109,25 +109,28 @@ describe('VariableArrayStore', () => {
       });
 
       it('should be called #updateStore()', () => {
-        assert(stubStore.updateStore.callCount === 1);
+        assert(spyStore.updateStore.callCount === 1);
       });
 
       it('should be called #publish()', () => {
-        assert(stubStore.publish.callCount === 1);
+        assert(spyStore.publish.callCount === 1);
       });
     });
   });
 
   describe('#addVariable()', () => {
-    var publish;
+    var spyStore;
     beforeEach(() => {
-      publish = sinon.stub(Store, 'publish');
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
       Store.variableArray = [{label: 'dummy42', vertexId: 42}];
       Store.addVariable(null, '2ndDummy');
     });
 
     afterEach(() => {
-      publish.restore();
+      utils.allRestore(spyStore);
     });
 
     it('should be replaced variables to Store.variableArray', () => {
@@ -139,8 +142,12 @@ describe('VariableArrayStore', () => {
       assert.deepEqual(Store.variableArray, expected);
     });
 
-    it('should be called #basePublish()', () => {
-      assert(publish.callCount === 1);
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
     });
   });
 
