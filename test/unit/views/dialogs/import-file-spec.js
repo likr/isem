@@ -45,7 +45,7 @@ describe('DialogImportFile', () => {
         Controller.importFile();
       });
 
-      it('should be given the correct value to arg[0] of readAsText()', () => {
+      it('should be given the correct value to args[0] of readAsText()', () => {
         assert(stubFileReader.readAsText.getCall(0).args[0] === files[0]);
       });
 
@@ -66,7 +66,7 @@ describe('DialogImportFile', () => {
         Controller.fileReaderOnLoad()(event);
       });
 
-      it('should be given the event name to arg[0] of $broadcast()', () => {
+      it('should be given the event name to args[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.IMPORT_FILE);
       });
 

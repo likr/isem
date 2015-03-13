@@ -41,7 +41,7 @@ describe('DialogAddLatentVariable', () => {
         Controller.add(dummy);
       });
 
-      it('should be given the event name to arg[0] of $broadcast()', () => {
+      it('should be given the event name to args[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.ADD_LATENT_VARIABLE);
       });
 

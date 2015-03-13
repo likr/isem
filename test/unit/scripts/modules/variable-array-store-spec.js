@@ -77,7 +77,7 @@ describe('VariableArrayStore', () => {
         Store.importFile(null, 'dummy');
       });
 
-      it('should be given the callbacks arg to arg[0] of Converter#convert()', () => {
+      it('should be given the callbacks arg to args[0] of Converter#convert()', () => {
         assert(stubConverter.convert.getCall(0).args[0] === 'dummy');
       });
 
@@ -107,12 +107,12 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should be given the error object to arg[0] of #basePublish()', () => {
+      it('should be given the error object to args[0] of #basePublish()', () => {
         var error = publish.getCall(0).args[0];
         assert(error.name === 'TypeError');
       });
 
-      it('should NOT be done #removeAllVertex()', () => {
+      it('should NOT be called #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 0);
       });
     });
@@ -125,12 +125,12 @@ describe('VariableArrayStore', () => {
 
       afterEach(stubConverterConvertRestore);
 
-      it('should be given the error object to arg[0] of #basePublish()', () => {
+      it('should be given the error object to args[0] of #basePublish()', () => {
         var error = publish.getCall(0).args[0];
         assert(error.name === 'Error');
       });
 
-      it('should NOT be done #removeAllVertex()', () => {
+      it('should NOT be called #removeAllVertex()', () => {
         assert(removeAllVertex.callCount === 0);
       });
     });
