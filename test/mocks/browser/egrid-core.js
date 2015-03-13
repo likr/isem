@@ -52,6 +52,7 @@ export const stubAdjacencyList = {
   addEdge:      sinon.stub(mockAdjacencyList, 'addEdge'),
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
+  edges:        sinon.stub(mockAdjacencyList, 'edges').returns([[1, 2], [3, 4]]),
   get:          sinon.stub(mockAdjacencyList, 'get', mockAdjacencyList.get),
   removeEdge:   sinon.stub(mockAdjacencyList, 'removeEdge'),
   removeVertex: sinon.stub(mockAdjacencyList, 'removeVertex'),

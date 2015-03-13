@@ -385,7 +385,160 @@ describe('VariableArrayStore', () => {
       assert(spyStore.publish.callCount === 1);
     });
   });
-  
+
+  describe('#toggleVertexDisplay()', () => {
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+
+      Store.toggleVertexDisplay(null, 42);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be given to Vertex.toggleEnabled()', () => {
+      assert(stubVertex.toggleEnabled.getCall(0).args[1] === 42);
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
+    });
+  });
+
+  describe('#setEnabledToMultipleVertices()', () => {
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+    });
+
+    afterEach(() => {
+      utils.allReset(stubVertex);
+      utils.allRestore(spyStore);
+    });
+
+    context('when give one id', () => {
+      beforeEach(() => {
+        Store.setEnabledToMultipleVertices(42, true);
+      });
+
+      it('should be given to Vertex.setEnabled()', () => {
+        assert(stubVertex.setEnabled.getCall(0).args[1] === 42);
+        assert(stubVertex.setEnabled.getCall(0).args[2] === true);
+      });
+
+      it('should be called Vertex.setEnabled() once', () => {
+        assert(stubVertex.setEnabled.callCount === 1);
+      });
+    });
+
+    context('when give multiple ids', () => {
+      beforeEach(() => {
+        Store.setEnabledToMultipleVertices([42, 43], true);
+      });
+
+      it('should be given to Vertex.toggleEnabled()', () => {
+        assert(stubVertex.setEnabled.getCall(0).args[1] === 42);
+        assert(stubVertex.setEnabled.getCall(0).args[2] === true);
+        assert(stubVertex.setEnabled.getCall(1).args[1] === 43);
+        assert(stubVertex.setEnabled.getCall(1).args[2] === true);
+      });
+
+      it('should be called Vertex.setEnabled() twice', () => {
+        assert(stubVertex.setEnabled.callCount === 2);
+      });
+    });
+  });
+
+  describe('#updateVariableArray()', () => {
+    beforeEach(() => {
+      Store.variableArray = [];
+      Store.updateVariableArray();
+    });
+
+    it('should be given to graph.get()', () => {
+      assert(stubAdjacencyList.get.getCall(0).args[0] === 42);
+      assert(stubAdjacencyList.get.getCall(1).args[0] === 43);
+      assert(stubAdjacencyList.get.getCall(2).args[0] === 44);
+    });
+
+    it('should be set Store.variableArray', () => {
+      const actual = Store.variableArray;
+      const expected = [
+        {label: 'dummy42', vertexId: 42},
+        {label: 'dummy43', vertexId: 43},
+        {label: 'dummy44', vertexId: 44}
+      ];
+      assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('#updateEdgeArray()', () => {
+    beforeEach(() => {
+      Store.edgeArray = [];
+      Store.updateEdgeArray();
+    });
+
+    it('should be called graph.edges()', () => {
+      assert(stubAdjacencyList.edges.callCount === 1);
+    });
+
+    it('should be set Store.edgeArray', () => {
+      const actual = Store.edgeArray;
+      const expected = [[1, 2], [3, 4]];
+      assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('#replaceAllVertex()', () => {
+    const data = {
+      labels: ['A', 'B', 'C'],
+      dataArray: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    };
+
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        removeAllVertex: sinon.spy(Store, 'removeAllVertex'),
+        updateStore:     sinon.spy(Store, 'updateStore')
+      };
+
+      Store.replaceAllVertex(data);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be called Vertex.addObservedVariable() 3 times', () => {
+      assert(stubVertex.addObservedVariable.callCount === 3);
+    });
+
+    it('should be given to Vertex.addObservedVariable()', () => {
+      assert          (stubVertex.addObservedVariable.getCall(1).args[1] === 'B');
+      assert.deepEqual(stubVertex.addObservedVariable.getCall(1).args[2], [4, 5, 6]);
+    });
+
+    it('should be called #removeAllVertex()', () => {
+      assert(spyStore.removeAllVertex.callCount === 1);
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+  });
+
   describe('#removeAllVertex()', () => {
     beforeEach(() => {
       Store.removeAllVertex();
