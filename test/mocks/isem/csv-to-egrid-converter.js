@@ -6,7 +6,7 @@ import injector from '../../../app/src/scripts/injector';
 export function mockConverter() {}
 mockConverter.convert = () => {};
 
-export var dummyResult = {
+export const dummyResult = {
   labels: [
     'dummyNodes1',
     'dummyNodes2',
@@ -22,6 +22,6 @@ export var dummyResult = {
 /* stubs */
 sinon.stub(injector, 'CsvToEgridConverter').returns(mockConverter);
 
-export var stubConverter = {
+export const stubConverter = {
   convert: sinon.stub(mockConverter, 'convert').returns(dummyResult)
 };

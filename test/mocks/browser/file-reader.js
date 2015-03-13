@@ -9,6 +9,6 @@ mockFileReader.prototype.readAsText = () => {};
 /* stubs */
 sinon.stub(injector, 'FileReader').returns(mockFileReader);
 
-export var stubFileReader = {
+export const stubFileReader = {
   readAsText: sinon.stub(mockFileReader.prototype, 'readAsText')
 };

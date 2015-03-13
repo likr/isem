@@ -26,19 +26,19 @@ mockRootScope.$on = () => {};
 /* stubs */
 sinon.stub(injector, 'angular').returns(mockAngular);
 
-export var stubAngular = {
+export const stubAngular = {
   element: sinon.stub(mockAngular, 'element').withArgs('.ng-scope').returns(mockElements)
 };
 
-export var stubElements = {
+export const stubElements = {
   eq: sinon.stub(mockElements, 'eq').withArgs(0).returns(mockRootElement)
 };
 
-export var stubRootElement = {
+export const stubRootElement = {
   scope: sinon.stub(mockRootElement, 'scope').returns(mockRootScope)
 };
 
-export var stubRootScope = {
+export const stubRootScope = {
   $broadcast: sinon.stub(mockRootScope, '$broadcast'),
   $on:        sinon.stub(mockRootScope, '$on')
 };

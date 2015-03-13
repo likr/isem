@@ -19,7 +19,7 @@ mockAdjacencyList.get = (u) => {
 function mockGraph() {}
 mockGraph.adjacencyList = () => mockAdjacencyList;
 
-export var mockEgrid = {
+export const mockEgrid = {
   core: {
     graph: mockGraph
   }
@@ -28,7 +28,7 @@ export var mockEgrid = {
 /* stubs */
 sinon.stub(injector, 'egrid').returns(mockEgrid);
 
-export var stubAdjacencyList = {
+export const stubAdjacencyList = {
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
   get:          sinon.stub(mockAdjacencyList, 'get', mockAdjacencyList.get),
@@ -37,10 +37,10 @@ export var stubAdjacencyList = {
 };
 
 ((stub) => {
-  for (var i = 0; i < 10; i++) {stub.onCall(i).returns(i);}
+  for (var i = 0; i < 10; i++) {stub.onCall(i).returns(i)}
   stub.returns(i + 1);
 })(stubAdjacencyList.addVertex);
 
-export var stubGraph = {
+export const stubGraph = {
   adjacencyList: sinon.stub(mockGraph, 'adjacencyList').returns(mockAdjacencyList)
 };

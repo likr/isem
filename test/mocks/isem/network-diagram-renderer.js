@@ -9,6 +9,6 @@ mockRenderer.prototype.addListener = () => {};
 /* stubs */
 sinon.stub(injector, 'NetworkDiagramRenderer').returns(mockRenderer.prototype);
 
-export var stubRenderer = {
+export const stubRenderer = {
   addListener: sinon.stub(mockRenderer.prototype, 'addListener')
 };

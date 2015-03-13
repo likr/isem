@@ -10,7 +10,7 @@ mockDocumnt.querySelectorAll = () => {};
 /* stubs */
 sinon.stub(injector, 'document').returns(mockDocumnt);
 
-export var stubDocument = {
+export const stubDocument = {
   getElementById:   sinon.stub(mockDocumnt, 'getElementById'),
   querySelectorAll: sinon.stub(mockDocumnt, 'querySelectorAll')
 };

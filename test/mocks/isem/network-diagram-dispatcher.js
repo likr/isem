@@ -9,6 +9,6 @@ mockDispatcher.prototype.addHandlers = () => {};
 /* stubs */
 sinon.stub(injector, 'NetworkDiagramDispatcher').returns(mockDispatcher.prototype);
 
-export var stubDispatcher = {
+export const stubDispatcher = {
   addHandlers: sinon.stub(mockDispatcher.prototype, 'addHandlers')
 };

@@ -2,7 +2,7 @@
 import powerAssert from 'power-assert';
 import sinon from 'sinon';
 import {allReset} from '../../../utils';
-let assert = powerAssert.customize({output: {maxDepth: 2}});
+const assert = powerAssert.customize({output: {maxDepth: 2}});
 
 /* stubbing */
 import '../../../mocks/browser/angular';

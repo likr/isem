@@ -10,6 +10,6 @@ mockStore.prototype.addListener = () => {};
 /* stubs */
 sinon.stub(injector, 'VariableArrayStore').returns(mockStore.prototype);
 
-export var stubStore = {
+export const stubStore = {
   addListener: sinon.stub(mockStore.prototype, 'addListener')
 };
