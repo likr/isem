@@ -6,7 +6,6 @@ import injector = require('../injector');
 var angular    = injector.angular();
 var app        = injector.app();
 var Dispatcher = injector.NetworkDiagramDispatcher();
-var document   = injector.document();
 var egrid      = injector.egrid();
 var log        = injector.log();
 var semjs      = injector.semjs();

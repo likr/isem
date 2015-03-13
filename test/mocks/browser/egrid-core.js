@@ -19,9 +19,26 @@ mockAdjacencyList.get = (u) => {
 function mockGraph() {}
 mockGraph.adjacencyList = () => mockAdjacencyList;
 
+function mockEgm() {}
+mockEgm.backgroundColor = () => {};
+mockEgm.dagreNodeSep = () => {};
+mockEgm.dagreRankSep = () => {};
+mockEgm.edgeColor = () => {};
+mockEgm.edgeText = () => {};
+mockEgm.edgeWidth = () => {};
+mockEgm.maxTextLength = () => {};
+mockEgm.onClickVertex = () => {};
+mockEgm.selectedStrokeColor = () => {};
+mockEgm.strokeColor = () => {};
+mockEgm.vertexAveilability = () => {};
+mockEgm.vertexButtons = () => {};
+mockEgm.vertexColor = () => {};
+mockEgm.vertexText = () => {};
+
 export const mockEgrid = {
   core: {
-    graph: mockGraph
+    graph: mockGraph,
+    egm: mockEgm
   }
 };
 
@@ -43,4 +60,21 @@ export const stubAdjacencyList = {
 
 export const stubGraph = {
   adjacencyList: sinon.stub(mockGraph, 'adjacencyList').returns(mockAdjacencyList)
+};
+
+export const stubEgm = {
+  backgroundColor:     sinon.stub(mockEgm, 'backgroundColor')    .returns(mockEgm),
+  dagreNodeSep:        sinon.stub(mockEgm, 'dagreNodeSep')       .returns(mockEgm),
+  dagreRankSep:        sinon.stub(mockEgm, 'dagreRankSep')       .returns(mockEgm),
+  edgeColor:           sinon.stub(mockEgm, 'edgeColor')          .returns(mockEgm),
+  edgeText:            sinon.stub(mockEgm, 'edgeText')           .returns(mockEgm),
+  edgeWidth:           sinon.stub(mockEgm, 'edgeWidth')          .returns(mockEgm),
+  maxTextLength:       sinon.stub(mockEgm, 'maxTextLength')      .returns(mockEgm),
+  onClickVertex:       sinon.stub(mockEgm, 'onClickVertex')      .returns(mockEgm),
+  selectedStrokeColor: sinon.stub(mockEgm, 'selectedStrokeColor').returns(mockEgm),
+  strokeColor:         sinon.stub(mockEgm, 'strokeColor')        .returns(mockEgm),
+  vertexAveilability:  sinon.stub(mockEgm, 'vertexAveilability') .returns(mockEgm),
+  vertexButtons:       sinon.stub(mockEgm, 'vertexButtons')      .returns(mockEgm),
+  vertexColor:         sinon.stub(mockEgm, 'vertexColor')        .returns(mockEgm),
+  vertexText:          sinon.stub(mockEgm, 'vertexText')         .returns(mockEgm)
 };
