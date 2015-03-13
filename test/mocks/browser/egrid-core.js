@@ -8,6 +8,7 @@ mockAdjacencyList.addEdge = () => {};
 mockAdjacencyList.addVertex = () => {};
 mockAdjacencyList.clearVertex = () => {};
 mockAdjacencyList.edges = () => {};
+mockAdjacencyList.removeEdge = () => {};
 mockAdjacencyList.removeVertex = () => {};
 mockAdjacencyList.vertices = () => {};
 
@@ -51,6 +52,7 @@ export const stubAdjacencyList = {
   addVertex:    sinon.stub(mockAdjacencyList, 'addVertex'),
   clearVertex:  sinon.stub(mockAdjacencyList, 'clearVertex'),
   get:          sinon.stub(mockAdjacencyList, 'get', mockAdjacencyList.get),
+  removeEdge:   sinon.stub(mockAdjacencyList, 'removeEdge'),
   removeVertex: sinon.stub(mockAdjacencyList, 'removeVertex'),
   vertices:     sinon.stub(mockAdjacencyList, 'vertices').returns([42, 43, 44])
 };

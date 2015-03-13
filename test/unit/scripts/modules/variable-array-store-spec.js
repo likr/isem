@@ -49,11 +49,11 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be called graph#addEdge() once', () => {
+      it('should be called graph.addEdge() once', () => {
         assert(stubAdjacencyList.addEdge.callCount === 1);
       });
 
-      it('should be set to graph#addEdge()', () => {
+      it('should be given to graph.addEdge()', () => {
         assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 1);
         assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 8);
       });
@@ -73,11 +73,11 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be called graph#addEdge() twice', () => {
+      it('should be called graph.addEdge() twice', () => {
         assert(stubAdjacencyList.addEdge.callCount === 2);
       });
 
-      it('should be set to graph#addEdge()', () => {
+      it('should be given to graph.addEdge()', () => {
         assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 1);
         assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 8);
         assert(stubAdjacencyList.addEdge.getCall(1).args[0] === 8);
@@ -99,11 +99,11 @@ describe('VariableArrayStore', () => {
         Store.addRelation(null, data);
       });
 
-      it('should be called graph#addEdge() once', () => {
+      it('should be called graph.addEdge() once', () => {
         assert(stubAdjacencyList.addEdge.callCount === 1);
       });
 
-      it('should be set to graph#addEdge()', () => {
+      it('should be given to graph.addEdge()', () => {
         assert(stubAdjacencyList.addEdge.getCall(0).args[0] === 8);
         assert(stubAdjacencyList.addEdge.getCall(0).args[1] === 1);
       });
@@ -153,20 +153,21 @@ describe('VariableArrayStore', () => {
 
   describe('#importFile()', () => {
     // commonize for afterEach
-    function stubConverterConvertRestore() {
+    function convertRestub() {
       stubConverter.convert.restore();
       stubConverter.convert = sinon.stub(mockConverter, 'convert');
     }
 
-    var publish, removeAllVertex;
+    var spyStore;
     beforeEach(() => {
-      publish         = sinon.stub(Store, 'publish');
-      removeAllVertex = sinon.stub(Store, 'removeAllVertex');
+      spyStore = {
+        publish:         sinon.spy(Store, 'publish'),
+        removeAllVertex: sinon.spy(Store, 'removeAllVertex')
+      };
     });
 
     afterEach(() => {
-      publish.restore();
-      removeAllVertex.restore();
+      utils.allRestore(spyStore);
     });
 
     context('when normal', () => {
@@ -179,7 +180,7 @@ describe('VariableArrayStore', () => {
       });
 
       it('should be called #removeAllVertex()', () => {
-        assert(removeAllVertex.callCount === 1);
+        assert(spyStore.removeAllVertex.callCount === 1);
       });
 
       it('should be replaced variables to Store.variableArray', () => {
@@ -192,7 +193,7 @@ describe('VariableArrayStore', () => {
       });
 
       it('should be called #basePublish()', () => {
-        assert(publish.callCount === 1);
+        assert(spyStore.publish.callCount === 1);
       });
     });
 
@@ -202,15 +203,15 @@ describe('VariableArrayStore', () => {
         Store.importFile(null, 'dummy');
       });
 
-      afterEach(stubConverterConvertRestore);
+      afterEach(convertRestub);
 
       it('should be given the error object to args[0] of #basePublish()', () => {
-        var error = publish.getCall(0).args[0];
+        var error = spyStore.publish.getCall(0).args[0];
         assert(error.name === 'TypeError');
       });
 
       it('should NOT be called #removeAllVertex()', () => {
-        assert(removeAllVertex.callCount === 0);
+        assert(spyStore.removeAllVertex.callCount === 0);
       });
     });
 
@@ -220,16 +221,74 @@ describe('VariableArrayStore', () => {
         Store.importFile(null, 'dummy');
       });
 
-      afterEach(stubConverterConvertRestore);
+      afterEach(convertRestub);
 
       it('should be given the error object to args[0] of #basePublish()', () => {
-        var error = publish.getCall(0).args[0];
+        var error = spyStore.publish.getCall(0).args[0];
         assert(error.name === 'Error');
       });
 
       it('should NOT be called #removeAllVertex()', () => {
-        assert(removeAllVertex.callCount === 0);
+        assert(spyStore.removeAllVertex.callCount === 0);
       });
+    });
+  });
+
+  describe('#redrawDiagram()', () => {
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        publish: sinon.spy(Store, 'publish')
+      };
+      Store.redrawDiagram();
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
+    });
+  });
+
+  describe('#removeRelation()', () => {
+    const removeTarget = [
+      {u: 1, v: 2},
+      {u: 1, v: 3},
+      {u: 2, v: 3}
+    ];
+
+    var spyStore;
+    beforeEach(() => {
+      spyStore = {
+        updateStore: sinon.spy(Store, 'updateStore'),
+        publish:     sinon.spy(Store, 'publish')
+      };
+      Store.removeRelation(null, removeTarget);
+    });
+
+    afterEach(() => {
+      utils.allRestore(spyStore);
+    });
+
+    it('should be called graph.removeEdge() same number of times as removeTarget.length', () => {
+      assert(stubAdjacencyList.removeEdge.callCount === removeTarget.length);
+    });
+
+    it('should be given to graph.removeEdge()', () => {
+      for (let i = 0; i < removeTarget.length; i++) {
+        assert(stubAdjacencyList.removeEdge.getCall(i).args[0] === removeTarget[i].u);
+        assert(stubAdjacencyList.removeEdge.getCall(i).args[1] === removeTarget[i].v);
+      }
+    });
+
+    it('should be called #updateStore()', () => {
+      assert(spyStore.updateStore.callCount === 1);
+    });
+
+    it('should be called #publish()', () => {
+      assert(spyStore.publish.callCount === 1);
     });
   });
 
