@@ -82,7 +82,8 @@ export function open() {
   var Dialog = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog({
-    template: '<isem-dialog-import-file isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-import-file isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open();
 }

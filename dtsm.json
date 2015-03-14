@@ -30,12 +30,12 @@
     },
     "egrid-core/egrid-core.d.ts": {
       "repo": "https://github.com/likr/egrid-core.git",
-      "ref": "c868001edf94300096b2b7404fadacb9c6dd68e8",
+      "ref": "83f6b5f84a6b830afec02d67c614535e6b83adf6",
       "path": "egrid-core.d.ts"
     },
     "cw-modal/cw-modal.d.ts": {
       "repo": "https://github.com/armorik83/cw-modal.git",
-      "ref": "a975886d0957151d4c684fca8603e3b9a04d726e",
+      "ref": "337dcb100184a5c7ada85fa2faa9825b49db9c5b",
       "path": "api/cw-modal.d.ts"
     },
     "cw-log/cw-log.d.ts": {

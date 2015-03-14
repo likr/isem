@@ -85,7 +85,8 @@ export function open<T>(data: T) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<T>({
-    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open(data);
 }

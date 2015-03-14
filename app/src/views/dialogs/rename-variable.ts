@@ -70,7 +70,8 @@ export function open(data: DialogData) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<DialogData>({
-    template: '<isem-dialog-rename-variable isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-rename-variable isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open(data);
 }
