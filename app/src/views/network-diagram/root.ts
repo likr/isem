@@ -107,15 +107,16 @@ export class Controller {
    * @returns {Renderer.EgmHandlers}
    */
   private egmHandlers(): typeRenderer.EgmHandlers {
+    var iconRoot = './src/resources/';
     var vertexButtons: egrid.core.VertexButton[] = [
       {
-        icon: '',
+        icon: iconRoot + 'button-add-relation.png',
         onClick: this.addRelationButtonHandler.bind(this)
       }, {
-        icon: '',
+        icon: iconRoot + 'button-manage-relation.png',
         onClick: this.manageRelationButtonHandler.bind(this)
       }, {
-        icon: '',
+        icon: iconRoot + 'button-rename-variable.png',
         onClick: this.renameVariableButtonHandler.bind(this)
       }
     ];
