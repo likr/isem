@@ -67,14 +67,23 @@ export class Controller {
     }
 
     this.$rootScope.$broadcast(constants.ADD_RELATION, data);
-    this.$scope.dialog.close();
+  }
+
+  /**
+   * This is alias of #close()
+   *
+   * @returns {void}
+   */
+  cancel() {
+    log.trace(log.t(), __filename, '#cancel()');
+    this.close();
   }
 
   /**
    * @returns {void}
    */
-  cancel() {
-    log.trace(log.t(), __filename, '#cancel()');
+  close() {
+    log.trace(log.t(), __filename, '#close()');
     this.$scope.dialog.close();
   }
 }

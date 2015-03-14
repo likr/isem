@@ -14,6 +14,7 @@ export var isemDialogAddRelation = {
   directionMutual: () => '↑↓',
   directionYtoX:   () => '↓',
   buttonCancel:    () => 'キャンセル',
+  buttonClose:     () => '閉じる',
   buttonPrimary:   () => '追加'
 };
 

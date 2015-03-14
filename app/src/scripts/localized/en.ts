@@ -14,6 +14,7 @@ export var isemDialogAddRelation = {
   directionMutual: () => '↑↓',
   directionYtoX:   () => '↓',
   buttonCancel:    () => 'Cancel',
+  buttonClose:     () => 'Close',
   buttonPrimary:   () => 'Add'
 };
 
