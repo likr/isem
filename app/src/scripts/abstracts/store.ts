@@ -1,6 +1,6 @@
 'use strict';
-import Injector = require('../injector');
-var angular = Injector.angular();
+import injector = require('../injector');
+var angular = injector.angular();
 
 class AbstractStore {
   /* protected */
@@ -10,8 +10,8 @@ class AbstractStore {
    * @constructor
    */
   constructor() {
-    // Do nothing
     // DO NOT call #init() here because rootElement hasn't been rendered yet.
+    // noop
   }
 
   /**
@@ -31,34 +31,11 @@ class AbstractStore {
    */
   baseAddListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any): {dispose(): void} {
     if (!this.$rootScope) {this.init()}
-    this.$rootScope.$on(name, listener);
+    var dispose: any = this.$rootScope.$on(name, listener);
 
     return {
-      dispose: () => {
-        this.removeListener(name, listener);
-      }
+      dispose: dispose
     };
-  }
-
-  /**
-   * Utility for remove listener from AngularJS $on listeners
-   *
-   * @see Stack Overflow {@link http://goo.gl/IRTpGA}
-   * @param {string}   name
-   * @param {Function} listener
-   * @returns {void}
-   */
-  removeListener(name: string, listener: (ev: ng.IAngularEvent, ...args: any[]) => any) {
-    if (!this.$rootScope) {this.init()}
-    var listeners = (<any>this.$rootScope).$$listeners[name];
-    if (!listeners) {return}
-    // Loop through the array of named listeners and remove them from the array.
-    for (var i = 0; i < listeners.length; i++) {
-      if (listeners[i] === listener) {
-        listeners.splice(i, 1);
-        return;
-      }
-    }
   }
 
   /**

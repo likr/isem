@@ -1,14 +1,12 @@
 'use strict';
 import typeVertex = require('../../scripts/modules/vertex');
 
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
-var log     = Injector.log();
-
-import IsemInjector = require('../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var constants = IsemInjector.constants();
-var localized = IsemInjector.localized();
+import injector = require('../../scripts/injector');
+var angular   = injector.angular();
+var app       = injector.app();
+var constants = injector.constants();
+var localized = injector.localized();
+var log       = injector.log();
 
 var directiveName = 'isemDialogAddRelation';
 
@@ -47,15 +45,7 @@ export class Controller {
     this.$scope.variableArray = this.$scope.dialog.data.variableArray;
     this.$scope.vertexIdX     = this.$scope.dialog.data.vertexId;
 
-    this.initLocalizedLabel(this.$scope.locale());
-  }
-
-  /**
-   * @param {string} locale
-   * @returns {void}
-   */
-  private initLocalizedLabel(locale: string) {
-    this.$scope.localized = localized(locale, directiveName);
+    this.$scope.localized = localized(this.$scope.locale(), directiveName);
   }
 
   /**
@@ -77,14 +67,23 @@ export class Controller {
     }
 
     this.$rootScope.$broadcast(constants.ADD_RELATION, data);
-    this.$scope.dialog.close();
+  }
+
+  /**
+   * This is alias of #close()
+   *
+   * @returns {void}
+   */
+  cancel() {
+    log.trace(log.t(), __filename, '#cancel()');
+    this.close();
   }
 
   /**
    * @returns {void}
    */
-  cancel() {
-    log.trace(log.t(), __filename, '#cancel()');
+  close() {
+    log.trace(log.t(), __filename, '#close()');
     this.$scope.dialog.close();
   }
 }
@@ -95,7 +94,8 @@ export function open<T>(data: T) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<T>({
-    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-add-relation isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open(data);
 }

@@ -1,12 +1,10 @@
 'use strict';
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
-var log     = Injector.log();
-
-import IsemInjector = require('../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var constants = IsemInjector.constants();
-var localized = IsemInjector.localized();
+import injector = require('../../scripts/injector');
+var angular   = injector.angular();
+var app       = injector.app();
+var constants = injector.constants();
+var localized = injector.localized();
+var log       = injector.log();
 
 var directiveName = 'isemDialogRenameVariable';
 
@@ -72,18 +70,20 @@ export function open(data: DialogData) {
   var Dialog: cw.DialogStatic = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog<DialogData>({
-    template: '<isem-dialog-rename-variable isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-rename-variable isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open(data);
 }
 
 export class Definition {
-  static link($scope: Scope, _: any, __: any, controllers: any) {
+  static link($scope: Scope, iElement: ng.IAugmentedJQuery, __: any, controllers: any) {
     var cwModal = controllers[0];
     var self    = controllers[1];
 
     $scope.dialog = cwModal.dialog;
     self.init();
+    iElement.find('input:visible').eq(0).focus();
   }
 
   static ddo() {

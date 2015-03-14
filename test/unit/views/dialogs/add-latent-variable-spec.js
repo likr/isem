@@ -1,14 +1,19 @@
 'use strict';
-var assert    = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon     = require('sinon');
-var constants = require('../../../../app/src/scripts/constants');
+import constants from '../../../../app/src/scripts/constants';
+import powerAssert from 'power-assert';
+import sinon from 'sinon';
+const assert = powerAssert.customize({output: {maxDepth: 2}});
 
-require('../../../mocks/browser/angular');
-var AddLatentVariable = require('../../../../app/src/views/dialogs/add-latent-variable');
-var ControllerStatic = AddLatentVariable.Controller;
+/* stubbing */
+import '../../../mocks/browser/angular';
 
+/* mocking */
+import {
+  Controller as ControllerStatic,
+  Definition
+} from '../../../../app/src/views/dialogs/add-latent-variable';
 var mockRootScope, stubRootScope, mockScope, stubScope;
-var Controller = (() => {
+let Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
   };
@@ -27,7 +32,6 @@ var Controller = (() => {
   };
   return new ControllerStatic(mockRootScope, mockScope);
 })();
-var Definition = AddLatentVariable.Definition;
 
 describe('DialogAddLatentVariable', () => {
   describe('Controller', () => {
@@ -37,15 +41,15 @@ describe('DialogAddLatentVariable', () => {
         Controller.add(dummy);
       });
 
-      it('should give the event name to arg[0] of $broadcast()', () => {
+      it('should be given the event name to args[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.ADD_LATENT_VARIABLE);
       });
 
-      it('should give the value to arg[1] of $broadcast()', () => {
+      it('should be given the value to arg[1] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[1] === dummy);
       });
 
-      it('should do close()', () => {
+      it('should be called close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
     });
@@ -53,11 +57,11 @@ describe('DialogAddLatentVariable', () => {
 
   describe('Definition', () => {
     describe('.ddo()', () => {
-      it('should return the field of require including the other controller', () => {
+      it('should be returned the field of require including the other controller', () => {
         assert(Definition.ddo().require === '^cwModal');
       });
 
-      it('should return the field of controllerAs including the correct name', () => {
+      it('should be returned the field of controllerAs including the correct name', () => {
         assert(Definition.ddo().controllerAs === 'Controller');
       });
     });

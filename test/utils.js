@@ -1,5 +1,9 @@
 'use strict';
 
-export function allReset(stubs) {
+export function resetAll(stubs) {
   Object.keys(stubs).forEach(v => stubs[v].reset());
+}
+
+export function restoreAll(stubs) {
+  Object.keys(stubs).forEach(v => stubs[v].restore());
 }

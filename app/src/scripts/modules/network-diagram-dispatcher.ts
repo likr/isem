@@ -1,12 +1,10 @@
 'use strict';
 import AbstractDispatcher = require('../abstracts/dispatcher');
-import Injector = require('../injector');
-var angular = Injector.angular();
 
-// DO NOT change var name of 'constants'
-// by reason of the convenience to find/replace
-import IsemInjector = require('../isem-injector');
-var constants = IsemInjector.constants();
+import injector = require('../injector');
+var angular   = injector.angular();
+var constants = injector.constants();
+var log       = injector.log();
 
 declare var lsnrType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 interface Handlers {
@@ -50,6 +48,7 @@ class Dispatcher extends AbstractDispatcher {
    * @param {*} handlers
    */
   addHandlers(handlers: Handlers) {
+    log.trace(log.t(), __filename, '#addHandlers()');
     super.on(constants.ADD_EGM_HANDLERS,       handlers.addEgmHandlers);
     super.on(constants.ADD_LATENT_VARIABLE,    handlers.addVariable);
     super.on(constants.ADD_RELATION,           handlers.addRelation);

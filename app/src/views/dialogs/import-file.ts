@@ -1,15 +1,13 @@
 'use strict';
-import Injector = require('../../scripts/injector');
-var angular    = Injector.angular();
-var d3         = Injector.d3();
-var document   = Injector.document();
-var FileReader = Injector.FileReader();
-var log        = Injector.log();
-
-import IsemInjector = require('../../scripts/isem-injector');
-var app       = IsemInjector.app();
-var constants = IsemInjector.constants();
-var localized = IsemInjector.localized();
+import injector = require('../../scripts/injector');
+var angular    = injector.angular();
+var app        = injector.app();
+var constants  = injector.constants();
+var d3         = injector.d3();
+var document   = injector.document();
+var FileReader = injector.FileReader();
+var localized  = injector.localized();
+var log        = injector.log();
 
 var directiveName = 'isemDialogImportFile';
 
@@ -39,16 +37,8 @@ export class Controller {
     private $scope: Scope
   ) {
     log.trace(log.t(), __filename, 'constructor');
-    this.$scope.encoding = 'utf-8';
-    this.initLocalizedLabel(this.$scope.locale());
-  }
-
-  /**
-   * @param {string} locale
-   * @returns {void}
-   */
-  private initLocalizedLabel(locale: string) {
-    this.$scope.localized = localized(locale, directiveName);
+    this.$scope.encoding  = 'utf-8';
+    this.$scope.localized = localized(this.$scope.locale(), directiveName);
   }
 
   /**
@@ -92,7 +82,8 @@ export function open() {
   var Dialog = rootElement.injector().get('Dialog');
 
   var dialog = new Dialog({
-    template: '<isem-dialog-import-file isem-io-locale="$root.locale" />'
+    template: '<isem-dialog-import-file isem-io-locale="$root.locale" />',
+    width: 600
   });
   dialog.open();
 }
