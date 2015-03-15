@@ -1,16 +1,15 @@
 'use strict';
 import typeVertex = require('../../scripts/modules/vertex');
 
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
-var log     = Injector.log();
+import injector = require('../../scripts/injector');
+var angular   = injector.angular();
+var app       = injector.app();
+var constants = injector.constants();
+var localized = injector.localized();
+var log       = injector.log();
 
-import IsemInjector = require('../../scripts/isem-injector');
-var AddLatentVariable = IsemInjector.AddLatentVariable();
-var app               = IsemInjector.app();
-var constants         = IsemInjector.constants();
-var ImportFile        = IsemInjector.ImportFile();
-var localized         = IsemInjector.localized();
+var AddLatentVariable = injector.AddLatentVariable();
+var ImportFile        = injector.ImportFile();
 
 var directiveName = 'isemNetworkDiagramToolGroup';
 
@@ -29,15 +28,7 @@ class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    this.initLocalizedLabel(this.$scope.locale());
-  }
-
-  /**
-   * @param {string} locale
-   * @returns {void}
-   */
-  private initLocalizedLabel(locale: string) {
-    this.$scope.localized = localized(locale, directiveName);
+    this.$scope.localized = localized(this.$scope.locale(), directiveName);
   }
 
   /**

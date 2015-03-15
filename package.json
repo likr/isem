@@ -29,7 +29,7 @@
     "angular": "1.3.12",
     "angular-route": "1.3.12",
     "cw-log": "^0.2.0",
-    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#a975886d0957151d4c684fca8603e3b9a04d726e",
+    "cw-modal": "git+https://github.com/armorik83/cw-modal.git#337dcb100184a5c7ada85fa2faa9825b49db9c5b",
     "d3": "3.5.5",
     "egrid-core": "^1.2.1",
     "jquery": "2.1.3",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "browserify-shim": "3.8.2",
-    "dtsm": "0.8.0",
+    "dtsm": "0.8.1",
     "grunt": "0.4.5",
     "grunt-babel": "4.0.0",
     "grunt-browserify": "3.3.0",

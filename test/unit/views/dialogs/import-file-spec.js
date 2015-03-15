@@ -1,18 +1,22 @@
 'use strict';
-var assert    = require('power-assert').customize({output: {maxDepth: 2}});
-var sinon     = require('sinon');
-var constants = require('../../../../app/src/scripts/constants');
+import constants from '../../../../app/src/scripts/constants';
+import powerAssert from 'power-assert';
+import sinon from 'sinon';
+const assert = powerAssert.customize({output: {maxDepth: 2}});
 
-require('../../../mocks/browser/angular');
-var stubD3         = require('../../../mocks/browser/d3').stub;
-var stubDocument   = require('../../../mocks/browser/document').stub;
-var stubFileReader = require('../../../mocks/browser/file-reader').stub;
+/* stubbing */
+import '../../../mocks/browser/angular';
+import {stubD3}         from '../../../mocks/browser/d3';
+import {stubDocument}   from '../../../mocks/browser/document';
+import {stubFileReader} from '../../../mocks/browser/file-reader';
 
-var ImportFile = require('../../../../app/src/views/dialogs/import-file');
-var ControllerStatic = ImportFile.Controller;
-
+/* mocking */
+import {
+  Controller as ControllerStatic,
+  Definition
+} from '../../../../app/src/views/dialogs/import-file';
 var mockRootScope, stubRootScope, mockScope, stubScope;
-var Controller = (() => {
+let Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
   };
@@ -31,7 +35,6 @@ var Controller = (() => {
   };
   return new ControllerStatic(mockRootScope, mockScope);
 })();
-var Definition = ImportFile.Definition;
 
 describe('DialogImportFile', () => {
   describe('Controller', () => {
@@ -42,16 +45,16 @@ describe('DialogImportFile', () => {
         Controller.importFile();
       });
 
-      it('should give the correct value to arg[0] of readAsText()', () => {
+      it('should be given the correct value to args[0] of readAsText()', () => {
         assert(stubFileReader.readAsText.getCall(0).args[0] === files[0]);
       });
 
-      it('should give the correct value to arg[1] of readAsText()', () => {
+      it('should be given the correct value to arg[1] of readAsText()', () => {
         // utf-8 is used as a default
         assert(stubFileReader.readAsText.getCall(0).args[1] === 'utf-8');
       });
 
-      it('should do close()', () => {
+      it('should be called close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
     });
@@ -63,11 +66,11 @@ describe('DialogImportFile', () => {
         Controller.fileReaderOnLoad()(event);
       });
 
-      it('should give the event name to arg[0] of $broadcast()', () => {
+      it('should be given the event name to args[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.IMPORT_FILE);
       });
 
-      it('should give the value to arg[1] of $broadcast()', () => {
+      it('should be given the value to arg[1] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[1] === 'dummyParsed');
       });
     });
@@ -75,11 +78,11 @@ describe('DialogImportFile', () => {
 
   describe('Definition', () => {
     describe('.ddo()', () => {
-      it('should return the field of require including the other controller', () => {
+      it('should be returned the field of require including the other controller', () => {
         assert(Definition.ddo().require === '^cwModal');
       });
 
-      it('should return the field of controllerAs including the correct name', () => {
+      it('should be returned the field of controllerAs including the correct name', () => {
         assert(Definition.ddo().controllerAs === 'Controller');
       });
     });

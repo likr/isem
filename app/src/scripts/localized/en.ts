@@ -1,5 +1,4 @@
 'use strict';
-
 export var isemDialogAddLatentVariable = {
   title:         () => 'Add Latent Variable',
   inputLabel:    () => 'Name',
@@ -15,6 +14,7 @@ export var isemDialogAddRelation = {
   directionMutual: () => '↑↓',
   directionYtoX:   () => '↓',
   buttonCancel:    () => 'Cancel',
+  buttonClose:     () => 'Close',
   buttonPrimary:   () => 'Add'
 };
 

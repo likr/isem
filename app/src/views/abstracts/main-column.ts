@@ -1,9 +1,9 @@
 'use strict';
-import Injector = require('../../scripts/injector');
-var angular = Injector.angular();
+import injector = require('../../scripts/injector');
+var angular = injector.angular();
+var app     = injector.app();
 
-import IsemInjector = require('../../scripts/isem-injector');
-var app = IsemInjector.app();
+var directiveName = 'isemMainColumn';
 
 class Definition {
   static ddo() {
@@ -16,4 +16,4 @@ class Definition {
   }
 }
 
-angular.module(app.appName).directive('isemMainColumn', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

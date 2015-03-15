@@ -7,8 +7,8 @@
 /// <reference path="../../../typings/node/node.d.ts" />
 /// <reference path="../../../typings/semjs/sem.d.ts" />
 'use strict';
-import Injector = require('./injector');
-var angular = Injector.angular();
+import injector = require('./injector');
+var angular = injector.angular();
 
 export var appName = 'egrid-sem';
 export var externalModule = ['ngRoute', 'cwModal'];
