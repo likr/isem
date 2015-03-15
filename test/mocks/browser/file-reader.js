@@ -1,18 +1,14 @@
 'use strict';
-var sinon = require('sinon');
-var Injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mockFileReader() {
-  // do nothing
-}
-
+/* mocks */
+export function mockFileReader() {}
 mockFileReader.prototype.readAsText = () => {};
 
-sinon.stub(Injector, 'FileReader').returns(mockFileReader);
+/* stubs */
+sinon.stub(injector, 'FileReader').returns(mockFileReader);
 
-var stubFileReader = {
+export const stubFileReader = {
   readAsText: sinon.stub(mockFileReader.prototype, 'readAsText')
 };
-
-module.exports.mock = mockFileReader;
-module.exports.stub = stubFileReader;

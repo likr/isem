@@ -1,20 +1,16 @@
 'use strict';
-var sinon = require('sinon');
-var Injector = require('../../../app/src/scripts/injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mockDocument() {
-  // do nothing
-}
+/* mocks */
+export function mockDocumnt() {}
+mockDocumnt.getElementById = () => {};
+mockDocumnt.querySelectorAll = () => {};
 
-mockDocument.getElementById = () => {};
-mockDocument.querySelectorAll = () => {};
+/* stubs */
+sinon.stub(injector, 'document').returns(mockDocumnt);
 
-sinon.stub(Injector, 'document').returns(mockDocument);
-
-var stubDocument = {
-  getElementById:   sinon.stub(mockDocument, 'getElementById'),
-  querySelectorAll: sinon.stub(mockDocument, 'querySelectorAll')
+export const stubDocument = {
+  getElementById:   sinon.stub(mockDocumnt, 'getElementById'),
+  querySelectorAll: sinon.stub(mockDocumnt, 'querySelectorAll')
 };
-
-module.exports.mock = mockDocument;
-module.exports.stub = stubDocument;

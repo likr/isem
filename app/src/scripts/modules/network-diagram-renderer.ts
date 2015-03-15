@@ -2,16 +2,13 @@
 import typeVertex = require('./vertex');
 
 import AbstractStore = require('../abstracts/store');
-import Injector = require('../injector');
-var angular  = Injector.angular() ;
-var document = Injector.document();
-var egrid    = Injector.egrid() ;
-var log      = Injector.log();
-var semjs    = Injector.semjs() ;
-
-import IsemInjector = require('../isem-injector');
-var app        = IsemInjector.app();
-var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
+import injector = require('../injector');
+var angular    = injector.angular();
+var app        = injector.app();
+var Dispatcher = injector.NetworkDiagramDispatcher();
+var egrid      = injector.egrid();
+var log        = injector.log();
+var semjs      = injector.semjs();
 
 declare var edgeType: [number, number];
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;

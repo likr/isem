@@ -1,17 +1,14 @@
 'use strict';
-var sinon = require('sinon');
-var IsemInjector = require('../../../app/src/scripts/isem-injector');
+import sinon from 'sinon';
+import injector from '../../../app/src/scripts/injector';
 
-function mock() {}
-mock.prototype.addListener = () => {};
+/* mocks */
+export function mockRenderer() {}
+mockRenderer.prototype.addListener = () => {};
 
-sinon.stub(IsemInjector, 'NetworkDiagramRenderer').returns(mock.prototype);
+/* stubs */
+sinon.stub(injector, 'NetworkDiagramRenderer').returns(mockRenderer.prototype);
 
-var stub = {
-  addListener: sinon.stub(mock.prototype, 'addListener')
-};
-
-module.exports = {
-  mock: mock,
-  stub: stub
+export const stubRenderer = {
+  addListener: sinon.stub(mockRenderer.prototype, 'addListener')
 };

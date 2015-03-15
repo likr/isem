@@ -1,20 +1,20 @@
 'use strict';
-import Injector = require('../scripts/injector');
-var angular = Injector.angular();
+import injector = require('../scripts/injector');
+var angular = injector.angular();
+var app     = injector.app();
 
-import IsemInjector = require('../scripts/isem-injector');
-var app = IsemInjector.app();
+var directiveName = 'isemScreenNetworkDiagram';
 
-class Definition {
+export class Definition {
   static ddo() {
     return {
       restrict: 'E',
-      templateUrl: app.viewsDir.screens + 'screen-network-diagram.html',
       scope: {
         locale: '&isemIoLocale'
-      }
+      },
+      templateUrl: app.viewsDir.screens + 'screen-network-diagram.html'
     };
   }
 }
 
-angular.module(app.appName).directive('isemScreenNetworkDiagram', Definition.ddo);
+angular.module(app.appName).directive(directiveName, Definition.ddo);

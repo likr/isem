@@ -60,9 +60,13 @@ module.exports = function(grunt) {
           '<%= opt.client.jsMain %>/**/*.js.map',
         ]
       },
-      test: {
+      testEs5: {
         src: [
           '<%= opt.client.testEs5 %>',
+        ]
+      },
+      testEspowerd: {
+        src: [
           '<%= opt.client.testEspowerd %>'
         ]
       }
@@ -136,7 +140,8 @@ module.exports = function(grunt) {
     'basic',
     'babel',
     'espower',
-    'mochaTest'
+    'mochaTest',
+    'clean:testEs5'
   ]);
 
   grunt.registerTask('start', [

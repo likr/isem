@@ -1,20 +1,19 @@
 'use strict';
-import typeVertex      = require('../modules/vertex');
-
+/* Use only typing */
+import typeVertex  = require('../modules/vertex');
 import AddRelation = require('../../views/dialogs/add-relation');
 import Direction   = AddRelation.Direction
 
 import AbstractStore = require('../abstracts/store');
-import Injector = require('../injector');
-var angular = Injector.angular();
-var egrid   = Injector.egrid();
-var log     = Injector.log();
+import injector = require('../injector');
+var angular = injector.angular();
+var app     = injector.app();
+var egrid   = injector.egrid();
+var log     = injector.log();
 
-import IsemInjector = require('../isem-injector');
-var app        = IsemInjector.app();
-var Converter  = IsemInjector.CsvToAlphaConverter();
-var Dispatcher = IsemInjector.NetworkDiagramDispatcher();
-var Vertex     = IsemInjector.Vertex();
+var Converter  = injector.CsvToEgridConverter();
+var Dispatcher = injector.NetworkDiagramDispatcher();
+var Vertex     = injector.Vertex();
 
 declare var listenerType: (ev: ng.IAngularEvent, ...args: any[]) => any;
 export interface API {
@@ -129,8 +128,7 @@ class Store extends AbstractStore {
     log.trace(log.t(), __filename, '#importFile()');
 
     try {
-      var converter = new Converter();
-      var result = converter.convert(importedFile);
+      var result = Converter.convert(importedFile);
     } catch (e) {
       return this.publish(e);
     }
@@ -190,8 +188,7 @@ class Store extends AbstractStore {
   private disableVertexDisplay(_: any, vertexId: any) {
     log.trace(log.t(), __filename, '#disableVertexDisplay()', vertexId);
 
-    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-    this.setEnabledToMultipleVertices(ids, false);
+    this.setEnabledToMultipleVertices(vertexId, false);
 
     this.updateStore();
     this.publish();
@@ -205,8 +202,7 @@ class Store extends AbstractStore {
   private enableVertexDisplay(_: any, vertexId: any) {
     log.trace(log.t(), __filename, '#enableVertexDisplay()', vertexId);
 
-    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
-    this.setEnabledToMultipleVertices(ids, true);
+    this.setEnabledToMultipleVertices(vertexId, true);
 
     this.updateStore();
     this.publish();
@@ -227,10 +223,11 @@ class Store extends AbstractStore {
   }
 
   /**
-   * @param {number[]} ids
+   * @param {number|number[]} vertexId - id or ids
    * @param {boolean}  state
    */
-  private setEnabledToMultipleVertices(ids: number[], state: boolean) {
+  private setEnabledToMultipleVertices(vertexId: any, state: boolean) {
+    var ids: number[] = (Array.isArray(vertexId)) ? vertexId : [vertexId];
     ids.forEach(u => Vertex.setEnabled(this.graph, u, state));
   }
 
@@ -265,10 +262,10 @@ class Store extends AbstractStore {
   /**
    * @returns {void}
    */
-  private replaceAllVertex(result: {nodes: string[]; S: number[][]}) {
+  private replaceAllVertex(result: {labels: string[]; dataArray: number[][]}) {
     this.removeAllVertex();
-    result.nodes.forEach((label: string, i: number) => {
-      return Vertex.addObservedVariable(this.graph, label, result.S[i]);
+    result.labels.forEach((label: string, i: number) => {
+      return Vertex.addObservedVariable(this.graph, label, result.dataArray[i]);
     });
     this.updateStore();
   }
