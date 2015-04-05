@@ -36,9 +36,30 @@ export class Controller {
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope
   ) {
-    log.trace(log.t(), __filename, 'constructor');
+    // DO NOT call #init() here because $scope hasn't been set yet.
+  }
+
+  init() {
+    log.trace(log.t(), __filename, '#init()', this.$scope);
+
     this.$scope.encoding  = 'utf-8';
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
+
+    this.addKeyboardHandler();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private addKeyboardHandler() {
+    this.$scope.dialog.onKeyDown((e: KeyboardEvent) => {
+      if (e.keyCode === 13/* enter */) {
+        this.importFile();
+      }
+      if (e.keyCode === 27/* esc */) {
+        this.cancel();
+      }
+    });
   }
 
   /**
@@ -89,8 +110,12 @@ export function open() {
 }
 
 export class Definition {
-  static link($scope: Scope, _: any, __: any, cwModal: any) {
+  static link($scope: Scope, _: any, __: any, controllers: any) {
+    var cwModal = controllers[0];
+    var self    = controllers[1];
+
     $scope.dialog = cwModal.dialog;
+    self.init();
   }
 
   static ddo() {
@@ -98,7 +123,7 @@ export class Definition {
       controller: Controller,
       controllerAs: 'Controller',
       link: Definition.link,
-      require: '^cwModal',
+      require: ['^cwModal', directiveName],
       restrict: 'E',
       scope: {
         locale: '&isemIoLocale'

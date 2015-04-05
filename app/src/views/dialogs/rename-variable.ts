@@ -38,6 +38,22 @@ export class Controller {
     this.$scope.vertexId     = this.$scope.dialog.data.vertexId;
 
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
+
+    this.addKeyboardHandler();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private addKeyboardHandler() {
+    this.$scope.dialog.onKeyDown((e: KeyboardEvent) => {
+      if (e.keyCode === 13/* enter */) {
+        this.rename(this.$scope.vertexId, this.$scope.variableName);
+      }
+      if (e.keyCode === 27/* esc */) {
+        this.cancel();
+      }
+    });
   }
 
   /**
