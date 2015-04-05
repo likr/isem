@@ -41,7 +41,25 @@ export class Controller {
 
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
 
+    this.addKeyboardHandler();
     this.generateManagedEdgeList();
+  }
+
+  /**
+   * @returns {void}
+   */
+  private addKeyboardHandler() {
+    this.$scope.dialog.onKeyDown((e: KeyboardEvent) => {
+      if (e.keyCode === 13/* enter */) {
+        // noop
+        // To prevent erroneous operation
+        //
+        // this.remove();
+      }
+      if (e.keyCode === 27/* esc */) {
+        this.cancel();
+      }
+    });
   }
 
   /**
