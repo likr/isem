@@ -34,8 +34,8 @@
       "path": "egrid-core.d.ts"
     },
     "cw-modal/cw-modal.d.ts": {
-      "repo": "https://github.com/armorik83/cw-modal.git",
-      "ref": "337dcb100184a5c7ada85fa2faa9825b49db9c5b",
+      "repo": "https://github.com/crescware/cw-modal.git",
+      "ref": "d89eed5f8914b8c4db4408dccb608242746eb0d9",
       "path": "api/cw-modal.d.ts"
     },
     "cw-log/cw-log.d.ts": {
