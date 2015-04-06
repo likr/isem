@@ -1,6 +1,5 @@
 'use strict';
 import typeVertex = require('../../scripts/modules/vertex');
-
 import injector = require('../../scripts/injector');
 var angular   = injector.angular();
 var app       = injector.app();
@@ -45,7 +44,23 @@ export class Controller {
     this.$scope.variableArray = this.$scope.dialog.data.variableArray;
     this.$scope.vertexIdX     = this.$scope.dialog.data.vertexId;
 
+    this.addKeyboardHandler();
+
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
+  }
+
+  /**
+   * @returns {void}
+   */
+  private addKeyboardHandler() {
+    this.$scope.dialog.onKeyDown((e: KeyboardEvent) => {
+      if (e.keyCode === 13/* enter */) {
+        this.add(this.$scope.vertexIdX, this.$scope.vertexIdY, this.$scope.direction);
+      }
+      if (e.keyCode === 27/* esc */) {
+        this.cancel();
+      }
+    });
   }
 
   /**
