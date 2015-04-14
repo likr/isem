@@ -72,7 +72,7 @@ module.exports = function(grunt) {
         ]
       },
       deploy: {
-        src: '<%= opt.client.deploy %>'
+        src: '<%= opt.client.deploy %>/*'
       }
     },
 
