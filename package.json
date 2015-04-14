@@ -1,7 +1,7 @@
 {
   "name": "egrid-sem",
   "description": "egrid-sem",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Yosuke ONOUE <onoue@likr-lab.com> (https://github.com/likr)",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.js",
@@ -70,6 +70,6 @@
   "scripts": {
     "dtsm": "dtsm --insight false install",
     "start": "grunt start && cd app && ss --port 8080 --debug true",
-    "test": ""
+    "test": "grunt test"
   }
 }
