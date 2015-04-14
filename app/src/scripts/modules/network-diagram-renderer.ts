@@ -250,19 +250,7 @@ class Renderer extends AbstractStore {
    * @returns {void}
    */
   setattributeArray(attrs: Array<{name: string; value: number}>) {
-    //this.attributes = attrs;
-
-    // mocking
-    this.attributeArray = [
-      {name: 'Chi-square/df', value: Math.random()},
-      {name: 'RMSEA',         value: Math.random()},
-      {name: 'SRMR',          value: Math.random()},
-      {name: 'GFI',           value: Math.random()},
-      {name: 'AGFI',          value: Math.random()},
-      {name: 'CFI',           value: Math.random()},
-      {name: 'NFI',           value: Math.random()}
-    ];
-
+    this.attributeArray = attrs;
     this.publish();
   }
 }
