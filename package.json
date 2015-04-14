@@ -68,7 +68,7 @@
     "url": "https://github.com/likr/interactive-sem"
   },
   "scripts": {
-    "dtsm": "dtsm install",
+    "dtsm": "dtsm --insight false install",
     "start": "grunt start && cd app && ss --port 8080 --debug true",
     "test": "grunt test"
   }
