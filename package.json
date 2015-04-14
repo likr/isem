@@ -1,7 +1,7 @@
 {
   "name": "egrid-sem",
   "description": "egrid-sem",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Yosuke ONOUE <onoue@likr-lab.com> (https://github.com/likr)",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.js",
@@ -44,6 +44,7 @@
     "grunt-browserify": "3.3.0",
     "grunt-cli": "0.1.13",
     "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-less": "^1.0.0",
     "grunt-espower": "0.10.0",
     "grunt-mocha-test": "0.12.7",

@@ -127,6 +127,24 @@ module.exports = function(grunt) {
           sourceMap: false // Incompatible with browserify.
         }
       }
+    },
+
+    copy: {
+      deploy: {
+        files: [
+          {
+            expand: true,
+            cwd: 'app',
+            src: [
+              'src/scripts/bundle.js',
+              'src/resources/**',
+              '**/*.html',
+              '**/*.css'
+            ],
+            dest: 'deploy'
+          }
+        ]
+      }
     }
   });
 
@@ -146,6 +164,10 @@ module.exports = function(grunt) {
     'basic',
     'browserify',
     'ngAnnotate'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'copy:deploy'
   ]);
 
   grunt.registerTask('default', 'build');
