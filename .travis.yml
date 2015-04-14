@@ -11,7 +11,7 @@ before_script:
 after_success:
   - git clone https://github.com/likr/interactive-sem.git --branch=gh-pages deploy
   - grunt deploy
-  - pushd tmp
+  - pushd deploy
   - git add -A
   - git commit -m 'update'
   - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/likr/interactive-sem.git gh-pages 2> /dev/null'
