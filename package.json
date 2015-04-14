@@ -69,7 +69,7 @@
   },
   "scripts": {
     "dtsm": "dtsm --insight false install",
-    "start": "grunt start && cd app && ss --port 8080 --debug true",
+    "start": "grunt build && cd app && ss --port 8080 --debug true",
     "test": "grunt test"
   }
 }

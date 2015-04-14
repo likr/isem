@@ -137,16 +137,16 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    'basic',
     'babel',
     'espower',
-    'mochaTest',
-    'clean:testEs5'
+    'mochaTest'
   ]);
 
-  grunt.registerTask('start', [
+  grunt.registerTask('build', [
     'basic',
     'browserify',
     'ngAnnotate'
   ]);
+
+  grunt.registerTask('default', 'build');
 };
