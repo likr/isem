@@ -58,7 +58,7 @@ describe('DialogAddLatentVariable', () => {
   describe('Definition', () => {
     describe('.ddo()', () => {
       it('should be returned the field of require including the other controller', () => {
-        assert(Definition.ddo().require === '^cwModal');
+        assert(Definition.ddo().require[0] === '^cwModal');
       });
 
       it('should be returned the field of controllerAs including the correct name', () => {
