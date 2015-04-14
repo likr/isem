@@ -42,8 +42,8 @@ export var isemDialogRenameVariable = {
 };
 
 export var isemGuiNewLatentVariable = {
-  defaultVariableName: () => '名称未設定',
-  label:               () => '新規潜在変数'
+  defaultVariableName: () => '潜在変数',
+  label:               () => '潜在変数追加'
 };
 
 export var isemHeader = {
