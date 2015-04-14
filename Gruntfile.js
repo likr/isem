@@ -17,7 +17,8 @@ module.exports = function(grunt) {
         'jsMain':       'app/src',
         'testRoot':     'test',
         'testEs5':      'test-es5',
-        'testEspowerd': 'test-espowered'
+        'testEspowerd': 'test-espowered',
+        'deploy':       'deploy'
       }
     },
 
@@ -69,6 +70,9 @@ module.exports = function(grunt) {
         src: [
           '<%= opt.client.testEspowerd %>'
         ]
+      },
+      deploy: {
+        src: '<%= opt.client.deploy %>'
       }
     },
 
@@ -141,7 +145,7 @@ module.exports = function(grunt) {
               '**/*.html',
               '**/*.css'
             ],
-            dest: 'deploy'
+            dest: '<%= opt.client.deploy %>'
           }
         ]
       }
@@ -149,7 +153,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('basic', [
-    'clean',
     'less',
     'ts'
   ]);
@@ -167,6 +170,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('deploy', [
+    'clean:deploy',
     'copy:deploy'
   ]);
 
