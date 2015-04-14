@@ -11,6 +11,7 @@ coverage/
 test-es5/
 test-espowered/
 typings/
+deploy
 
 # for Less
 bundle.css

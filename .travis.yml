@@ -7,10 +7,10 @@ install:
   - npm install
 before_script:
   - npm run dtsm
-  - grunt start
+  - grunt build
 after_success:
-  - git clone https://github.com/likr/interactive-sem.git --branch=gh-pages tmp
-  - cp -R app/* tmp
+  - git clone https://github.com/likr/interactive-sem.git --branch=gh-pages deploy
+  - grunt deploy
   - pushd tmp
   - git add -A
   - git commit -m 'update'
