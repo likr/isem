@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - "0.12"
+before_install:
+  - npm install -g grunt-cli
+install:
+  - npm install
+before_script:
+  - npm run dtsm
+  - grunt start
+after_success:
+  - git clone https://github.com/likr/interactive-sem.git --branch=gh-pages tmp
+  - cp -R app/* tmp
+  - pushd tmp
+  - git add -A
+  - git commit -m 'update'
+  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/likr/interactive-sem.git gh-pages 2> /dev/null'
+  - popd
+env:
+  global:
+    - GIT_COMMITTER_NAME: 'Yosuke ONOUE'
+    - GIT_COMMITTER_EMAIL: 'onoue@likr-lab.com'
+    - GIT_AUTHOR_NAME: 'Yosuke ONOUE'
+    - GIT_AUTHOR_EMAIL: 'onoue@likr-lab.com'
+    - secure: "Weq59q6/ZvFHIkXJCp6pdR1SvPIZNXBdx4QWopqXn6+3DU5Deaa3oVi379VXUmYQUD7rqb40ukjpz4pHXKC22CmDKlLTPiA+vYLF2yjsyW55YZmXml7TNN95tPmQYi7c+PrcD50P6MociLp2tpZUnabaR19AgnfvvxmEcdGe9YM="
