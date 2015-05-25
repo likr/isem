@@ -25,7 +25,7 @@
     },
     "semjs/sem.d.ts": {
       "repo": "https://github.com/likr/semjs.git",
-      "ref": "6c24f44982a7681fc77c7d80808d63939c0be4be",
+      "ref": "6a134e2eec4fccbc34d5b3f9dbe310372c55781e",
       "path": "sem.d.ts"
     },
     "egrid-core/egrid-core.d.ts": {

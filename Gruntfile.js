@@ -58,12 +58,12 @@ module.exports = function(grunt) {
           './*.js.map',
           '<%= opt.client.styles %>/**/*.css',
           '<%= opt.client.jsMain %>/**/*.js',
-          '<%= opt.client.jsMain %>/**/*.js.map',
+          '<%= opt.client.jsMain %>/**/*.js.map'
         ]
       },
       testEs5: {
         src: [
-          '<%= opt.client.testEs5 %>',
+          '<%= opt.client.testEs5 %>'
         ]
       },
       testEspowerd: {
@@ -153,6 +153,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('basic', [
+    'clean:client',
     'less',
     'ts'
   ]);
