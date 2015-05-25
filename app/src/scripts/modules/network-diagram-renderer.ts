@@ -187,10 +187,11 @@ class Renderer extends AbstractStore {
     var variableIndices: {[u: number]: number} = {};
     var variableIds: {[i: number]: number} = {};
 
-    var variables: Array<typeVertex.Props> = graph.vertices()
+    var vertices = graph.vertices()
       .filter((u: number) => {
         return graph.get(u).enabled;
-      })
+      });
+    var variables: Array<typeVertex.Props> = vertices
       .map((u: number, i: number) => {
         variableIndices[u] = i;
         variableIds[i] = u;
@@ -219,9 +220,23 @@ class Renderer extends AbstractStore {
         return [variableIndices[edge[0]], variableIndices[edge[1]]];
       });
 
-    var sigma: Array<typeof edgeType> = variables.map<typeof edgeType>((_: any, i: number) => {
-      return [i, i];
-    });
+    var sigma: Array<typeof edgeType> = vertices
+      .filter((u: number): boolean => {
+        return graph.outDegree(u) > 0;
+      })
+      .map<typeof edgeType>((u: number) => {
+        var i = variableIndices[u];
+        return [i, i];
+      });
+
+    var sigmaFixed: Array<[number, number, number]> = vertices
+      .filter((u: number): boolean => {
+        return graph.outDegree(u) === 0;
+      })
+      .map((u: number) : [number, number, number] => {
+        var i = variableIndices[u];
+        return [i, i, 1];
+      });
 
     var S = semjs.stats.corrcoef(
       variables
@@ -233,7 +248,7 @@ class Renderer extends AbstractStore {
         })
     );
 
-    return solver(n, alpha, sigma, S)
+    return solver(n, alpha, sigma, S, sigmaFixed)
       .then((result: any) => {
         log.debug(log.t(), __filename, '#calculate() solver then', result.attributes);
         result.alpha.forEach((path: any) => {
