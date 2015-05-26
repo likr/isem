@@ -60,7 +60,8 @@
     "superstatic": "2.0.2",
     "time-grunt": "1.0.0",
     "tsify": "^0.11.0",
-    "typescript": "1.4.1"
+    "typescript": "1.4.1",
+    "watchify": "^3.2.1"
   },
   "homepage": "https://github.com/likr/interactive-sem",
   "license": "MIT",
@@ -73,6 +74,7 @@
     "build": "browserify app/src/screens/*.ts app/src/views/*/*.ts -o app/src/scripts/bundle.js -g browserify-shim -p [ tsify --module commonjs --noImplicitAny --target  es5 ]",
     "dtsm": "dtsm --insight false install",
     "start": "grunt build && cd app && ss --port 8080 --debug true",
-    "test": "grunt test"
+    "test": "grunt test",
+    "watch": "watchify app/src/screens/*.ts app/src/views/*/*.ts -o app/src/scripts/bundle.js -g browserify-shim -p [ tsify --module commonjs --noImplicitAny --target  es5 ] -v"
   }
 }
