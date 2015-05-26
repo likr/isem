@@ -152,7 +152,7 @@ class Renderer extends AbstractStore {
     };
 
     return egrid.core.egm()
-      .dagreRankSep(50)
+      .dagreRankSep(100)
       .dagreNodeSep(50)
       .backgroundColor(colors.diagramBackground)
       // vertices
