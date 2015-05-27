@@ -1,7 +1,7 @@
 {
   "name": "egrid-sem",
   "description": "egrid-sem",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "author": "Yosuke ONOUE <onoue@likr-lab.com> (https://github.com/likr)",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.js",
@@ -36,12 +36,12 @@
     "semjs": "*"
   },
   "devDependencies": {
-    "browserify": "^8.1.3",
-    "browserify-shim": "3.8.2",
+    "browserify": "10.1.0",
+    "browserify-shim": "3.8.7",
     "dtsm": "^0.9.1",
     "grunt": "0.4.5",
     "grunt-babel": "4.0.0",
-    "grunt-browserify": "3.3.0",
+    "grunt-browserify": "*",
     "grunt-cli": "0.1.13",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-copy": "^0.8.0",
@@ -59,7 +59,9 @@
     "sinon": "1.12.2",
     "superstatic": "2.0.2",
     "time-grunt": "1.0.0",
-    "typescript": "1.4.1"
+    "tsify": "^0.11.0",
+    "typescript": "1.4.1",
+    "watchify": "^3.2.1"
   },
   "homepage": "https://github.com/likr/interactive-sem",
   "license": "MIT",
@@ -69,8 +71,10 @@
     "url": "https://github.com/likr/interactive-sem"
   },
   "scripts": {
+    "build": "browserify app/src/screens/*.ts app/src/views/*/*.ts -o app/src/scripts/bundle.js -g browserify-shim -p [ tsify --module commonjs --noImplicitAny --target  es5 ]",
     "dtsm": "dtsm --insight false install",
     "start": "grunt build && cd app && ss --port 8080 --debug true",
-    "test": "grunt test"
+    "test": "grunt test",
+    "watch": "watchify app/src/screens/*.ts app/src/views/*/*.ts -o app/src/scripts/bundle.js -g browserify-shim -p [ tsify --module commonjs --noImplicitAny --target  es5 ] -v"
   }
 }

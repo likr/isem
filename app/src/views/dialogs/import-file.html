@@ -5,22 +5,30 @@
 
 <div class="modal-body">
   <div class="form-group">
-    <div class="radio-inline">
-      <input  id="encoding-utf-8" type="radio" name="encoding" ng-model="encoding" value="utf-8">
-      <label for="encoding-utf-8">{{localized.encodingUTF8()}}</label>
+    <label for="csv-file-input">{{localized.csvFileInput()}}</label>
+    <input  id="csv-file-input" type="file" />
+    <div>
+      <div class="radio-inline">
+        <label><input type="radio" ng-model="csvEncoding" value="utf-8"> {{localized.encodingUTF8()}}</label>
+      </div>
+      <div class="radio-inline">
+        <label><input type="radio" ng-model="csvEncoding" value="sjis"> {{localized.encodingSJIS()}}</label>
+      </div>
     </div>
-    <div class="radio-inline">
-      <input  id="encoding-sjis" type="radio" name="encoding" ng-model="encoding" value="sjis">
-      <label for="encoding-sjis">{{localized.encodingSJIS()}}</label>
-    </div>
+    <p class="help-block"><a href="src/resources/data.csv">{{localized.downloadSample()}}</a></p>
   </div>
 
   <div class="form-group">
-    <label for="file-input">{{localized.fileInput()}}</label>
-    <input  id="file-input" type="file" />
-  </div>
-  <div class="form-group">
-    <p><a href="src/resources/data.csv">{{localized.downloadSample()}}</a></p>
+    <label for="graph-file-input">{{localized.graphFileInput()}}</label>
+    <input  id="graph-file-input" type="file" />
+    <div>
+      <div class="radio-inline">
+        <label><input type="radio" ng-model="graphEncoding" value="utf-8"> {{localized.encodingUTF8()}}</label>
+      </div>
+      <div class="radio-inline">
+        <label><input type="radio" ng-model="graphEncoding" value="sjis"> {{localized.encodingSJIS()}}</label>
+      </div>
+    </div>
   </div>
 </div>
 

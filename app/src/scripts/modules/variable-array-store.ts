@@ -122,22 +122,23 @@ class Store extends AbstractStore {
   /**
    * @param {*} _ - event non-use
    * @param {Array<{string: string}>} importedFile
+   * @param {GraphObject} graph
    * @returns {void}
    */
-  private importFile(_: any, importedFile: Array<{[label: string]: string}>) {
+  private importFile(_: any, importedFile: Array<{[label: string]: string}>, graph: any) {
     log.trace(log.t(), __filename, '#importFile()');
 
     try {
-      var result = Converter.convert(importedFile);
+      var values = Converter.convert(importedFile);
     } catch (e) {
       return this.publish(e);
     }
 
-    if (!result) {
+    if (!values) {
       return this.publish(new Error('There is no converted result from the imported file'));
     }
 
-    this.replaceAllVertex(result);
+    this.replaceAllVertex(values, graph);
     this.publish();
   }
 
@@ -262,11 +263,26 @@ class Store extends AbstractStore {
   /**
    * @returns {void}
    */
-  private replaceAllVertex(result: {labels: string[]; dataArray: number[][]}) {
+  private replaceAllVertex(values: {labels: string[]; dataArray: number[][]}, graph: any) {
     this.removeAllVertex();
-    result.labels.forEach((label: string, i: number) => {
-      return Vertex.addObservedVariable(this.graph, label, result.dataArray[i]);
+    values.labels.forEach((label: string, i: number) => {
+      Vertex.addObservedVariable(this.graph, label, values.dataArray[i]);
     });
+
+    if (graph) {
+      var labels : {[label: string]: number} = {};
+      this.graph.vertices().forEach((u) => {
+        labels[this.graph.get(u).label] = u;
+      });
+      graph.links.forEach((link: {source: number; target: number}) => {
+        var u = labels[graph.nodes[link.source].text],
+            v = labels[graph.nodes[link.target].text];
+        if (u != null && v != null) {
+          this.graph.addEdge(u, v);
+        }
+      });
+    }
+
     this.updateStore();
   }
 

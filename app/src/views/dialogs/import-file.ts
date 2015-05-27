@@ -13,7 +13,8 @@ var directiveName = 'isemDialogImportFile';
 
 interface Scope extends ng.IScope {
   dialog: any;
-  encoding: string;
+  csvEncoding: string;
+  graphEncoding: string;
 
   localized: any;
   locale(): string;
@@ -34,7 +35,8 @@ export class Controller {
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private $scope: Scope
+    private $scope: Scope,
+    private $q: ng.IQService
   ) {
     // DO NOT call #init() here because $scope hasn't been set yet.
   }
@@ -42,7 +44,8 @@ export class Controller {
   init() {
     log.trace(log.t(), __filename, '#init()', this.$scope);
 
-    this.$scope.encoding  = 'utf-8';
+    this.$scope.csvEncoding  = 'utf-8';
+    this.$scope.graphEncoding  = 'utf-8';
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
 
     this.addKeyboardHandler();
@@ -67,25 +70,33 @@ export class Controller {
    */
   importFile() {
     log.trace(log.t(), __filename, '#importFile()');
-    var reader = new FileReader();
-    reader.onload = this.fileReaderOnLoad();
 
-    var file = (<HTMLInputElement>document.getElementById('file-input')).files[0];
-    reader.readAsText(file, this.$scope.encoding);
+    var csvDeferred = this.$q.defer();
+    var csvReader = new FileReader();
+    csvReader.onload = (e: EventAltered) => {
+      csvDeferred.resolve(d3.csv.parse(e.target.result));
+    };
+    var csvFile = (<HTMLInputElement>document.getElementById('csv-file-input')).files[0];
+    csvReader.readAsText(csvFile, this.$scope.csvEncoding);
+
+    var graphDeferred = this.$q.defer();
+    var graphReader = new FileReader();
+    graphReader.onload = (e: EventAltered) => {
+      graphDeferred.resolve(JSON.parse(e.target.result));
+    };
+    var graphFile = (<HTMLInputElement>document.getElementById('graph-file-input')).files[0];
+    if (graphFile) {
+      graphReader.readAsText(graphFile, this.$scope.graphEncoding);
+    } else {
+      graphDeferred.resolve(null);
+    }
+
+    this.$q.all([csvDeferred.promise, graphDeferred.promise])
+      .then((result) => {
+        this.$rootScope.$broadcast(constants.IMPORT_FILE, result[0], result[1]);
+      });
 
     this.$scope.dialog.close();
-  }
-
-  /**
-   * This when used to load a file is extracted for testable.
-   *
-   * @returns {Function}
-   */
-  private fileReaderOnLoad() {
-    return (e: EventAltered) => {
-      var data = d3.csv.parse(e.target.result);
-      this.$rootScope.$broadcast(constants.IMPORT_FILE, data);
-    };
   }
 
   /**
