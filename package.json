@@ -1,7 +1,7 @@
 {
   "name": "egrid-sem",
   "description": "egrid-sem",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "author": "Yosuke ONOUE <onoue@likr-lab.com> (https://github.com/likr)",
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.js",
