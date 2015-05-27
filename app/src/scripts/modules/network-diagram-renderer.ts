@@ -173,6 +173,9 @@ class Renderer extends AbstractStore {
       })
       .edgeText((u: number, v: number) => {
         return edgeTextFormat(graph.get(u, v).coefficient);
+      })
+      .edgeVisibility((u: number, v: number) => {
+        return !graph.get(v, u);
       });
   }
 
@@ -197,6 +200,13 @@ class Renderer extends AbstractStore {
         variableIds[i] = u;
         return graph.get(u);
       });
+    var edges: Array<typeof edgeType> = graph.edges()
+      .filter((edge: typeof edgeType): boolean => {
+        var u = edge[0],
+            v = edge[1];
+        return graph.get(u).enabled && graph.get(v).enabled;
+      });
+
 
     var n = variables.length;
 
@@ -212,22 +222,35 @@ class Renderer extends AbstractStore {
       return <any>{then: (cb: any) => cb()};
     }
 
-    var alpha: Array<typeof edgeType> = graph.edges()
+    var alpha: Array<typeof edgeType> = edges
       .filter((edge: typeof edgeType): boolean => {
-        return graph.get(edge[0]).enabled || graph.get(edge[1]).enabled;
+        var u = edge[0],
+            v = edge[1];
+        return !graph.get(v, u);
       })
       .map<typeof edgeType>((edge: typeof edgeType): typeof edgeType => {
         return [variableIndices[edge[0]], variableIndices[edge[1]]];
       });
 
-    var sigma: Array<typeof edgeType> = vertices
-      .filter((u: number): boolean => {
-        return graph.outDegree(u) > 0;
-      })
-      .map<typeof edgeType>((u: number) => {
-        var i = variableIndices[u];
-        return [i, i];
-      });
+    var sigma: Array<typeof edgeType> = [].concat(
+      vertices
+        .filter((u: number): boolean => {
+          return graph.outDegree(u) > 0;
+        })
+        .map<typeof edgeType>((u: number) => {
+          var i = variableIndices[u];
+          return [i, i];
+        }),
+      edges
+        .filter((edge: typeof edgeType): boolean => {
+          var u = edge[0],
+              v = edge[1];
+          return u < v && graph.get(v, u);
+        })
+        .map<typeof edgeType>((edge: typeof edgeType): typeof edgeType => {
+          return [variableIndices[edge[0]], variableIndices[edge[1]]];
+        })
+    );
 
     var sigmaFixed: Array<[number, number, number]> = vertices
       .filter((u: number): boolean => {
