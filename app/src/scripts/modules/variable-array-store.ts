@@ -269,17 +269,19 @@ class Store extends AbstractStore {
       Vertex.addObservedVariable(this.graph, label, values.dataArray[i]);
     });
 
-    var labels : {[label: string]: number} = {};
-    this.graph.vertices().forEach((u) => {
-      labels[this.graph.get(u).label] = u;
-    });
-    graph.links.forEach((link: {source: number, target: number}) => {
-      var u = labels[graph.nodes[link.source].text],
-          v = labels[graph.nodes[link.target].text];
-      if (u != null && v != null) {
-        this.graph.addEdge(u, v);
-      }
-    });
+    if (graph) {
+      var labels : {[label: string]: number} = {};
+      this.graph.vertices().forEach((u) => {
+        labels[this.graph.get(u).label] = u;
+      });
+      graph.links.forEach((link: {source: number, target: number}) => {
+        var u = labels[graph.nodes[link.source].text],
+            v = labels[graph.nodes[link.target].text];
+        if (u != null && v != null) {
+          this.graph.addEdge(u, v);
+        }
+      });
+    }
 
     this.updateStore();
   }
