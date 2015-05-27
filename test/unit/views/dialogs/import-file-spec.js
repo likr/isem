@@ -15,7 +15,7 @@ import {
   Controller as ControllerStatic,
   Definition
 } from '../../../../app/src/views/dialogs/import-file';
-var mockRootScope, stubRootScope, mockScope, stubScope;
+var mockRootScope, stubRootScope, mockScope, stubScope, mockQ, stubQ;
 let Controller = (() => {
   mockRootScope = {
     $broadcast: () => {}
@@ -26,27 +26,41 @@ let Controller = (() => {
 
   mockScope = {
     dialog: {close: () => {}},
-    encoding: 'utf-8'
+    csvEncoding: 'utf-8',
+    graphEncoding: 'utf-8'
   };
   stubScope = {
     dialog: {
       close: sinon.stub(mockScope.dialog, 'close')
     }
   };
-  return new ControllerStatic(mockRootScope, mockScope);
+
+  mockQ = {
+    all: () => ({
+      then: (f) => {
+        f(['values', 'graph']);
+      }
+    }),
+    defer: () => ({
+      promise: 'dummy'
+    })
+  };
+  return new ControllerStatic(mockRootScope, mockScope, mockQ);
 })();
 
 describe('DialogImportFile', () => {
   describe('Controller', () => {
     describe('#importFile()', () => {
-      var files = ['dummy', null];
+      var csvFiles = ['dummy-csv', null];
+      var graphFiles = ['dummy-graph', null];
       before(() => {
-        stubDocument.getElementById.withArgs('file-input').returns({files: files});
+        stubDocument.getElementById.withArgs('csv-file-input').returns({files: csvFiles});
+        stubDocument.getElementById.withArgs('graph-file-input').returns({files: graphFiles});
         Controller.importFile();
       });
 
       it('should be given the correct value to args[0] of readAsText()', () => {
-        assert(stubFileReader.readAsText.getCall(0).args[0] === files[0]);
+        assert(stubFileReader.readAsText.getCall(0).args[0] === csvFiles[0]);
       });
 
       it('should be given the correct value to arg[1] of readAsText()', () => {
@@ -57,21 +71,17 @@ describe('DialogImportFile', () => {
       it('should be called close()', () => {
         assert(stubScope.dialog.close.callCount === 1);
       });
-    });
-
-    describe('#fileReaderOnLoad()', () => {
-      var event = {target: {result: 'dummyResult'}};
-      before(() => {
-        stubD3.csv.parse.withArgs('dummyResult').returns('dummyParsed');
-        Controller.fileReaderOnLoad()(event);
-      });
 
       it('should be given the event name to args[0] of $broadcast()', () => {
         assert(stubRootScope.$broadcast.getCall(0).args[0] === constants.IMPORT_FILE);
       });
 
       it('should be given the value to arg[1] of $broadcast()', () => {
-        assert(stubRootScope.$broadcast.getCall(0).args[1] === 'dummyParsed');
+        assert(stubRootScope.$broadcast.getCall(0).args[1] === 'values');
+      });
+
+      it('should be given the value to arg[2] of $broadcast()', () => {
+        assert(stubRootScope.$broadcast.getCall(0).args[2] === 'graph');
       });
     });
   });
