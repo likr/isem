@@ -1,0 +1,8 @@
+<table ng-init="Controller.init()">
+    <tr ng-repeat="edge in edgeArray()">
+        <td><i class="glyphicon glyphicon-remove" ng-click="Controller.remove(edge)"></i></td>
+        <td>{{Controller.getLabel(edge[0])}}</td>
+        <td>&nbsp;←&nbsp;</td>
+        <td>{{Controller.getLabel(edge[1])}}</td>
+    </tr>
+</table>

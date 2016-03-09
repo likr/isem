@@ -110,9 +110,6 @@ export class Controller {
     var iconRoot = './src/resources/';
     var vertexButtons: egrid.core.VertexButton[] = [
       {
-        icon: iconRoot + 'button-manage-relation.png',
-        onClick: this.manageRelationButtonHandler.bind(this)
-      }, {
         icon: iconRoot + 'button-add-relation.png',
         onClick: this.addRelationButtonHandler.bind(this)
       }, {
