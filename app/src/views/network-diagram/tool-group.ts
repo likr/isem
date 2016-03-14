@@ -7,6 +7,9 @@ var app       = injector.app();
 var constants = injector.constants();
 var localized = injector.localized();
 var log       = injector.log();
+var storage   = injector.Storage();
+
+var store   = injector.VariableArrayStore();
 
 var AddLatentVariable = injector.AddLatentVariable();
 var ImportFile        = injector.ImportFile();
@@ -17,18 +20,23 @@ interface Scope extends ng.IScope {
   localized: any;
   locale(): string;
   variableArray(): Array<typeVertex.Props>;
+  edgeArray(): any;
 }
 
 class Controller {
+
+  public projectId: string;
   /**
    * @constructor
    * @ngInject
    */
   constructor(
     private $rootScope: ng.IRootScopeService,
-    private $scope: Scope
+    private $scope: Scope,
+    private $routeParams: ng.route.IRouteParamsService
   ) {
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
+    this.projectId = $routeParams["projectId"];
   }
 
   /**
@@ -51,6 +59,21 @@ class Controller {
   updateDiagram() {
     this.$rootScope.$broadcast(constants.REDRAW_DIAGRAM);
   }
+  /**
+   * @returns {void}
+   */
+  saveDiagram() {
+    storage.update(this.projectId,store);
+    this.$rootScope.$broadcast(constants.REDRAW_DIAGRAM);
+  }
+  /**
+   * @returns {void}
+   */
+  resetDiagram() {
+    storage.reset(this.projectId,()=>{
+      this.$rootScope.$broadcast(constants.REDRAW_DIAGRAM);
+    })
+  }
 }
 
 class Definition {
@@ -61,7 +84,8 @@ class Definition {
       restrict: 'E',
       scope: {
         locale:        '&isemIoLocale',
-        variableArray: '&isemIoVariableArray'
+        variableArray: '&isemIoVariableArray',
+        edgeArray: '&isemIoEdgeArray',
       },
       templateUrl: app.viewsDir.networkDiagram + 'tool-group.html'
     };

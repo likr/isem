@@ -36,17 +36,13 @@ export class Controller{
 
   init() {
     log.trace(log.t(), __filename, '#init()', this.$scope);
-    console.log(this.$rootScope)
     //this.$scope.edgeArray     = ["dafda","astyrew"];
     this.$scope.managedEdgeList = this.edgeList();
-
-    console.log(this.$scope)
   }
 
   getLabel(i:any):String{
     var labels: any = {};
     var variableArray = this.$scope.variableArray();
-    console.log(variableArray,i);
     if(variableArray ){
       variableArray.forEach((v: any) => {
         labels[v.vertexId] = v.label;
@@ -54,24 +50,23 @@ export class Controller{
       return labels[i]
     }
   }
-  edgeList() : any{
-    console.log("hoge",this.$scope);
+  edgeList() : any {
     var labels: any = {};
     var variableArray = this.$scope.variableArray();
-    variableArray.forEach((v: any) => {
-      labels[v.vertexId] = v.label;
-    });
-    return this.$scope.edgeArray().map((edge: [number,number])=>{
-      return {
-        uLabel:   labels[edge[0]],
-        u:        edge[0],
-        vLabel:   labels[edge[1]],
-        v:        edge[1],
-        selected: false
-      };
-    });
-
-    return ["hoge","piyo"]
+    if(variableArray){
+      variableArray.forEach((v: any) => {
+        labels[v.vertexId] = v.label;
+      });
+      return this.$scope.edgeArray().map((edge: [number,number])=>{
+        return {
+          uLabel:   labels[edge[0]],
+          u:        edge[0],
+          vLabel:   labels[edge[1]],
+          v:        edge[1],
+          selected: false
+        };
+      });
+    }
   }
 
   remove(edge:any):any{

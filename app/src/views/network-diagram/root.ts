@@ -9,6 +9,7 @@ var app       = injector.app();
 var constants = injector.constants();
 var log       = injector.log();
 var Promise   = injector.Promise();
+var storage   = injector.Storage();
 
 /* stores */
 var Renderer = injector.NetworkDiagramRenderer();
@@ -41,9 +42,33 @@ export class Controller {
   constructor(
     private $rootScope: ng.IRootScopeService,
     private $scope: Scope,
+    private $routeParams: ng.route.IRouteParamsService,
     private $timeout: ng.ITimeoutService
   ) {
     log.trace(log.t(), __filename, 'constructor');
+    storage.get($routeParams["projectId"]).then((res:any)=>{
+      console.log("loaded",res.data)
+      $rootScope.$broadcast(constants.IMPORT_FILE, res.data.origin, null);
+      if(res.data.values){
+          res.data.values.forEach((item:any)=>{
+          if(item.latent){
+            this.$rootScope.$broadcast(constants.ADD_LATENT_VARIABLE, item.label)
+          }
+        })
+
+      }
+      if(res.data.lines){
+        res.data.lines.forEach((items: any) => {
+          var data = {
+            idX: parseInt(items[0], 10),
+            idY: parseInt(items[1], 10),
+            direction: parseInt("0", 10)
+          };
+
+          this.$rootScope.$broadcast(constants.ADD_RELATION, data);
+        })
+      }
+    });
     this.subscribe();
   }
 
