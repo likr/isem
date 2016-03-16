@@ -84,7 +84,6 @@ export class Controller {
    */
   importFile() {
     log.trace(log.t(), __filename, '#importFile()');
-    console.log("storage",storage);
     this.resetErors();
 
     var csvDeferred = this.$q.defer();

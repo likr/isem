@@ -81,11 +81,6 @@ export class Controller{
     ]
     this.$rootScope.$broadcast(constants.REMOVE_RELATION, removeTarget);
   }
-
-  debug() {
-    console.log("love");
-  }
-
 }
 
 

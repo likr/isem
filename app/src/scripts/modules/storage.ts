@@ -55,7 +55,6 @@ class Storage implements API{
   }
 
   public update(id:string ,store: any){
-    console.log("tobe inserted",store);
     this.get(id).then((item: any)=>{
       var saveData: any = {
         id: item.data.id,

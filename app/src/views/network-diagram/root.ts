@@ -47,7 +47,6 @@ export class Controller {
   ) {
     log.trace(log.t(), __filename, 'constructor');
     storage.get($routeParams["projectId"]).then((res:any)=>{
-      console.log("loaded",res.data)
       $rootScope.$broadcast(constants.IMPORT_FILE, res.data.origin, null);
       if(res.data.values){
           res.data.values.forEach((item:any)=>{
