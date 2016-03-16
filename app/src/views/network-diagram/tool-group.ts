@@ -72,6 +72,7 @@ class Controller {
   resetDiagram() {
     storage.reset(this.projectId,()=>{
       this.$rootScope.$broadcast(constants.REDRAW_DIAGRAM);
+      location.reload();
     })
   }
 }
