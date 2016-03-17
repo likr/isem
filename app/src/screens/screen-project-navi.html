@@ -1,0 +1,45 @@
+<isem-header isem-io-locale="locale()"></isem-header>
+
+<div class="container" style="margin-top: 5em;">
+    <div class="createUnit">
+        <h3>Create New Project</h3>
+        <!--<form class="form-inline">-->
+            <!--<div class="form-group">-->
+                <!--<label>ProjectID</label>-->
+                <!--<input type="text" class="form-control" placeholder="">-->
+            <!--</div>-->
+        <!--</form>-->
+        <a href="" class="btn btn-primary" ng-click="Controller.openImportFile()">Load File</a>
+    </div>
+
+
+    <div class="listUnit">
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Project List</h3>
+            </div>
+
+            <div class="col-xs-10 ">
+                <table class="table" style="cursor: pointer">
+                    <tr>
+                        <th>プロジェクト名</th>
+                        <th>最終更新日時</th>
+                        <th class="text-right">削除</th>
+                    </tr>
+                    <tr ng-repeat="item in Controller.items">
+                        <td ng-click="Controller.open(item.id)">{{item.name}}</td>
+                        <td ng-click="Controller.open(item.id)">{{item.updated_at | date}}</td>
+                        <td ng-click="Controller.remove(item.id)"class="text-right">
+                            <i class="glyphicon glyphicon glyphicon-trash"></i>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<isem-footer></isem-footer>
+<cw-modal></cw-modal>

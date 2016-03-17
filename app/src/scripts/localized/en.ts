@@ -54,5 +54,7 @@ export var isemHeader = {
 export var isemNetworkDiagramToolGroup = {
   openAddVariable: () => 'Add Latent Variable…',
   openImportFile:  () => 'Import File…',
-  updateDiagram:   () => 'Update'
+  updateDiagram:   () => 'Update',
+  saveDiagram:       () => 'Save',
+  resetDiagram:       () => 'Revert',
 };

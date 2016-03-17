@@ -54,5 +54,7 @@ export var isemHeader = {
 export var isemNetworkDiagramToolGroup = {
   openAddVariable:     () => '潜在変数を追加…',
   openImportFile:      () => '読み込み…',
-  updateDiagram:       () => '更新'
+  updateDiagram:       () => '更新',
+  saveDiagram:       () => '保存',
+  resetDiagram:       () => '初期状態に戻す',
 };

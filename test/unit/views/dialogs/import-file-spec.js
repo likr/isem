@@ -56,6 +56,7 @@ describe('DialogImportFile', () => {
       before(() => {
         stubDocument.getElementById.withArgs('csv-file-input').returns({files: csvFiles});
         stubDocument.getElementById.withArgs('graph-file-input').returns({files: graphFiles});
+        Controller.projectName = "hoge"
         Controller.importFile();
       });
 

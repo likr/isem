@@ -36,7 +36,8 @@ function RouteConfig(
   $routeProvider: ng.route.IRouteProvider
 ) {
   $routeProvider
-    .when('/', {template: '<isem-screen-network-diagram isem-io-locale="$root.locale"></isem-screen-network-diagram>'})
+    .when('/', {template: '<isem-screen-project-navi isem-io-locale="$root.locale"></isem-screen-project-navi>'})
+    .when('/project/:projectId', {template: '<isem-screen-network-diagram isem-io-locale="$root.locale"></isem-screen-network-diagram>'})
     .otherwise({redirectTo: '/'});
 }
 

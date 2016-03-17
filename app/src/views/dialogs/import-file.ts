@@ -8,6 +8,7 @@ var document   = injector.document();
 var FileReader = injector.FileReader();
 var localized  = injector.localized();
 var log        = injector.log();
+var storage        = injector.Storage();
 
 var directiveName = 'isemDialogImportFile';
 
@@ -29,6 +30,11 @@ interface TargetAltered extends EventTarget {
 }
 
 export class Controller {
+
+  public errors : any;
+
+  public projectName: any = "";
+
   /**
    * @constructor
    * @ngInject
@@ -38,6 +44,7 @@ export class Controller {
     private $scope: Scope,
     private $q: ng.IQService
   ) {
+    this.resetErors();
     // DO NOT call #init() here because $scope hasn't been set yet.
   }
 
@@ -49,6 +56,13 @@ export class Controller {
     this.$scope.localized = localized(this.$scope.locale(), directiveName);
 
     this.addKeyboardHandler();
+  }
+
+  private resetErors(){
+    this.errors = {
+      "noNameInput" : false,
+      "noFileInput" : false,
+    }
   }
 
   /**
@@ -70,6 +84,7 @@ export class Controller {
    */
   importFile() {
     log.trace(log.t(), __filename, '#importFile()');
+    this.resetErors();
 
     var csvDeferred = this.$q.defer();
     var csvReader = new FileReader();
@@ -77,6 +92,16 @@ export class Controller {
       csvDeferred.resolve(d3.csv.parse(e.target.result));
     };
     var csvFile = (<HTMLInputElement>document.getElementById('csv-file-input')).files[0];
+
+    if(!this.projectName){
+      this.errors.noNameInput = true;
+      return;
+    }
+    if(!csvFile){
+      this.errors.noFileInput = true;
+      return;
+    }
+
     csvReader.readAsText(csvFile, this.$scope.csvEncoding);
 
     var graphDeferred = this.$q.defer();
@@ -94,6 +119,10 @@ export class Controller {
     this.$q.all([csvDeferred.promise, graphDeferred.promise])
       .then((result) => {
         this.$rootScope.$broadcast(constants.IMPORT_FILE, result[0], result[1]);
+        storage.save(this.projectName,result[0],result[1])
+        .then(function(item: any){
+          location.href = `/#/project/${item.data.id}`;
+        })
       });
 
     this.$scope.dialog.close();

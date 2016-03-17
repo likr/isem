@@ -1,8 +1,10 @@
 <div>
-  <button class="btn btn-default" ng-click="Controller.openImportFile()">{{localized.openImportFile()}}</button>
+  <!--<button class="btn btn-default" ng-click="Controller.openImportFile()">{{localized.openImportFile()}}</button>-->
   <isem-gui-new-latent-variable
     isem-io-locale="locale()"
     isem-io-variable-array="variableArray()"
   ></isem-gui-new-latent-variable>
+  <button class="btn btn-default" ng-click="Controller.saveDiagram()">{{localized.saveDiagram()}}</button>
   <button class="btn btn-default" ng-click="Controller.updateDiagram()">{{localized.updateDiagram()}}</button>
+  <button class="btn btn-default" ng-click="Controller.resetDiagram()">{{localized.resetDiagram()}}</button>
 </div>

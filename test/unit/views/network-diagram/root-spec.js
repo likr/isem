@@ -26,7 +26,7 @@ let Controller = (() => {
     $broadcast: sinon.stub(mockRootScope, '$broadcast')
   };
   mockScope = {};
-  return new ControllerStatic(mockRootScope, mockScope, global.setTimeout);
+  return new ControllerStatic(mockRootScope, mockScope, {},global.setTimeout);
 })();
 
 describe('NetworkDiagramRoot', () => {

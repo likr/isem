@@ -13,6 +13,7 @@ import NetworkDiagramDispatcher = require('./modules/network-diagram-dispatcher'
 import NetworkDiagramRenderer   = require('./modules/network-diagram-renderer');
 import VariableArrayStore       = require('./modules/variable-array-store');
 import Vertex                   = require('./modules/vertex');
+import Storage                   = require('./modules/storage');
 
 /* views */
 import AddLatentVariable = require('../views/dialogs/add-latent-variable');
@@ -111,6 +112,10 @@ class Injector {
 
   static Vertex(): typeof Vertex {
     return require('./modules/vertex');
+  }
+
+  static Storage(): Storage.API {
+    return Storage.storage;
   }
 
   /* views */

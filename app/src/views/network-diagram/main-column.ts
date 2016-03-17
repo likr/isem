@@ -12,7 +12,8 @@ class Definition {
       scope: {
         attributeArray: '&isemIoAttributeArray',
         locale:         '&isemIoLocale',
-        variableArray:  '&isemIoVariableArray'
+        variableArray:  '&isemIoVariableArray',
+        edgeArray    : '&isemIoEdgeArray'
       },
       templateUrl: app.viewsDir.networkDiagram + 'main-column.html'
     };
