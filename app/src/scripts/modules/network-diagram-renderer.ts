@@ -185,7 +185,9 @@ class Renderer extends AbstractStore {
    */
   private calculate(graph: egrid.core.Graph<typeVertex.Props, any>): JQueryPromise<any> {
     log.trace(log.t(), __filename, '#calculate()');
-    var solver = semjs.solver();
+    var solver = semjs
+      .solver()
+      .url('https://websem.herokuapp.com');
 
     var variableIndices: {[u: number]: number} = {};
     var variableIds: {[i: number]: number} = {};
