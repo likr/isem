@@ -38,7 +38,7 @@ class Controller {
   }
 
   open(id:string) {
-    location.href=`/#/project/${id}`
+    location.href=`project/${id}`
   }
 
   remove(id:string){
