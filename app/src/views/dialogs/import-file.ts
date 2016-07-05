@@ -121,7 +121,7 @@ export class Controller {
         this.$rootScope.$broadcast(constants.IMPORT_FILE, result[0], result[1]);
         storage.save(this.projectName,result[0],result[1])
         .then(function(item: any){
-          location.href = `project/${item.data.id}`;
+          location.href = `#/project/${item.data.id}`;
         })
       });
 
