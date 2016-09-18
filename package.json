@@ -1,20 +1,11 @@
 {
   "name": "isem2016",
-  "version": "1.0.0",
   "description": "isem2016",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/armorik83/isem2016.git"
-  },
+  "version": "1.0.0",
   "author": "armorik83",
   "bugs": {
     "url": "https://github.com/armorik83/isem2016/issues"
   },
-  "homepage": "https://github.com/armorik83/isem2016#readme",
   "dependencies": {
     "@angular/common": "^2.0.0",
     "@angular/compiler": "^2.0.0",
@@ -28,7 +19,26 @@
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
-    "typescript": "^1.8.10",
+    "node-notifier": "^4.6.1",
+    "superstatic": "^4.0.3",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.0",
     "webpack": "^1.13.2"
+  },
+  "homepage": "https://github.com/armorik83/isem2016#readme",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armorik83/isem2016.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run lint && npm run tsc && npm run webpack && npm run done",
+    "clean": "rm -rf ./.tmp",
+    "done": "notify -t \"Done\" -m \"Build has done.\" -o http://127.0.0.1:8080",
+    "lint": "./tslint.sh",
+    "postinstall": "typings install",
+    "start": "superstatic --port 8080 --host 127.0.0.1",
+    "tsc": "tsc -p .",
+    "webpack": "webpack ./.tmp/index.js --output-filename ./built/index.js"
   }
 }
