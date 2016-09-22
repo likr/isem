@@ -19,4 +19,14 @@ export class AppActions extends Actions<AppState> {
     };
   }
 
+  openModalDialodLoadFile(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          isVisible: true
+        }
+      };
+    };
+  }
+
 }

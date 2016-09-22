@@ -5,11 +5,17 @@ import {ViewName} from './app.routing';
 import {AppDispatcher} from './app.dispatcher';
 
 export class AppState extends State {
-  currentView: ViewName;
+  currentView?: ViewName;
+  modalDialog?: {
+    isVisible?: boolean;
+  };
 }
 
 const INIT_STATE: AppState = {
-  currentView: void 0
+  currentView: void 0,
+  modalDialog: {
+    isVisible: false
+  }
 };
 
 @Injectable()
