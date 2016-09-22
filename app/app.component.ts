@@ -15,6 +15,8 @@ import {Component} from '@angular/core';
     <div class="header">
       {{'ApplicationName' | translate}}
     </div>
+    
+    <router-outlet></router-outlet>
   `
 })
 export class AppComponent {}

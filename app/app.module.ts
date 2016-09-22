@@ -4,18 +4,25 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {TranslateModule, TranslateService} from 'ng2-translate';
 
+import {LOCALE} from './constant';
+import {ROUTING} from './app.routing';
+
 import {AppComponent} from './app.component';
-import {LOCALE} from "./constant";
+import {DashboardComponent} from './dashboard.component';
+import {DetailComponent} from './detail.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    ROUTING
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent,
+    DetailComponent
   ],
   bootstrap: [AppComponent]
 })
