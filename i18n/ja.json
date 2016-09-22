@@ -1,3 +1,6 @@
 {
-  "ApplicationName": "因果関係探索支援システム"
+  "ApplicationName": "因果関係探索支援システム",
+  "CreateNewProject": "新規プロジェクトを作成",
+  "LoadFile": "読み込み",
+  "ProjectList": "プロジェクト一覧"
 }

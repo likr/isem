@@ -6,7 +6,18 @@ import {AppDispatcher} from './app.dispatcher';
 @Component({
   selector: 'is-dashboard',
   template: `
-    dashboard
+    <div>
+      <h2>{{'CreateNewProject' | translate}}</h2>
+      <is-ui-button
+        [label]="'LoadFile' | translate"
+        [type] ="'primary'"
+        (clickButton)="onClickLoadFile($event)"
+      ></is-ui-button>
+    </div>
+    
+    <div>
+      <h2>{{'ProjectList' | translate}}</h2>
+    </div>
   `
 })
 export class DashboardComponent {
@@ -16,6 +27,10 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.dispatcher.emit(this.actions.setCurrentView('dashboard'));
+  }
+
+  onClickLoadFile() {
+    console.info('onClickLoadFile');
   }
 
 }

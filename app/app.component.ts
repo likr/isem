@@ -15,7 +15,7 @@ import {AppStore} from './app.store';
       }
     </style>
     <div class="header">
-      {{'ApplicationName' | translate}}
+      <h1>{{'ApplicationName' | translate}}</h1>
     </div>
     
     <router-outlet></router-outlet>
@@ -26,7 +26,7 @@ export class AppComponent {
   constructor(private store: AppStore) {
     this.store.observable.subscribe((st) => {
       console.log(st);
-    })
+    });
   }
 
 }

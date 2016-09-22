@@ -10,6 +10,7 @@ import {ROUTING} from './app.routing';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard.component';
 import {DetailComponent} from './detail.component';
+import {UiButtonComponent} from './ui-button.component';
 
 import {AppActions} from './app.actions';
 import {AppDispatcher} from './app.dispatcher';
@@ -26,7 +27,8 @@ import {AppStore} from './app.store';
   declarations: [
     AppComponent,
     DashboardComponent,
-    DetailComponent
+    DetailComponent,
+    UiButtonComponent
   ],
   providers: [
     AppActions,

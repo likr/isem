@@ -1,3 +1,6 @@
 {
-  "ApplicationName": "ISEM"
+  "ApplicationName": "ISEM",
+  "CreateNewProject": "Create New Project",
+  "LoadFile": "Load File",
+  "ProjectList": "Project List"
 }
