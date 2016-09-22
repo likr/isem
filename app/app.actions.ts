@@ -29,4 +29,14 @@ export class AppActions extends Actions<AppState> {
     };
   }
 
+  closeModalDialog(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          isVisible: false
+        }
+      };
+    };
+  }
+
 }

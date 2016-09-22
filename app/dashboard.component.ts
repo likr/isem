@@ -30,7 +30,7 @@ export class DashboardComponent {
   }
 
   onClickLoadFile() {
-    console.info('onClickLoadFile');
+    this.dispatcher.emit(this.actions.openModalDialodLoadFile());
   }
 
 }

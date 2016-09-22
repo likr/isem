@@ -10,6 +10,7 @@ import {ROUTING} from './app.routing';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard.component';
 import {DetailComponent} from './detail.component';
+import {ModalDialogComponent} from './modal-dialog.component';
 import {UiButtonComponent} from './ui-button.component';
 
 import {AppActions} from './app.actions';
@@ -28,6 +29,7 @@ import {AppStore} from './app.store';
     AppComponent,
     DashboardComponent,
     DetailComponent,
+    ModalDialogComponent,
     UiButtonComponent
   ],
   providers: [

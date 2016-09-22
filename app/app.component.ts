@@ -18,14 +18,22 @@ import {AppStore} from './app.store';
       <h1>{{'ApplicationName' | translate}}</h1>
     </div>
     
+    <is-modal-dialog
+      [isVisible]="modalDialogIsVisible"
+    ></is-modal-dialog>
     <router-outlet></router-outlet>
   `
 })
 export class AppComponent {
 
+  modalDialogIsVisible: boolean;
+
   constructor(private store: AppStore) {
     this.store.observable.subscribe((st) => {
       console.log(st);
+    });
+    this.store.getModalDialogParams().subscribe((params) => {
+      this.modalDialogIsVisible = params.isVisible;
     });
   }
 
