@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 
+import {AppStore} from './app.store';
+
 @Component({
   selector: 'is-app',
   template: `
@@ -19,4 +21,12 @@ import {Component} from '@angular/core';
     <router-outlet></router-outlet>
   `
 })
-export class AppComponent {}
+export class AppComponent {
+
+  constructor(private store: AppStore) {
+    this.store.observable.subscribe((st) => {
+      console.log(st);
+    })
+  }
+
+}

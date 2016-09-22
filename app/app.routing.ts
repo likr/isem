@@ -3,6 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {DashboardComponent} from './dashboard.component';
 import {DetailComponent} from './detail.component';
 
+export type ViewName = 'dashboard' | 'detail';
+
 const appRoutes: Routes = [
   {
     path: '',

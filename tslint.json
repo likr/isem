@@ -77,10 +77,7 @@
       true,
       "allow-null-check"
     ],
-    "typedef": [
-      true,
-      "call-signature"
-    ],
+    "typedef": [false],
     "typedef-whitespace": [
       true,
       {
