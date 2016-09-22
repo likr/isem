@@ -11,6 +11,10 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard.component';
 import {DetailComponent} from './detail.component';
 
+import {AppActions} from './app.actions';
+import {AppDispatcher} from './app.dispatcher';
+import {AppStore} from './app.store';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -23,6 +27,11 @@ import {DetailComponent} from './detail.component';
     AppComponent,
     DashboardComponent,
     DetailComponent
+  ],
+  providers: [
+    AppActions,
+    AppDispatcher,
+    AppStore
   ],
   bootstrap: [AppComponent]
 })

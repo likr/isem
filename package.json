@@ -19,6 +19,7 @@
     "ng2-translate": "^2.5.0",
     "normalize.css": "^4.2.0",
     "rxjs": "^5.0.0-beta.12",
+    "walts": "^0.10.0-beta.6",
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "superstatic": "^4.0.3",
     "tslint": "^3.15.1",
     "typescript": "^2.0.0",
+    "typings": "^1.3.3",
     "webpack": "^1.13.2"
   },
   "homepage": "https://github.com/armorik83/isem2016#readme",
