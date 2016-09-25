@@ -16,6 +16,7 @@ import {UiButtonComponent} from './ui-button.component';
 import {AppActions} from './app.actions';
 import {AppDispatcher} from './app.dispatcher';
 import {AppStore} from './app.store';
+import {ProjectsResolver} from './projects.resolver';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {AppStore} from './app.store';
   providers: [
     AppActions,
     AppDispatcher,
-    AppStore
+    AppStore,
+    ProjectsResolver
   ],
   bootstrap: [AppComponent]
 })

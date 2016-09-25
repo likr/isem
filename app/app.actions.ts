@@ -11,6 +11,13 @@ export class AppActions extends Actions<AppState> {
     super();
   }
 
+  example(): Action<AppState> {
+    return (st) => {
+      console.log('do it!');
+      return st;
+    };
+  }
+
   setCurrentView(name: ViewName): Action<AppState> {
     return (st) => {
       return {
