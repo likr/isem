@@ -18,6 +18,12 @@ import {AppDispatcher} from './app.dispatcher';
 import {AppStore} from './app.store';
 import {ProjectsResolver} from './projects.resolver';
 
+const waltsProviders = [
+  AppActions,
+  AppDispatcher,
+  AppStore,
+]
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -34,10 +40,12 @@ import {ProjectsResolver} from './projects.resolver';
     UiButtonComponent
   ],
   providers: [
-    AppActions,
-    AppDispatcher,
-    AppStore,
-    ProjectsResolver
+    waltsProviders,
+    {
+      provide: ProjectsResolver,
+      useClass: ProjectsResolver,
+      deps: waltsProviders
+    }
   ],
   bootstrap: [AppComponent]
 })
