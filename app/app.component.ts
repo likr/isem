@@ -19,22 +19,26 @@ import {AppStore} from './app.store'
     </div>
     
     <is-modal-dialog
-      [isVisible]="modalDialogIsVisible"
+      [type]     ="modalDialogType | async"
+      [isVisible]="modalDialogIsVisible | async"
     ></is-modal-dialog>
     <router-outlet></router-outlet>
   `
 })
 export class AppComponent {
 
-  modalDialogIsVisible: boolean
-
   constructor(private store: AppStore) {
     this.store.observable.subscribe((st) => {
       console.log(st)
     })
-    this.store.getModalDialogParams().subscribe((params) => {
-      this.modalDialogIsVisible = params.isVisible
-    })
+  }
+
+  get modalDialogType() {
+    return this.store.getModalDialogType()
+  }
+
+  get modalDialogIsVisible() {
+    return this.store.getModalDialogIsVisible()
   }
 
 }

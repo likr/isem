@@ -11,8 +11,10 @@ import {AppComponent} from './app.component'
 import {DashboardComponent} from './dashboard.component'
 import {DetailComponent} from './detail.component'
 import {ModalDialogComponent} from './modal-dialog.component'
+import {ModalDialogLoadFileComponent} from './modal-dialog-load-file.component'
 import {UiButtonComponent} from './ui-button.component'
 
+import {WindowRef} from './window-ref.service'
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
 import {AppStore} from './app.store'
@@ -37,9 +39,11 @@ const waltsProviders = [
     DashboardComponent,
     DetailComponent,
     ModalDialogComponent,
+    ModalDialogLoadFileComponent,
     UiButtonComponent
   ],
   providers: [
+    WindowRef,
     waltsProviders,
     {
       provide: ProjectsResolver,

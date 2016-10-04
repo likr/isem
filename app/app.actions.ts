@@ -22,7 +22,7 @@ export class AppActions extends Actions<AppState> {
     return (st) => {
       return {
         currentView: name
-      }
+      } as AppState
     }
   }
 
@@ -30,9 +30,10 @@ export class AppActions extends Actions<AppState> {
     return (st) => {
       return {
         modalDialog: {
+          type: 'loadFile',
           isVisible: true
         }
-      }
+      } as AppState
     }
   }
 
@@ -40,9 +41,10 @@ export class AppActions extends Actions<AppState> {
     return (st) => {
       return {
         modalDialog: {
+          type: null,
           isVisible: false
         }
-      }
+      } as AppState
     }
   }
 

@@ -1,11 +1,13 @@
-import {Component, Input, HostListener} from '@angular/core'
+import {Component, Input} from '@angular/core'
 
 import {KEYCODES} from './constant'
+import {WindowRef} from './window-ref.service';
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
 
 export type ModalDialogType = 'loadFile'
 export interface ModalDialogParams {
+  type?: ModalDialogType
   isVisible?: boolean
 }
 
@@ -30,40 +32,54 @@ export interface ModalDialogParams {
       }
       .body {
         background-color: #fff;
-        width: 100px;
-        height: 100px;
+        width: 600px;
+        height: 400px;
         z-index: 10010;
+        position: relative;
+        top: -100px;
       }
     </style>
+
     <div
       *ngIf="isVisible"
       class="background"
     >
       <div class="body">
-        ダイアログボックス
+        <is-modal-dialog-load-file
+          *ngIf="type === 'loadFile'"
+        ></is-modal-dialog-load-file>
       </div>
     </div>
   `
 })
 export class ModalDialogComponent {
 
+  @Input() type: ModalDialogType
   @Input() isVisible: boolean
+  private window: Window
   private disposers: Function[]
 
   constructor(private actions: AppActions,
-              private dispatcher: AppDispatcher) {
+              private dispatcher: AppDispatcher,
+              windowRef: WindowRef) {
+    this.window = windowRef.nativeWindow
     this.disposers = []
   }
 
   ngOnInit() {
+    this.bindKeyEvents()
+  }
+
+  bindKeyEvents() {
     const listener = (ev: KeyboardEvent) => {
       if (this.isVisible && ev.keyCode === KEYCODES.esc) {
         this.dispatcher.emit(this.actions.closeModalDialog())
       }
     }
-    window.addEventListener('keyup', listener)
+
+    this.window.addEventListener('keyup', listener)
     this.disposers.push(() => {
-      window.removeEventListener('keyup', listener)
+      this.window.removeEventListener('keyup', listener)
     })
   }
 

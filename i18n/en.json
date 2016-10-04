@@ -2,5 +2,11 @@
   "ApplicationName": "ISEM",
   "CreateNewProject": "Create New Project",
   "LoadFile": "Load File",
+  "ModalDialogLoadFile": {
+    "Header": "Load File",
+    "LabelProjectName": "Project Name",
+    "LabelCSVFile": "CSV File",
+    "SampleFile": "Download sample file"
+  },
   "ProjectList": "Project List"
 }

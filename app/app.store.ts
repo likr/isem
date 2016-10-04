@@ -4,7 +4,7 @@ import {State, Store} from 'walts'
 
 import {ViewName} from './app.routing'
 import {AppDispatcher} from './app.dispatcher'
-import {ModalDialogParams} from './modal-dialog.component'
+import {ModalDialogParams, ModalDialogType} from './modal-dialog.component'
 
 export class AppState extends State {
   currentView?: ViewName
@@ -14,6 +14,7 @@ export class AppState extends State {
 const INIT_STATE: AppState = {
   currentView: void 0,
   modalDialog: {
+    type: void 0,
     isVisible: false
   }
 }
@@ -25,9 +26,15 @@ export class AppStore extends Store<AppState> {
     super(INIT_STATE, dispatcher)
   }
 
-  getModalDialogParams(): Observable<ModalDialogParams> {
+  getModalDialogIsVisible(): Observable<boolean> {
     return this.observable.map((st) => {
-      return st.modalDialog
+      return st.modalDialog.isVisible
+    })
+  }
+
+  getModalDialogType(): Observable<ModalDialogType> {
+    return this.observable.map((st) => {
+      return st.modalDialog.type
     })
   }
 }
