@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component} from '@angular/core'
 
-import {AppActions} from './app.actions';
-import {AppDispatcher} from './app.dispatcher';
+import {AppActions} from './app.actions'
+import {AppDispatcher} from './app.dispatcher'
 
 @Component({
   selector: 'is-dashboard',
@@ -26,11 +26,11 @@ export class DashboardComponent {
               private dispatcher: AppDispatcher) {}
 
   ngOnInit() {
-    this.dispatcher.emit(this.actions.setCurrentView('dashboard'));
+    this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
   }
 
   onClickLoadFile() {
-    this.dispatcher.emit(this.actions.openModalDialodLoadFile());
+    this.dispatcher.emit(this.actions.openModalDialodLoadFile())
   }
 
 }

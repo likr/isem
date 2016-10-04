@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core'
 
-import {AppActions} from './app.actions';
-import {AppDispatcher} from './app.dispatcher';
+import {AppActions} from './app.actions'
+import {AppDispatcher} from './app.dispatcher'
 
 @Component({
   selector: 'is-ui-button',
@@ -47,19 +47,19 @@ import {AppDispatcher} from './app.dispatcher';
 })
 export class UiButtonComponent {
 
-  @Input() label: string;
-  @Input() type: string;
-  @Output() clickButton = new EventEmitter<MouseEvent>();
+  @Input() label: string
+  @Input() type: string
+  @Output() clickButton = new EventEmitter<MouseEvent>()
 
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher) {}
 
   ngOnInit() {
-    this.dispatcher.emit(this.actions.setCurrentView('dashboard'));
+    this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
   }
 
   onClick(ev: MouseEvent) {
-    this.clickButton.emit(ev);
+    this.clickButton.emit(ev)
   }
 
 }

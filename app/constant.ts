@@ -1,6 +1,6 @@
-export const APP_NAME   = 'isem2';
-export const APP_PREFIX = 'is';
-export const LOCALE     = 'ja';
+export const APP_NAME   = 'isem2'
+export const APP_PREFIX = 'is'
+export const LOCALE     = 'ja'
 
 export const KEYCODES = {
   enter     : 13,
@@ -9,4 +9,4 @@ export const KEYCODES = {
   upArrow   : 38,
   rightArrow: 39,
   downArrow : 40
-};
+}

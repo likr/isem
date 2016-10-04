@@ -1,12 +1,12 @@
-import {Component, Input, HostListener} from '@angular/core';
+import {Component, Input, HostListener} from '@angular/core'
 
-import {KEYCODES} from './constant';
-import {AppActions} from './app.actions';
-import {AppDispatcher} from './app.dispatcher';
+import {KEYCODES} from './constant'
+import {AppActions} from './app.actions'
+import {AppDispatcher} from './app.dispatcher'
 
-export type ModalDialogType = 'loadFile';
+export type ModalDialogType = 'loadFile'
 export interface ModalDialogParams {
-  isVisible?: boolean;
+  isVisible?: boolean
 }
 
 @Component({
@@ -47,28 +47,28 @@ export interface ModalDialogParams {
 })
 export class ModalDialogComponent {
 
-  @Input() isVisible: boolean;
-  private disposers: Function[];
+  @Input() isVisible: boolean
+  private disposers: Function[]
 
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher) {
-    this.disposers = [];
+    this.disposers = []
   }
 
   ngOnInit() {
     const listener = (ev: KeyboardEvent) => {
       if (this.isVisible && ev.keyCode === KEYCODES.esc) {
-        this.dispatcher.emit(this.actions.closeModalDialog());
+        this.dispatcher.emit(this.actions.closeModalDialog())
       }
-    };
-    window.addEventListener('keyup', listener);
+    }
+    window.addEventListener('keyup', listener)
     this.disposers.push(() => {
-      window.removeEventListener('keyup', listener);
-    });
+      window.removeEventListener('keyup', listener)
+    })
   }
 
   ngOnDestroy() {
-    this.disposers.forEach((dispose) => dispose());
+    this.disposers.forEach((dispose) => dispose())
   }
 
 }
