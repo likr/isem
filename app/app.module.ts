@@ -16,6 +16,9 @@ import {UiButtonComponent} from './ui-button.component'
 import {InputFileDirective} from './input-file.directive'
 
 import {WindowRef} from './window-ref.service'
+import {PapaParseProvider} from './papa-parse.provider'
+import {CsvToJsonAdapter} from './csv-to-json-adapter.service'
+import {ProjectsRepository} from './projects.repository'
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
 import {AppStore} from './app.store'
@@ -46,6 +49,9 @@ const waltsProviders = [
   ],
   providers: [
     WindowRef,
+    PapaParseProvider,
+    CsvToJsonAdapter,
+    ProjectsRepository,
     waltsProviders,
     {
       provide: ProjectsResolver,

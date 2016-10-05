@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {State, Store} from 'walts'
 
-import {ViewName} from './app.routing'
 import {AppDispatcher} from './app.dispatcher'
+import {ViewName} from './app.routing'
 import {ModalDialogParams, ModalDialogType} from './modal-dialog.component'
+import {ProjectsRepository} from './projects.repository'
 
 export class AppState extends State {
   currentView?: ViewName
   modalDialog?: ModalDialogParams
+  projects?: ProjectsRepository
 }
 
 const INIT_STATE: AppState = {
@@ -16,14 +18,19 @@ const INIT_STATE: AppState = {
   modalDialog: {
     type: void 0,
     isVisible: false
-  }
+  },
+  projects: void 0
 }
 
 @Injectable()
 export class AppStore extends Store<AppState> {
 
-  constructor(protected dispatcher: AppDispatcher) {
-    super(INIT_STATE, dispatcher)
+  constructor(protected dispatcher: AppDispatcher,
+              projectsRepository: ProjectsRepository) {
+    super((() => {
+      INIT_STATE.projects = projectsRepository
+      return INIT_STATE
+    })(), dispatcher)
   }
 
   getModalDialogIsVisible(): Observable<boolean> {

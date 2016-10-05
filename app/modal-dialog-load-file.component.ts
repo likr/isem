@@ -63,7 +63,6 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 export class ModalDialogLoadFileComponent {
 
   private items: Array<{label: string, value: string}>
-  private encoding: string
   private loadedCsv: string
 
   constructor(private actions: AppActions,
@@ -77,7 +76,10 @@ export class ModalDialogLoadFileComponent {
   }
 
   onClickPrimary() {
-    console.log('onClickPrimary')
+    this.dispatcher.emitAll([
+      this.actions.createNewProject(this.loadedCsv),
+      this.actions.closeModalDialog()
+    ])
   }
 
   onClickSecondary() {

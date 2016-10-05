@@ -48,4 +48,11 @@ export class AppActions extends Actions<AppState> {
     }
   }
 
+  createNewProject(modelCsv: string): Action<AppState> {
+    return (st) => {
+      st.projects.create(modelCsv)
+      return st
+    }
+  }
+
 }
