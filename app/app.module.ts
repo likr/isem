@@ -13,6 +13,7 @@ import {DetailComponent} from './detail.component'
 import {ModalDialogComponent} from './modal-dialog.component'
 import {ModalDialogLoadFileComponent} from './modal-dialog-load-file.component'
 import {UiButtonComponent} from './ui-button.component'
+import {InputFileDirective} from './input-file.directive'
 
 import {WindowRef} from './window-ref.service'
 import {AppActions} from './app.actions'
@@ -40,7 +41,8 @@ const waltsProviders = [
     DetailComponent,
     ModalDialogComponent,
     ModalDialogLoadFileComponent,
-    UiButtonComponent
+    UiButtonComponent,
+    InputFileDirective
   ],
   providers: [
     WindowRef,

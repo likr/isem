@@ -28,6 +28,21 @@ import {css as ModalDialogCss} from './modal-dialog.component'
     <input type="text" id="projectName" [(ngModel)]="projectName">
 
     <label for="csvFile">{{'ModalDialogLoadFile.LabelCSVFile' | translate}}</label>
+    <input
+      type="file"
+      [encoding]="encoding"
+      (result)="onResultInputFile($event)"
+    >
+    <label *ngFor="let item of items">
+      <input
+        type="radio"
+        name="encoding"
+        [attr.value]="item.value"
+        [checked]="item.value === items[0].value"
+        (change)="encoding = item.value"
+      >
+      {{item.label}}
+    </label>
     <p>{{'ModalDialogLoadFile.SampleFile' | translate}}</p>
     
     <div class="buttons">
@@ -47,8 +62,19 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 })
 export class ModalDialogLoadFileComponent {
 
+  private items: Array<{label: string, value: string}>
+  private encoding: string
+  private loadedCsv: string
+
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher) {}
+
+  ngOnInit() {
+    this.items = [
+      {label: 'UTF-8',     value: 'utf8'},
+      {label: 'Shift_JIS', value: 'sjis'}
+    ]
+  }
 
   onClickPrimary() {
     console.log('onClickPrimary')
@@ -56,6 +82,10 @@ export class ModalDialogLoadFileComponent {
 
   onClickSecondary() {
     this.dispatcher.emit(this.actions.closeModalDialog())
+  }
+
+  onResultInputFile(result: string): void {
+    this.loadedCsv = result
   }
 
 }
