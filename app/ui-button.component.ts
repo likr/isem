@@ -22,6 +22,22 @@ import {AppDispatcher} from './app.dispatcher'
         border-radius: 4px;
       }
       
+      .default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+      }
+      .default:hover {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+      }
+      .default:active {
+        color: #333;
+        background-color: #d4d4d4;
+        border-color: #8c8c8c;
+      }
+
       .primary {
         color: #fff;
         background-color: #337ab7;
@@ -40,6 +56,7 @@ import {AppDispatcher} from './app.dispatcher'
     </style>
     <span
       role="button"
+      [class.default]="type === 'default'"
       [class.primary]="type === 'primary'"
       (click)="onClick($event)"
     >{{label}}</span>

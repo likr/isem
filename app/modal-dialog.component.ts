@@ -11,6 +11,12 @@ export interface ModalDialogParams {
   isVisible?: boolean
 }
 
+export const css = {
+  bodyWidth  : '600px',
+  bodyHeight : '400px',
+  bodyPadding: '20px'
+}
+
 @Component({
   selector: 'is-modal-dialog',
   template: `
@@ -21,10 +27,10 @@ export interface ModalDialogParams {
         align-items: center;
 
         position: fixed;
-        top: 0;
+        top:  0;
         left: 0;
         z-index: 10000;
-        width: 100vw;
+        width:  100vw;
         height: 100vh;
 
         background-color: #333333;
@@ -32,23 +38,27 @@ export interface ModalDialogParams {
       }
       .body {
         background-color: #fff;
-        width: 600px;
-        height: 400px;
+        width:  ${css.bodyWidth};
+        height: ${css.bodyHeight};
         z-index: 10010;
-        position: relative;
-        top: -100px;
+        position: fixed;
+        top:  calc(50% - ${css.bodyHeight} / 1.3);
+        left: calc(50% - ${css.bodyWidth}  / 2);
+        padding: ${css.bodyPadding};
       }
     </style>
 
     <div
       *ngIf="isVisible"
       class="background"
+    ></div>
+    <div
+      *ngIf="isVisible"
+      class="body"
     >
-      <div class="body">
-        <is-modal-dialog-load-file
-          *ngIf="type === 'loadFile'"
-        ></is-modal-dialog-load-file>
-      </div>
+      <is-modal-dialog-load-file
+        *ngIf="type === 'loadFile'"
+      ></is-modal-dialog-load-file>
     </div>
   `
 })
