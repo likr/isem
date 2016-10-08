@@ -38,7 +38,6 @@ export class AppActions extends Actions<AppState> {
   }
 
   closeModalDialog(): Action<AppState> {
-    console.log('closeModalDialog')
     return (st) => {
       return {
         modalDialog: {

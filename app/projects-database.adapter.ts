@@ -31,7 +31,7 @@ export class ProjectsDatabaseAdapter {
   addRow<T>(item: T): Promise<Array<Object>> {
     return this.db.builder.connect({}).then((db) => {
       const project = db.getSchema().table(PROJECT)
-      const row = project.createRow(item)
+      const row     = project.createRow(item)
       return db.insertOrReplace().into(project).values([row]).exec()
     }).catch((err) => {
       return err

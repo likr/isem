@@ -16,10 +16,11 @@ export class CsvToJsonAdapter {
    * to be
    *
    * [
-   *   {head1: 'value1', head2: 'value2'}
+   *   [head1, head2],
+   *   [value1, value2]
    * ]
    */
-  convert(modelCsv: string): any[] {
+  convert(modelCsv: string): any[][] {
     const parse = this.papaParseProvider.get<any>()
     return parse(modelCsv)
   }

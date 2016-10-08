@@ -6,7 +6,7 @@ export class PapaParseProvider {
 
   get<T>(): (modelCsv: string) => T[] {
     return (modelCsv: string) => {
-      return Papa.parse(modelCsv, {header: true}).data as T[]
+      return Papa.parse(modelCsv).data as T[]
     }
   }
 
