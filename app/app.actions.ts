@@ -38,6 +38,7 @@ export class AppActions extends Actions<AppState> {
   }
 
   closeModalDialog(): Action<AppState> {
+    console.log('closeModalDialog')
     return (st) => {
       return {
         modalDialog: {
@@ -50,8 +51,11 @@ export class AppActions extends Actions<AppState> {
 
   createNewProject(modelCsv: string): Action<AppState> {
     return (st) => {
-      st.projects.create(modelCsv)
-      return st
+      return this.delayed((apply) => {
+        st.projects.create(modelCsv).then(() => {
+          apply((_st) => _st)
+        })
+      })
     }
   }
 

@@ -17,7 +17,10 @@ import {InputFileDirective} from './input-file.directive'
 
 import {WindowRef} from './window-ref.service'
 import {PapaParseProvider} from './papa-parse.provider'
+import {LovefieldProvider} from './lovefield.provider'
 import {CsvToJsonAdapter} from './csv-to-json-adapter.service'
+import {DatabaseAdapter} from './database.adapter'
+import {ProjectsDatabaseAdapter} from './projects-database.adapter'
 import {ProjectsRepository} from './projects.repository'
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
@@ -50,7 +53,10 @@ const waltsProviders = [
   providers: [
     WindowRef,
     PapaParseProvider,
+    LovefieldProvider,
     CsvToJsonAdapter,
+    DatabaseAdapter,
+    ProjectsDatabaseAdapter,
     ProjectsRepository,
     waltsProviders,
     {

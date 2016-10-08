@@ -1,15 +1,19 @@
 import {Injectable} from '@angular/core'
 
 import {CsvToJsonAdapter} from './csv-to-json-adapter.service'
+import {ProjectsDatabaseAdapter} from './projects-database.adapter'
+import {Project} from './domain/project'
 
 @Injectable()
 export class ProjectsRepository {
 
-  constructor(private csvToJson: CsvToJsonAdapter) {}
+  constructor(private csvToJson: CsvToJsonAdapter,
+              private projectsDb: ProjectsDatabaseAdapter) {}
 
-  create(modelCsv: string) {
+  create(modelCsv: string): Promise<any> {
     const jsonObj = this.csvToJson.convert(modelCsv)
-    console.log(jsonObj)
+    const project = new Project('projectName', jsonObj)
+    return this.projectsDb.addRow<Project>(project)
   }
 
 }

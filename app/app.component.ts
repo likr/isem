@@ -1,6 +1,7 @@
 import {Component} from '@angular/core'
 
 import {AppStore} from './app.store'
+import {DatabaseAdapter} from './database.adapter'
 
 @Component({
   selector: 'is-app',
@@ -27,7 +28,8 @@ import {AppStore} from './app.store'
 })
 export class AppComponent {
 
-  constructor(private store: AppStore) {
+  constructor(private database: DatabaseAdapter, // instantiate only
+              private store: AppStore) {
     this.store.observable.subscribe((st) => {
       console.log(st)
     })

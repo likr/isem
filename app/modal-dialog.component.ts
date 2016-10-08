@@ -7,8 +7,8 @@ import {AppDispatcher} from './app.dispatcher'
 
 export type ModalDialogType = 'loadFile'
 export interface ModalDialogParams {
-  type?: ModalDialogType
-  isVisible?: boolean
+  type: ModalDialogType
+  isVisible: boolean
 }
 
 export const css = {
