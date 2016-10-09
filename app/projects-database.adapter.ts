@@ -38,4 +38,11 @@ export class ProjectsDatabaseAdapter {
     })
   }
 
+  getAll() {
+    return this.db.builder.connect({}).then((db) => {
+      const project = db.getSchema().table(PROJECT)
+      return db.select().from(project).exec()
+    })
+  }
+
 }

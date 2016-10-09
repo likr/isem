@@ -16,4 +16,8 @@ export class ProjectsRepository {
     return this.projectsDb.addRow<Project>(project)
   }
 
+  getAll(): Promise<Project[]> {
+    return this.projectsDb.getAll()
+  }
+
 }
