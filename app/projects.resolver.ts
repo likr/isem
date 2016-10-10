@@ -1,14 +1,17 @@
+import {Injectable} from '@angular/core'
 import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router'
 
-import {ProjectsRepository} from './projects.repository'
+import {AppStore} from './app.store'
+import {ProjectVM} from './application/view-model/project-vm'
 
+@Injectable()
 export class ProjectsResolver implements Resolve<any> {
 
-  constructor(private projectsRepository: ProjectsRepository) {}
+  constructor(private store: AppStore) {}
 
   resolve(route: ActivatedRouteSnapshot,
-          state: RouterStateSnapshot): Promise<any> {
-    return this.projectsRepository.all$.first().toPromise()
+          state: RouterStateSnapshot): Promise<ProjectVM[]> {
+    return this.store.allProjects$.first().toPromise()
   }
 
 }

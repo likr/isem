@@ -6,6 +6,7 @@ import {AppDispatcher} from './app.dispatcher'
 import {ViewName} from './app.routing'
 import {ModalDialogParams, ModalDialogType} from './modal-dialog.component'
 import {ProjectsRepository} from './projects.repository'
+import {ProjectVM} from './application/view-model/project-vm'
 
 export class AppState extends State {
   currentView?: ViewName
@@ -33,8 +34,10 @@ export class AppStore extends Store<AppState> {
     })(), dispatcher)
   }
 
-  get allProjects$(): Observable<any> {
-    return this.projectsRepository.all$
+  get allProjects$(): Observable<ProjectVM[]> {
+    return this.projectsRepository.all$.map((projects) => {
+      return projects.map((p) => new ProjectVM(p))
+    })
   }
 
   getModalDialogIsVisible(): Observable<boolean> {

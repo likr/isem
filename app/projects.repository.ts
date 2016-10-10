@@ -26,7 +26,7 @@ export class ProjectsRepository {
     })
   }
 
-  get all$(): Observable<Object[]> {
+  get all$(): Observable<Project[]> {
     return this.getAllSubject
       .mergeMap((v) => v)
   }

@@ -1,5 +1,10 @@
 import {uuidGen} from '../utils/uuid-gen'
 
+export type Data = {
+  key: string
+  values: any[]
+}[]
+
 /**
  * # example
  *
@@ -28,16 +33,13 @@ export class Project {
   created: number
   modified: number
   models: Object
-  data: {
-    key: string
-    values: any[]
-  }[]
+  data: Data
 
   constructor(public name: string,
               _data: any[][]) {
     this.uuid = uuidGen()
 
-    const now = Date.now() / 1000 |0
+    const now = Date.now() / 1000 | 0
     this.created  = now
     this.modified = now
 

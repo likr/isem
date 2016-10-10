@@ -27,12 +27,6 @@ import {AppDispatcher} from './app.dispatcher'
 import {AppStore} from './app.store'
 import {ProjectsResolver} from './projects.resolver'
 
-const waltsProviders = [
-  AppActions,
-  AppDispatcher,
-  AppStore,
-]
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -58,14 +52,13 @@ const waltsProviders = [
     DatabaseAdapter,
     ProjectsDatabaseAdapter,
     ProjectsRepository,
-    waltsProviders,
+    AppActions,
+    AppDispatcher,
+    AppStore,
     {
       provide: ProjectsResolver,
       useClass: ProjectsResolver,
-      deps: [
-        ProjectsRepository,
-        waltsProviders
-      ]
+      deps: [AppStore]
     }
   ],
   bootstrap: [AppComponent]
