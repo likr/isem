@@ -2,6 +2,7 @@ import {Component} from '@angular/core'
 
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
+import {AppStore} from './app.store'
 
 @Component({
   selector: 'is-dashboard',
@@ -18,14 +19,25 @@ import {AppDispatcher} from './app.dispatcher'
     <div>
       <h2>{{'ProjectList' | translate}}</h2>
     </div>
+    <ul>
+      <li *ngFor="let project of projects">{{project.uuid}}</li>
+    </ul>
   `
 })
 export class DashboardComponent {
 
+  projects: any[]
+
   constructor(private actions: AppActions,
-              private dispatcher: AppDispatcher) {}
+              private dispatcher: AppDispatcher,
+              private store: AppStore) {
+    this.projects = []
+  }
 
   ngOnInit() {
+    this.store.allProjects$.subscribe((v) => {
+      this.projects = v
+    })
     this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
   }
 

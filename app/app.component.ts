@@ -31,7 +31,7 @@ export class AppComponent {
   constructor(private database: DatabaseAdapter, // instantiate only
               private store: AppStore) {
     this.store.observable.subscribe((st) => {
-      console.log(st)
+      console.info(st)
     })
   }
 

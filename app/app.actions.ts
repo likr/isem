@@ -13,7 +13,7 @@ export class AppActions extends Actions<AppState> {
 
   example(): Action<AppState> {
     return (st) => {
-      console.log('do it!')
+      console.info('do it!')
       return st
     }
   }

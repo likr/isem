@@ -26,11 +26,15 @@ const INIT_STATE: AppState = {
 export class AppStore extends Store<AppState> {
 
   constructor(protected dispatcher: AppDispatcher,
-              projectsRepository: ProjectsRepository) {
+              private projectsRepository: ProjectsRepository) {
     super((() => {
       INIT_STATE.projects = projectsRepository
       return INIT_STATE
     })(), dispatcher)
+  }
+
+  get allProjects$(): Observable<any> {
+    return this.projectsRepository.all$
   }
 
   getModalDialogIsVisible(): Observable<boolean> {

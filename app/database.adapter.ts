@@ -9,6 +9,7 @@ export class DatabaseAdapter {
 
   private lf: typeof lf
   private _builder: lf.schema.Builder
+  private _connection: Promise<lf.Database>
 
   constructor(lovefieldProvider: LovefieldProvider) {
     this.lf = lovefieldProvider.get()
@@ -21,6 +22,13 @@ export class DatabaseAdapter {
 
   get builder(): lf.schema.Builder {
     return this._builder
+  }
+
+  get connection(): Promise<lf.Database> {
+    if (!this._connection) {
+      this._connection = this._builder.connect({})
+    }
+    return this._connection
   }
 
 }

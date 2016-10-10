@@ -6,6 +6,8 @@ import {DatabaseAdapter} from './database.adapter';
 
 const PROJECT = 'Project'
 
+const projectSchema = (db: lf.Database) => db.getSchema().table(PROJECT)
+
 @Injectable()
 export class ProjectsDatabaseAdapter {
 
@@ -17,7 +19,26 @@ export class ProjectsDatabaseAdapter {
     this.initSchema()
   }
 
-  initSchema() {
+  addRow<T>(item: T): Promise<Object[]> {
+    return this.db.connection.then((db) => {
+      const row = projectSchema(db)
+        .createRow(item)
+      return db.insertOrReplace()
+        .into(projectSchema(db))
+        .values([row])
+        .exec()
+    })
+  }
+
+  getAll(): Promise<Object[]> {
+    return this.db.connection.then((db) => {
+      return db.select()
+        .from(projectSchema(db))
+        .exec()
+    })
+  }
+
+  private initSchema() {
     this.db.builder.createTable(PROJECT).
       addColumn('uuid',     this.lf.Type.STRING).
       addColumn('created',  this.lf.Type.NUMBER).
@@ -26,23 +47,6 @@ export class ProjectsDatabaseAdapter {
       addColumn('name',     this.lf.Type.STRING).
       addColumn('data',     this.lf.Type.OBJECT).
       addPrimaryKey(['uuid'])
-  }
-
-  addRow<T>(item: T): Promise<Array<Object>> {
-    return this.db.builder.connect({}).then((db) => {
-      const project = db.getSchema().table(PROJECT)
-      const row     = project.createRow(item)
-      return db.insertOrReplace().into(project).values([row]).exec()
-    }).catch((err) => {
-      return err
-    })
-  }
-
-  getAll() {
-    return this.db.builder.connect({}).then((db) => {
-      const project = db.getSchema().table(PROJECT)
-      return db.select().from(project).exec()
-    })
   }
 
 }
