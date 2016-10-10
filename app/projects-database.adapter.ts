@@ -6,7 +6,18 @@ import {DatabaseAdapter} from './database.adapter';
 
 const PROJECT = 'Project'
 
-const projectSchema = (db: lf.Database) => db.getSchema().table(PROJECT)
+interface ProjectTable extends lf.schema.Table {
+  uuid:     lf.PredicateProvider
+  created:  lf.PredicateProvider
+  modified: lf.PredicateProvider
+  models:   lf.PredicateProvider
+  name:     lf.PredicateProvider
+  data:     lf.PredicateProvider
+}
+
+const projectSchema = (db: lf.Database): ProjectTable => {
+  return db.getSchema().table(PROJECT) as ProjectTable
+}
 
 @Injectable()
 export class ProjectsDatabaseAdapter {
@@ -26,6 +37,15 @@ export class ProjectsDatabaseAdapter {
       return db.insertOrReplace()
         .into(projectSchema(db))
         .values([row])
+        .exec()
+    })
+  }
+
+  deleteRow(primaryKey: string): Promise<Object[]> {
+    return this.db.connection.then((db) => {
+      return db.delete()
+        .from(projectSchema(db))
+        .where(projectSchema(db).uuid.eq(primaryKey))
         .exec()
     })
   }

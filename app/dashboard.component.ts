@@ -1,5 +1,4 @@
 import {Component} from '@angular/core'
-import {ActivatedRoute} from '@angular/router'
 
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
@@ -62,7 +61,9 @@ import {ProjectVM} from './application/view-model/project-vm'
             <tr *ngFor="let project of projects">
               <td>{{project.name}}</td>
               <td>{{project.modified}}</td>
-              <td class="delete"><button (click)="onClickDelete(project.uuid)">{{'Delete' | translate}}</button></td>
+              <td class="delete"><button (click)="onClickDelete(project)">
+                {{'Delete' | translate}}
+              </button></td>
             </tr>
           </tbody>
         </table>
@@ -74,8 +75,7 @@ export class DashboardComponent {
 
   projects: ProjectVM[]
 
-  constructor(private route: ActivatedRoute,
-              private actions: AppActions,
+  constructor(private actions: AppActions,
               private dispatcher: AppDispatcher,
               private store: AppStore) {
     this.projects = []
@@ -92,8 +92,8 @@ export class DashboardComponent {
     this.dispatcher.emit(this.actions.openModalDialodLoadFile())
   }
 
-  onClickDelete(uuid: string) {
-    console.info(uuid)
+  onClickDelete(project: ProjectVM) {
+    this.dispatcher.emit(this.actions.deleteProject(project))
   }
 
 }

@@ -3,12 +3,17 @@ import {Actions, Action} from 'walts'
 
 import {ViewName} from './app.routing'
 import {AppState} from './app.store'
+import {WindowRef} from './window-ref.service'
+import {ProjectVM} from './application/view-model/project-vm'
 
 @Injectable()
 export class AppActions extends Actions<AppState> {
 
-  constructor() {
+  private window: Window
+
+  constructor(windowRef: WindowRef) {
     super()
+    this.window = windowRef.nativeWindow
   }
 
   example(): Action<AppState> {
@@ -52,6 +57,20 @@ export class AppActions extends Actions<AppState> {
     return (st) => {
       return this.delayed((apply) => {
         st.projects.create(modelCsv).then(() => {
+          apply((_st) => _st)
+        })
+      })
+    }
+  }
+
+  deleteProject(project: ProjectVM): Action<AppState> {
+    return (st) => {
+      const confirmed = this.window.confirm('Are you sure?')
+      if (!confirmed) {
+        return st
+      }
+      return this.delayed((apply) => {
+        st.projects.delete(project.uuid).then(() => {
           apply((_st) => _st)
         })
       })

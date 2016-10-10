@@ -26,6 +26,13 @@ export class ProjectsRepository {
     })
   }
 
+  delete(uuid: string): Promise<any> {
+    return this.projectsDb.deleteRow(uuid).then((v) => {
+      this.publish()
+      return v
+    })
+  }
+
   get all$(): Observable<Project[]> {
     return this.getAllSubject
       .mergeMap((v) => v)
