@@ -62,6 +62,7 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 })
 export class ModalDialogLoadFileComponent {
 
+  private projectName: string
   private items: Array<{label: string, value: string}>
   private loadedCsv: string
 
@@ -77,7 +78,7 @@ export class ModalDialogLoadFileComponent {
 
   onClickPrimary() {
     this.dispatcher.emitAll([
-      this.actions.createNewProject(this.loadedCsv),
+      this.actions.createNewProject(this.projectName, this.loadedCsv),
       this.actions.closeModalDialog()
     ])
   }
@@ -86,7 +87,7 @@ export class ModalDialogLoadFileComponent {
     this.dispatcher.emit(this.actions.closeModalDialog())
   }
 
-  onResultInputFile(result: string): void {
+  onResultInputFile(result: string) {
     this.loadedCsv = result
   }
 

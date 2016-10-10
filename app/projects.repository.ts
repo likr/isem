@@ -17,9 +17,9 @@ export class ProjectsRepository {
     )
   }
 
-  create(modelCsv: string): Promise<any> {
+  create(projectName: string, modelCsv: string): Promise<any> {
     const jsonObj = this.csvToJson.convert(modelCsv)
-    const project = new Project('projectName', jsonObj)
+    const project = new Project(projectName, jsonObj)
     return this.projectsDb.addRow<Project>(project).then((v) => {
       this.publish()
       return v

@@ -53,10 +53,10 @@ export class AppActions extends Actions<AppState> {
     }
   }
 
-  createNewProject(modelCsv: string): Action<AppState> {
+  createNewProject(projectName: string, modelCsv: string): Action<AppState> {
     return (st) => {
       return this.delayed((apply) => {
-        st.projects.create(modelCsv).then(() => {
+        st.projects.create(projectName, modelCsv).then(() => {
           apply((_st) => _st)
         })
       })
