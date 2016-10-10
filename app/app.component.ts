@@ -14,6 +14,9 @@ import {DatabaseAdapter} from './database.adapter'
         line-height: 64px;
         color: #FFFFFF;
       }
+      h1 {
+        padding-left: 14px;
+      }
     </style>
     <div class="header">
       <h1>{{'ApplicationName' | translate}}</h1>

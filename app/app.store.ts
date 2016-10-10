@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {State, Store} from 'walts'
 
+import {LOCALE} from './constant'
 import {AppDispatcher} from './app.dispatcher'
 import {ViewName} from './app.routing'
 import {ModalDialogParams, ModalDialogType} from './modal-dialog.component'
@@ -36,7 +37,7 @@ export class AppStore extends Store<AppState> {
 
   get allProjects$(): Observable<ProjectVM[]> {
     return this.projectsRepository.all$.map((projects) => {
-      return projects.map((p) => new ProjectVM(p))
+      return projects.map((p) => new ProjectVM(p, LOCALE))
     })
   }
 

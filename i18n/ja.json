@@ -8,5 +8,8 @@
     "LabelCSVFile": "CSVファイル",
     "SampleFile": "サンプルファイル"
   },
-  "ProjectList": "プロジェクト一覧"
+  "ProjectList": "プロジェクト一覧",
+  "ProjectName": "プロジェクト名",
+  "LastUpdateDate": "最終更新日時",
+  "Delete": "削除"
 }

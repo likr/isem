@@ -9,21 +9,65 @@ import {ProjectVM} from './application/view-model/project-vm'
 @Component({
   selector: 'is-dashboard',
   template: `
-    <div>
-      <h2>{{'CreateNewProject' | translate}}</h2>
-      <is-ui-button
-        [label]="'LoadFile' | translate"
-        [type] ="'primary'"
-        (clickButton)="onClickLoadFile($event)"
-      ></is-ui-button>
+    <style>
+      .container {
+        width: 80vw;
+        margin: 3em auto 0;
+        padding: 0 15px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      h2 {
+        margin-bottom: 10px;
+      }
+      table {
+        width: 100%
+      }
+      td, th {
+        padding: 8px;
+        text-align: left
+      }
+      .delete {
+        text-align: right
+      }
+      td {
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        border-bottom: 1px solid #999;
+      }
+    </style>
+    <div class="container">
+      <div class="section">
+        <h2>{{'CreateNewProject' | translate}}</h2>
+        <is-ui-button
+          [label]="'LoadFile' | translate"
+          [type] ="'primary'"
+          (clickButton)="onClickLoadFile($event)"
+        ></is-ui-button>
+      </div>
+      
+      <div class="section">
+        <h2>{{'ProjectList' | translate}}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>{{'ProjectName' | translate}}</th>
+              <th>{{'LastUpdateDate' | translate}}</th>
+              <th class="delete">{{'Delete' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of projects">
+              <td>{{project.name}}</td>
+              <td>{{project.modified}}</td>
+              <td class="delete"><button (click)="onClickDelete(project.uuid)">{{'Delete' | translate}}</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    
-    <div>
-      <h2>{{'ProjectList' | translate}}</h2>
-    </div>
-    <ul>
-      <li *ngFor="let project of projects">{{project.uuid}}</li>
-    </ul>
   `
 })
 export class DashboardComponent {
@@ -46,6 +90,10 @@ export class DashboardComponent {
 
   onClickLoadFile() {
     this.dispatcher.emit(this.actions.openModalDialodLoadFile())
+  }
+
+  onClickDelete(uuid: string) {
+    console.info(uuid)
   }
 
 }
