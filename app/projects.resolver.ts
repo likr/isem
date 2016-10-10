@@ -1,18 +1,14 @@
 import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router'
-import {Observable} from 'rxjs'
 
-import {AppActions} from './app.actions'
-import {AppDispatcher} from './app.dispatcher'
+import {ProjectsRepository} from './projects.repository'
 
 export class ProjectsResolver implements Resolve<any> {
 
-  constructor(private actions: AppActions,
-              private dispatcher: AppDispatcher) {}
+  constructor(private projectsRepository: ProjectsRepository) {}
 
   resolve(route: ActivatedRouteSnapshot,
-          state: RouterStateSnapshot): Promise<boolean> {
-    this.dispatcher.emit(this.actions.example())
-    return Promise.resolve(true)
+          state: RouterStateSnapshot): Promise<any> {
+    return this.projectsRepository.all$.first().toPromise()
   }
 
 }

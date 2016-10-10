@@ -6,26 +6,28 @@ import {ProjectsResolver} from './projects.resolver'
 
 export type ViewName = 'dashboard' | 'detail'
 
+export const PROJECTS = 'projects'
+
 const appRoutes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     resolve: {
-      projects: ProjectsResolver
+      [PROJECTS]: ProjectsResolver
     }
   },
   {
     path: 'project/:id',
     component: DetailComponent,
     resolve: {
-      projects: ProjectsResolver
+      [PROJECTS]: ProjectsResolver
     }
   },
   {
     path: '**',
     component: DashboardComponent,
     resolve: {
-      projects: ProjectsResolver
+      [PROJECTS]: ProjectsResolver
     }
   }
 ]

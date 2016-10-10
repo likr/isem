@@ -1,8 +1,10 @@
 import {Component} from '@angular/core'
+import {ActivatedRoute} from '@angular/router'
 
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
 import {AppStore} from './app.store'
+import {PROJECTS} from './app.routing'
 
 @Component({
   selector: 'is-dashboard',
@@ -28,13 +30,17 @@ export class DashboardComponent {
 
   projects: any[]
 
-  constructor(private actions: AppActions,
+  constructor(private route: ActivatedRoute,
+              private actions: AppActions,
               private dispatcher: AppDispatcher,
               private store: AppStore) {
     this.projects = []
   }
 
   ngOnInit() {
+    this.route.data.map((v) => v[PROJECTS]).subscribe((v) => {
+      this.projects = v
+    })
     this.store.allProjects$.subscribe((v) => {
       this.projects = v
     })

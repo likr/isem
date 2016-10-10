@@ -62,7 +62,10 @@ const waltsProviders = [
     {
       provide: ProjectsResolver,
       useClass: ProjectsResolver,
-      deps: waltsProviders
+      deps: [
+        ProjectsRepository,
+        waltsProviders
+      ]
     }
   ],
   bootstrap: [AppComponent]
