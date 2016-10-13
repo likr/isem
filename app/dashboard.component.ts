@@ -30,6 +30,14 @@ import {ProjectVM} from './application/view-model/project-vm'
       .delete {
         text-align: right
       }
+      tbody tr {
+        cursor: pointer;
+        transition: .1s;
+      }
+      tbody tr:hover {
+        background-color: #CFD8DC;
+        transition: .2s; 
+      }
       td {
         border-bottom: 1px solid #ddd;
       }
@@ -58,7 +66,10 @@ import {ProjectVM} from './application/view-model/project-vm'
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let project of projects">
+            <tr
+              *ngFor="let project of projects"
+              (click)="onClickProject(project)"
+            >
               <td>{{project.name}}</td>
               <td>{{project.modified}}</td>
               <td class="delete"><button (click)="onClickDelete(project)">
@@ -90,6 +101,10 @@ export class DashboardComponent {
 
   onClickLoadFile() {
     this.dispatcher.emit(this.actions.openModalDialodLoadFile())
+  }
+
+  onClickProject(project: ProjectVM) {
+    this.dispatcher.emit(this.actions.showDetail(project))
   }
 
   onClickDelete(project: ProjectVM) {
