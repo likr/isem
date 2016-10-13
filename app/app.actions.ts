@@ -5,13 +5,15 @@ import {ViewName} from './app.routing'
 import {AppState} from './app.store'
 import {WindowRef} from './window-ref.service'
 import {ProjectVM} from './application/view-model/project-vm'
+import {RouteChanger} from './route-changer.service'
 
 @Injectable()
 export class AppActions extends Actions<AppState> {
 
   private window: Window
 
-  constructor(windowRef: WindowRef) {
+  constructor(private routeChanger: RouteChanger,
+              windowRef: WindowRef) {
     super()
     this.window = windowRef.nativeWindow
   }
@@ -60,6 +62,13 @@ export class AppActions extends Actions<AppState> {
           apply((_st) => _st)
         })
       })
+    }
+  }
+
+  showDetail(project: ProjectVM): Action<AppState> {
+    return (st) => {
+      this.routeChanger.toDetail(project.uuid)
+      return st
     }
   }
 
