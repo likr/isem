@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Observable, BehaviorSubject} from 'rxjs'
+import {Observable, Subject, BehaviorSubject} from 'rxjs'
 
 import {CsvToJsonAdapter} from './csv-to-json-adapter.service'
 import {ProjectsDatabaseAdapter} from './projects-database.adapter'
@@ -9,12 +9,14 @@ import {Project} from './domain/project'
 export class ProjectsRepository {
 
   private getAllSubject: BehaviorSubject<Observable<Object[]>>
+  private getSingleSubject: Subject<Observable<Object[]>>
 
   constructor(private csvToJson: CsvToJsonAdapter,
               private projectsDb: ProjectsDatabaseAdapter) {
     this.getAllSubject = new BehaviorSubject(
       Observable.fromPromise(this.projectsDb.getAll())
     )
+    this.getSingleSubject = new Subject()
   }
 
   create(projectName: string, modelCsv: string): Promise<any> {
@@ -33,8 +35,19 @@ export class ProjectsRepository {
     })
   }
 
+  emitQuerySingle(uuid: string) {
+    this.getSingleSubject.next(
+      Observable.fromPromise(this.projectsDb.getSingle(uuid).then((v) => v[0]))
+    )
+  }
+
   get all$(): Observable<Project[]> {
     return this.getAllSubject
+      .mergeMap((v) => v)
+  }
+
+  get single$(): Observable<Project> {
+    return this.getSingleSubject
       .mergeMap((v) => v)
   }
 

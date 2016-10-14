@@ -58,6 +58,15 @@ export class ProjectsDatabaseAdapter {
     })
   }
 
+  getSingle(primaryKey: string): Promise<Object[]> {
+    return this.db.connection.then((db) => {
+      return db.select()
+        .from(projectSchema(db))
+        .where(projectSchema(db).uuid.eq(primaryKey))
+        .exec()
+    })
+  }
+
   private initSchema() {
     this.db.builder.createTable(PROJECT).
       addColumn('uuid',     this.lf.Type.STRING).

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core'
+import {Subscription} from 'rxjs'
 
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
@@ -85,17 +86,21 @@ import {ProjectVM} from './application/view-model/project-vm'
 export class DashboardComponent {
 
   projects: ProjectVM[]
+  private subscriptions: Subscription[]
 
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher,
               private store: AppStore) {
     this.projects = []
+    this.subscriptions = []
   }
 
   ngOnInit() {
-    this.store.allProjects$.subscribe((v) => {
-      this.projects = v
-    })
+    this.subscriptions.push(
+      this.store.allProjects$.subscribe((v) => {
+        this.projects = v
+      })
+    )
     this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
   }
 

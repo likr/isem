@@ -13,6 +13,7 @@ export class AppState extends State {
   currentView?: ViewName
   modalDialog?: ModalDialogParams
   projects?: ProjectsRepository
+  currentId?: string
 }
 
 const INIT_STATE: AppState = {
@@ -21,7 +22,8 @@ const INIT_STATE: AppState = {
     type: void 0,
     isVisible: false
   },
-  projects: void 0
+  projects: void 0,
+  currentId: ''
 }
 
 @Injectable()
@@ -38,6 +40,12 @@ export class AppStore extends Store<AppState> {
   get allProjects$(): Observable<ProjectVM[]> {
     return this.projectsRepository.all$.map((projects) => {
       return projects.map((p) => new ProjectVM(p, LOCALE))
+    })
+  }
+
+  get currentProject$(): Observable<ProjectVM> {
+    return this.projectsRepository.single$.map((project) => {
+      return new ProjectVM(project, LOCALE)
     })
   }
 

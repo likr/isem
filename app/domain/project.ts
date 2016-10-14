@@ -48,7 +48,7 @@ export class Project {
     this.data = rotate(_data).map((v) => {
       const key = v[0]
       v.shift()
-      return {key, values: v.filter((vv) => !!vv)}
+      return {key, id: uuidGen(), values: v.filter((vv) => !!vv)}
     })
   }
 

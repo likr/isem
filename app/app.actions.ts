@@ -72,6 +72,15 @@ export class AppActions extends Actions<AppState> {
     }
   }
 
+  initDetail(uuid: string): Action<AppState> {
+    return (st) => {
+      st.projects.emitQuerySingle(uuid)
+      return {
+        currentId: uuid
+      } as AppState
+    }
+  }
+
   deleteProject(project: ProjectVM): Action<AppState> {
     return (st) => {
       const confirmed = this.window.confirm('Are you sure?')
