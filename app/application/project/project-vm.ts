@@ -1,4 +1,4 @@
-import {Project, Data} from '../../domain/project'
+import {Project, Data} from '../../domain/project/project'
 import {getDisplayDate} from '../../utils/display-date'
 
 export class ProjectVM {

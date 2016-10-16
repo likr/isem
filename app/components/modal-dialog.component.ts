@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core'
 
-import {KEYCODES} from './constant'
-import {WindowRef} from './window-ref.service';
-import {AppActions} from './app.actions'
-import {AppDispatcher} from './app.dispatcher'
+import {KEYCODES} from '../constant'
+import {WindowRef} from '../services/window-ref.service';
+import {AppActions} from '../app.actions'
+import {AppDispatcher} from '../app.dispatcher'
 
 export type ModalDialogType = 'loadFile'
 export interface ModalDialogParams {

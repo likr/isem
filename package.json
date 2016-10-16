@@ -42,7 +42,7 @@
     "url": "git+https://github.com/armorik83/isem2016.git"
   },
   "scripts": {
-    "build": "npm run clean && npm run lint && npm run tsc && npm run webpack && npm run done",
+    "build": "yarn run clean && yarn run lint && yarn run tsc && yarn run webpack && yarn run done",
     "clean": "rm -rf ./.tmp",
     "done": "notify -t \"Done\" -m \"Build has done.\" -o http://127.0.0.1:8080",
     "lint": "./tslint.sh",

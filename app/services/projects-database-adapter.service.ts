@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 import * as lf from 'lovefield'
 
 import {LovefieldProvider} from './lovefield.provider'
-import {DatabaseAdapter} from './database.adapter';
+import {DatabaseAdapter} from './database-adapter.service';
 
 const PROJECT = 'Project'
 

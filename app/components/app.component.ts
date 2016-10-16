@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 
-import {AppStore} from './app.store'
-import {DatabaseAdapter} from './database.adapter'
+import {AppStore} from '../app.store'
+import {DatabaseAdapter} from '../services/database-adapter.service'
 
 @Component({
   selector: 'is-app',

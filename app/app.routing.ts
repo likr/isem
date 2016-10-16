@@ -1,8 +1,8 @@
 import {Routes, RouterModule} from '@angular/router'
 
-import {DashboardComponent} from './dashboard.component'
-import {DetailComponent} from './detail.component'
-import {ProjectsResolver} from './projects.resolver'
+import {DashboardComponent} from './components/dashboard.component'
+import {DetailComponent} from './components/detail.component'
+import {ProjectsResolver} from './application/project/projects.resolver'
 
 export type ViewName = 'dashboard' | 'detail'
 

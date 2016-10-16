@@ -2,10 +2,10 @@ import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {Subscription} from 'rxjs'
 
-import {AppActions} from './app.actions'
-import {AppDispatcher} from './app.dispatcher'
-import {AppStore} from './app.store'
-import {ID} from './app.routing'
+import {AppActions} from '../app.actions'
+import {AppDispatcher} from '../app.dispatcher'
+import {AppStore} from '../app.store'
+import {ID} from '../app.routing'
 
 @Component({
   selector: 'is-detail',

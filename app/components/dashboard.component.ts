@@ -1,10 +1,10 @@
 import {Component} from '@angular/core'
 import {Subscription} from 'rxjs'
 
-import {AppActions} from './app.actions'
-import {AppDispatcher} from './app.dispatcher'
-import {AppStore} from './app.store'
-import {ProjectVM} from './application/view-model/project-vm'
+import {AppActions} from '../app.actions'
+import {AppDispatcher} from '../app.dispatcher'
+import {AppStore} from '../app.store'
+import {ProjectVM} from '../application/project/project-vm'
 
 @Component({
   selector: 'is-dashboard',

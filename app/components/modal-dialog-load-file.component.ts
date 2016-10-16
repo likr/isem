@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 
-import {AppActions} from './app.actions'
-import {AppDispatcher} from './app.dispatcher'
+import {AppActions} from '../app.actions'
+import {AppDispatcher} from '../app.dispatcher'
 import {css as ModalDialogCss} from './modal-dialog.component'
 
 @Component({

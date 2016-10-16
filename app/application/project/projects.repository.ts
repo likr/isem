@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core'
 import {Observable, Subject, BehaviorSubject} from 'rxjs'
 
-import {CsvToJsonAdapter} from './csv-to-json-adapter.service'
-import {ProjectsDatabaseAdapter} from './projects-database.adapter'
-import {Project} from './domain/project'
+import {CsvToJsonAdapter} from '../../services/csv-to-json-adapter.service'
+import {ProjectsDatabaseAdapter} from '../../services/projects-database-adapter.service'
+import {Project} from '../../domain/project/project'
 
 @Injectable()
 export class ProjectsRepository {
