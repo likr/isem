@@ -1,8 +1,10 @@
 import {Component} from '@angular/core'
+import {Observable} from 'rxjs'
 
 import {AppStore} from '../app.store'
 import {DatabaseAdapter} from '../services/database-adapter.service'
 import {AbstractComponent} from './abstract.component'
+import {ModalDialogType} from './modal-dialog.component'
 
 @Component({
   selector: 'is-app',
@@ -24,8 +26,8 @@ import {AbstractComponent} from './abstract.component'
     </div>
     
     <is-modal-dialog
-      [type]     ="modalDialogType | async"
-      [isVisible]="modalDialogIsVisible | async"
+      [type]     ="modalDialogType$ | async"
+      [isVisible]="modalDialogIsVisible$ | async"
     ></is-modal-dialog>
     <router-outlet></router-outlet>
   `
@@ -45,12 +47,12 @@ export class AppComponent extends AbstractComponent {
     )
   }
 
-  get modalDialogType() {
-    return this.store.getModalDialogType()
+  get modalDialogType$(): Observable<ModalDialogType> {
+    return this.store.modalDialogType$
   }
 
-  get modalDialogIsVisible() {
-    return this.store.getModalDialogIsVisible()
+  get modalDialogIsVisible$(): Observable<boolean> {
+    return this.store.modalDialogIsVisible$
   }
 
 }
