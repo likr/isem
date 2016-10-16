@@ -1,11 +1,11 @@
 import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
-import {Subscription} from 'rxjs'
 
 import {AppActions} from '../app.actions'
 import {AppDispatcher} from '../app.dispatcher'
 import {AppStore} from '../app.store'
 import {ID} from '../app.routing'
+import {AbstractComponent} from './abstract.component'
 
 @Component({
   selector: 'is-detail',
@@ -13,15 +13,13 @@ import {ID} from '../app.routing'
     detail
   `
 })
-export class DetailComponent {
-
-  private subscriptions: Subscription[]
+export class DetailComponent extends AbstractComponent {
 
   constructor(private route: ActivatedRoute,
               private actions: AppActions,
               private dispatcher: AppDispatcher,
               private store: AppStore) {
-    this.subscriptions = []
+    super()
   }
 
   ngOnInit() {
@@ -38,10 +36,6 @@ export class DetailComponent {
         ])
       })
     )
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((s) => s.unsubscribe())
   }
 
 }

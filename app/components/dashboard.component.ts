@@ -1,10 +1,10 @@
 import {Component} from '@angular/core'
-import {Subscription} from 'rxjs'
 
 import {AppActions} from '../app.actions'
 import {AppDispatcher} from '../app.dispatcher'
 import {AppStore} from '../app.store'
 import {ProjectVM} from '../application/project/project-vm'
+import {AbstractComponent} from './abstract.component'
 
 @Component({
   selector: 'is-dashboard',
@@ -83,16 +83,15 @@ import {ProjectVM} from '../application/project/project-vm'
     </div>
   `
 })
-export class DashboardComponent {
+export class DashboardComponent extends AbstractComponent {
 
   projects: ProjectVM[]
-  private subscriptions: Subscription[]
 
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher,
               private store: AppStore) {
+    super()
     this.projects = []
-    this.subscriptions = []
   }
 
   ngOnInit() {

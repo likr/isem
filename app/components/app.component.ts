@@ -2,6 +2,7 @@ import {Component} from '@angular/core'
 
 import {AppStore} from '../app.store'
 import {DatabaseAdapter} from '../services/database-adapter.service'
+import {AbstractComponent} from './abstract.component'
 
 @Component({
   selector: 'is-app',
@@ -29,13 +30,19 @@ import {DatabaseAdapter} from '../services/database-adapter.service'
     <router-outlet></router-outlet>
   `
 })
-export class AppComponent {
+export class AppComponent extends AbstractComponent {
 
   constructor(private database: DatabaseAdapter, // instantiate only
               private store: AppStore) {
-    this.store.observable.subscribe((st) => {
-      console.info(st)
-    })
+    super()
+  }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.store.observable.subscribe((st) => {
+        console.info(st)
+      })
+    )
   }
 
   get modalDialogType() {
