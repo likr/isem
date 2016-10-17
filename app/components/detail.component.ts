@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router'
 
 import {AppActions} from '../app.actions'
 import {AppDispatcher} from '../app.dispatcher'
-import {AppStore} from '../app.store'
+import {ProjectsStore} from '../application/project/projects.store'
 import {ID} from '../app.routing'
 import {AbstractComponent} from './abstract.component'
 import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
@@ -25,7 +25,7 @@ export class DetailComponent extends AbstractComponent {
   constructor(private route: ActivatedRoute,
               private actions: AppActions,
               private dispatcher: AppDispatcher,
-              private store: AppStore) {
+              private store: ProjectsStore) {
     super()
   }
 

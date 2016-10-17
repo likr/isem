@@ -2,7 +2,7 @@ import {Component} from '@angular/core'
 
 import {AppActions} from '../app.actions'
 import {AppDispatcher} from '../app.dispatcher'
-import {AppStore} from '../app.store'
+import {ProjectsStore} from '../application/project/projects.store'
 import {ProjectVM} from '../application/project/project-vm'
 import {AbstractComponent} from './abstract.component'
 
@@ -89,7 +89,7 @@ export class DashboardComponent extends AbstractComponent {
 
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher,
-              private store: AppStore) {
+              private store: ProjectsStore) {
     super()
     this.projects = []
   }

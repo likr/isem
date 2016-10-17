@@ -44,11 +44,13 @@ export class ProjectsRepository {
   get all$(): Observable<Project[]> {
     return this.getAllSubject
       .mergeMap((v) => v)
+      .map((v: Project[]) => v.map((p: Project) => Project.fromBackend(p)))
   }
 
   get single$(): Observable<Project> {
     return this.getSingleSubject
       .mergeMap((v) => v)
+      .map((v) => Project.fromBackend(v))
   }
 
   private publish() {

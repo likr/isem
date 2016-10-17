@@ -20,6 +20,7 @@ import {PapaParseProvider} from './services/papa-parse.provider'
 import {LovefieldProvider} from './services/lovefield.provider'
 import {CsvToJsonAdapter} from './services/csv-to-json-adapter.service'
 import {DatabaseAdapter} from './services/database-adapter.service'
+import {ProjectsStore} from './application/project/projects.store';
 import {ProjectsDatabaseAdapter} from './services/projects-database-adapter.service'
 import {ProjectsRepository} from './application/project/projects.repository'
 import {ProjectVMFactory} from './application/project/project-vm-factory'
@@ -52,6 +53,7 @@ import {ProjectsResolver} from './application/project/projects.resolver'
     LovefieldProvider,
     CsvToJsonAdapter,
     DatabaseAdapter,
+    ProjectsStore,
     ProjectsDatabaseAdapter,
     ProjectsRepository,
     ProjectVMFactory,
@@ -62,7 +64,7 @@ import {ProjectsResolver} from './application/project/projects.resolver'
     {
       provide: ProjectsResolver,
       useClass: ProjectsResolver,
-      deps: [AppStore]
+      deps: [ProjectsStore]
     }
   ],
   bootstrap: [AppComponent]
