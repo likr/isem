@@ -18,13 +18,6 @@ export class AppActions extends Actions<AppState> {
     this.window = windowRef.nativeWindow
   }
 
-  example(): Action<AppState> {
-    return (st) => {
-      console.info('do it!')
-      return st
-    }
-  }
-
   setCurrentView(name: ViewName): Action<AppState> {
     return (st) => {
       return {
