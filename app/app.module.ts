@@ -22,6 +22,7 @@ import {CsvToJsonAdapter} from './services/csv-to-json-adapter.service'
 import {DatabaseAdapter} from './services/database-adapter.service'
 import {ProjectsDatabaseAdapter} from './services/projects-database-adapter.service'
 import {ProjectsRepository} from './application/project/projects.repository'
+import {ProjectVMFactory} from './application/project/project-vm-factory'
 import {RouteChanger} from './services/route-changer.service'
 import {AppActions} from './app.actions'
 import {AppDispatcher} from './app.dispatcher'
@@ -53,6 +54,7 @@ import {ProjectsResolver} from './application/project/projects.resolver'
     DatabaseAdapter,
     ProjectsDatabaseAdapter,
     ProjectsRepository,
+    ProjectVMFactory,
     RouteChanger,
     AppActions,
     AppDispatcher,

@@ -1,24 +1,25 @@
 import {Project} from '../../domain/project/project'
 import {getDisplayDate} from '../../utils/display-date'
-import {ObservedVariables} from '../../domain/variable/observed-variables'
+import {ObservedVariableVM} from '../variable/observed-variable-vm'
 
 export class ProjectVM {
 
   readonly name: string
   readonly uuid: string
   readonly models: Object
-  readonly observedVariables: ObservedVariables
+  readonly observedVariables: ObservedVariableVM[]
 
   private locale: string
   private _created: number
   private _modified: number
 
   constructor(project: Project,
+              observedVariables: ObservedVariableVM[],
               locale: string) {
     this.name              = project.name
     this.uuid              = project.uuid
     this.models            = project.models
-    this.observedVariables = project.observedVariables
+    this.observedVariables = observedVariables
 
     this.locale    = locale
     this._created  = project.created

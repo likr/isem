@@ -7,12 +7,12 @@ import {DatabaseAdapter} from './database-adapter.service';
 const PROJECT = 'Project'
 
 interface ProjectTable extends lf.schema.Table {
-  uuid:     lf.PredicateProvider
-  created:  lf.PredicateProvider
-  modified: lf.PredicateProvider
-  models:   lf.PredicateProvider
-  name:     lf.PredicateProvider
-  data:     lf.PredicateProvider
+  uuid:              lf.PredicateProvider
+  created:           lf.PredicateProvider
+  modified:          lf.PredicateProvider
+  models:            lf.PredicateProvider
+  name:              lf.PredicateProvider
+  observedVariables: lf.PredicateProvider
 }
 
 const projectSchema = (db: lf.Database): ProjectTable => {
@@ -69,12 +69,12 @@ export class ProjectsDatabaseAdapter {
 
   private initSchema() {
     this.db.builder.createTable(PROJECT).
-      addColumn('uuid',     this.lf.Type.STRING).
-      addColumn('created',  this.lf.Type.NUMBER).
-      addColumn('modified', this.lf.Type.NUMBER).
-      addColumn('models',   this.lf.Type.OBJECT).
-      addColumn('name',     this.lf.Type.STRING).
-      addColumn('data',     this.lf.Type.OBJECT).
+      addColumn('uuid',              this.lf.Type.STRING).
+      addColumn('created',           this.lf.Type.NUMBER).
+      addColumn('modified',          this.lf.Type.NUMBER).
+      addColumn('models',            this.lf.Type.OBJECT).
+      addColumn('name',              this.lf.Type.STRING).
+      addColumn('observedVariables', this.lf.Type.OBJECT).
       addPrimaryKey(['uuid'])
   }
 

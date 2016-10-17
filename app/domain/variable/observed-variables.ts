@@ -23,7 +23,7 @@ const rotate = (array: any[][]): any[][] => {
   })
 }
 
-export class ObservedVariables {
+export class  ObservedVariables {
 
   readonly list: ObservedVariable[]
 
@@ -37,6 +37,10 @@ export class ObservedVariables {
         values: v.filter((vv) => !!vv)
       }
     })
+  }
+
+  map<T>(cb: (value: ObservedVariable, index: number, array: ObservedVariable[]) => T) {
+    return this.list.map<T>(cb)
   }
 
 }

@@ -6,14 +6,21 @@ import {AppDispatcher} from '../app.dispatcher'
 import {AppStore} from '../app.store'
 import {ID} from '../app.routing'
 import {AbstractComponent} from './abstract.component'
+import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
 
 @Component({
   selector: 'is-detail',
   template: `
-    detail
+    <ul>
+      <li *ngFor="let variable of observedVariables">
+        {{variable.key}}
+      </li>
+    </ul>
   `
 })
 export class DetailComponent extends AbstractComponent {
+
+  observedVariables: ObservedVariableVM[]
 
   constructor(private route: ActivatedRoute,
               private actions: AppActions,
@@ -24,9 +31,7 @@ export class DetailComponent extends AbstractComponent {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.store.currentProject$.subscribe((v) => {
-        console.log(v)
-      })
+      this.store.observedVariables$.subscribe((v) => this.observedVariables = v)
     )
     this.subscriptions.push(
       this.route.params.map((v) => v[ID]).subscribe((id) => {

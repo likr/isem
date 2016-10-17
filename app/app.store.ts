@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {State, Store} from 'walts'
 
-import {LOCALE} from './constant'
 import {AppDispatcher} from './app.dispatcher'
 import {ViewName} from './app.routing'
 import {ModalDialogParams, ModalDialogType} from './components/modal-dialog.component'
 import {ProjectsRepository} from './application/project/projects.repository'
 import {ProjectVM} from './application/project/project-vm'
+import {ProjectVMFactory} from './application/project/project-vm-factory'
+import {ObservedVariableVM} from './application/variable/observed-variable-vm'
 
 export class AppState extends State {
   currentView?: ViewName
@@ -30,7 +31,8 @@ const INIT_STATE: AppState = {
 export class AppStore extends Store<AppState> {
 
   constructor(protected dispatcher: AppDispatcher,
-              private projectsRepository: ProjectsRepository) {
+              private projectsRepository: ProjectsRepository,
+              private projectVMFactory: ProjectVMFactory) {
     super((() => {
       INIT_STATE.projects = projectsRepository
       return INIT_STATE
@@ -39,13 +41,19 @@ export class AppStore extends Store<AppState> {
 
   get allProjects$(): Observable<ProjectVM[]> {
     return this.projectsRepository.all$.map((projects) => {
-      return projects.map((p) => new ProjectVM(p, LOCALE))
+      return this.projectVMFactory.makeFromProjects(projects)
     })
   }
 
   get currentProject$(): Observable<ProjectVM> {
     return this.projectsRepository.single$.map((project) => {
-      return new ProjectVM(project, LOCALE)
+      return this.projectVMFactory.make(project)
+    })
+  }
+
+  get observedVariables$(): Observable<ObservedVariableVM[]> {
+    return this.currentProject$.map((project) => {
+      return project.observedVariables
     })
   }
 
