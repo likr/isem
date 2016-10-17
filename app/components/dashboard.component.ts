@@ -73,7 +73,7 @@ import {AbstractComponent} from './abstract.component'
             >
               <td>{{project.name}}</td>
               <td>{{project.modified}}</td>
-              <td class="delete"><button (click)="onClickDelete(project)">
+              <td class="delete"><button (click)="onClickDelete($event, project)">
                 {{'Delete' | translate}}
               </button></td>
             </tr>
@@ -111,7 +111,8 @@ export class DashboardComponent extends AbstractComponent {
     this.dispatcher.emit(this.actions.showDetail(project))
   }
 
-  onClickDelete(project: ProjectVM) {
+  onClickDelete(ev: MouseEvent, project: ProjectVM) {
+    ev.stopPropagation()
     this.dispatcher.emit(this.actions.deleteProject(project))
   }
 

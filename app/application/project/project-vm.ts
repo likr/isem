@@ -1,12 +1,13 @@
-import {Project, Data} from '../../domain/project/project'
+import {Project} from '../../domain/project/project'
 import {getDisplayDate} from '../../utils/display-date'
+import {ObservedVariables} from '../../domain/variable/observed-variables'
 
 export class ProjectVM {
 
   readonly name: string
   readonly uuid: string
   readonly models: Object
-  readonly data: Data
+  readonly observedVariables: ObservedVariables
 
   private locale: string
   private _created: number
@@ -14,10 +15,10 @@ export class ProjectVM {
 
   constructor(project: Project,
               locale: string) {
-    this.name    = project.name
-    this.uuid    = project.uuid
-    this.models  = project.models
-    this.data    = project.data
+    this.name              = project.name
+    this.uuid              = project.uuid
+    this.models            = project.models
+    this.observedVariables = project.observedVariables
 
     this.locale    = locale
     this._created  = project.created
