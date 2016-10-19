@@ -2,10 +2,12 @@ import {uuidGen} from '../../utils/uuid-gen'
 
 export class LatentVariable {
 
-  uuid: string
+  id: string
+  key: string
 
-  constructor(public key: string) {
-    this.uuid = uuidGen()
+  constructor(key: string) {
+    this.id  = uuidGen()
+    this.key = key
   }
 
 }

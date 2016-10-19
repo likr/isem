@@ -5,18 +5,6 @@ const monthMap = [
   'Oct', 'Nov', 'Dec'
 ]
 
-export const getDisplayDate = (unixtime: number, locale: string): string => {
-  const date = new Date(unixtime * 1000)
-
-  if (locale === 'en') {
-    return getDisplayDateEN(date)
-  }
-  if (locale === 'ja') {
-    return getDisplayDateJA(date)
-  }
-  return ''
-}
-
 const getDisplayDateEN = (date: Date): string => {
   const m = monthMap[date.getMonth()]
   const d = date.getDate()
@@ -29,4 +17,16 @@ const getDisplayDateJA = (date: Date): string => {
   const d = date.getDate()
   const y = date.getFullYear()
   return `${y}年${m}月${d}日`
+}
+
+export const getDisplayDate = (unixtime: number, locale: string): string => {
+  const date = new Date(unixtime * 1000)
+
+  if (locale === 'en') {
+    return getDisplayDateEN(date)
+  }
+  if (locale === 'ja') {
+    return getDisplayDateJA(date)
+  }
+  return ''
 }

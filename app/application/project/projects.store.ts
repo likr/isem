@@ -5,6 +5,7 @@ import {ProjectsRepository} from './projects.repository'
 import {ProjectVM} from './project-vm'
 import {ProjectVMFactory} from './project-vm-factory'
 import {ObservedVariableVM} from '../variable/observed-variable-vm'
+import {LatentVariableVM} from '../variable/latent-variable-vm'
 
 @Injectable()
 export class ProjectsStore {
@@ -30,7 +31,7 @@ export class ProjectsStore {
     })
   }
 
-  get latentVariables$(): Observable<any[]> {
+  get latentVariables$(): Observable<LatentVariableVM[]> {
     return this.currentProject$.map((project) => {
       return project.latentVariables
     })

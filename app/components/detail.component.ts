@@ -7,6 +7,7 @@ import {ProjectsStore} from '../application/project/projects.store'
 import {ID} from '../app.routing'
 import {AbstractComponent} from './abstract.component'
 import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
+import {LatentVariableVM} from '../application/variable/latent-variable-vm'
 
 @Component({
   selector: 'is-detail',
@@ -27,7 +28,7 @@ import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
 export class DetailComponent extends AbstractComponent {
 
   observedVariables: ObservedVariableVM[]
-  latentVariables: any[]
+  latentVariables: LatentVariableVM[]
 
   constructor(private route: ActivatedRoute,
               private actions: AppActions,
@@ -38,10 +39,7 @@ export class DetailComponent extends AbstractComponent {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.store.observedVariables$.subscribe((v) => {
-        console.log('observedVariables ', v)
-        this.observedVariables = v
-      })
+      this.store.observedVariables$.subscribe((v) => this.observedVariables = v )
     )
     this.subscriptions.push(
       this.store.latentVariables$.subscribe((v) => this.latentVariables = v)

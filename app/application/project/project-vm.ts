@@ -1,6 +1,7 @@
 import {Project} from '../../domain/project/project'
 import {getDisplayDate} from '../../utils/display-date'
 import {ObservedVariableVM} from '../variable/observed-variable-vm'
+import {LatentVariableVM} from '../variable/latent-variable-vm'
 
 export class ProjectVM {
 
@@ -8,7 +9,7 @@ export class ProjectVM {
   uuid: string
   models: Object
   observedVariables: ObservedVariableVM[]
-  latentVariables: any[]
+  latentVariables: LatentVariableVM[]
 
   private locale: string
   private _created: number
@@ -16,12 +17,13 @@ export class ProjectVM {
 
   constructor(project: Project,
               observedVariables: ObservedVariableVM[],
+              latentVariables: LatentVariableVM[],
               locale: string) {
     this.name              = project.name
     this.uuid              = project.uuid
     this.models            = project.models
     this.observedVariables = observedVariables
-    this.latentVariables   = project.latentVariables
+    this.latentVariables   = latentVariables
 
     this.locale    = locale
     this._created  = project.created
