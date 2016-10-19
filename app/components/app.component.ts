@@ -3,7 +3,7 @@ import {Observable} from 'rxjs'
 
 import {AbstractComponent} from './'
 import {DatabaseAdapter} from '../services'
-import {AppStore} from '../application/main'
+import {AppStore} from '../application/app'
 import {ModalDialogType} from './modal-dialog.component'
 
 @Component({

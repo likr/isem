@@ -2,7 +2,7 @@ import {Component} from '@angular/core'
 
 import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './'
-import {AppActions, AppDispatcher} from '../application/main'
+import {AppActions, AppDispatcher} from '../application/app'
 
 @Component({
   selector: 'is-modal-dialog-load-file',

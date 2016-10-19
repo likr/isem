@@ -2,7 +2,7 @@ import {Component} from '@angular/core'
 
 import {AbstractComponent} from './'
 import {ProjectVM, ProjectsStore} from '../application/project'
-import {AppActions, AppDispatcher} from '../application/main'
+import {AppActions, AppDispatcher} from '../application/app'
 
 @Component({
   selector: 'is-dashboard',

@@ -5,7 +5,7 @@ import {HttpModule} from '@angular/http'
 import {TranslateModule, TranslateService} from 'ng2-translate'
 
 import {LOCALE} from './constant'
-import {ROUTING} from './application/main'
+import {ROUTING} from './application/app'
 
 import {declarations as components, AppComponent} from './components'
 import {declarations as directives} from './directives'

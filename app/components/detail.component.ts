@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router'
 
 import {AbstractComponent} from './'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
-import {AppActions, AppDispatcher} from '../application/main'
+import {AppActions, AppDispatcher} from '../application/app'
 import {ProjectsStore} from '../application/project'
-import {ID} from '../application/main/app.routing'
+import {ID} from '../application/app/app.routing'
 
 @Component({
   selector: 'is-detail',

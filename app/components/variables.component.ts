@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
-import {AppActions, AppDispatcher} from '../application/main'
+import {AppActions, AppDispatcher} from '../application/app'
 
 @Component({
   selector: 'is-variables',
