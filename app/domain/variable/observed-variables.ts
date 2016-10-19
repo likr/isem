@@ -1,4 +1,4 @@
-import {uuidGen} from '../../utils/uuid-gen'
+import {uuidGen} from '../../utils'
 import {ObservedVariable} from './observed-variable'
 
 /**

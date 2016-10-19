@@ -3,7 +3,7 @@ import * as lf from 'lovefield'
 
 import {LovefieldProvider} from './lovefield.provider'
 import {DatabaseAdapter} from './database-adapter.service'
-import {Project} from '../domain/project/project'
+import {Project} from '../domain/project'
 
 const PROJECT = 'Project'
 

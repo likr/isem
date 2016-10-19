@@ -1,4 +1,4 @@
-import {uuidGen} from '../../utils/uuid-gen'
+import {uuidGen} from '../../utils'
 
 export class LatentVariable {
 

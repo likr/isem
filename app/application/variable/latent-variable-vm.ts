@@ -1,4 +1,4 @@
-import {LatentVariable} from '../../domain/variable/latent-variable'
+import {LatentVariable} from '../../domain/variable'
 
 export class LatentVariableVM {
 

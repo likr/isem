@@ -1,13 +1,11 @@
 import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
-import {AppActions} from '../app.actions'
-import {AppDispatcher} from '../app.dispatcher'
-import {ProjectsStore} from '../application/project/projects.store'
-import {ID} from '../app.routing'
-import {AbstractComponent} from './abstract.component'
-import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
-import {LatentVariableVM} from '../application/variable/latent-variable-vm'
+import {AbstractComponent} from './'
+import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
+import {AppActions, AppDispatcher} from '../application/main'
+import {ProjectsStore} from '../application/project'
+import {ID} from '../application/main/app.routing'
 
 @Component({
   selector: 'is-detail',

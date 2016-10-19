@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core'
 
+import {Project} from '../../domain/project'
+import {ProjectVM} from './'
+import {ObservedVariableVM, LatentVariableVM} from '../variable'
 import {LOCALE} from '../../constant'
-import {Project} from '../../domain/project/project'
-import {ProjectVM} from './project-vm'
-import {ObservedVariableVM} from '../variable/observed-variable-vm'
-import {LatentVariableVM} from '../variable/latent-variable-vm'
 
 @Injectable()
 export class ProjectVMFactory {

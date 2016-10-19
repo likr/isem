@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core'
 
+import {AbstractComponent} from './'
+import {AppActions, AppDispatcher} from '../application/main'
+import {WindowRef} from '../services'
 import {KEYCODES} from '../constant'
-import {WindowRef} from '../services/window-ref.service';
-import {AppActions} from '../app.actions'
-import {AppDispatcher} from '../app.dispatcher'
 
 export type ModalDialogType = 'loadFile'
 export interface ModalDialogParams {
@@ -62,7 +62,7 @@ export const css = {
     </div>
   `
 })
-export class ModalDialogComponent {
+export class ModalDialogComponent extends AbstractComponent {
 
   @Input() type: ModalDialogType
   @Input() isVisible: boolean
@@ -72,6 +72,7 @@ export class ModalDialogComponent {
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher,
               windowRef: WindowRef) {
+    super()
     this.window = windowRef.nativeWindow
     this.disposers = []
   }

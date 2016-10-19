@@ -1,6 +1,6 @@
-import {uuidGen} from '../../utils/uuid-gen'
 import {ObservedVariables} from '../variable/observed-variables'
-import {LatentVariable} from '../variable/latent-variable'
+import {LatentVariable} from '../variable'
+import {uuidGen} from '../../utils'
 
 export class Project {
 

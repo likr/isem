@@ -1,7 +1,6 @@
-import {Project} from '../../domain/project/project'
-import {getDisplayDate} from '../../utils/display-date'
-import {ObservedVariableVM} from '../variable/observed-variable-vm'
-import {LatentVariableVM} from '../variable/latent-variable-vm'
+import {ObservedVariableVM, LatentVariableVM} from '../variable'
+import {Project} from '../../domain/project'
+import {getDisplayDate} from '../../utils'
 
 export class ProjectVM {
 

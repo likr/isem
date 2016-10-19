@@ -1,8 +1,8 @@
 import {Component} from '@angular/core'
 
-import {AppActions} from '../app.actions'
-import {AppDispatcher} from '../app.dispatcher'
 import {css as ModalDialogCss} from './modal-dialog.component'
+import {AbstractComponent} from './'
+import {AppActions, AppDispatcher} from '../application/main'
 
 @Component({
   selector: 'is-modal-dialog-load-file',
@@ -60,14 +60,16 @@ import {css as ModalDialogCss} from './modal-dialog.component'
     </div>
   `
 })
-export class ModalDialogLoadFileComponent {
+export class ModalDialogLoadFileComponent extends AbstractComponent {
 
   private projectName: string
   private items: Array<{label: string, value: string}>
   private loadedCsv: string
 
   constructor(private actions: AppActions,
-              private dispatcher: AppDispatcher) {}
+              private dispatcher: AppDispatcher) {
+    super()
+  }
 
   ngOnInit() {
     this.items = [

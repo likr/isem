@@ -3,9 +3,8 @@ import {Actions, Action} from 'walts'
 
 import {ViewName} from './app.routing'
 import {AppState} from './app.store'
-import {WindowRef} from './services/window-ref.service'
-import {ProjectVM} from './application/project/project-vm'
-import {RouteChanger} from './services/route-changer.service'
+import {RouteChanger, WindowRef} from '../../services'
+import {ProjectVM} from '../project'
 
 @Injectable()
 export class AppActions extends Actions<AppState> {

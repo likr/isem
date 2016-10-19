@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core'
 
-import {AppActions} from '../app.actions'
-import {AppDispatcher} from '../app.dispatcher'
+import {AppActions, AppDispatcher} from '../application/main'
 
 @Component({
   selector: 'is-ui-button',

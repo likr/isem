@@ -1,10 +1,8 @@
 import {Component} from '@angular/core'
 
-import {AppActions} from '../app.actions'
-import {AppDispatcher} from '../app.dispatcher'
-import {ProjectsStore} from '../application/project/projects.store'
-import {ProjectVM} from '../application/project/project-vm'
-import {AbstractComponent} from './abstract.component'
+import {AbstractComponent} from './'
+import {ProjectVM, ProjectsStore} from '../application/project'
+import {AppActions, AppDispatcher} from '../application/main'
 
 @Component({
   selector: 'is-dashboard',

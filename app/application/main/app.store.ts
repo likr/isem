@@ -4,8 +4,8 @@ import {State, Store} from 'walts'
 
 import {AppDispatcher} from './app.dispatcher'
 import {ViewName} from './app.routing'
-import {ModalDialogParams, ModalDialogType} from './components/modal-dialog.component'
-import {ProjectsRepository} from './application/project/projects.repository'
+import {ModalDialogParams, ModalDialogType} from '../../components/modal-dialog.component'
+import {ProjectsRepository} from '../project'
 
 export class AppState extends State {
   currentView?: ViewName

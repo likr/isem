@@ -1,4 +1,4 @@
-import {ObservedVariable} from '../../domain/variable/observed-variable'
+import {ObservedVariable} from '../../domain/variable'
 
 export class ObservedVariableVM {
 
