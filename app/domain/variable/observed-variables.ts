@@ -25,16 +25,16 @@ const rotate = (array: any[][]): any[][] => {
 
 export class  ObservedVariables {
 
-  private _list: ObservedVariable[]
+  private list: ObservedVariable[]
 
-  static fromBackend(v: any): ObservedVariables {
+  static fromBackend(v: ObservedVariables): ObservedVariables {
     const o = new ObservedVariables([[]])
-    o._list = v.list
+    o.list = v.list || [] as ObservedVariable[]
     return o
   }
 
   constructor(data: any[][]) {
-    this._list = rotate(data).map((v) => {
+    this.list = rotate(data).map((v) => {
       const key = v[0]
       v.shift()
       return {
@@ -46,7 +46,7 @@ export class  ObservedVariables {
   }
 
   map<T>(cb: (value: ObservedVariable, index: number, array: ObservedVariable[]) => T) {
-    return this._list.map<T>(cb)
+    return this.list.map<T>(cb)
   }
 
 }

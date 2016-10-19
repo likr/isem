@@ -16,11 +16,18 @@ import {ObservedVariableVM} from '../application/variable/observed-variable-vm'
         {{variable.key}}
       </li>
     </ul>
+    <button (click)="onClickAddLatentVariable()">潜在変数を追加</button>
+    <ul>
+      <li *ngFor="let variable of latentVariables">
+        {{variable.key}}
+      </li>
+    </ul>
   `
 })
 export class DetailComponent extends AbstractComponent {
 
   observedVariables: ObservedVariableVM[]
+  latentVariables: any[]
 
   constructor(private route: ActivatedRoute,
               private actions: AppActions,
@@ -31,7 +38,13 @@ export class DetailComponent extends AbstractComponent {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.store.observedVariables$.subscribe((v) => this.observedVariables = v)
+      this.store.observedVariables$.subscribe((v) => {
+        console.log('observedVariables ', v)
+        this.observedVariables = v
+      })
+    )
+    this.subscriptions.push(
+      this.store.latentVariables$.subscribe((v) => this.latentVariables = v)
     )
     this.subscriptions.push(
       this.route.params.map((v) => v[ID]).subscribe((id) => {
@@ -41,6 +54,10 @@ export class DetailComponent extends AbstractComponent {
         ])
       })
     )
+  }
+
+  onClickAddLatentVariable() {
+    this.dispatcher.emit(this.actions.addLatentVariable())
   }
 
 }

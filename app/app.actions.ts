@@ -88,4 +88,11 @@ export class AppActions extends Actions<AppState> {
     }
   }
 
+  addLatentVariable(): Action<AppState> {
+    return (st) => {
+      st.projects.addLatentVariable(st.currentId)
+      return st
+    }
+  }
+
 }

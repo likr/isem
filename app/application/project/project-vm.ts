@@ -4,10 +4,11 @@ import {ObservedVariableVM} from '../variable/observed-variable-vm'
 
 export class ProjectVM {
 
-  readonly name: string
-  readonly uuid: string
-  readonly models: Object
-  readonly observedVariables: ObservedVariableVM[]
+  name: string
+  uuid: string
+  models: Object
+  observedVariables: ObservedVariableVM[]
+  latentVariables: any[]
 
   private locale: string
   private _created: number
@@ -20,6 +21,7 @@ export class ProjectVM {
     this.uuid              = project.uuid
     this.models            = project.models
     this.observedVariables = observedVariables
+    this.latentVariables   = project.latentVariables
 
     this.locale    = locale
     this._created  = project.created

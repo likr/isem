@@ -30,4 +30,10 @@ export class ProjectsStore {
     })
   }
 
+  get latentVariables$(): Observable<any[]> {
+    return this.currentProject$.map((project) => {
+      return project.latentVariables
+    })
+  }
+
 }

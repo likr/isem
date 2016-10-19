@@ -1,41 +1,40 @@
 import {uuidGen} from '../../utils/uuid-gen'
 import {ObservedVariables} from '../variable/observed-variables'
+import {LatentVariable} from '../variable/latent-variable'
 
 export class Project {
 
-  private _uuid:              string
-  private _created:           number
-  private _modified:          number
-  private _models:            Object
-  private _observedVariables: ObservedVariables
+  name:              string
+  uuid:              string
+  created:           number
+  modified:          number
+  models:            Object
+  observedVariables: ObservedVariables
+  latentVariables:   LatentVariable[]
 
-  static fromBackend(v: any): Project {
+  static fromBackend(v: Project): Project {
     const p = new Project(v.name, [[]])
-    p._uuid              = v.uuid
-    p._created           = v.created
-    p._modified          = v.modified
-    p._models            = v.models
-    p._observedVariables = ObservedVariables.fromBackend(v.observedVariables)
+    p.uuid              = v.uuid
+    p.created           = v.created
+    p.modified          = v.modified
+    p.models            = v.models
+    p.observedVariables = ObservedVariables.fromBackend(v.observedVariables)
+    p.latentVariables   = v.latentVariables || []
     return p
   }
 
-  constructor(private _name: string,
+  constructor(name: string,
               rawData: any[][]) {
-    this._uuid = uuidGen()
+    this.name = name
+    this.uuid = uuidGen()
 
     const now = Date.now() / 1000 | 0
-    this._created  = now
-    this._modified = now
+    this.created  = now
+    this.modified = now
 
-    this._models            = {}
-    this._observedVariables = new ObservedVariables(rawData)
+    this.models            = {}
+    this.observedVariables = new ObservedVariables(rawData)
+    this.latentVariables   = []
   }
-
-  get name():              string            { return this._name }
-  get uuid():              string            { return this._uuid }
-  get created():           number            { return this._created }
-  get modified():          number            { return this._modified }
-  get models():            Object            { return this._models }
-  get observedVariables(): ObservedVariables { return this._observedVariables }
 
 }
