@@ -10,6 +10,7 @@ import {ROUTING} from './app.routing'
 import {AppComponent} from './components/app.component'
 import {DashboardComponent} from './components/dashboard.component'
 import {DetailComponent} from './components/detail.component'
+import {VariablesComponent} from './components/variables.component'
 import {ModalDialogComponent} from './components/modal-dialog.component'
 import {ModalDialogLoadFileComponent} from './components/modal-dialog-load-file.component'
 import {UiButtonComponent} from './components/ui-button.component'
@@ -42,6 +43,7 @@ import {ProjectsResolver} from './application/project/projects.resolver'
     AppComponent,
     DashboardComponent,
     DetailComponent,
+    VariablesComponent,
     ModalDialogComponent,
     ModalDialogLoadFileComponent,
     UiButtonComponent,

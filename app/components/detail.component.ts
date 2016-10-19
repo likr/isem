@@ -12,17 +12,10 @@ import {LatentVariableVM} from '../application/variable/latent-variable-vm'
 @Component({
   selector: 'is-detail',
   template: `
-    <ul>
-      <li *ngFor="let variable of observedVariables">
-        {{variable.key}}
-      </li>
-    </ul>
-    <button (click)="onClickAddLatentVariable()">潜在変数を追加</button>
-    <ul>
-      <li *ngFor="let variable of latentVariables">
-        {{variable.key}}
-      </li>
-    </ul>
+    <is-variables
+      [observedVariables]="observedVariables"
+      [latentVariables]  ="latentVariables"
+    ></is-variables>
   `
 })
 export class DetailComponent extends AbstractComponent {
@@ -52,10 +45,6 @@ export class DetailComponent extends AbstractComponent {
         ])
       })
     )
-  }
-
-  onClickAddLatentVariable() {
-    this.dispatcher.emit(this.actions.addLatentVariable())
   }
 
 }
