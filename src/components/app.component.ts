@@ -6,15 +6,26 @@ import {DatabaseAdapter} from '../services'
 import {AppStore} from '../application/app'
 import {ModalDialogType} from './modal-dialog.component'
 
+export const css = {
+  height: '64px'
+}
+
 @Component({
   selector: 'is-app',
   template: `
     <style>
+      :host {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
       .header {
+        position: relative;
         background-color: #455A64;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-        height: 64px;
-        line-height: 64px;
+        height: ${css.height};
+        line-height: ${css.height};
         color: #FFFFFF;
       }
       h1 {

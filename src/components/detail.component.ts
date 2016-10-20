@@ -2,6 +2,7 @@ import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
 import {AbstractComponent} from './abstract'
+import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
 import {ProjectsStore} from '../application/project'
@@ -10,6 +11,12 @@ import {ID} from '../application/app/app.routing'
 @Component({
   selector: 'is-detail',
   template: `
+    <style>
+      :host {
+        display: block;
+        height: calc(100% - ${appCss.height});
+      }
+    </style>
     <is-variables
       [observedVariables]="observedVariables"
       [latentVariables]  ="latentVariables"

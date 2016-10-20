@@ -7,6 +7,16 @@ import {AppActions, AppDispatcher} from '../application/app'
 @Component({
   selector: 'is-variables',
   template: `
+    <style>
+      :host {
+        background: #eee;
+        display: block;
+        margin: 0;
+        width: 320px;
+        height: 100%;
+        overflow-y: scroll;
+      }
+    </style>
     <ul>
       <li *ngFor="let variable of observedVariables">
         {{variable.key}}
