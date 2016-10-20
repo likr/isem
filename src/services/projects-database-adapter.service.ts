@@ -4,6 +4,7 @@ import * as lf from 'lovefield'
 import {LovefieldProvider} from './lovefield.provider'
 import {DatabaseAdapter} from './database-adapter.service'
 import {Project} from '../domain/project'
+import {unixtime} from '../utils'
 
 const PROJECT = 'Project'
 
@@ -17,7 +18,7 @@ interface ProjectTable extends lf.schema.Table {
   latentVariables:   lf.schema.Column
 }
 
-const projectSchema = (db: lf.Database): ProjectTable => {
+const schema = (db: lf.Database): ProjectTable => {
   return db.getSchema().table(PROJECT) as ProjectTable
 }
 
@@ -34,10 +35,11 @@ export class ProjectsDatabaseAdapter {
 
   addRow(item: Project): Promise<Object[]> {
     return this.db.connection.then((db) => {
-      const row = projectSchema(db)
+      const row = schema(db)
         .createRow(item)
-      return db.insertOrReplace()
-        .into(projectSchema(db))
+      return db
+        .insertOrReplace()
+        .into(schema(db))
         .values([row])
         .exec()
     })
@@ -45,35 +47,44 @@ export class ProjectsDatabaseAdapter {
 
   deleteRow(primaryKey: string): Promise<Object[]> {
     return this.db.connection.then((db) => {
-      return db.delete()
-        .from(projectSchema(db))
-        .where(projectSchema(db).uuid.eq(primaryKey))
+      const project = schema(db)
+      return db
+        .delete()
+        .from(project)
+        .where(project.uuid.eq(primaryKey))
         .exec()
     })
   }
 
   update(item: Project) {
     return this.db.connection.then((db) => {
-      return db.update(projectSchema(db))
-        .set(projectSchema(db).latentVariables, item.latentVariables)
-        .where(projectSchema(db).uuid.eq(item.uuid))
+      const project = schema(db)
+      return db
+        .update(project)
+        .set(project.latentVariables, item.latentVariables)
+        .set(project.modified, unixtime())
+        .where(project.uuid.eq(item.uuid))
         .exec()
     })
   }
 
   getAll(): Promise<Object[]> {
     return this.db.connection.then((db) => {
-      return db.select()
-        .from(projectSchema(db))
+      const project = schema(db)
+      return db
+        .select()
+        .from(project)
         .exec()
     })
   }
 
   getSingle(primaryKey: string): Promise<Object[]> {
     return this.db.connection.then((db) => {
-      return db.select()
-        .from(projectSchema(db))
-        .where(projectSchema(db).uuid.eq(primaryKey))
+      const project = schema(db)
+      return db
+        .select()
+        .from(project)
+        .where(project.uuid.eq(primaryKey))
         .exec()
     })
   }

@@ -1,6 +1,6 @@
 import {ObservedVariables} from '../variable/observed-variables'
 import {LatentVariable} from '../variable'
-import {uuidGen} from '../../utils'
+import {uuidGen, unixtime} from '../../utils'
 
 export class Project {
 
@@ -28,7 +28,7 @@ export class Project {
     this.name = name
     this.uuid = uuidGen()
 
-    const now = Date.now() / 1000 | 0
+    const now = unixtime()
     this.created  = now
     this.modified = now
 
