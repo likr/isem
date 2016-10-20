@@ -1,6 +1,7 @@
 import {Component} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
+import {css as appCss} from './app.component'
 import {ProjectVM, ProjectsStore} from '../application/project'
 import {AppActions, AppDispatcher} from '../application/app'
 
@@ -8,6 +9,11 @@ import {AppActions, AppDispatcher} from '../application/app'
   selector: 'is-dashboard',
   template: `
     <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: calc(100% - ${appCss.height});
+      }
       .container {
         width: 80vw;
         margin: 3em auto 0;

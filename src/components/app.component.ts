@@ -19,6 +19,7 @@ export const css = {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        color: #263238;
       }
       .header {
         position: relative;

@@ -14,6 +14,7 @@ import {ID} from '../application/app/app.routing'
     <style>
       :host {
         display: block;
+        width: 100%;
         height: calc(100% - ${appCss.height});
       }
     </style>

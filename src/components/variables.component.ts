@@ -9,12 +9,20 @@ import {AppActions, AppDispatcher} from '../application/app'
   template: `
     <style>
       :host {
-        background: #eee;
+        background: #cfd8dc;
         display: block;
         margin: 0;
         width: 320px;
         height: 100%;
         overflow-y: scroll;
+        border-right: 1px solid #90a4ae;
+      }
+      ul {
+        margin-left: 10px;
+        margin-top: 10px;
+      }
+      li {
+        line-height: 32px;
       }
     </style>
     <ul>
