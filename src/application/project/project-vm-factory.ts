@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 
 import {Project} from '../../domain/project'
-import {ProjectVM} from './'
+import {ProjectVM} from './project-vm'
 import {ObservedVariableVM, LatentVariableVM} from '../variable'
 import {LOCALE} from '../../constant'
 

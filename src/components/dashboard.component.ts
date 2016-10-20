@@ -1,6 +1,6 @@
 import {Component} from '@angular/core'
 
-import {AbstractComponent} from './'
+import {AbstractComponent} from './abstract'
 import {ProjectVM, ProjectsStore} from '../application/project'
 import {AppActions, AppDispatcher} from '../application/app'
 

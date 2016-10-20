@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 
-import {ProjectsRepository, ProjectVMFactory, ProjectVM} from './'
+import {ProjectsRepository} from './projects.repository'
+import {ProjectVMFactory} from './project-vm-factory'
+import {ProjectVM} from './project-vm'
 import {ObservedVariableVM, LatentVariableVM} from '../variable'
 
 @Injectable()

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core'
 
-import {AbstractComponent} from './'
+import {AbstractComponent} from './abstract'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
 

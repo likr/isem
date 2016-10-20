@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core'
 import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router'
 
-import {ProjectVM, ProjectsStore} from './'
+import {ProjectVM} from './project-vm'
+import {ProjectsStore} from './projects.store'
 
 @Injectable()
 export class ProjectsResolver implements Resolve<ProjectVM[]> {

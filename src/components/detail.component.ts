@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
-import {AbstractComponent} from './'
+import {AbstractComponent} from './abstract'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
 import {ProjectsStore} from '../application/project'

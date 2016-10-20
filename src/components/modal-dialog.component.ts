@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core'
 
-import {AbstractComponent} from './'
+import {AbstractComponent} from './abstract'
 import {AppActions, AppDispatcher} from '../application/app'
 import {WindowRef} from '../services'
 import {KEYCODES} from '../constant'

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 import {Observable} from 'rxjs'
 
-import {AbstractComponent} from './'
+import {AbstractComponent} from './abstract'
 import {DatabaseAdapter} from '../services'
 import {AppStore} from '../application/app'
 import {ModalDialogType} from './modal-dialog.component'
