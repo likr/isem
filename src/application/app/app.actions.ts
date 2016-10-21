@@ -5,6 +5,7 @@ import {ViewName} from './app.routing'
 import {AppState} from './app.store'
 import {RouteChanger, WindowRef} from '../../services'
 import {ProjectVM} from '../project'
+import {ObservedVariableVM, LatentVariableVM} from '../variable'
 
 @Injectable()
 export class AppActions extends Actions<AppState> {
@@ -91,6 +92,28 @@ export class AppActions extends Actions<AppState> {
     return (st) => {
       st.projects.addLatentVariable(st.currentId)
       return st
+    }
+  }
+
+  openModalDialogObservedVariableDetail(v: ObservedVariableVM): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'observedVariableDetail',
+          isVisible: true
+        }
+      } as AppState
+    }
+  }
+
+  openModalDialogLatentVariableDetail(v: LatentVariableVM): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'latentVariableDetail',
+          isVisible: true
+        }
+      } as AppState
     }
   }
 

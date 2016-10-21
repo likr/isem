@@ -27,13 +27,13 @@ import {AppActions, AppDispatcher} from '../application/app'
     </style>
     <ul>
       <li *ngFor="let variable of observedVariables">
-        {{variable.key}}
+        {{variable.key}}<button (click)="onClickObservedVariable(variable)">詳細</button>
       </li>
     </ul>
     <button (click)="onClickAddLatentVariable()">潜在変数を追加</button>
     <ul>
       <li *ngFor="let variable of latentVariables">
-        {{variable.key}}
+        {{variable.key}}<button (click)="onClickLatentVariable(variable)">詳細</button>
       </li>
     </ul>
   `
@@ -50,6 +50,14 @@ export class VariablesComponent extends AbstractComponent {
 
   onClickAddLatentVariable() {
     this.dispatcher.emit(this.actions.addLatentVariable())
+  }
+
+  onClickObservedVariable(v: ObservedVariableVM) {
+    this.dispatcher.emit(this.actions.openModalDialogObservedVariableDetail(v))
+  }
+
+  onClickLatentVariable(v: LatentVariableVM) {
+    this.dispatcher.emit(this.actions.openModalDialogLatentVariableDetail(v))
   }
 
 }

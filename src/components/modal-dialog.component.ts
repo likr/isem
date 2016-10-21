@@ -5,7 +5,11 @@ import {AppActions, AppDispatcher} from '../application/app'
 import {WindowRef} from '../services'
 import {KEYCODES} from '../constant'
 
-export type ModalDialogType = 'loadFile'
+export type ModalDialogType =
+  'loadFile' |
+  'observedVariableDetail' |
+  'latentVariableDetail'
+
 export interface ModalDialogParams {
   type: ModalDialogType
   isVisible: boolean
@@ -59,6 +63,14 @@ export const css = {
       <is-modal-dialog-load-file
         *ngIf="type === 'loadFile'"
       ></is-modal-dialog-load-file>
+
+      <is-modal-dialog-observed-variable-detail
+        *ngIf="type === 'observedVariableDetail'"
+      ></is-modal-dialog-observed-variable-detail>
+
+      <is-modal-dialog-latent-variable-detail
+        *ngIf="type === 'latentVariableDetail'"
+      ></is-modal-dialog-latent-variable-detail>
     </div>
   `
 })
