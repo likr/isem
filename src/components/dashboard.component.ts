@@ -4,6 +4,7 @@ import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
 import {ProjectVM, ProjectsStore} from '../application/project'
 import {AppActions, AppDispatcher} from '../application/app'
+import {ModalDialogActions} from '../application/modal-dialog'
 
 @Component({
   selector: 'is-dashboard',
@@ -91,7 +92,8 @@ export class DashboardComponent extends AbstractComponent {
 
   projects: ProjectVM[]
 
-  constructor(private actions: AppActions,
+  constructor(private appActions: AppActions,
+              private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher,
               private store: ProjectsStore) {
     super()
@@ -104,20 +106,20 @@ export class DashboardComponent extends AbstractComponent {
         this.projects = v
       })
     )
-    this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
+    this.dispatcher.emit(this.appActions.setCurrentView('dashboard'))
   }
 
   onClickLoadFile() {
-    this.dispatcher.emit(this.actions.openModalDialodLoadFile())
+    this.dispatcher.emit(this.modalDialog.openLoadFile())
   }
 
   onClickProject(project: ProjectVM) {
-    this.dispatcher.emit(this.actions.showDetail(project))
+    this.dispatcher.emit(this.appActions.showDetail(project))
   }
 
   onClickDelete(ev: MouseEvent, project: ProjectVM) {
     ev.stopPropagation()
-    this.dispatcher.emit(this.actions.deleteProject(project))
+    this.dispatcher.emit(this.appActions.deleteProject(project))
   }
 
 }

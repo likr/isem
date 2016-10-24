@@ -3,6 +3,7 @@ import {Component} from '@angular/core'
 import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppActions, AppDispatcher} from '../application/app'
+import {ModalDialogActions} from '../application/modal-dialog'
 
 @Component({
   selector: 'is-modal-dialog-load-file',
@@ -66,7 +67,8 @@ export class ModalDialogLoadFileComponent extends AbstractComponent {
   private items: Array<{label: string, value: string}>
   private loadedCsv: string
 
-  constructor(private actions: AppActions,
+  constructor(private appActions: AppActions,
+              private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher) {
     super()
   }
@@ -80,13 +82,13 @@ export class ModalDialogLoadFileComponent extends AbstractComponent {
 
   onClickPrimary() {
     this.dispatcher.emitAll([
-      this.actions.createNewProject(this.projectName, this.loadedCsv),
-      this.actions.closeModalDialog()
+      this.appActions.createNewProject(this.projectName, this.loadedCsv),
+      this.modalDialog.close()
     ])
   }
 
   onClickSecondary() {
-    this.dispatcher.emit(this.actions.closeModalDialog())
+    this.dispatcher.emit(this.modalDialog.close())
   }
 
   onResultInputFile(result: string) {

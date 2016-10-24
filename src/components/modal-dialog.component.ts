@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
-import {AppActions, AppDispatcher} from '../application/app'
+import {AppDispatcher} from '../application/app'
 import {WindowRef} from '../services'
 import {KEYCODES} from '../constant'
+import {ModalDialogActions} from '../application/modal-dialog'
 
 export type ModalDialogType =
   'loadFile' |
@@ -81,7 +82,7 @@ export class ModalDialogComponent extends AbstractComponent {
   private window: Window
   private disposers: Function[]
 
-  constructor(private actions: AppActions,
+  constructor(private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher,
               windowRef: WindowRef) {
     super()
@@ -96,7 +97,7 @@ export class ModalDialogComponent extends AbstractComponent {
   bindKeyEvents() {
     const listener = (ev: KeyboardEvent) => {
       if (this.isVisible && ev.keyCode === KEYCODES.esc) {
-        this.dispatcher.emit(this.actions.closeModalDialog())
+        this.dispatcher.emit(this.modalDialog.close())
       }
     }
 
