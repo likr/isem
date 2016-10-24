@@ -70,10 +70,6 @@ export class UiButtonComponent {
   constructor(private actions: AppActions,
               private dispatcher: AppDispatcher) {}
 
-  ngOnInit() {
-    this.dispatcher.emit(this.actions.setCurrentView('dashboard'))
-  }
-
   onClick(ev: MouseEvent) {
     this.clickButton.emit(ev)
   }

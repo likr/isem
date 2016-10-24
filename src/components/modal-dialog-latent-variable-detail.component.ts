@@ -4,6 +4,8 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
+import {ProjectsStore} from '../application/project'
+import {LatentVariableVM} from '../application/variable'
 
 @Component({
   selector: 'is-modal-dialog-latent-variable-detail',
@@ -24,7 +26,8 @@ import {ModalDialogActions} from '../application/modal-dialog'
     </style>
 
     <h2>ModalDialogLatentVariableDetail</h2>
-    
+    <p>{{variable.key}}</p>
+
     <div class="buttons">
       <is-ui-button
         [label]="'OK' | translate"
@@ -36,9 +39,18 @@ import {ModalDialogActions} from '../application/modal-dialog'
 })
 export class ModalDialogLatentVariableDetail extends AbstractComponent {
 
+  private variable: LatentVariableVM
+
   constructor(private modalDialog: ModalDialogActions,
-              private dispatcher: AppDispatcher) {
+              private dispatcher: AppDispatcher,
+              private store: ProjectsStore) {
     super()
+  }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.store.currentLatentVariable$.subscribe((v) => this.variable = v)
+    )
   }
 
   onClickPrimary() {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Actions, Action} from 'walts'
 
-import {AppState} from '../app/app.store'
+import {AppState} from '../app/app.state'
 import {ObservedVariableVM, LatentVariableVM} from '../variable'
 
 @Injectable()
@@ -24,7 +24,8 @@ export class ModalDialogActions extends Actions<AppState> {
         modalDialog: {
           type: 'observedVariableDetail',
           isVisible: true
-        }
+        },
+        targetObservedVariableId: v.id
       } as AppState
     }
   }
@@ -35,7 +36,8 @@ export class ModalDialogActions extends Actions<AppState> {
         modalDialog: {
           type: 'latentVariableDetail',
           isVisible: true
-        }
+        },
+        targetLatentVariableId: v.id
       } as AppState
     }
   }

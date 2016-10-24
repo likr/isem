@@ -5,11 +5,13 @@ import {ProjectsRepository} from './projects.repository'
 import {ProjectVMFactory} from './project-vm-factory'
 import {ProjectVM} from './project-vm'
 import {ObservedVariableVM, LatentVariableVM} from '../variable'
+import {AppStore} from '../app'
 
 @Injectable()
 export class ProjectsStore {
 
-  constructor(private projectsRepository: ProjectsRepository,
+  constructor(private store: AppStore,
+              private projectsRepository: ProjectsRepository,
               private projectVMFactory: ProjectVMFactory) {}
 
   get allProjects$(): Observable<ProjectVM[]> {
@@ -21,6 +23,26 @@ export class ProjectsStore {
   get currentProject$(): Observable<ProjectVM> {
     return this.projectsRepository.single$.map((project) => {
       return this.projectVMFactory.make(project)
+    })
+  }
+
+  get currentObservedVariable$(): Observable<ObservedVariableVM> {
+    return Observable.zip(
+      this.currentProject$,
+      this.store.observable
+    ).map((v) => {
+      const [project, st] = v
+      return project.findObservedVariable(st.targetObservedVariableId)
+    })
+  }
+
+  get currentLatentVariable$(): Observable<LatentVariableVM> {
+    return Observable.zip(
+      this.currentProject$,
+      this.store.observable
+    ).map((v) => {
+      const [project, st] = v
+      return project.findLatentVariable(st.targetLatentVariableId)
     })
   }
 

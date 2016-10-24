@@ -37,4 +37,12 @@ export class ProjectVM {
     return getDisplayDate(this._modified, this.locale)
   }
 
+  findObservedVariable(id: string): ObservedVariableVM {
+    return this.observedVariables.find((v) => v.id === id)
+  }
+
+  findLatentVariable(id: string): LatentVariableVM {
+    return this.latentVariables.find((v) => v.id === id)
+  }
+
 }

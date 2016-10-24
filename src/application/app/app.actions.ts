@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 import {Actions, Action} from 'walts'
 
 import {ViewName} from './app.routing'
-import {AppState} from './app.store'
+import {AppState} from './app.state'
 import {RouteChanger, WindowRef} from '../../services'
 import {ProjectVM} from '../project'
 

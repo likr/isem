@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Observable, Subject, BehaviorSubject} from 'rxjs'
+import {Observable, Subject, BehaviorSubject, ReplaySubject} from 'rxjs'
 
 import {CsvToJsonAdapter, ProjectsDatabaseAdapter} from '../../services'
 import {Project} from '../../domain/project'
@@ -16,7 +16,7 @@ export class ProjectsRepository {
     this.getAllSubject = new BehaviorSubject(
       Observable.fromPromise(this.projectsDb.getAll())
     )
-    this.getSingleSubject = new Subject()
+    this.getSingleSubject = new ReplaySubject()
   }
 
   create(projectName: string, modelCsv: string): Promise<any> {

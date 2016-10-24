@@ -4,6 +4,8 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
+import {ProjectsStore} from '../application/project'
+import {ObservedVariableVM} from '../application/variable'
 
 @Component({
   selector: 'is-modal-dialog-observed-variable-detail',
@@ -24,6 +26,7 @@ import {ModalDialogActions} from '../application/modal-dialog'
     </style>
 
     <h2>ModalDialogObservedVariableDetail</h2>
+    <p>{{variable.key}}</p>
     
     <div class="buttons">
       <is-ui-button
@@ -36,9 +39,18 @@ import {ModalDialogActions} from '../application/modal-dialog'
 })
 export class ModalDialogObservedVariableDetail extends AbstractComponent {
 
+  private variable: ObservedVariableVM
+
   constructor(private modalDialog: ModalDialogActions,
-              private dispatcher: AppDispatcher) {
+              private dispatcher: AppDispatcher,
+              private store: ProjectsStore) {
     super()
+  }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.store.currentObservedVariable$.subscribe((v) => this.variable = v)
+    )
   }
 
   onClickPrimary() {
