@@ -1,0 +1,9 @@
+h2 {
+  margin-bottom: 16px;
+}
+is-ui-button {
+  margin-right: 5px;
+}
+is-ui-button:last-child {
+  margin-right: 0;
+}

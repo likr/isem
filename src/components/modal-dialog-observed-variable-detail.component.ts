@@ -8,20 +8,14 @@ import {ProjectsStore} from '../application/project'
 import {ObservedVariableVM} from '../application/variable'
 
 @Component({
-  selector: 'is-modal-dialog-observed-variable-detail',
-  template: `
+  selector : 'is-modal-dialog-observed-variable-detail',
+  styleUrls: ['src/shared-styles/modal-dialog.css'],
+  template : `
     <style>
       .buttons {
         position: absolute;
         bottom: ${ModalDialogCss.bodyPadding};
         right:  ${ModalDialogCss.bodyPadding};
-      }  
-        
-      is-ui-button {
-        margin-right: 5px; 
-      }
-      is-ui-button:last-child {
-        margin-right: 0; 
       }
     </style>
 

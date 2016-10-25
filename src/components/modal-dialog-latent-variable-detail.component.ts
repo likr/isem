@@ -9,20 +9,14 @@ import {LatentVariableVM} from '../application/variable'
 import {ProjectsActions} from '../application/project/projects.actions'
 
 @Component({
-  selector: 'is-modal-dialog-latent-variable-detail',
-  template: `
+  selector : 'is-modal-dialog-latent-variable-detail',
+  styleUrls: ['src/shared-styles/modal-dialog.css'],
+  template : `
     <style>
       .buttons {
         position: absolute;
         bottom: ${ModalDialogCss.bodyPadding};
         right:  ${ModalDialogCss.bodyPadding};
-      }  
-        
-      is-ui-button {
-        margin-right: 5px; 
-      }
-      is-ui-button:last-child {
-        margin-right: 0; 
       }
     </style>
 

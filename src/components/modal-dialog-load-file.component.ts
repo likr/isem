@@ -7,45 +7,52 @@ import {ModalDialogActions} from '../application/modal-dialog'
 import {ProjectsActions} from '../application/project/projects.actions'
 
 @Component({
-  selector: 'is-modal-dialog-load-file',
-  template: `
+  selector : 'is-modal-dialog-load-file',
+  styleUrls: ['src/shared-styles/modal-dialog.css'],
+  template : `
     <style>
       .buttons {
         position: absolute;
         bottom: ${ModalDialogCss.bodyPadding};
         right:  ${ModalDialogCss.bodyPadding};
-      }  
-        
-      is-ui-button {
-        margin-right: 5px; 
       }
-      is-ui-button:last-child {
-        margin-right: 0; 
+      .container,
+      .csvContainer {
+        margin-top: 8px;
       }
     </style>
 
     <h2>{{'ModalDialogLoadFile.Header' | translate}}</h2>
 
-    <label for="projectName">{{'ModalDialogLoadFile.LabelProjectName' | translate}}</label>
-    <input type="text" id="projectName" [(ngModel)]="projectName">
+    <div class="container">
+      <label for="projectName">{{'ModalDialogLoadFile.LabelProjectName' | translate}}</label>
+      <input type="text" id="projectName" [(ngModel)]="projectName">
+    </div>
 
-    <label for="csvFile">{{'ModalDialogLoadFile.LabelCSVFile' | translate}}</label>
-    <input
-      type="file"
-      [encoding]="encoding"
-      (result)="onResultInputFile($event)"
-    >
-    <label *ngFor="let item of items">
-      <input
-        type="radio"
-        name="encoding"
-        [attr.value]="item.value"
-        [checked]="item.value === items[0].value"
-        (change)="encoding = item.value"
-      >
-      {{item.label}}
-    </label>
-    <p>{{'ModalDialogLoadFile.SampleFile' | translate}}</p>
+    <div class="csvContainer">
+      <label *ngFor="let item of items">
+        <input
+          type="radio"
+          name="encoding"
+          [attr.value]="item.value"
+          [checked]="item.value === items[0].value"
+          (change)="encoding = item.value"
+        >
+        {{item.label}}
+      </label>
+      <div class="container">
+        <label for="csvFile">{{'ModalDialogLoadFile.LabelCSVFile' | translate}}</label>
+        <input
+          type="file"
+          [encoding]="encoding"
+          (result)="onResultInputFile($event)"
+        >
+      </div>
+    </div>
+
+    <div class="container">
+      <p>{{'ModalDialogLoadFile.SampleFile' | translate}}</p>
+    </div>
     
     <div class="buttons">
       <is-ui-button
