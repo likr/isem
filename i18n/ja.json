@@ -8,6 +8,12 @@
     "LabelCSVFile": "CSVファイル",
     "SampleFile": "サンプルファイル"
   },
+  "ModalDialogObservedVariableDetail": {
+    "Header": "観測変数詳細"
+  },
+  "ModalDialogLatentVariableDetail": {
+    "Header": "潜在変数詳細"
+  },
   "ProjectList": "プロジェクト一覧",
   "ProjectName": "プロジェクト名",
   "LastUpdateDate": "最終更新日時",

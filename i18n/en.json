@@ -8,6 +8,12 @@
     "LabelCSVFile": "CSV File",
     "SampleFile": "Download sample file"
   },
+  "ModalDialogObservedVariableDetail": {
+    "Header": "Observed Variable Detail"
+  },
+  "ModalDialogLatentVariableDetail": {
+    "Header": "Latent Variable Detail"
+  },
   "ProjectList": "Project List",
   "ProjectName": "Project Name",
   "LastUpdateDate": "Last Update Date",

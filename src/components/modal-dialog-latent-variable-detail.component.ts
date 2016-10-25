@@ -26,7 +26,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
       }
     </style>
 
-    <h2>ModalDialogLatentVariableDetail</h2>
+    <h2>{{'ModalDialogLatentVariableDetail.Header' | translate}}</h2>
     <p>{{variable.key}}</p>
     <input type="text" [(ngModel)]="newKey">
 

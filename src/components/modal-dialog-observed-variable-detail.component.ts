@@ -25,7 +25,7 @@ import {ObservedVariableVM} from '../application/variable'
       }
     </style>
 
-    <h2>ModalDialogObservedVariableDetail</h2>
+    <h2>{{'ModalDialogObservedVariableDetail.Header' | translate}}</h2>
     <p>{{variable.key}}</p>
     
     <div class="buttons">
