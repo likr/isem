@@ -1,5 +1,5 @@
 import {ObservedVariables} from '../variable/observed-variables'
-import {LatentVariable} from '../variable'
+import {LatentVariable, ObservedVariable} from '../variable'
 import {uuidGen, unixtime} from '../../utils'
 
 export class Project {
@@ -35,6 +35,14 @@ export class Project {
     this.models            = {}
     this.observedVariables = new ObservedVariables(rawData)
     this.latentVariables   = []
+  }
+
+  findObservedVariable(id: string): ObservedVariable {
+    return this.observedVariables.find((v) => v.id === id)
+  }
+
+  findLatentVariable(id: string): LatentVariable {
+    return this.latentVariables.find((v) => v.id === id)
   }
 
 }

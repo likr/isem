@@ -5,7 +5,7 @@ import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
-import {ProjectsStore} from '../application/project'
+import {ProjectsStore, ProjectsActions} from '../application/project'
 import {ID} from '../application/app/app.routing'
 
 @Component({
@@ -30,7 +30,8 @@ export class DetailComponent extends AbstractComponent {
   latentVariables: LatentVariableVM[]
 
   constructor(private route: ActivatedRoute,
-              private actions: AppActions,
+              private app: AppActions,
+              private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
               private store: ProjectsStore) {
     super()
@@ -46,8 +47,8 @@ export class DetailComponent extends AbstractComponent {
     this.subscriptions.push(
       this.route.params.map((v) => v[ID]).subscribe((id) => {
         this.dispatcher.emitAll([
-          this.actions.initDetail(id),
-          this.actions.setCurrentView('detail'),
+          this.projects.initDetail(id),
+          this.app.setCurrentView('detail'),
         ])
       })
     )

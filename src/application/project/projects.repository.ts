@@ -47,6 +47,19 @@ export class ProjectsRepository {
     })
   }
 
+  changeLatentVariableKey(uuid: string, variableId: string, newKey: string) {
+    return this.projectsDb.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      const variable = project.findLatentVariable(variableId)
+      variable.key = newKey
+
+      return this.projectsDb.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
   emitQuerySingle(uuid: string) {
     this.publishSingle(uuid)
   }

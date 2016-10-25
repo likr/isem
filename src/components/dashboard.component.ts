@@ -5,6 +5,7 @@ import {css as appCss} from './app.component'
 import {ProjectVM, ProjectsStore} from '../application/project'
 import {AppActions, AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
+import {ProjectsActions} from '../application/project/projects.actions'
 
 @Component({
   selector: 'is-dashboard',
@@ -73,7 +74,7 @@ import {ModalDialogActions} from '../application/modal-dialog'
           </thead>
           <tbody>
             <tr
-              *ngFor="let project of projects"
+              *ngFor="let project of projectVMs"
               (click)="onClickProject(project)"
             >
               <td>{{project.name}}</td>
@@ -90,20 +91,21 @@ import {ModalDialogActions} from '../application/modal-dialog'
 })
 export class DashboardComponent extends AbstractComponent {
 
-  projects: ProjectVM[]
+  projectVMs: ProjectVM[]
 
   constructor(private appActions: AppActions,
+              private projects: ProjectsActions,
               private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher,
               private store: ProjectsStore) {
     super()
-    this.projects = []
+    this.projectVMs = []
   }
 
   ngOnInit() {
     this.subscriptions.push(
       this.store.allProjects$.subscribe((v) => {
-        this.projects = v
+        this.projectVMs = v
       })
     )
     this.dispatcher.emit(this.appActions.setCurrentView('dashboard'))
@@ -114,12 +116,12 @@ export class DashboardComponent extends AbstractComponent {
   }
 
   onClickProject(project: ProjectVM) {
-    this.dispatcher.emit(this.appActions.showDetail(project))
+    this.dispatcher.emit(this.projects.showDetail(project))
   }
 
   onClickDelete(ev: MouseEvent, project: ProjectVM) {
     ev.stopPropagation()
-    this.dispatcher.emit(this.appActions.deleteProject(project))
+    this.dispatcher.emit(this.projects.deleteProject(project))
   }
 
 }

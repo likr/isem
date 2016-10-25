@@ -49,4 +49,8 @@ export class  ObservedVariables {
     return this.list.map<T>(cb)
   }
 
+  find(predicate: (value: ObservedVariable, index: number, array: ObservedVariable[]) => boolean): ObservedVariable | undefined {
+    return this.list.find(predicate)
+  }
+
 }

@@ -2,8 +2,9 @@ import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
-import {AppActions, AppDispatcher} from '../application/app'
+import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
+import {ProjectsActions} from '../application/project'
 
 @Component({
   selector: 'is-variables',
@@ -44,14 +45,14 @@ export class VariablesComponent extends AbstractComponent {
   @Input() observedVariables: ObservedVariableVM[]
   @Input() latentVariables: LatentVariableVM[]
 
-  constructor(private appActions: AppActions,
+  constructor(private projects: ProjectsActions,
               private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher) {
     super()
   }
 
   onClickAddLatentVariable() {
-    this.dispatcher.emit(this.appActions.addLatentVariable())
+    this.dispatcher.emit(this.projects.addLatentVariable())
   }
 
   onClickObservedVariable(v: ObservedVariableVM) {
