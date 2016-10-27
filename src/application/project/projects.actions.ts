@@ -64,6 +64,13 @@ export class ProjectsActions extends Actions<AppState> {
     }
   }
 
+  removeLatentVariable(variable: LatentVariableVM): Action<AppState> {
+    return (st) => {
+      st.projects.removeLatentVariable(st.currentId, variable.id)
+      return st
+    }
+  }
+
   changeLatentVariableKey(variable: LatentVariableVM, newKey: string): Action<AppState> {
     return (st) => {
       st.projects.changeLatentVariableKey(st.currentId, variable.id, newKey)

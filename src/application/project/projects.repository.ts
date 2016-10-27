@@ -47,6 +47,17 @@ export class ProjectsRepository {
     })
   }
 
+  removeLatentVariable(uuid: string, variableId: string) {
+    return this.projectsDb.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.removeLatentVariable(variableId)
+      return this.projectsDb.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
   changeLatentVariableKey(uuid: string, variableId: string, newKey: string) {
     return this.projectsDb.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
