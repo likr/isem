@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core'
 
 import {AppActions, AppDispatcher} from '../application/app'
+import {AbstractComponent} from './abstract'
 
 @Component({
   selector: 'is-ui-button',
@@ -61,14 +62,16 @@ import {AppActions, AppDispatcher} from '../application/app'
     >{{label}}</span>
   `
 })
-export class UiButtonComponent {
+export class UiButtonComponent extends AbstractComponent {
 
   @Input() label: string
   @Input() type: string
   @Output() clickButton = new EventEmitter<MouseEvent>()
 
   constructor(private actions: AppActions,
-              private dispatcher: AppDispatcher) {}
+              private dispatcher: AppDispatcher) {
+    super()
+  }
 
   onClick(ev: MouseEvent) {
     this.clickButton.emit(ev)

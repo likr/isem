@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Observable, Subject, BehaviorSubject, ReplaySubject} from 'rxjs'
+import {Observable, BehaviorSubject, ReplaySubject} from 'rxjs'
 
 import {CsvToJsonAdapter, ProjectsDatabaseAdapter} from '../../services'
 import {Project} from '../../domain/project'
@@ -9,14 +9,14 @@ import {LatentVariable} from '../../domain/variable'
 export class ProjectsRepository {
 
   private getAllSubject: BehaviorSubject<Observable<Object[]>>
-  private getSingleSubject: Subject<Observable<Object[]>>
+  private getSingleSubject: ReplaySubject<Observable<Object[]>>
 
   constructor(private csvToJson: CsvToJsonAdapter,
               private projectsDb: ProjectsDatabaseAdapter) {
     this.getAllSubject = new BehaviorSubject(
       Observable.fromPromise(this.projectsDb.getAll())
     )
-    this.getSingleSubject = new ReplaySubject()
+    this.getSingleSubject = new ReplaySubject(1)
   }
 
   create(projectName: string, modelCsv: string): Promise<any> {

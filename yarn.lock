@@ -2541,9 +2541,9 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-walts@^0.11.0-beta.0:
-  version "0.11.0-beta.0"
-  resolved "https://registry.yarnpkg.com/walts/-/walts-0.11.0-beta.0.tgz#747b7d4e0d9ac8725eb65e063e119ed8339e2ab3"
+walts@^0.11.0-beta.1:
+  version "0.11.0-beta.1"
+  resolved "https://registry.yarnpkg.com/walts/-/walts-0.11.0-beta.1.tgz#8db2200393d10a4a78d32909dd5482bc203ecdf3"
 
 watchpack@^0.2.1:
   version "0.2.9"
