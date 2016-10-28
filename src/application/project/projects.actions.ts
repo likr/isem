@@ -66,6 +66,10 @@ export class ProjectsActions extends Actions<AppState> {
 
   removeLatentVariable(variable: LatentVariableVM): Action<AppState> {
     return (st) => {
+      const confirmed = this.window.confirm('Are you sure?')
+      if (!confirmed) {
+        return st
+      }
       st.projects.removeLatentVariable(st.currentId, variable.id)
       return st
     }
