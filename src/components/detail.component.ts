@@ -13,7 +13,7 @@ import {ID} from '../application/app/app.routing'
   template: `
     <style>
       :host {
-        display: block;
+        display: flex;
         width: 100%;
         height: calc(100% - ${appCss.height});
       }
@@ -22,6 +22,7 @@ import {ID} from '../application/app/app.routing'
       [observedVariables]="observedVariables"
       [latentVariables]  ="latentVariables"
     ></is-variables>
+    <is-models></is-models>
   `
 })
 export class DetailComponent extends AbstractComponent {

@@ -14,7 +14,7 @@ import {ProjectsActions} from '../application/project'
         background: #cfd8dc;
         display: block;
         margin: 0;
-        width: 320px;
+        width: 240px;
         height: 100%;
         overflow-y: scroll;
         border-right: 1px solid #90a4ae;
