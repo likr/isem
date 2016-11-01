@@ -41,6 +41,49 @@ export class ModalDialogActions extends Actions<AppState> {
       } as AppState
     }
   }
+  openCreateRegression(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'createRegression',
+          isVisible: true
+        }
+      } as AppState
+    }
+  }
+
+  openCreateLatentVariableRelation(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'createLatentVariableRelation',
+          isVisible: true
+        }
+      } as AppState
+    }
+  }
+
+  openCreateCovariance(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'createCovariance',
+          isVisible: true
+        }
+      } as AppState
+    }
+  }
+
+  openCreateIntercept(): Action<AppState> {
+    return (st) => {
+      return {
+        modalDialog: {
+          type: 'createIntercept',
+          isVisible: true
+        }
+      } as AppState
+    }
+  }
 
   close(): Action<AppState> {
     return (st) => {

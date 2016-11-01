@@ -9,7 +9,11 @@ import {ModalDialogActions} from '../application/modal-dialog'
 export type ModalDialogType =
   'loadFile' |
   'observedVariableDetail' |
-  'latentVariableDetail'
+  'latentVariableDetail' |
+  'createRegression' |
+  'createLatentVariableRelation' |
+  'createCovariance' |
+  'createIntercept'
 
 export interface ModalDialogParams {
   type: ModalDialogType
@@ -72,6 +76,22 @@ export const css = {
       <is-modal-dialog-latent-variable-detail
         *ngIf="type === 'latentVariableDetail'"
       ></is-modal-dialog-latent-variable-detail>
+
+      <is-modal-dialog-create-regression
+        *ngIf="type === 'createRegression'"
+      ></is-modal-dialog-create-regression>
+
+      <is-modal-dialog-create-latent-variable-relation
+        *ngIf="type === 'createLatentVariableRelation'"
+      ></is-modal-dialog-create-latent-variable-relation>
+
+      <is-modal-dialog-create-covariance
+        *ngIf="type === 'createCovariance'"
+      ></is-modal-dialog-create-covariance>
+
+      <is-modal-dialog-create-intercept
+        *ngIf="type === 'createIntercept'"
+      ></is-modal-dialog-create-intercept>
     </div>
   `
 })

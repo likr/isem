@@ -5,7 +5,6 @@ import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
 import {ProjectsStore} from '../application/project'
-import {LatentVariableVM} from '../application/variable'
 import {ProjectsActions} from '../application/project/projects.actions'
 
 @Component({
@@ -31,10 +30,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </div>
   `
 })
-export class ModalDialogCreateCovariance extends AbstractComponent {
-
-  private variable: LatentVariableVM
-  private newKey: string
+export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,

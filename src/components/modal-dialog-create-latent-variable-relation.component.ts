@@ -8,7 +8,7 @@ import {ProjectsStore} from '../application/project'
 import {ProjectsActions} from '../application/project/projects.actions'
 
 @Component({
-  selector : 'is-modal-dialog-create-intercept',
+  selector : 'is-modal-dialog-create-latent-variable-relation',
   styleUrls: ['src/shared-styles/modal-dialog.css'],
   template : `
     <style>
@@ -19,7 +19,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
       }
     </style>
 
-    <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
+    <h2>{{'ModalDialogCreateLatentVariableRelation.Header' | translate}}</h2>
 
     <div class="buttons">
       <is-ui-button
@@ -30,7 +30,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </div>
   `
 })
-export class ModalDialogCreateInterceptComponent extends AbstractComponent {
+export class ModalDialogCreateLatentVariableRelationComponent extends AbstractComponent {
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,

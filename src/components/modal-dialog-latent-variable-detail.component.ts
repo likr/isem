@@ -40,7 +40,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </div>
   `
 })
-export class ModalDialogLatentVariableDetail extends AbstractComponent {
+export class ModalDialogLatentVariableDetailComponent extends AbstractComponent {
 
   private variable: LatentVariableVM
   private newKey: string

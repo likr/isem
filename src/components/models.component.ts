@@ -1,7 +1,8 @@
 import {Component} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
-import {ProjectsStore} from '../application/project'
+import {ModalDialogActions} from '../application/modal-dialog'
+import {AppDispatcher} from '../application/app'
 
 @Component({
   selector: 'is-models',
@@ -39,25 +40,25 @@ import {ProjectsStore} from '../application/project'
 })
 export class ModelsComponent extends AbstractComponent {
 
-  constructor(private store: ProjectsStore) {
+  constructor(private modalDialog: ModalDialogActions,
+              private dispatcher: AppDispatcher) {
     super()
   }
 
-
   onClickRegression() {
-    console.info('onClickRegression')
+    this.dispatcher.emit(this.modalDialog.openCreateRegression())
   }
 
   onClickLatentVariable() {
-    console.info('onClickLatentVariable')
+    this.dispatcher.emit(this.modalDialog.openCreateLatentVariableRelation())
   }
 
   onClickCovariance() {
-    console.info('onClickCovariance')
+    this.dispatcher.emit(this.modalDialog.openCreateCovariance())
   }
 
   onClickIntercept() {
-    console.info('onClickIntercept')
+    this.dispatcher.emit(this.modalDialog.openCreateIntercept())
   }
 
 }

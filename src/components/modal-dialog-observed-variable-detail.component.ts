@@ -31,7 +31,7 @@ import {ObservedVariableVM} from '../application/variable'
     </div>
   `
 })
-export class ModalDialogObservedVariableDetail extends AbstractComponent {
+export class ModalDialogObservedVariableDetailComponent extends AbstractComponent {
 
   private variable: ObservedVariableVM
 
