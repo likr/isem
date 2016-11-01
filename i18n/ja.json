@@ -14,6 +14,18 @@
   "ModalDialogLatentVariableDetail": {
     "Header": "潜在変数詳細"
   },
+  "ModalDialogCreateCovariance": {
+    "Header": "共分散を追加"
+  },
+  "ModalDialogCreateIntercept": {
+    "Header": "切片を追加"
+  },
+  "ModalDialogCreateLatentVariableRelation": {
+    "Header": "潜在引数の関係性を追加"
+  },
+  "ModalDialogCreateRegression": {
+    "Header": "回帰を追加"
+  },
   "ProjectList": "プロジェクト一覧",
   "ProjectName": "プロジェクト名",
   "LastUpdateDate": "最終更新日時",

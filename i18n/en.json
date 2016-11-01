@@ -14,6 +14,18 @@
   "ModalDialogLatentVariableDetail": {
     "Header": "Latent Variable Detail"
   },
+  "ModalDialogCreateCovariance": {
+    "Header": "Create Covariance"
+  },
+  "ModalDialogCreateIntercept": {
+    "Header": "Create Intercept"
+  },
+  "ModalDialogCreateLatentVariableRelation": {
+    "Header": "Create Latent Variable Relation"
+  },
+  "ModalDialogCreateRegression": {
+    "Header": "Create Regression"
+  },
   "ProjectList": "Project List",
   "ProjectName": "Project Name",
   "LastUpdateDate": "Last Update Date",
