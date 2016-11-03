@@ -6,6 +6,7 @@ import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
 import {ProjectsStore} from '../application/project'
 import {ProjectsActions} from '../application/project/projects.actions'
+import {VariableVM} from '../application/variable'
 
 @Component({
   selector : 'is-modal-dialog-create-intercept',
@@ -20,6 +21,12 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </style>
 
     <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
+    <label for="variable">変数</label>
+    <select id="variable" name="variable">
+      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
+    
+    <label>値<input type="number"></label>
 
     <div class="buttons">
       <is-ui-button
@@ -32,6 +39,8 @@ import {ProjectsActions} from '../application/project/projects.actions'
 })
 export class ModalDialogCreateInterceptComponent extends AbstractComponent {
 
+  variables: VariableVM[]
+
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
@@ -40,7 +49,9 @@ export class ModalDialogCreateInterceptComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    //
+    this.subscriptions.push(
+      this.store.variables$.subscribe((v) => this.variables = v)
+    )
   }
 
   onClickPrimary() {

@@ -4,8 +4,8 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
-import {ProjectsStore} from '../application/project'
-import {ProjectsActions} from '../application/project/projects.actions'
+import {ProjectsActions, ProjectsStore} from '../application/project'
+import {VariableVM} from '../application/variable/'
 
 @Component({
   selector : 'is-modal-dialog-create-regression',
@@ -20,6 +20,14 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </style>
 
     <h2>{{'ModalDialogCreateRegression.Header' | translate}}</h2>
+    <label for="dependentVariable">被説明変数</label>
+    <select id="dependentVariable" name="dependentVariable">
+      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
+
+    <label *ngFor="let v of variables">
+      <input type="checkbox" name="variable" [attr.value]="v.id">{{v.key}}
+    </label>
 
     <div class="buttons">
       <is-ui-button
@@ -32,6 +40,8 @@ import {ProjectsActions} from '../application/project/projects.actions'
 })
 export class ModalDialogCreateRegressionComponent extends AbstractComponent {
 
+  variables: VariableVM[]
+
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
@@ -40,7 +50,9 @@ export class ModalDialogCreateRegressionComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    //
+    this.subscriptions.push(
+      this.store.variables$.subscribe((v) => this.variables = v)
+    )
   }
 
   onClickPrimary() {

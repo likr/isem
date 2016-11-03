@@ -4,8 +4,8 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
-import {ProjectsStore} from '../application/project'
-import {ProjectsActions} from '../application/project/projects.actions'
+import {ProjectsStore, ProjectsActions} from '../application/project'
+import {VariableVM} from '../application/variable'
 
 @Component({
   selector : 'is-modal-dialog-create-covariance',
@@ -20,6 +20,15 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </style>
 
     <h2>{{'ModalDialogCreateCovariance.Header' | translate}}</h2>
+    <label for="variable1">変数1</label>
+    <select id="variable1" name="variable1">
+      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
+    
+    <label for="variable2">変数2</label>
+    <select id="variable2" name="variable2">
+      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
 
     <div class="buttons">
       <is-ui-button
@@ -32,6 +41,8 @@ import {ProjectsActions} from '../application/project/projects.actions'
 })
 export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
 
+  variables: VariableVM[]
+
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
@@ -40,7 +51,9 @@ export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    //
+    this.subscriptions.push(
+      this.store.variables$.subscribe((v) => this.variables = v)
+    )
   }
 
   onClickPrimary() {

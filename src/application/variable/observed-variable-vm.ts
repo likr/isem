@@ -1,14 +1,12 @@
 import {ObservedVariable} from '../../domain/variable'
+import {VariableVM} from './variable-vm'
 
-export class ObservedVariableVM {
+export class ObservedVariableVM extends VariableVM {
 
-  readonly id: string
-  readonly key: string
-  readonly values: any[]
+  values: any[]
 
   constructor(v: ObservedVariable) {
-    this.id     = v.id
-    this.key    = v.key
+    super(v.id, v.key)
     this.values = v.values
   }
 

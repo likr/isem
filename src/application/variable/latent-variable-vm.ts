@@ -1,13 +1,10 @@
 import {LatentVariable} from '../../domain/variable'
+import {VariableVM} from './variable-vm'
 
-export class LatentVariableVM {
-
-  id: string
-  key: string
+export class LatentVariableVM extends VariableVM {
 
   constructor(v: LatentVariable) {
-    this.id  = v.id
-    this.key = v.key
+    super(v.id, v.key)
   }
 
 }

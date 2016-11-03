@@ -4,8 +4,8 @@ import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
-import {ProjectsStore} from '../application/project'
-import {ProjectsActions} from '../application/project/projects.actions'
+import {ProjectsActions, ProjectsStore} from '../application/project'
+import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 
 @Component({
   selector : 'is-modal-dialog-create-latent-variable-relation',
@@ -20,6 +20,14 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </style>
 
     <h2>{{'ModalDialogCreateLatentVariableRelation.Header' | translate}}</h2>
+    <label for="latentVariable">潜在変数</label>
+    <select id="latentVariable" name="latentVariable">
+      <option *ngFor="let v of latentVariables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
+
+    <label *ngFor="let v of observedVariables">
+      <input type="checkbox" name="observedVariable" [attr.value]="v.id">{{v.key}}
+    </label>
 
     <div class="buttons">
       <is-ui-button
@@ -32,6 +40,9 @@ import {ProjectsActions} from '../application/project/projects.actions'
 })
 export class ModalDialogCreateLatentVariableRelationComponent extends AbstractComponent {
 
+  observedVariables: ObservedVariableVM[]
+  latentVariables: LatentVariableVM[]
+
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
@@ -40,7 +51,12 @@ export class ModalDialogCreateLatentVariableRelationComponent extends AbstractCo
   }
 
   ngOnInit() {
-    //
+    this.subscriptions.push(
+      this.store.observedVariables$.subscribe((v) => this.observedVariables = v)
+    )
+    this.subscriptions.push(
+      this.store.latentVariables$.subscribe((v) => this.latentVariables = v)
+    )
   }
 
   onClickPrimary() {

@@ -5,7 +5,7 @@ import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
-import {ProjectsStore, ProjectsActions} from '../application/project'
+import {ProjectsActions, ProjectsStore} from '../application/project'
 import {ID} from '../application/app/app.routing'
 
 @Component({

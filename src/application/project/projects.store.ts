@@ -4,7 +4,7 @@ import {Observable} from 'rxjs'
 import {ProjectsRepository} from './projects.repository'
 import {ProjectVMFactory} from './project-vm-factory'
 import {ProjectVM} from './project-vm'
-import {ObservedVariableVM, LatentVariableVM} from '../variable'
+import {VariableVM, ObservedVariableVM, LatentVariableVM} from '../variable'
 import {AppStore} from '../app'
 
 @Injectable()
@@ -55,6 +55,13 @@ export class ProjectsStore {
   get latentVariables$(): Observable<LatentVariableVM[]> {
     return this.currentProject$.map((project) => {
       return project.latentVariables
+    })
+  }
+
+  get variables$(): Observable<VariableVM[]> {
+    return this.currentProject$.map((project) => {
+      return (<VariableVM[]>project.observedVariables)
+        .concat(<VariableVM[]>project.latentVariables)
     })
   }
 
