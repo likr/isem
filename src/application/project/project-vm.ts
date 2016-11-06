@@ -14,19 +14,19 @@ export class ProjectVM {
   private _created: number
   private _modified: number
 
-  constructor(project: Project,
+  constructor(p: Project,
               observedVariables: ObservedVariableVM[],
               latentVariables: LatentVariableVM[],
               locale: string) {
-    this.name              = project.name
-    this.uuid              = project.uuid
-    this.models            = project.models
+    this.name              = p.name
+    this.uuid              = p.uuid
+    this.models            = p.models
     this.observedVariables = observedVariables
     this.latentVariables   = latentVariables
 
     this.locale    = locale
-    this._created  = project.created
-    this._modified = project.modified
+    this._created  = p.created
+    this._modified = p.modified
   }
 
   get created(): string {

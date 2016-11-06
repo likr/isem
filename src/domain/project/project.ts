@@ -1,6 +1,15 @@
-import {ObservedVariables} from '../variable/observed-variables'
-import {LatentVariable, ObservedVariable} from '../variable'
+import {
+  Variable,
+  LatentVariable,
+  LatentVariables,
+  ObservedVariable,
+  ObservedVariables
+} from '../variable'
 import {uuidGen, unixtime} from '../../utils'
+
+export interface Models {
+  covariance?: {[key: string]: string[]}
+}
 
 export class Project {
 
@@ -8,18 +17,17 @@ export class Project {
   uuid:              string
   created:           number
   modified:          number
-  models:            Object
+  models:            Models
   observedVariables: ObservedVariables
-  latentVariables:   LatentVariable[]
+  latentVariables:   LatentVariables
 
   static fromBackend(v: Project): Project {
     const p = new Project(v.name, [[]])
-    p.uuid              = v.uuid
-    p.created           = v.created
-    p.modified          = v.modified
-    p.models            = v.models
+
+    Object.keys(p).forEach((key) => (<any>p)[key] = (<any>v)[key])
     p.observedVariables = ObservedVariables.fromBackend(v.observedVariables)
-    p.latentVariables   = v.latentVariables || []
+    p.latentVariables   = LatentVariables  .fromBackend(v.latentVariables)
+
     return p
   }
 
@@ -34,7 +42,7 @@ export class Project {
 
     this.models            = {}
     this.observedVariables = new ObservedVariables(rawData)
-    this.latentVariables   = []
+    this.latentVariables   = new LatentVariables()
   }
 
   findObservedVariable(id: string): ObservedVariable {
@@ -43,6 +51,11 @@ export class Project {
 
   findLatentVariable(id: string): LatentVariable {
     return this.latentVariables.find((v) => v.id === id)
+  }
+
+  findVariable(id: string): Variable {
+    const variable = this.findObservedVariable(id)
+    return variable || this.findLatentVariable(id)
   }
 
   removeLatentVariable(id: string) {

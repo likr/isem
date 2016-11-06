@@ -8,11 +8,11 @@ import {LOCALE} from '../../constant'
 @Injectable()
 export class ProjectVMFactory {
 
-  make(project: Project): ProjectVM {
+  make(p: Project): ProjectVM {
     return new ProjectVM(
-      project,
-      project.observedVariables.map((v) => new ObservedVariableVM(v)),
-      project.latentVariables  .map((v) => new LatentVariableVM(v)),
+      p,
+      p.observedVariables.map((v) => new ObservedVariableVM(v)),
+      p.latentVariables  .map((v) => new LatentVariableVM(v)),
       LOCALE
     )
   }

@@ -1,4 +1,3 @@
-import {uuidGen} from '../../utils'
 import {ObservedVariable} from './observed-variable'
 
 /**
@@ -37,11 +36,7 @@ export class  ObservedVariables {
     this.list = rotate(data).map((v) => {
       const key = v[0]
       v.shift()
-      return {
-        id: uuidGen(),
-        key,
-        values: v.filter((vv) => !!vv)
-      }
+      return new ObservedVariable(key, v)
     })
   }
 

@@ -21,12 +21,20 @@ import {VariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateCovariance.Header' | translate}}</h2>
     <label for="variable1">変数1</label>
-    <select id="variable1" name="variable1">
+    <select
+      id="variable1"
+      name="variable1"
+      [(ngModel)]="variable1"
+    >
       <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
     </select>
     
     <label for="variable2">変数2</label>
-    <select id="variable2" name="variable2">
+    <select
+      id="variable2"
+      name="variable2"
+      [(ngModel)]="variable2"
+    >
       <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
     </select>
 
@@ -42,6 +50,8 @@ import {VariableVM} from '../application/variable'
 export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
 
   variables: VariableVM[]
+  variable1: string // uuid
+  variable2: string // uuid
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
@@ -52,12 +62,19 @@ export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.store.variables$.subscribe((v) => this.variables = v)
+      this.store.variables$.subscribe((v) => {
+        this.variables = v
+
+        this.variable1 = this.variables[0].id
+        this.variable2 = 1 < this.variables.length
+          ? this.variables[1].id
+          : this.variables[0].id
+      })
     )
   }
 
   onClickPrimary() {
-    //
+    this.dispatcher.emit(this.projects.addCovariance(this.variable1, this.variable2))
   }
 
 }

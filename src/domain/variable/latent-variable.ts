@@ -1,13 +1,12 @@
-import {uuidGen} from '../../utils'
+import {Variable} from './variable'
 
-export class LatentVariable {
+export class LatentVariable extends Variable {
 
-  id: string
-  key: string
+  latentVariableToken: 'LatentVariable'
 
   constructor(key: string) {
-    this.id  = uuidGen()
-    this.key = key
+    super(key)
+    this.latentVariableToken = 'LatentVariable'
   }
 
 }

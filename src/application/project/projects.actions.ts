@@ -82,4 +82,11 @@ export class ProjectsActions extends Actions<AppState> {
     }
   }
 
+  addCovariance(variable1: string, variable2: string): Action<AppState> {
+    return (st) => {
+      st.projects.addCovariance(st.currentId, variable1, variable2)
+      return st
+    }
+  }
+
 }

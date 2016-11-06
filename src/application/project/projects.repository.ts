@@ -39,7 +39,7 @@ export class ProjectsRepository {
     return this.projectsDb.getSingle(uuid).then((v) => {
       const project     = Project.fromBackend(v[0] as Project)
       const newVariable = new LatentVariable('new variable')
-      project.latentVariables.push(newVariable)
+      project.latentVariables.add(newVariable)
       return this.projectsDb.update(project).then((vv) => {
         this.publishSingle(uuid)
         return vv
@@ -63,6 +63,23 @@ export class ProjectsRepository {
       const project = Project.fromBackend(v[0] as Project)
       const variable = project.findLatentVariable(variableId)
       variable.key = newKey
+
+      return this.projectsDb.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  addCovariance(uuid: string, variable1Id: string, variable2Id: string): Promise<any> {
+    return this.projectsDb.getSingle(uuid).then((v) => {
+      const project     = Project.fromBackend(v[0] as Project)
+      const variable1key = project.findVariable(variable1Id).key
+      const variable2key = project.findVariable(variable2Id).key
+
+      project.models.covariance               = project.models.covariance || {}
+      project.models.covariance[variable1key] = project.models.covariance[variable1key] || []
+      project.models.covariance[variable1key].push(variable2key)
 
       return this.projectsDb.update(project).then((vv) => {
         this.publishSingle(uuid)
