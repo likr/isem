@@ -12,7 +12,7 @@ interface ProjectTable extends lf.schema.Table {
   uuid:              lf.schema.Column
   created:           lf.schema.Column
   modified:          lf.schema.Column
-  models:            lf.schema.Column
+  model:             lf.schema.Column
   name:              lf.schema.Column
   observedVariables: lf.schema.Column
   latentVariables:   lf.schema.Column
@@ -94,7 +94,7 @@ export class ProjectsDatabaseAdapter {
       addColumn('uuid',              this.lf.Type.STRING).
       addColumn('created',           this.lf.Type.NUMBER).
       addColumn('modified',          this.lf.Type.NUMBER).
-      addColumn('models',            this.lf.Type.OBJECT).
+      addColumn('model',             this.lf.Type.OBJECT).
       addColumn('name',              this.lf.Type.STRING).
       addColumn('observedVariables', this.lf.Type.OBJECT).
       addColumn('latentVariables',   this.lf.Type.OBJECT).

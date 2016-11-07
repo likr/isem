@@ -6,7 +6,7 @@ export class ProjectVM {
 
   name: string
   uuid: string
-  models: Object
+  model: Object
   observedVariables: ObservedVariableVM[]
   latentVariables: LatentVariableVM[]
 
@@ -20,7 +20,7 @@ export class ProjectVM {
               locale: string) {
     this.name              = p.name
     this.uuid              = p.uuid
-    this.models            = p.models
+    this.model             = p.model
     this.observedVariables = observedVariables
     this.latentVariables   = latentVariables
 

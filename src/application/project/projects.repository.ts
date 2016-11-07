@@ -73,13 +73,8 @@ export class ProjectsRepository {
 
   addCovariance(uuid: string, variable1Id: string, variable2Id: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
-      const project     = Project.fromBackend(v[0] as Project)
-      const variable1key = project.findVariable(variable1Id).key
-      const variable2key = project.findVariable(variable2Id).key
-
-      project.models.covariance               = project.models.covariance || {}
-      project.models.covariance[variable1key] = project.models.covariance[variable1key] || []
-      project.models.covariance[variable1key].push(variable2key)
+      const project = Project.fromBackend(v[0] as Project)
+      project.addCovariance(variable1Id, variable2Id)
 
       return this.db.update(project).then((vv) => {
         this.publishSingle(uuid)

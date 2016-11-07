@@ -6,10 +6,7 @@ import {
   ObservedVariables
 } from '../variable'
 import {uuidGen, unixtime} from '../../utils'
-
-export interface Models {
-  covariance?: {[key: string]: string[]}
-}
+import {Model} from '../model'
 
 export class Project {
 
@@ -17,7 +14,7 @@ export class Project {
   uuid:              string
   created:           number
   modified:          number
-  models:            Models
+  model:             Model
   observedVariables: ObservedVariables
   latentVariables:   LatentVariables
 
@@ -40,7 +37,7 @@ export class Project {
     this.created  = now
     this.modified = now
 
-    this.models            = {}
+    this.model             = new Model()
     this.observedVariables = new ObservedVariables(rawData)
     this.latentVariables   = new LatentVariables()
   }
@@ -70,6 +67,13 @@ export class Project {
   renameLatentVariable(variableId: string, newKey: string) {
     const variable = this.findLatentVariable(variableId)
     variable.key = newKey
+  }
+
+  addCovariance(variable1Id: string, variable2Id: string) {
+    this.model.addCovariance(
+      this.findVariable(variable1Id).key,
+      this.findVariable(variable2Id).key
+    )
   }
 
 }
