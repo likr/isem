@@ -61,20 +61,28 @@ export class ModalDialogCreateCovarianceComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.variables$.subscribe((v) => {
-        this.variables = v
+    const p = new Promise<VariableVM[]>((resolve) => {
+      this.subscriptions.push(
+        this.store.variables$.subscribe((v) => {
+          this.variables = v
+          resolve(v)
+        })
+      )
+    })
 
-        this.variable1 = this.variables[0].id
-        this.variable2 = 1 < this.variables.length
-          ? this.variables[1].id
-          : this.variables[0].id
-      })
-    )
+    p.then((variables) => {
+      this.variable1 = variables[0].id
+      this.variable2 = 1 < variables.length
+        ? this.variables[1].id
+        : this.variables[0].id
+    })
   }
 
   onClickPrimary() {
-    this.dispatcher.emit(this.projects.addCovariance(this.variable1, this.variable2))
+    this.dispatcher.emitAll([
+      this.projects.addCovariance(this.variable1, this.variable2),
+      this.modalDialog.close()
+    ])
   }
 
 }

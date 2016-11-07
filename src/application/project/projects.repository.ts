@@ -83,6 +83,42 @@ export class ProjectsRepository {
     })
   }
 
+  addIntercept(uuid: string, variableId: string, value: number): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.addIntercept(variableId, value)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  addLatentVariableRelation(uuid: string, latentVariableId: string, observedVariableIds: string[]): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.addLatentVariableRelation(latentVariableId, observedVariableIds)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  addRegression(uuid: string, dependentVariableId: string, variableIds: string[]): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.addRegression(dependentVariableId, variableIds)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
   emitQuerySingle(uuid: string) {
     this.publishSingle(uuid)
   }

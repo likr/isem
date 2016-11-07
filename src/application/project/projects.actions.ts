@@ -82,9 +82,30 @@ export class ProjectsActions extends Actions<AppState> {
     }
   }
 
-  addCovariance(variable1: string, variable2: string): Action<AppState> {
+  addCovariance(variable1Id: string, variable2Id: string): Action<AppState> {
     return (st) => {
-      st.projects.addCovariance(st.currentId, variable1, variable2)
+      st.projects.addCovariance(st.currentId, variable1Id, variable2Id)
+      return st
+    }
+  }
+
+  addIntercept(variableId: string, value: number): Action<AppState> {
+    return (st) => {
+      st.projects.addIntercept(st.currentId, variableId, value)
+      return st
+    }
+  }
+
+  addLatentVariableRelation(latentVariableId: string, observedVariableIds: string[]): Action<AppState> {
+    return (st) => {
+      st.projects.addLatentVariableRelation(st.currentId, latentVariableId, observedVariableIds)
+      return st
+    }
+  }
+
+  addRegression(dependentVariableId: string, variableIds: string[]): Action<AppState> {
+    return (st) => {
+      st.projects.addRegression(st.currentId, dependentVariableId, variableIds)
       return st
     }
   }

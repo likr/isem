@@ -22,11 +22,15 @@ import {VariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
     <label for="variable">変数</label>
-    <select id="variable" name="variable">
+    <select
+      id="variable"
+      name="variable"
+      [(ngModel)]="variable"
+    >
       <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
     </select>
-    
-    <label>値<input type="number"></label>
+
+    <label>値<input type="number" [(ngModel)]="value"></label>
 
     <div class="buttons">
       <is-ui-button
@@ -40,6 +44,8 @@ import {VariableVM} from '../application/variable'
 export class ModalDialogCreateInterceptComponent extends AbstractComponent {
 
   variables: VariableVM[]
+  variable: string // uuid
+  value: number
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
@@ -49,13 +55,26 @@ export class ModalDialogCreateInterceptComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.variables$.subscribe((v) => this.variables = v)
-    )
+    const p = new Promise<VariableVM[]>((resolve) => {
+      this.subscriptions.push(
+        this.store.variables$.subscribe((v) => {
+          this.variables = v
+          resolve(v)
+        })
+      )
+    })
+
+    p.then((variables) => {
+      this.value = 0
+      this.variable = variables[0].id
+    })
   }
 
   onClickPrimary() {
-    //
+    this.dispatcher.emitAll([
+      this.projects.addIntercept(this.variable, this.value),
+      this.modalDialog.close()
+    ])
   }
 
 }

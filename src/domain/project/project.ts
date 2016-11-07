@@ -22,6 +22,7 @@ export class Project {
     const p = new Project(v.name, [[]])
 
     Object.keys(p).forEach((key) => (<any>p)[key] = (<any>v)[key])
+    p.model             = Model            .fromBackend(v.model)
     p.observedVariables = ObservedVariables.fromBackend(v.observedVariables)
     p.latentVariables   = LatentVariables  .fromBackend(v.latentVariables)
 
@@ -73,6 +74,35 @@ export class Project {
     this.model.addCovariance(
       this.findVariable(variable1Id).key,
       this.findVariable(variable2Id).key
+    )
+  }
+
+  addIntercept(variableId: string, value: number) {
+    this.model.addIntercept(
+      this.findVariable(variableId).key,
+      value
+    )
+  }
+
+  addLatentVariableRelation(latentVariableId: string, observedVariableIds: string[]) {
+    const observedVariableKeys = observedVariableIds.map((id) => {
+      return this.findObservedVariable(id).key
+    })
+
+    this.model.addLatentVariableRelation(
+      this.findLatentVariable(latentVariableId).key,
+      observedVariableKeys
+    )
+  }
+
+  addRegression(dependentVariable: string, variableIds: string[]) {
+    const variableKeys = variableIds.map((id) => {
+      return this.findVariable(id).key
+    })
+
+    this.model.addRegression(
+      this.findVariable(dependentVariable).key,
+      variableKeys
     )
   }
 

@@ -21,12 +21,20 @@ import {VariableVM} from '../application/variable/'
 
     <h2>{{'ModalDialogCreateRegression.Header' | translate}}</h2>
     <label for="dependentVariable">被説明変数</label>
-    <select id="dependentVariable" name="dependentVariable">
+    <select
+      id         ="dependentVariable"
+      name       ="dependentVariable"
+      [(ngModel)]="dependentVariable"
+    >
       <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
     </select>
 
-    <label *ngFor="let v of variables">
-      <input type="checkbox" name="variable" [attr.value]="v.id">{{v.key}}
+    <label *ngFor="let v of variables; let i = index">
+      <input
+        type="checkbox"
+        name="variable"
+        [(ngModel)]="checkboxModel[i]"
+      >{{v.key}}
     </label>
 
     <div class="buttons">
@@ -41,22 +49,43 @@ import {VariableVM} from '../application/variable/'
 export class ModalDialogCreateRegressionComponent extends AbstractComponent {
 
   variables: VariableVM[]
+  dependentVariable: string // uuid
+  checkboxModel: boolean[]
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
               private store: ProjectsStore) {
     super()
+    this.checkboxModel = []
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.variables$.subscribe((v) => this.variables = v)
-    )
+    const p = new Promise<VariableVM[]>((resolve) => {
+      this.subscriptions.push(
+        this.store.variables$.subscribe((v) => {
+          this.variables = v
+          resolve(v)
+        })
+      )
+    })
+    p.then((v) => {
+      this.checkboxModel = this.variables.map((_) => false)
+      this.dependentVariable = v[0].id
+    })
   }
 
   onClickPrimary() {
-    //
+    const variableIds = this.checkboxModel.map((v, i) => {
+      if (v) {
+        return this.variables[i].id
+      }
+    }).filter((v) => !!v)
+
+    this.dispatcher.emitAll([
+      this.projects.addRegression(this.dependentVariable, variableIds),
+      this.modalDialog.close()
+    ])
   }
 
 }

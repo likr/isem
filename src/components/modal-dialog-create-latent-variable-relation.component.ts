@@ -21,12 +21,20 @@ import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateLatentVariableRelation.Header' | translate}}</h2>
     <label for="latentVariable">潜在変数</label>
-    <select id="latentVariable" name="latentVariable">
+    <select
+      id         ="latentVariable"
+      name       ="latentVariable"
+      [(ngModel)]="latentVariable"
+    >
       <option *ngFor="let v of latentVariables" [attr.value]="v.id">{{v.key}}</option>
     </select>
 
-    <label *ngFor="let v of observedVariables">
-      <input type="checkbox" name="observedVariable" [attr.value]="v.id">{{v.key}}
+    <label *ngFor="let v of observedVariables; let i = index">
+      <input
+        type       ="checkbox"
+        name       ="observedVariable"
+        [(ngModel)]="checkboxModel[i]"
+      >{{v.key}}
     </label>
 
     <div class="buttons">
@@ -42,25 +50,54 @@ export class ModalDialogCreateLatentVariableRelationComponent extends AbstractCo
 
   observedVariables: ObservedVariableVM[]
   latentVariables: LatentVariableVM[]
+  latentVariable: string // uuid
+  checkboxModel: boolean[]
 
   constructor(private modalDialog: ModalDialogActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
               private store: ProjectsStore) {
     super()
+    this.checkboxModel = []
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.observedVariables$.subscribe((v) => this.observedVariables = v)
-    )
-    this.subscriptions.push(
-      this.store.latentVariables$.subscribe((v) => this.latentVariables = v)
-    )
+    const p1 = new Promise((resolve) => {
+      this.subscriptions.push(
+        this.store.observedVariables$.subscribe((v) => {
+          this.observedVariables = v
+          resolve()
+        })
+      )
+    })
+    p1.then(() => {
+      this.checkboxModel = this.observedVariables.map((_) => false)
+    })
+
+    const p2 = new Promise<LatentVariableVM[]>((resolve) => {
+      this.subscriptions.push(
+        this.store.latentVariables$.subscribe((v) => {
+          this.latentVariables = v
+          resolve(v)
+        })
+      )
+    })
+    p2.then((v) => {
+      this.latentVariable = v[0].id
+    })
   }
 
   onClickPrimary() {
-    //
+    const observedVariableIds = this.checkboxModel.map((v, i) => {
+      if (v) {
+        return this.observedVariables[i].id
+      }
+    }).filter((v) => !!v)
+
+    this.dispatcher.emitAll([
+      this.projects.addLatentVariableRelation(this.latentVariable, observedVariableIds),
+      this.modalDialog.close()
+    ])
   }
 
 }
