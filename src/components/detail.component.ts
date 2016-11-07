@@ -22,13 +22,23 @@ import {ID} from '../application/app/app.routing'
       [observedVariables]="observedVariables"
       [latentVariables]  ="latentVariables"
     ></is-variables>
-    <is-models></is-models>
+
+    <is-models
+      [covariances]            ="covariances"
+      [intercepts]             ="intercepts"
+      [latentVariableRelations]="latentVariableRelations"
+      [regressions]            ="regressions"
+    ></is-models>
   `
 })
 export class DetailComponent extends AbstractComponent {
 
-  observedVariables: ObservedVariableVM[]
-  latentVariables: LatentVariableVM[]
+  observedVariables:       ObservedVariableVM[]
+  latentVariables:         LatentVariableVM[]
+  covariances:             string[]
+  intercepts:              string[]
+  latentVariableRelations: string[]
+  regressions:             string[]
 
   constructor(private route: ActivatedRoute,
               private app: AppActions,
@@ -39,12 +49,15 @@ export class DetailComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.observedVariables$.subscribe((v) => this.observedVariables = v )
-    )
-    this.subscriptions.push(
-      this.store.latentVariables$.subscribe((v) => this.latentVariables = v)
-    )
+    this.subscriptions.concat([
+      this.store.observedVariables$      .subscribe((v) => this.observedVariables = v ),
+      this.store.latentVariables$        .subscribe((v) => this.latentVariables = v),
+      this.store.covariances$            .subscribe((v) => this.covariances = v),
+      this.store.intercepts$             .subscribe((v) => this.intercepts = v),
+      this.store.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
+      this.store.regressions$            .subscribe((v) => this.regressions = v),
+    ])
+
     this.subscriptions.push(
       this.route.params.map((v) => v[ID]).subscribe((id) => {
         this.dispatcher.emitAll([

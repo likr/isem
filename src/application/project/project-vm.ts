@@ -10,6 +10,11 @@ export class ProjectVM {
   observedVariables: ObservedVariableVM[]
   latentVariables: LatentVariableVM[]
 
+  covariances: string[]
+  intercepts: string[]
+  latentVariableRelations: string[]
+  regressions: string[]
+
   private locale: string
   private _created: number
   private _modified: number
@@ -20,13 +25,14 @@ export class ProjectVM {
               locale: string) {
     this.name              = p.name
     this.uuid              = p.uuid
-    this.model             = p.model
     this.observedVariables = observedVariables
     this.latentVariables   = latentVariables
 
     this.locale    = locale
     this._created  = p.created
     this._modified = p.modified
+
+    this.initModel(p.model)
   }
 
   get created(): string {
@@ -43,6 +49,11 @@ export class ProjectVM {
 
   findLatentVariable(id: string): LatentVariableVM {
     return this.latentVariables.find((v) => v.id === id)
+  }
+
+  private initModel(m: Object) {
+    this.model = m
+    console.log(m)
   }
 
 }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
 import {ModalDialogActions} from '../application/modal-dialog'
@@ -27,18 +27,35 @@ import {AppDispatcher} from '../application/app'
     </style>
     <h2>回帰</h2>
     <button (click)="onClickRegression()">追加</button>
+    <ul>
+      <li *ngFor="let label of covariances">{{label}}</li>
+    </ul>
 
     <h2>潜在変数</h2>
-    <button (click)="onClickLatentVariable()">追加</button>
+    <button (click)="onClickLatentVariableRelation()">追加</button>
+    <ul>
+      <li *ngFor="let label of intercepts">{{label}}</li>
+    </ul>
 
     <h2>共分散</h2>
     <button (click)="onClickCovariance()">追加</button>
+    <ul>
+      <li *ngFor="let label of latentVariableRelations">{{label}}</li>
+    </ul>
 
     <h2>切片</h2>
     <button (click)="onClickIntercept()">追加</button>
+    <ul>
+      <li *ngFor="let label of regressions">{{label}}</li>
+    </ul>
   `
 })
 export class ModelsComponent extends AbstractComponent {
+
+  @Input() covariances:             string[]
+  @Input() intercepts:              string[]
+  @Input() latentVariableRelations: string[]
+  @Input() regressions:             string[]
 
   constructor(private modalDialog: ModalDialogActions,
               private dispatcher: AppDispatcher) {
@@ -49,7 +66,7 @@ export class ModelsComponent extends AbstractComponent {
     this.dispatcher.emit(this.modalDialog.openCreateRegression())
   }
 
-  onClickLatentVariable() {
+  onClickLatentVariableRelation() {
     this.dispatcher.emit(this.modalDialog.openCreateLatentVariableRelation())
   }
 

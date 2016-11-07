@@ -7,10 +7,10 @@ export class Model {
 
   static fromBackend(v: Model): Model {
     const m = new Model()
-    m.covariance     = v.covariance
-    m.intercept      = v.intercept
-    m.latentVariable = v.latentVariable
-    m.regression     = v.regression
+    m.covariance     = v.covariance     || []
+    m.intercept      = v.intercept      || {}
+    m.latentVariable = v.latentVariable || {}
+    m.regression     = v.regression     || {}
     return m
   }
 
