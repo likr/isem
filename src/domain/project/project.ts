@@ -62,4 +62,14 @@ export class Project {
     this.latentVariables = this.latentVariables.filter((v) => v.id !== id)
   }
 
+  addLatentVariable() {
+    const newVariable = new LatentVariable('new variable')
+    this.latentVariables.add(newVariable)
+  }
+
+  renameLatentVariable(variableId: string, newKey: string) {
+    const variable = this.findLatentVariable(variableId)
+    variable.key = newKey
+  }
+
 }
