@@ -2077,7 +2077,7 @@ rsvp@^3.1.0:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.3.3.tgz#34633caaf8bc66ceff4be3c2e1dffd032538a813"
 
-rxjs@^5.0.0-beta.12:
+rxjs@5.0.0-rc.1:
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.0.0-rc.1.tgz#9e02b7044da81a2d5e138908d22af77e22d96973"
   dependencies:
