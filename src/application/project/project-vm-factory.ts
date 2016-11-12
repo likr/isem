@@ -4,6 +4,7 @@ import {Project} from '../../domain/project'
 import {ProjectVM} from './project-vm'
 import {ObservedVariableVM, LatentVariableVM} from '../variable'
 import {LOCALE} from '../../constant'
+import {ModelVM} from '../model'
 
 @Injectable()
 export class ProjectVMFactory {
@@ -11,6 +12,7 @@ export class ProjectVMFactory {
   make(p: Project): ProjectVM {
     return new ProjectVM(
       p,
+      new ModelVM(p.model),
       p.observedVariables.map((v) => new ObservedVariableVM(v)),
       p.latentVariables  .map((v) => new LatentVariableVM(v)),
       LOCALE

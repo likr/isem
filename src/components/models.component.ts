@@ -28,25 +28,25 @@ import {AppDispatcher} from '../application/app'
     <h2>回帰</h2>
     <button (click)="onClickRegression()">追加</button>
     <ul>
-      <li *ngFor="let label of covariances">{{label}}</li>
+      <li *ngFor="let label of regressions">{{label}}</li>
     </ul>
 
     <h2>潜在変数</h2>
     <button (click)="onClickLatentVariableRelation()">追加</button>
     <ul>
-      <li *ngFor="let label of intercepts">{{label}}</li>
+      <li *ngFor="let label of latentVariableRelations">{{label}}</li>
     </ul>
 
     <h2>共分散</h2>
     <button (click)="onClickCovariance()">追加</button>
     <ul>
-      <li *ngFor="let label of latentVariableRelations">{{label}}</li>
+      <li *ngFor="let label of covariances">{{label}}</li>
     </ul>
 
     <h2>切片</h2>
     <button (click)="onClickIntercept()">追加</button>
     <ul>
-      <li *ngFor="let label of regressions">{{label}}</li>
+      <li *ngFor="let label of intercepts">{{label}}</li>
     </ul>
   `
 })
