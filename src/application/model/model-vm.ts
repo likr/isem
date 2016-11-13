@@ -2,10 +2,10 @@ import {Model} from '../../domain/model'
 
 export class ModelVM {
 
-  covariances: string[]
-  intercepts: string[]
+  regressions:             string[]
   latentVariableRelations: string[]
-  regressions: string[]
+  covariances:             string[]
+  intercepts:              string[]
 
   constructor(m: Model) {
     this.regressions = Object.keys(m.regression).map((v) => {
