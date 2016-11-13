@@ -11,18 +11,18 @@ import {AppStore} from '../app'
 export class ProjectsStore {
 
   constructor(private store: AppStore,
-              private projectsRepository: ProjectsRepository,
+              private repository: ProjectsRepository,
               private projectVMFactory: ProjectVMFactory) {}
 
   get allProjects$(): Observable<ProjectVM[]> {
-    return this.projectsRepository.all$.map((projects) => {
-      return this.projectVMFactory.makeFromProjects(projects)
+    return this.repository.all$.map((p) => {
+      return this.projectVMFactory.makeFromProjects(p)
     })
   }
 
   get currentProject$(): Observable<ProjectVM> {
-    return this.projectsRepository.single$.map((project) => {
-      return this.projectVMFactory.make(project)
+    return this.repository.single$.map((p) => {
+      return this.projectVMFactory.make(p)
     })
   }
 
@@ -47,45 +47,32 @@ export class ProjectsStore {
   }
 
   get observedVariables$(): Observable<ObservedVariableVM[]> {
-    return this.currentProject$.map((project) => {
-      return project.observedVariables
-    })
+    return this.currentProject$.map((p) => p.observedVariables)
   }
 
   get latentVariables$(): Observable<LatentVariableVM[]> {
-    return this.currentProject$.map((project) => {
-      return project.latentVariables
-    })
+    return this.currentProject$.map((p) => p.latentVariables)
   }
 
   get covariances$(): Observable<string[]> {
-    return this.currentProject$.map((project) => {
-      return project.model.covariances
-    })
+    return this.currentProject$.map((p) => p.model.covariances)
   }
 
   get intercepts$(): Observable<string[]> {
-    return this.currentProject$.map((project) => {
-      return project.model.intercepts
-    })
+    return this.currentProject$.map((p) => p.model.intercepts)
   }
 
   get latentVariableRelations$(): Observable<string[]> {
-    return this.currentProject$.map((project) => {
-      return project.model.latentVariableRelations
-    })
+    return this.currentProject$.map((p) => p.model.latentVariableRelations)
   }
 
   get regressions$(): Observable<string[]> {
-    return this.currentProject$.map((project) => {
-      return project.model.regressions
-    })
+    return this.currentProject$.map((p) => p.model.regressions)
   }
 
   get variables$(): Observable<VariableVM[]> {
-    return this.currentProject$.map((project) => {
-      return (<VariableVM[]>project.observedVariables)
-        .concat(<VariableVM[]>project.latentVariables)
+    return this.currentProject$.map((p) => {
+      return (<VariableVM[]>p.observedVariables).concat(<VariableVM[]>p.latentVariables)
     })
   }
 
