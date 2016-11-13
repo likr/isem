@@ -29,5 +29,11 @@
   "ProjectList": "プロジェクト一覧",
   "ProjectName": "プロジェクト名",
   "LastUpdateDate": "最終更新日時",
-  "Delete": "削除"
+  "Delete": "削除",
+  "Variable": "変数",
+  "Variable1": "変数1",
+  "Variable2": "変数2",
+  "LatentVariable": "潜在変数",
+  "DependentVariable": "被説明変数",
+  "Value": "値"
 }

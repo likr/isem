@@ -20,7 +20,8 @@ import {VariableVM} from '../application/variable/'
     </style>
 
     <h2>{{'ModalDialogCreateRegression.Header' | translate}}</h2>
-    <label for="dependentVariable">被説明変数</label>
+
+    <label for="dependentVariable">{{'DependentVariable' | translate}}</label>
     <select
       id         ="dependentVariable"
       name       ="dependentVariable"
@@ -31,8 +32,8 @@ import {VariableVM} from '../application/variable/'
 
     <label *ngFor="let v of variables; let i = index">
       <input
-        type="checkbox"
-        name="variable"
+        type       ="checkbox"
+        name       ="variable"
         [(ngModel)]="checkboxModel[i]"
       >{{v.key}}
     </label>

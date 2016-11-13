@@ -21,16 +21,17 @@ import {VariableVM} from '../application/variable'
     </style>
 
     <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
-    <label for="variable">変数</label>
+
+    <label for="variable">{{'Variable' | translate}}</label>
     <select
-      id="variable"
-      name="variable"
+      id         ="variable"
+      name       ="variable"
       [(ngModel)]="variable"
     >
       <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
     </select>
 
-    <label>値<input type="number" [(ngModel)]="value"></label>
+    <label>{{'Value' | translate}}<input type="number" [(ngModel)]="value"></label>
 
     <div class="buttons">
       <is-ui-button

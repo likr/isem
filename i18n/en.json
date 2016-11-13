@@ -29,5 +29,11 @@
   "ProjectList": "Project List",
   "ProjectName": "Project Name",
   "LastUpdateDate": "Last Update Date",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Variable": "Variable",
+  "Variable1": "Variable 1",
+  "Variable2": "Variable 2",
+  "LatentVariable": "Latent Variable",
+  "DependentVariable": "Dependent Variable",
+  "Value": "Value"
 }

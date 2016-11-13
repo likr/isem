@@ -20,7 +20,8 @@ import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
     </style>
 
     <h2>{{'ModalDialogCreateLatentVariableRelation.Header' | translate}}</h2>
-    <label for="latentVariable">潜在変数</label>
+
+    <label for="latentVariable">{{'LatentVariable' | translate}}</label>
     <select
       id         ="latentVariable"
       name       ="latentVariable"
