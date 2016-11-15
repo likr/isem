@@ -5,7 +5,7 @@ import {
   ObservedVariable,
   ObservedVariables
 } from '../variable'
-import {uuidGen, unixtime} from '../../utils'
+import {uuidGen, unixtime, createNewName} from '../../utils'
 import {Model} from '../model'
 
 export class Project {
@@ -61,7 +61,9 @@ export class Project {
   }
 
   addLatentVariable() {
-    const newVariable = new LatentVariable('new variable')
+    const existsNames = this.latentVariables.allKeys
+    const name        = createNewName(existsNames, 'untitled')
+    const newVariable = new LatentVariable(name)
     this.latentVariables.add(newVariable)
   }
 

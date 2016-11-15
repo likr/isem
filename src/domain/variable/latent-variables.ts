@@ -31,4 +31,8 @@ export class LatentVariables {
     return this
   }
 
+  get allKeys(): string[] {
+    return this.list.map((v) => v.key)
+  }
+
 }
