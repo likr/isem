@@ -22,8 +22,8 @@ export class LatentVariables {
     return this.list.map<T>(cb)
   }
 
-  find(predicate: (value: LatentVariable, index: number, array: LatentVariable[]) => boolean): LatentVariable | undefined {
-    return this.list.find(predicate)
+  findById(id: string): LatentVariable {
+    return this.list.find((v) => v.id === id)
   }
 
   filter(cb: (value: LatentVariable, index: number, array: LatentVariable[]) => any, thisArg?: any): LatentVariables {

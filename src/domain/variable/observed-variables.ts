@@ -27,25 +27,35 @@ export class  ObservedVariables {
   private list: ObservedVariable[]
 
   static fromBackend(v: ObservedVariables): ObservedVariables {
-    const o = new ObservedVariables([[]])
+    const o = new ObservedVariables([])
     o.list = v.list || [] as ObservedVariable[]
     return o
   }
 
-  constructor(data: any[][]) {
-    this.list = rotate(data).map((v) => {
+  static fromData(data: any[][]): ObservedVariables {
+    const o = new ObservedVariables([])
+    o.list = rotate(data).map((v) => {
       const key = v[0]
       v.shift()
       return new ObservedVariable(key, v)
     })
+    return o
   }
 
-  map<T>(cb: (value: ObservedVariable, index: number, array: ObservedVariable[]) => T) {
+  constructor(observedVariables: ObservedVariable[]) {
+    this.list = observedVariables
+  }
+
+  map<T>(cb: (value: ObservedVariable, index: number, array: ObservedVariable[]) => T): T[] {
     return this.list.map<T>(cb)
   }
 
-  find(predicate: (value: ObservedVariable, index: number, array: ObservedVariable[]) => boolean): ObservedVariable | undefined {
-    return this.list.find(predicate)
+  findById(id: string): ObservedVariable {
+    return this.list.find((v) => v.id === id)
+  }
+
+  getFromSpecificIds(ids: string[]): ObservedVariables {
+    return new ObservedVariables(ids.map((id) => this.findById(id)))
   }
 
 }

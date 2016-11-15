@@ -7,6 +7,7 @@ import {
 } from '../variable'
 import {uuidGen, unixtime, createNewName} from '../../utils'
 import {Model} from '../model'
+import {DEFAULT_NAME} from "../../constant";
 
 export class Project {
 
@@ -39,16 +40,16 @@ export class Project {
     this.modified = now
 
     this.model             = new Model()
-    this.observedVariables = new ObservedVariables(rawData)
+    this.observedVariables = ObservedVariables.fromData(rawData)
     this.latentVariables   = new LatentVariables()
   }
 
   findObservedVariable(id: string): ObservedVariable {
-    return this.observedVariables.find((v) => v.id === id)
+    return this.observedVariables.findById(id)
   }
 
   findLatentVariable(id: string): LatentVariable {
-    return this.latentVariables.find((v) => v.id === id)
+    return this.latentVariables.findById(id)
   }
 
   findVariable(id: string): Variable {
@@ -62,7 +63,7 @@ export class Project {
 
   addLatentVariable() {
     const existsNames = this.latentVariables.allKeys
-    const name        = createNewName(existsNames, 'untitled')
+    const name        = createNewName(existsNames, DEFAULT_NAME)
     const newVariable = new LatentVariable(name)
     this.latentVariables.add(newVariable)
   }
@@ -74,37 +75,36 @@ export class Project {
 
   addCovariance(variable1Id: string, variable2Id: string) {
     this.model.addCovariance(
-      this.findVariable(variable1Id).key,
-      this.findVariable(variable2Id).key
+      this.findVariable(variable1Id),
+      this.findVariable(variable2Id)
     )
   }
 
   addIntercept(variableId: string, value: number) {
     this.model.addIntercept(
-      this.findVariable(variableId).key,
+      this.findVariable(variableId),
       value
     )
   }
 
   addLatentVariableRelation(latentVariableId: string, observedVariableIds: string[]) {
-    const observedVariableKeys = observedVariableIds.map((id) => {
-      return this.findObservedVariable(id).key
-    })
+    const observedVariables = this.observedVariables
+      .getFromSpecificIds(observedVariableIds)
 
     this.model.addLatentVariableRelation(
-      this.findLatentVariable(latentVariableId).key,
-      observedVariableKeys
+      this.findLatentVariable(latentVariableId),
+      observedVariables
     )
   }
 
-  addRegression(dependentVariable: string, variableIds: string[]) {
-    const variableKeys = variableIds.map((id) => {
-      return this.findVariable(id).key
+  addRegression(dependentVariableId: string, variableIds: string[]) {
+    const variables = variableIds.map((id) => {
+      return this.findVariable(id)
     })
 
     this.model.addRegression(
-      this.findVariable(dependentVariable).key,
-      variableKeys
+      this.findVariable(dependentVariableId),
+      variables
     )
   }
 
