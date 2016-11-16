@@ -58,4 +58,8 @@ export class  ObservedVariables {
     return new ObservedVariables(ids.map((id) => this.findById(id)))
   }
 
+  get allKeys(): string[] {
+    return this.list.map((v) => v.key)
+  }
+
 }

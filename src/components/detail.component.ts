@@ -50,7 +50,7 @@ export class DetailComponent extends AbstractComponent {
 
   ngOnInit() {
     this.subscriptions.concat([
-      this.store.observedVariables$      .subscribe((v) => this.observedVariables = v ),
+      this.store.observedVariables$      .subscribe((v) => this.observedVariables = v),
       this.store.latentVariables$        .subscribe((v) => this.latentVariables = v),
       this.store.covariances$            .subscribe((v) => this.covariances = v),
       this.store.intercepts$             .subscribe((v) => this.intercepts = v),

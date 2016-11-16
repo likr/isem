@@ -62,6 +62,7 @@ export class ProjectsDatabaseAdapter {
       return db
         .update(project)
         .set(project.latentVariables, item.latentVariables)
+        .set(project.model, item.model)
         .set(project.modified, unixtime())
         .where(project.uuid.eq(item.uuid))
         .exec()

@@ -16,7 +16,7 @@ export class ModelVM {
 
     this.latentVariableRelations = m.latentVariableRelations.map((v) => {
       const key               = v[0].key
-      const observedVariables = v[1].map((vv) => vv.key).join(' + ')
+      const observedVariables = v[1].allKeys.join(' + ')
       return `${key} =~ ${observedVariables}`
     })
 

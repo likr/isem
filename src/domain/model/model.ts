@@ -9,10 +9,55 @@ export class Model {
 
   static fromBackend(v: Model): Model {
     const m = new Model()
-    m.covariances             = v.covariances             || []
-    m.intercepts              = v.intercepts              || []
-    m.latentVariableRelations = v.latentVariableRelations || []
-    m.regressions             = v.regressions             || []
+
+    m.covariances = (() => {
+      if (!v.covariances) {
+        return []
+      }
+      return v.covariances.map((vv) => {
+        return [
+          Variable.fromBackend(vv[0]),
+          Variable.fromBackend(vv[1])
+        ]
+      }) as [Variable, Variable][]
+    })()
+
+    m.intercepts = (() => {
+      if (!v.intercepts) {
+        return []
+      }
+      return v.intercepts.map((vv) => {
+        return [
+          Variable.fromBackend(vv[0]),
+          vv[1]
+        ]
+      }) as [Variable, number][]
+    })()
+
+    m.latentVariableRelations = (() => {
+      if (!v.latentVariableRelations) {
+        return []
+      }
+      return v.latentVariableRelations.map((vv) => {
+        return [
+          LatentVariable.fromBackend(vv[0]),
+          ObservedVariables.fromBackend(vv[1])
+        ]
+      }) as [LatentVariable, ObservedVariables][]
+    })()
+
+    m.regressions = (() => {
+      if (!v.regressions) {
+        return []
+      }
+      return v.regressions.map((vv) => {
+        return [
+          Variable.fromBackend(vv[0]),
+          vv[1].map((variable) => Variable.fromBackend(variable))
+        ]
+      }) as [Variable, Variable[]][]
+    })()
+
     return m
   }
 
