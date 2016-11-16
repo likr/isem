@@ -68,20 +68,60 @@ export class Model {
     this.regressions             = []
   }
 
-  addCovariance(variable1: Variable, variable2: Variable) {
-    this.covariances.push([variable1, variable2])
+  addCovariance(variable1: Variable,
+                variable2: Variable) {
+    const exists = this.covariances.find((v) => v[0].id === variable1.id)
+    if (exists) {
+      exists[1] = variable2
+      return
+    }
+
+    this.covariances.push([
+      variable1,
+      variable2
+    ])
   }
 
-  addIntercept(variable: Variable, value: number) {
-    this.intercepts.push([variable, value])
+  addIntercept(variable: Variable,
+               value: number) {
+    const exists = this.intercepts.find((v) => v[0].id === variable.id)
+    if (exists) {
+      exists[1] = value
+      return
+    }
+
+    this.intercepts.push([
+      variable,
+      value
+    ])
   }
 
-  addLatentVariableRelation(latentVariable: LatentVariable, observedVariables: ObservedVariables) {
-    this.latentVariableRelations.push([latentVariable, observedVariables])
+  addLatentVariableRelation(latentVariable: LatentVariable,
+                            observedVariables: ObservedVariables) {
+    const exists = this.latentVariableRelations.find((v) => v[0].id === latentVariable.id)
+    if (exists) {
+      exists[1] = observedVariables
+      return
+    }
+
+    this.latentVariableRelations.push([
+      latentVariable,
+      observedVariables
+    ])
   }
 
-  addRegression(variable: Variable, variables: Variable[]) {
-    this.regressions.push([variable, variables])
+  addRegression(variable: Variable,
+                variables: Variable[]) {
+    const exists = this.regressions.find((v) => v[0].id === variable.id)
+    if (exists) {
+      exists[1] = variables
+      return
+    }
+
+    this.regressions.push([
+      variable,
+      variables
+    ])
   }
 
 }
