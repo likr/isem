@@ -1,3 +1,4 @@
+import {DEFAULT_NAME} from '../../constant'
 import {
   Variable,
   LatentVariable,
@@ -7,7 +8,6 @@ import {
 } from '../variable'
 import {uuidGen, unixtime, createNewName} from '../../utils'
 import {Model} from '../model'
-import {DEFAULT_NAME} from "../../constant";
 
 export class Project {
 

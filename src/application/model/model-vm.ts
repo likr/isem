@@ -8,23 +8,23 @@ export class ModelVM {
   intercepts:              string[]
 
   constructor(m: Model) {
-    this.regressions = m.regression.map((v) => {
+    this.regressions = m.regressions.map((v) => {
       const key       = v[0].key
       const variables = v[1].map((vv) => vv.key).join(' + ')
       return `${key} ~ ${variables}`
     })
 
-    this.latentVariableRelations = m.latentVariable.map((v) => {
+    this.latentVariableRelations = m.latentVariableRelations.map((v) => {
       const key               = v[0].key
       const observedVariables = v[1].map((vv) => vv.key).join(' + ')
       return `${key} =~ ${observedVariables}`
     })
 
-    this.covariances = m.covariance.map((v) => {
+    this.covariances = m.covariances.map((v) => {
       return `${v[0].key} ~~ ${v[1].key}`
     })
 
-    this.intercepts = m.intercept.map((v) => {
+    this.intercepts = m.intercepts.map((v) => {
       const key   = v[0].key
       const value = v[1]
       return `${key} ~ ${value}`

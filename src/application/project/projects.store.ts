@@ -32,7 +32,7 @@ export class ProjectsStore {
       this.store.observable
     ).map((v) => {
       const [project, st] = v
-      return project.findById(st.targetObservedVariableId)
+      return project.findObservedVariable(st.targetObservedVariableId)
     })
   }
 

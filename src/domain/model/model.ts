@@ -2,41 +2,41 @@ import {Variable, LatentVariable, ObservedVariables} from '../variable'
 
 export class Model {
 
-  covariance:     [Variable, Variable][]
-  intercept:      [Variable, number][]
-  latentVariable: [LatentVariable, ObservedVariables][]
-  regression:     [Variable, Variable[]][]
+  covariances:             [Variable, Variable][]
+  intercepts:              [Variable, number][]
+  latentVariableRelations: [LatentVariable, ObservedVariables][]
+  regressions:             [Variable, Variable[]][]
 
   static fromBackend(v: Model): Model {
     const m = new Model()
-    m.covariance     = v.covariance     || []
-    m.intercept      = v.intercept      || []
-    m.latentVariable = v.latentVariable || []
-    m.regression     = v.regression     || []
+    m.covariances             = v.covariances             || []
+    m.intercepts              = v.intercepts              || []
+    m.latentVariableRelations = v.latentVariableRelations || []
+    m.regressions             = v.regressions             || []
     return m
   }
 
   constructor() {
-    this.covariance     = []
-    this.intercept      = []
-    this.latentVariable = []
-    this.regression     = []
+    this.covariances             = []
+    this.intercepts              = []
+    this.latentVariableRelations = []
+    this.regressions             = []
   }
 
   addCovariance(variable1: Variable, variable2: Variable) {
-    this.covariance.push([variable1, variable2])
+    this.covariances.push([variable1, variable2])
   }
 
   addIntercept(variable: Variable, value: number) {
-    this.intercept.push([variable, value])
+    this.intercepts.push([variable, value])
   }
 
   addLatentVariableRelation(latentVariable: LatentVariable, observedVariables: ObservedVariables) {
-    this.latentVariable.push([latentVariable, observedVariables])
+    this.latentVariableRelations.push([latentVariable, observedVariables])
   }
 
   addRegression(variable: Variable, variables: Variable[]) {
-    this.regression.push([variable, variables])
+    this.regressions.push([variable, variables])
   }
 
 }
