@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
+import {css as appCss} from './app.component'
 import {ModalDialogActions} from '../application/modal-dialog'
 import {AppDispatcher} from '../application/app'
 
@@ -12,41 +13,74 @@ import {AppDispatcher} from '../application/app'
         background: #ECEFF1;
         display: block;
         margin: 0;
-        width: 240px;
+        width: 320px;
         height: 100%;
+        padding: ${appCss.padding};
         overflow-y: scroll;
         border-right: 1px solid #B0BEC5;
       }
-      ul {
-        margin-left: 10px;
-        margin-top: 10px;
+      h2 {
+        display: flex;
+        margin: 8px 0;
+        font-size: 14px;
+        color: #455A64;
+        margin-bottom: 4px;
       }
       li {
-        line-height: 32px;
+        display: flex;
+        line-height: 26px;
+      }
+      .label {
+        margin-right: auto;
       }
     </style>
-    <h2>回帰</h2>
-    <button (click)="onClickRegression()">追加</button>
+
+    <h2>
+      <span class="label">{{'Regression' | translate}}</span>
+      <is-ui-add-button
+        (click)="onClickRegression()"
+      ></is-ui-add-button>
+    </h2>
     <ul>
-      <li *ngFor="let label of regressions">{{label}}</li>
+      <li *ngFor="let label of regressions">
+        <span class="label">{{label}}</span>
+      </li>
     </ul>
 
-    <h2>潜在変数</h2>
-    <button (click)="onClickLatentVariableRelation()">追加</button>
+    <h2>
+      <span class="label">{{'LatentVariable' | translate}}</span>
+      <is-ui-add-button
+        (click)="onClickLatentVariableRelation()"
+      ></is-ui-add-button>
+    </h2>
     <ul>
-      <li *ngFor="let label of latentVariableRelations">{{label}}</li>
+      <li *ngFor="let label of latentVariableRelations">
+        <span class="label">{{label}}</span>
+      </li>
     </ul>
 
-    <h2>共分散</h2>
-    <button (click)="onClickCovariance()">追加</button>
+    <h2>
+      <span class="label">{{'Covariance' | translate}}</span>
+      <is-ui-add-button
+        (click)="onClickCovariance()"
+      ></is-ui-add-button>
+    </h2>
     <ul>
-      <li *ngFor="let label of covariances">{{label}}</li>
+      <li *ngFor="let label of covariances">
+        <span class="label">{{label}}</span>
+      </li>
     </ul>
 
-    <h2>切片</h2>
-    <button (click)="onClickIntercept()">追加</button>
+    <h2>
+      <span class="label">{{'Intercept' | translate}}</span>
+      <is-ui-add-button
+        (click)="onClickIntercept()"
+      ></is-ui-add-button>
+    </h2>
     <ul>
-      <li *ngFor="let label of intercepts">{{label}}</li>
+      <li *ngFor="let label of intercepts">
+        <span class="label">{{label}}</span>
+      </li>
     </ul>
   `
 })

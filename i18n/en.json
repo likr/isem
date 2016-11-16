@@ -29,11 +29,16 @@
   "ProjectList": "Project List",
   "ProjectName": "Project Name",
   "LastUpdateDate": "Last Update Date",
+  "Add": "Add",
   "Delete": "Delete",
   "Variable": "Variable",
   "Variable1": "Variable 1",
   "Variable2": "Variable 2",
+  "ObservedVariable": "Observed Variable",
   "LatentVariable": "Latent Variable",
   "DependentVariable": "Dependent Variable",
+  "Regression": "Regression",
+  "Covariance": "Covariance",
+  "Intercept": "Intercept",
   "Value": "Value"
 }

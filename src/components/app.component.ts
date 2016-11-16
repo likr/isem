@@ -7,7 +7,8 @@ import {AppStore} from '../application/app'
 import {ModalDialogType} from './modal-dialog.component'
 
 export const css = {
-  height: '64px'
+  height: '64px',
+  padding: '8px'
 }
 
 @Component({
@@ -30,7 +31,8 @@ export const css = {
         color: #FFFFFF;
       }
       h1 {
-        padding-left: 14px;
+        padding-left: ${css.padding};
+        font-size: 1.6em;
       }
     </style>
     <div class="header">

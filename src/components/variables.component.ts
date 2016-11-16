@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
+import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
@@ -16,26 +17,50 @@ import {ProjectsActions} from '../application/project'
         margin: 0;
         width: 240px;
         height: 100%;
+        padding: ${appCss.padding};
         overflow-y: scroll;
         border-right: 1px solid #90a4ae;
       }
-      ul {
-        margin-left: 10px;
-        margin-top: 10px;
+      h2 {
+        display: flex;
+        margin: 8px 0;
+        font-size: 14px;
+        color: #455A64;
+        margin-bottom: 4px;
       }
       li {
-        line-height: 32px;
+        display: flex;
+        line-height: 26px;
+      }
+      .label {
+        margin-right: auto;
       }
     </style>
+
+    <h2>
+      <span class="label">{{'ObservedVariable' | translate}}</span>
+    </h2>
     <ul>
-      <li *ngFor="let variable of observedVariables">
-        {{variable.key}}<button (click)="onClickObservedVariable(variable)">詳細</button>
+      <li *ngFor="let v of observedVariables">
+        <span class="label">{{v.key}}</span>
+        <is-ui-info-icon
+          (click)="onClickObservedVariable(v)"
+        ></is-ui-info-icon>
       </li>
     </ul>
-    <button (click)="onClickAddLatentVariable()">潜在変数を追加</button>
+    
+    <h2>
+      <span class="label">{{'LatentVariable' | translate}}</span>
+      <is-ui-add-button
+        (click)="onClickAddLatentVariable()"
+      ></is-ui-add-button>
+    </h2>
     <ul>
-      <li *ngFor="let variable of latentVariables">
-        {{variable.key}}<button (click)="onClickLatentVariable(variable)">詳細</button>
+      <li *ngFor="let v of latentVariables">
+        <span class="label">{{v.key}}</span>
+        <is-ui-info-icon
+          (click)="onClickLatentVariable(v)"
+        ></is-ui-info-icon>
       </li>
     </ul>
   `
