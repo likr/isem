@@ -1,8 +1,7 @@
 import {LatentVariable} from './latent-variable'
+import {Variables} from './variables';
 
-export class LatentVariables {
-
-  private list: LatentVariable[]
+export class LatentVariables extends Variables<LatentVariable> {
 
   static fromBackend(v: LatentVariables): LatentVariables {
     const l = new LatentVariables()
@@ -11,27 +10,15 @@ export class LatentVariables {
   }
 
   constructor() {
-    this.list = []
+    super([])
   }
 
-  add(newVariable: LatentVariable): void {
+  add(newVariable: LatentVariable) {
     this.list.push(newVariable)
-  }
-
-  map<T>(cb: (value: LatentVariable, index: number, array: LatentVariable[]) => T) {
-    return this.list.map<T>(cb)
-  }
-
-  findById(id: string): LatentVariable {
-    return this.list.find((v) => v.id === id)
   }
 
   removeById(id: string) {
     this.list = this.list.filter((v) => v.id !== id)
-  }
-
-  get allKeys(): string[] {
-    return this.list.map((v) => v.key)
   }
 
 }

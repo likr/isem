@@ -6,6 +6,7 @@ import {ProjectVMFactory} from './project-vm-factory'
 import {ProjectVM} from './project-vm'
 import {VariableVM, ObservedVariableVM, LatentVariableVM} from '../variable'
 import {AppStore} from '../app'
+import {Expression} from '../model/model-vm'
 
 @Injectable()
 export class ProjectsStore {
@@ -54,19 +55,19 @@ export class ProjectsStore {
     return this.currentProject$.map((p) => p.latentVariables)
   }
 
-  get covariances$(): Observable<{id: string, label: string}[]> {
+  get covariances$(): Observable<Expression[]> {
     return this.currentProject$.map((p) => p.model.covariances)
   }
 
-  get intercepts$(): Observable<{id: string, label: string}[]> {
+  get intercepts$(): Observable<Expression[]> {
     return this.currentProject$.map((p) => p.model.intercepts)
   }
 
-  get latentVariableRelations$(): Observable<{id: string, label: string}[]> {
+  get latentVariableRelations$(): Observable<Expression[]> {
     return this.currentProject$.map((p) => p.model.latentVariableRelations)
   }
 
-  get regressions$(): Observable<{id: string, label: string}[]> {
+  get regressions$(): Observable<Expression[]> {
     return this.currentProject$.map((p) => p.model.regressions)
   }
 

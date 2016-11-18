@@ -1,4 +1,5 @@
 export {Variable} from './variable'
+export {Variables} from './variables'
 export {LatentVariable} from './latent-variable'
 export {LatentVariables} from './latent-variables'
 export {ObservedVariable} from './observed-variable'

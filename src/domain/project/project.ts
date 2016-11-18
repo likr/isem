@@ -1,6 +1,7 @@
 import {DEFAULT_NAME} from '../../constant'
 import {
   Variable,
+  Variables,
   LatentVariable,
   LatentVariables,
   ObservedVariable,
@@ -88,23 +89,16 @@ export class Project {
   }
 
   addLatentVariableRelation(latentVariableId: string, observedVariableIds: string[]) {
-    const observedVariables = this.observedVariables
-      .getFromSpecificIds(observedVariableIds)
-
     this.model.addLatentVariableRelation(
       this.findLatentVariable(latentVariableId),
-      observedVariables
+      this.observedVariables.getFromSpecificIds(observedVariableIds)
     )
   }
 
   addRegression(dependentVariableId: string, variableIds: string[]) {
-    const variables = variableIds.map((id) => {
-      return this.findVariable(id)
-    })
-
     this.model.addRegression(
       this.findVariable(dependentVariableId),
-      variables
+      this.allVariables.getFromSpecificIds(variableIds)
     )
   }
 
@@ -124,5 +118,8 @@ export class Project {
     this.model.removeIntercept(id)
   }
 
+  get allVariables(): Variables<Variable> {
+    return this.observedVariables.merge(this.latentVariables)
+  }
 
 }

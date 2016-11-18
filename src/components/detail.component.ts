@@ -7,6 +7,7 @@ import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher} from '../application/app'
 import {ProjectsActions, ProjectsStore} from '../application/project'
 import {ID} from '../application/app/app.routing'
+import {Expression} from '../application/model/model-vm'
 
 @Component({
   selector: 'is-detail',
@@ -35,10 +36,10 @@ export class DetailComponent extends AbstractComponent {
 
   observedVariables:       ObservedVariableVM[]
   latentVariables:         LatentVariableVM[]
-  covariances:             {id: string, label: string}[]
-  intercepts:              {id: string, label: string}[]
-  latentVariableRelations: {id: string, label: string}[]
-  regressions:             {id: string, label: string}[]
+  covariances:             Expression[]
+  intercepts:              Expression[]
+  latentVariableRelations: Expression[]
+  regressions:             Expression[]
 
   constructor(private route: ActivatedRoute,
               private app: AppActions,

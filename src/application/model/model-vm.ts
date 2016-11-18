@@ -1,45 +1,45 @@
 import {Model} from '../../domain/model'
+import {Variable, Variables} from '../../domain/variable'
+
+export type Expression = {id: string, label: string}
+
+const makeExpression = (id: string,
+                        left: string,
+                        operator: string,
+                        right: string): Expression => {
+  return {id, label: [left, operator, right].join(' ')}
+}
 
 export class ModelVM {
 
-  regressions:             {id: string, label: string}[]
-  latentVariableRelations: {id: string, label: string}[]
-  covariances:             {id: string, label: string}[]
-  intercepts:              {id: string, label: string}[]
+  regressions:             Expression[]
+  latentVariableRelations: Expression[]
+  covariances:             Expression[]
+  intercepts:              Expression[]
 
-  constructor(m: Model) {
+  constructor(m: Model, vars: Variables<Variable>) {
     this.regressions = m.regressions.map((v) => {
-      const key       = v[0].key
-      const variables = v[1].map((vv) => vv.key).join(' + ')
-      return {
-        id   : v[0].id,
-        label: `${key} ~ ${variables}`
-      }
+      const l = vars.findById(v[0]).key
+      const r = v[1].map((vv) => vars.findById(vv).key).join(' + ')
+      return makeExpression(v[0], l, '~', r)
     })
 
     this.latentVariableRelations = m.latentVariableRelations.map((v) => {
-      const key               = v[0].key
-      const observedVariables = v[1].allKeys.join(' + ')
-      return {
-        id   : v[0].id,
-        label: `${key} =~ ${observedVariables}`
-      }
+      const l = vars.findById(v[0]).key
+      const r = v[1].map((vv) => vars.findById(vv).key).join(' + ')
+      return makeExpression(v[0], l, '=~', r)
     })
 
     this.covariances = m.covariances.map((v) => {
-      return {
-        id   : v[0].id,
-        label: `${v[0].key} ~~ ${v[1].key}`
-      }
+      const l = vars.findById(v[0]).key
+      const r = vars.findById(v[1]).key
+      return makeExpression(v[0], l, '~~', r)
     })
 
     this.intercepts = m.intercepts.map((v) => {
-      const key   = v[0].key
-      const value = v[1]
-      return {
-        id   : v[0].id,
-        label: `${key} ~ ${value}`
-      }
+      const l = vars.findById(v[0]).key
+      const r = v[1].toString()
+      return makeExpression(v[0], l, '~', r)
     })
   }
 

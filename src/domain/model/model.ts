@@ -1,62 +1,19 @@
-import {Variable, LatentVariable, ObservedVariables} from '../variable'
+import {Variable, Variables, LatentVariable, ObservedVariables} from '../variable'
 
 export class Model {
 
-  covariances:             [Variable, Variable][]
-  intercepts:              [Variable, number][]
-  latentVariableRelations: [LatentVariable, ObservedVariables][]
-  regressions:             [Variable, Variable[]][]
+  covariances:             [string, string][]
+  intercepts:              [string, number][]
+  latentVariableRelations: [string, string[]][]
+  regressions:             [string, string[]][]
 
   static fromBackend(v: Model): Model {
     const m = new Model()
 
-    m.covariances = (() => {
-      if (!v.covariances) {
-        return []
-      }
-      return v.covariances.map((vv) => {
-        return [
-          Variable.fromBackend(vv[0]),
-          Variable.fromBackend(vv[1])
-        ]
-      }) as [Variable, Variable][]
-    })()
-
-    m.intercepts = (() => {
-      if (!v.intercepts) {
-        return []
-      }
-      return v.intercepts.map((vv) => {
-        return [
-          Variable.fromBackend(vv[0]),
-          vv[1]
-        ]
-      }) as [Variable, number][]
-    })()
-
-    m.latentVariableRelations = (() => {
-      if (!v.latentVariableRelations) {
-        return []
-      }
-      return v.latentVariableRelations.map((vv) => {
-        return [
-          LatentVariable.fromBackend(vv[0]),
-          ObservedVariables.fromBackend(vv[1])
-        ]
-      }) as [LatentVariable, ObservedVariables][]
-    })()
-
-    m.regressions = (() => {
-      if (!v.regressions) {
-        return []
-      }
-      return v.regressions.map((vv) => {
-        return [
-          Variable.fromBackend(vv[0]),
-          vv[1].map((variable) => Variable.fromBackend(variable))
-        ]
-      }) as [Variable, Variable[]][]
-    })()
+    m.covariances             = v.covariances             || []
+    m.intercepts              = v.intercepts              || []
+    m.latentVariableRelations = v.latentVariableRelations || []
+    m.regressions             = v.regressions             || []
 
     return m
   }
@@ -70,74 +27,76 @@ export class Model {
 
   addCovariance(variable1: Variable,
                 variable2: Variable) {
-    const exists = this.covariances.find((v) => v[0].id === variable1.id)
+    const exists = this.covariances.find((v) => v[0] === variable1.id)
     if (exists) {
-      exists[1] = variable2
+      exists[1] = variable2.id
       return
     }
 
     this.covariances.push([
-      variable1,
-      variable2
+      variable1.id,
+      variable2.id
     ])
   }
 
   addIntercept(variable: Variable,
                value: number) {
-    const exists = this.intercepts.find((v) => v[0].id === variable.id)
+    const exists = this.intercepts.find((v) => v[0] === variable.id)
     if (exists) {
       exists[1] = value
       return
     }
 
     this.intercepts.push([
-      variable,
+      variable.id,
       value
     ])
   }
 
   addLatentVariableRelation(latentVariable: LatentVariable,
                             observedVariables: ObservedVariables) {
-    const exists = this.latentVariableRelations.find((v) => v[0].id === latentVariable.id)
+    const observedVariableIds = observedVariables.allIds
+    const exists = this.latentVariableRelations.find((v) => v[0] === latentVariable.id)
     if (exists) {
-      exists[1] = observedVariables
+      exists[1] = observedVariableIds
       return
     }
 
     this.latentVariableRelations.push([
-      latentVariable,
-      observedVariables
+      latentVariable.id,
+      observedVariableIds
     ])
   }
 
   addRegression(variable: Variable,
-                variables: Variable[]) {
-    const exists = this.regressions.find((v) => v[0].id === variable.id)
+                variables: Variables<Variable>) {
+    const variableIds = variables.allIds
+    const exists = this.regressions.find((v) => v[0] === variable.id)
     if (exists) {
-      exists[1] = variables
+      exists[1] = variableIds
       return
     }
 
     this.regressions.push([
-      variable,
-      variables
+      variable.id,
+      variableIds
     ])
   }
 
   removeRegression(id: string) {
-    this.regressions = this.regressions.filter((v) => v[0].id !== id)
+    this.regressions = this.regressions.filter((v) => v[0] !== id)
   }
 
   removeLatentVariableRelation(id: string) {
-    this.latentVariableRelations = this.latentVariableRelations.filter((v) => v[0].id !== id)
+    this.latentVariableRelations = this.latentVariableRelations.filter((v) => v[0] !== id)
   }
 
   removeCovariance(id: string) {
-    this.covariances = this.covariances.filter((v) => v[0].id !== id)
+    this.covariances = this.covariances.filter((v) => v[0] !== id)
   }
 
   removeIntercept(id: string) {
-    this.intercepts = this.intercepts.filter((v) => v[0].id !== id)
+    this.intercepts = this.intercepts.filter((v) => v[0] !== id)
   }
 
 

@@ -12,9 +12,9 @@ export class ProjectVMFactory {
   make(p: Project): ProjectVM {
     return new ProjectVM(
       p,
-      new ModelVM(p.model),
-      p.observedVariables.map((v) => new ObservedVariableVM(v)),
-      p.latentVariables  .map((v) => new LatentVariableVM(v)),
+      new ModelVM(p.model, p.allVariables),
+      p.observedVariables.toArray().map((v) => new ObservedVariableVM(v)),
+      p.latentVariables  .toArray().map((v) => new LatentVariableVM(v)),
       LOCALE
     )
   }

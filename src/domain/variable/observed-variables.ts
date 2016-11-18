@@ -1,4 +1,5 @@
 import {ObservedVariable} from './observed-variable'
+import {Variables} from './variables';
 
 /**
  * # example
@@ -22,9 +23,7 @@ const rotate = (array: any[][]): any[][] => {
   })
 }
 
-export class  ObservedVariables {
-
-  private list: ObservedVariable[]
+export class ObservedVariables extends Variables<ObservedVariable> {
 
   static fromBackend(v: ObservedVariables): ObservedVariables {
     const o = new ObservedVariables([])
@@ -43,23 +42,14 @@ export class  ObservedVariables {
   }
 
   constructor(observedVariables: ObservedVariable[]) {
-    this.list = observedVariables
+    super(observedVariables)
   }
 
-  map<T>(cb: (value: ObservedVariable, index: number, array: ObservedVariable[]) => T): T[] {
-    return this.list.map<T>(cb)
-  }
-
-  findById(id: string): ObservedVariable {
-    return this.list.find((v) => v.id === id)
-  }
-
+  /**
+   * @override
+   */
   getFromSpecificIds(ids: string[]): ObservedVariables {
     return new ObservedVariables(ids.map((id) => this.findById(id)))
-  }
-
-  get allKeys(): string[] {
-    return this.list.map((v) => v.key)
   }
 
 }
