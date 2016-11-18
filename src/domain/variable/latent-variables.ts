@@ -26,9 +26,8 @@ export class LatentVariables {
     return this.list.find((v) => v.id === id)
   }
 
-  filter(cb: (value: LatentVariable, index: number, array: LatentVariable[]) => any, thisArg?: any): LatentVariables {
-    this.list.filter(cb)
-    return this
+  removeById(id: string) {
+    this.list = this.list.filter((v) => v.id !== id)
   }
 
   get allKeys(): string[] {

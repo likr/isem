@@ -58,7 +58,7 @@ export class Project {
   }
 
   removeLatentVariable(id: string) {
-    this.latentVariables = this.latentVariables.filter((v) => v.id !== id)
+    this.latentVariables.removeById(id)
   }
 
   addLatentVariable() {

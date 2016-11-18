@@ -6,6 +6,10 @@ import {RouteChanger, WindowRef} from '../../services'
 import {ProjectVM} from '../project'
 import {LatentVariableVM} from '../variable'
 
+const confirmRemove = (_window: Window): boolean => {
+  return _window.confirm('Are you sure?')
+}
+
 @Injectable()
 export class ProjectsActions extends Actions<AppState> {
 
@@ -45,8 +49,7 @@ export class ProjectsActions extends Actions<AppState> {
 
   deleteProject(project: ProjectVM): Action<AppState> {
     return (st) => {
-      const confirmed = this.window.confirm('Are you sure?')
-      if (!confirmed) {
+      if (!confirmRemove(this.window)) {
         return st
       }
       return this.delayed((apply) => {
@@ -66,8 +69,7 @@ export class ProjectsActions extends Actions<AppState> {
 
   removeLatentVariable(variable: LatentVariableVM): Action<AppState> {
     return (st) => {
-      const confirmed = this.window.confirm('Are you sure?')
-      if (!confirmed) {
+      if (!confirmRemove(this.window)) {
         return st
       }
       st.projects.removeLatentVariable(st.currentId, variable.id)
@@ -112,6 +114,9 @@ export class ProjectsActions extends Actions<AppState> {
 
   deleteRegression(id: string): Action<AppState> {
     return (st) => {
+      if (!confirmRemove(this.window)) {
+        return st
+      }
       st.projects.deleteRegression(st.currentId, id)
       return st
     }
@@ -119,6 +124,9 @@ export class ProjectsActions extends Actions<AppState> {
 
   deleteLatentVariableRelation(id: string): Action<AppState> {
     return (st) => {
+      if (!confirmRemove(this.window)) {
+        return st
+      }
       st.projects.deleteLatentVariableRelation(st.currentId, id)
       return st
     }
@@ -126,6 +134,9 @@ export class ProjectsActions extends Actions<AppState> {
 
   deleteCovariance(id: string): Action<AppState> {
     return (st) => {
+      if (!confirmRemove(this.window)) {
+        return st
+      }
       st.projects.deleteCovariance(st.currentId, id)
       return st
     }
@@ -133,6 +144,9 @@ export class ProjectsActions extends Actions<AppState> {
 
   deleteIntercept(id: string): Action<AppState> {
     return (st) => {
+      if (!confirmRemove(this.window)) {
+        return st
+      }
       st.projects.deleteIntercept(st.currentId, id)
       return st
     }
