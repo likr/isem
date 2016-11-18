@@ -119,10 +119,10 @@ export class ProjectsRepository {
     })
   }
 
-  deleteRegression(uuid: string, targetId: string): Promise<any> {
+  removeRegression(uuid: string, targetId: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
-      project.deleteRegression(targetId)
+      project.removeRegression(targetId)
 
       return this.db.update(project).then((vv) => {
         this.publishSingle(uuid)
@@ -131,10 +131,10 @@ export class ProjectsRepository {
     })
   }
 
-  deleteLatentVariableRelation(uuid: string, targetId: string): Promise<any> {
+  removeLatentVariableRelation(uuid: string, targetId: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
-      project.deleteLatentVariableRelation(targetId)
+      project.removeLatentVariableRelation(targetId)
 
       return this.db.update(project).then((vv) => {
         this.publishSingle(uuid)
@@ -143,10 +143,10 @@ export class ProjectsRepository {
     })
   }
 
-  deleteCovariance(uuid: string, targetId: string): Promise<any> {
+  removeCovariance(uuid: string, targetId: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
-      project.deleteCovariance(targetId)
+      project.removeCovariance(targetId)
 
       return this.db.update(project).then((vv) => {
         this.publishSingle(uuid)
@@ -155,10 +155,10 @@ export class ProjectsRepository {
     })
   }
 
-  deleteIntercept(uuid: string, targetId: string): Promise<any> {
+  removeIntercept(uuid: string, targetId: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
-      project.deleteIntercept(targetId)
+      project.removeIntercept(targetId)
 
       return this.db.update(project).then((vv) => {
         this.publishSingle(uuid)

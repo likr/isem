@@ -46,7 +46,7 @@ import {ProjectsActions} from '../application/project'
       <li *ngFor="let v of regressions">
         <span class="label">{{v.label}}</span>
         <is-ui-delete-icon
-          (click)="onClickDeleteRegression(v.id)"
+          (click)="onClickRemoveRegression(v.id)"
         ></is-ui-delete-icon>
       </li>
     </ul>
@@ -61,7 +61,7 @@ import {ProjectsActions} from '../application/project'
       <li *ngFor="let v of latentVariableRelations">
         <span class="label">{{v.label}}</span>
         <is-ui-delete-icon
-          (click)="onClickDeleteLatentVariableRelation(v.id)"
+          (click)="onClickRemoveLatentVariableRelation(v.id)"
         ></is-ui-delete-icon>
       </li>
     </ul>
@@ -76,7 +76,7 @@ import {ProjectsActions} from '../application/project'
       <li *ngFor="let v of covariances">
         <span class="label">{{v.label}}</span>
         <is-ui-delete-icon
-          (click)="onClickDeleteCovariance(v.id)"
+          (click)="onClickRemoveCovariance(v.id)"
         ></is-ui-delete-icon>
       </li>
     </ul>
@@ -91,7 +91,7 @@ import {ProjectsActions} from '../application/project'
       <li *ngFor="let v of intercepts">
         <span class="label">{{v.label}}</span>
         <is-ui-delete-icon
-          (click)="onClickDeleteIntercept(v.id)"
+          (click)="onClickRemoveIntercept(v.id)"
         ></is-ui-delete-icon>
       </li>
     </ul>
@@ -126,20 +126,20 @@ export class ModelsComponent extends AbstractComponent {
     this.dispatcher.emit(this.modalDialog.openCreateIntercept())
   }
 
-  onClickDeleteRegression(id: string) {
-    this.dispatcher.emit(this.projects.deleteRegression(id))
+  onClickRemoveRegression(id: string) {
+    this.dispatcher.emit(this.projects.removeRegression(id))
   }
 
-  onClickDeleteLatentVariableRelation(id: string) {
-    this.dispatcher.emit(this.projects.deleteLatentVariableRelation(id))
+  onClickRemoveLatentVariableRelation(id: string) {
+    this.dispatcher.emit(this.projects.removeLatentVariableRelation(id))
   }
 
-  onClickDeleteCovariance(id: string) {
-    this.dispatcher.emit(this.projects.deleteCovariance(id))
+  onClickRemoveCovariance(id: string) {
+    this.dispatcher.emit(this.projects.removeCovariance(id))
   }
 
-  onClickDeleteIntercept(id: string) {
-    this.dispatcher.emit(this.projects.deleteIntercept(id))
+  onClickRemoveIntercept(id: string) {
+    this.dispatcher.emit(this.projects.removeIntercept(id))
   }
 
 }

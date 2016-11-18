@@ -23,7 +23,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
     <h2>{{'ModalDialogLatentVariableDetail.Header' | translate}}</h2>
     <p>{{variable.key}}</p>
     <input type="text" [(ngModel)]="newKey">
-    <button (click)="onClickDelete()">{{'Delete' | translate}}</button>
+    <button (click)="onClickRemove()">{{'Remove' | translate}}</button>
 
     <div class="buttons">
       <is-ui-button
@@ -61,7 +61,7 @@ export class ModalDialogLatentVariableDetailComponent extends AbstractComponent 
     )
   }
 
-  onClickDelete() {
+  onClickRemove() {
     this.dispatcher.emitAll([
       this.projects.removeLatentVariable(this.variable),
       this.modalDialog.close()
