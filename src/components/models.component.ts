@@ -4,6 +4,7 @@ import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
 import {ModalDialogActions} from '../application/modal-dialog'
 import {AppDispatcher} from '../application/app'
+import {ProjectsActions} from '../application/project'
 
 @Component({
   selector: 'is-models',
@@ -42,8 +43,11 @@ import {AppDispatcher} from '../application/app'
       ></is-ui-add-button>
     </h2>
     <ul>
-      <li *ngFor="let label of regressions">
-        <span class="label">{{label}}</span>
+      <li *ngFor="let v of regressions">
+        <span class="label">{{v.label}}</span>
+        <is-ui-delete-icon
+          (click)="onClickDeleteRegression(v.id)"
+        ></is-ui-delete-icon>
       </li>
     </ul>
 
@@ -54,8 +58,11 @@ import {AppDispatcher} from '../application/app'
       ></is-ui-add-button>
     </h2>
     <ul>
-      <li *ngFor="let label of latentVariableRelations">
-        <span class="label">{{label}}</span>
+      <li *ngFor="let v of latentVariableRelations">
+        <span class="label">{{v.label}}</span>
+        <is-ui-delete-icon
+          (click)="onClickDeleteLatentVariableRelation(v.id)"
+        ></is-ui-delete-icon>
       </li>
     </ul>
 
@@ -66,8 +73,11 @@ import {AppDispatcher} from '../application/app'
       ></is-ui-add-button>
     </h2>
     <ul>
-      <li *ngFor="let label of covariances">
-        <span class="label">{{label}}</span>
+      <li *ngFor="let v of covariances">
+        <span class="label">{{v.label}}</span>
+        <is-ui-delete-icon
+          (click)="onClickDeleteCovariance(v.id)"
+        ></is-ui-delete-icon>
       </li>
     </ul>
 
@@ -78,8 +88,11 @@ import {AppDispatcher} from '../application/app'
       ></is-ui-add-button>
     </h2>
     <ul>
-      <li *ngFor="let label of intercepts">
-        <span class="label">{{label}}</span>
+      <li *ngFor="let v of intercepts">
+        <span class="label">{{v.label}}</span>
+        <is-ui-delete-icon
+          (click)="onClickDeleteIntercept(v.id)"
+        ></is-ui-delete-icon>
       </li>
     </ul>
   `
@@ -92,6 +105,7 @@ export class ModelsComponent extends AbstractComponent {
   @Input() regressions:             string[]
 
   constructor(private modalDialog: ModalDialogActions,
+              private projects: ProjectsActions,
               private dispatcher: AppDispatcher) {
     super()
   }
@@ -110,6 +124,22 @@ export class ModelsComponent extends AbstractComponent {
 
   onClickIntercept() {
     this.dispatcher.emit(this.modalDialog.openCreateIntercept())
+  }
+
+  onClickDeleteRegression(id: string) {
+    this.dispatcher.emit(this.projects.deleteRegression(id))
+  }
+
+  onClickDeleteLatentVariableRelation(id: string) {
+    this.dispatcher.emit(this.projects.deleteLatentVariableRelation(id))
+  }
+
+  onClickDeleteCovariance(id: string) {
+    this.dispatcher.emit(this.projects.deleteCovariance(id))
+  }
+
+  onClickDeleteIntercept(id: string) {
+    this.dispatcher.emit(this.projects.deleteIntercept(id))
   }
 
 }

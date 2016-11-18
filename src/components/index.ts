@@ -11,6 +11,7 @@ import {ModalDialogLoadFileComponent} from './modal-dialog-load-file.component'
 import {ModalDialogObservedVariableDetailComponent} from './modal-dialog-observed-variable-detail.component'
 import {ModelsComponent} from './models.component'
 import {UiButtonComponent} from './ui-button.component'
+import {UiDeleteIconComponent} from './ui-delete-icon.component'
 import {UiInfoIconComponent} from './ui-info-icon.component'
 import {UiAddButtonComponent} from './ui-add-button.component'
 import {VariablesComponent} from './variables.component'
@@ -33,6 +34,7 @@ export const declarations = [
   ModalDialogObservedVariableDetailComponent,
   ModelsComponent,
   UiButtonComponent,
+  UiDeleteIconComponent,
   UiInfoIconComponent,
   UiAddButtonComponent,
   VariablesComponent

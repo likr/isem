@@ -108,4 +108,21 @@ export class Project {
     )
   }
 
+  deleteRegression(id: string) {
+    this.model.deleteRegression(id)
+  }
+
+  deleteLatentVariableRelation(id: string) {
+    this.model.deleteLatentVariableRelation(id)
+  }
+
+  deleteCovariance(id: string) {
+    this.model.deleteCovariance(id)
+  }
+
+  deleteIntercept(id: string) {
+    this.model.deleteIntercept(id)
+  }
+
+
 }

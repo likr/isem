@@ -35,10 +35,10 @@ export class DetailComponent extends AbstractComponent {
 
   observedVariables:       ObservedVariableVM[]
   latentVariables:         LatentVariableVM[]
-  covariances:             string[]
-  intercepts:              string[]
-  latentVariableRelations: string[]
-  regressions:             string[]
+  covariances:             {id: string, label: string}[]
+  intercepts:              {id: string, label: string}[]
+  latentVariableRelations: {id: string, label: string}[]
+  regressions:             {id: string, label: string}[]
 
   constructor(private route: ActivatedRoute,
               private app: AppActions,

@@ -119,6 +119,54 @@ export class ProjectsRepository {
     })
   }
 
+  deleteRegression(uuid: string, targetId: string): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.deleteRegression(targetId)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  deleteLatentVariableRelation(uuid: string, targetId: string): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.deleteLatentVariableRelation(targetId)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  deleteCovariance(uuid: string, targetId: string): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.deleteCovariance(targetId)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
+  deleteIntercept(uuid: string, targetId: string): Promise<any> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      project.deleteIntercept(targetId)
+
+      return this.db.update(project).then((vv) => {
+        this.publishSingle(uuid)
+        return vv
+      })
+    })
+  }
+
   emitQuerySingle(uuid: string) {
     this.publishSingle(uuid)
   }

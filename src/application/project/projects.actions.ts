@@ -110,4 +110,32 @@ export class ProjectsActions extends Actions<AppState> {
     }
   }
 
+  deleteRegression(id: string): Action<AppState> {
+    return (st) => {
+      st.projects.deleteRegression(st.currentId, id)
+      return st
+    }
+  }
+
+  deleteLatentVariableRelation(id: string): Action<AppState> {
+    return (st) => {
+      st.projects.deleteLatentVariableRelation(st.currentId, id)
+      return st
+    }
+  }
+
+  deleteCovariance(id: string): Action<AppState> {
+    return (st) => {
+      st.projects.deleteCovariance(st.currentId, id)
+      return st
+    }
+  }
+
+  deleteIntercept(id: string): Action<AppState> {
+    return (st) => {
+      st.projects.deleteIntercept(st.currentId, id)
+      return st
+    }
+  }
+
 }

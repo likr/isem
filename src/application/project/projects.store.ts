@@ -54,19 +54,19 @@ export class ProjectsStore {
     return this.currentProject$.map((p) => p.latentVariables)
   }
 
-  get covariances$(): Observable<string[]> {
+  get covariances$(): Observable<{id: string, label: string}[]> {
     return this.currentProject$.map((p) => p.model.covariances)
   }
 
-  get intercepts$(): Observable<string[]> {
+  get intercepts$(): Observable<{id: string, label: string}[]> {
     return this.currentProject$.map((p) => p.model.intercepts)
   }
 
-  get latentVariableRelations$(): Observable<string[]> {
+  get latentVariableRelations$(): Observable<{id: string, label: string}[]> {
     return this.currentProject$.map((p) => p.model.latentVariableRelations)
   }
 
-  get regressions$(): Observable<string[]> {
+  get regressions$(): Observable<{id: string, label: string}[]> {
     return this.currentProject$.map((p) => p.model.regressions)
   }
 

@@ -124,4 +124,21 @@ export class Model {
     ])
   }
 
+  deleteRegression(id: string) {
+    this.regressions = this.regressions.filter((v) => v[0].id !== id)
+  }
+
+  deleteLatentVariableRelation(id: string) {
+    this.latentVariableRelations = this.latentVariableRelations.filter((v) => v[0].id !== id)
+  }
+
+  deleteCovariance(id: string) {
+    this.covariances = this.covariances.filter((v) => v[0].id !== id)
+  }
+
+  deleteIntercept(id: string) {
+    this.intercepts = this.intercepts.filter((v) => v[0].id !== id)
+  }
+
+
 }
