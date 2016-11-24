@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Observable, BehaviorSubject, ReplaySubject} from 'rxjs'
 
-import {CsvToJsonAdapter, ProjectsDatabaseAdapter} from '../../services'
+import {CsvToJsonAdapter, ProjectsDatabaseAdapter, SemAPI} from '../../services'
 import {Project} from '../../domain/project'
 
 @Injectable()
@@ -11,7 +11,8 @@ export class ProjectsRepository {
   private getSingleSubject: ReplaySubject<Observable<Object[]>>
 
   constructor(private csvToJson: CsvToJsonAdapter,
-              private db: ProjectsDatabaseAdapter) {
+              private db: ProjectsDatabaseAdapter,
+              private api: SemAPI) {
     this.getAllSubject = new BehaviorSubject(
       Observable.fromPromise(this.db.getAll())
     )
@@ -164,6 +165,13 @@ export class ProjectsRepository {
         this.publishSingle(uuid)
         return vv
       })
+    })
+  }
+
+  calcSem(uuid: string): Promise<string> {
+    return this.db.getSingle(uuid).then((v) => {
+      const project = Project.fromBackend(v[0] as Project)
+      return this.api.post(project).then((res) => res)
     })
   }
 

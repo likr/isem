@@ -86,29 +86,57 @@ export class ProjectsActions extends Actions<AppState> {
 
   addCovariance(variable1Id: string, variable2Id: string): Action<AppState> {
     return (st) => {
-      st.projects.addCovariance(st.currentId, variable1Id, variable2Id)
-      return st
+      return this.delayed((apply) => {
+        st.projects.addCovariance(
+          st.currentId,
+          variable1Id,
+          variable2Id
+        ).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
   addIntercept(variableId: string, value: number): Action<AppState> {
     return (st) => {
-      st.projects.addIntercept(st.currentId, variableId, value)
-      return st
+      return this.delayed((apply) => {
+        st.projects.addIntercept(
+          st.currentId,
+          variableId,
+          value
+        ).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
   addLatentVariableRelation(latentVariableId: string, observedVariableIds: string[]): Action<AppState> {
     return (st) => {
-      st.projects.addLatentVariableRelation(st.currentId, latentVariableId, observedVariableIds)
-      return st
+      return this.delayed((apply) => {
+        st.projects.addLatentVariableRelation(
+          st.currentId,
+          latentVariableId,
+          observedVariableIds
+        ).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
   addRegression(dependentVariableId: string, variableIds: string[]): Action<AppState> {
     return (st) => {
-      st.projects.addRegression(st.currentId, dependentVariableId, variableIds)
-      return st
+      return this.delayed((apply) => {
+        st.projects.addRegression(
+          st.currentId,
+          dependentVariableId,
+          variableIds
+        ).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
@@ -117,8 +145,11 @@ export class ProjectsActions extends Actions<AppState> {
       if (!confirmRemove(this.window)) {
         return st
       }
-      st.projects.removeRegression(st.currentId, id)
-      return st
+      return this.delayed((apply) => {
+        st.projects.removeRegression(st.currentId, id).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
@@ -127,8 +158,11 @@ export class ProjectsActions extends Actions<AppState> {
       if (!confirmRemove(this.window)) {
         return st
       }
-      st.projects.removeLatentVariableRelation(st.currentId, id)
-      return st
+      return this.delayed((apply) => {
+        st.projects.removeLatentVariableRelation(st.currentId, id).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
@@ -137,8 +171,11 @@ export class ProjectsActions extends Actions<AppState> {
       if (!confirmRemove(this.window)) {
         return st
       }
-      st.projects.removeCovariance(st.currentId, id)
-      return st
+      return this.delayed((apply) => {
+        st.projects.removeCovariance(st.currentId, id).then(() => {
+          apply(this.calcSem())
+        })
+      })
     }
   }
 
@@ -147,8 +184,21 @@ export class ProjectsActions extends Actions<AppState> {
       if (!confirmRemove(this.window)) {
         return st
       }
-      st.projects.removeIntercept(st.currentId, id)
-      return st
+      return this.delayed((apply) => {
+        st.projects.removeIntercept(st.currentId, id).then(() => {
+          apply(this.calcSem())
+        })
+      })
+    }
+  }
+
+  calcSem(): Action<AppState> {
+    return (st) => {
+      return this.delayed((apply) => {
+        st.projects.calcSem(st.currentId).then((res) => {
+          apply((_) => ({res} as AppState))
+        })
+      })
     }
   }
 

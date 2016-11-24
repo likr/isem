@@ -4,6 +4,7 @@ import {LovefieldProvider} from './lovefield.provider'
 import {PapaParseProvider} from './papa-parse.provider'
 import {ProjectsDatabaseAdapter} from './projects-database-adapter.service'
 import {RouteChanger} from './route-changer.service'
+import {SemAPI} from './sem-api.service'
 import {WindowRef} from './window-ref.service'
 
 export {CsvToJsonAdapter} from './csv-to-json-adapter.service'
@@ -12,6 +13,7 @@ export {LovefieldProvider} from './lovefield.provider'
 export {PapaParseProvider} from './papa-parse.provider'
 export {ProjectsDatabaseAdapter} from './projects-database-adapter.service'
 export {RouteChanger} from './route-changer.service'
+export {SemAPI} from './sem-api.service'
 export {WindowRef} from './window-ref.service'
 
 export const providers = [
@@ -21,5 +23,6 @@ export const providers = [
   PapaParseProvider,
   ProjectsDatabaseAdapter,
   RouteChanger,
-  WindowRef
+  SemAPI,
+  WindowRef,
 ]

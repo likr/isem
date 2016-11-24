@@ -1,7 +1,8 @@
-export const APP_NAME     = 'isem2'
-export const APP_PREFIX   = 'is'
-export const LOCALE       = 'ja'
-export const DEFAULT_NAME = 'untitled'
+export const APP_NAME         = 'isem2'
+export const APP_PREFIX       = 'is'
+export const LOCALE           = 'ja'
+export const DEFAULT_NAME     = 'untitled'
+export const SEM_API_ENDPOINT = 'https://sem.arukascloud.io/sem'
 
 export const KEYCODES = {
   enter     : 13,

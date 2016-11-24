@@ -1,11 +1,16 @@
 import {Variable, Variables, LatentVariable, ObservedVariables} from '../variable'
 
+export type Covariance             = [string, string]
+export type Intercept              = [string, number]
+export type LatentVariableRelation = [string, string[]]
+export type Regression             = [string, string[]]
+
 export class Model {
 
-  covariances:             [string, string][]
-  intercepts:              [string, number][]
-  latentVariableRelations: [string, string[]][]
-  regressions:             [string, string[]][]
+  covariances:             Covariance[]
+  intercepts:              Intercept[]
+  latentVariableRelations: LatentVariableRelation[]
+  regressions:             Regression[]
 
   static fromBackend(v: Model): Model {
     const m = new Model()
@@ -98,6 +103,5 @@ export class Model {
   removeIntercept(id: string) {
     this.intercepts = this.intercepts.filter((v) => v[0] !== id)
   }
-
 
 }
