@@ -22,16 +22,23 @@ import {VariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
 
-    <label for="variable">{{'Variable' | translate}}</label>
-    <select
-      id         ="variable"
-      name       ="variable"
-      [(ngModel)]="variable"
-    >
-      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-    </select>
-
-    <label>{{'Value' | translate}}<input type="number" [(ngModel)]="value"></label>
+    <div class="fieldGroup">
+      <label
+        class="selectLabel"
+        for  ="variable"
+      >{{'Variable' | translate}}</label>
+      <select
+        id         ="variable"
+        name       ="variable"
+        [(ngModel)]="variable"
+      >
+        <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+      </select>
+    </div>
+  
+    <div class="fieldGroup">
+      <label>{{'Value' | translate}}<input type="number" [(ngModel)]="value"></label>
+    </div>
 
     <div class="buttons">
       <is-ui-button
