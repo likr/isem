@@ -28,15 +28,23 @@ export const css = {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
         height: ${css.height};
         line-height: ${css.height};
-        color: #FFFFFF;
       }
       h1 {
         padding-left: ${css.padding};
         font-size: 1.6em;
       }
+      a {
+        color: #FFFFFF;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
     </style>
     <div class="header">
-      <h1>{{'ApplicationName' | translate}}</h1>
+      <h1>
+        <a routerLink="/">{{'ApplicationName' | translate}}</a>
+      </h1>
     </div>
     
     <is-modal-dialog
