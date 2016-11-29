@@ -41,5 +41,6 @@
   "Regression": "回帰",
   "Covariance": "共分散",
   "Intercept": "切片",
-  "Value": "値"
+  "Value": "値",
+  "Cancel": "キャンセル"
 }

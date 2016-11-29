@@ -42,6 +42,12 @@ import {VariableVM} from '../application/variable'
 
     <div class="buttons">
       <is-ui-button
+        [label]="'Cancel' | translate"
+        [type] ="'default'"
+        (clickButton)="onClickSecondary($event)"
+      ></is-ui-button>
+
+      <is-ui-button
         [label]="'OK' | translate"
         [type] ="'primary'"
         (clickButton)="onClickPrimary($event)"
@@ -83,6 +89,10 @@ export class ModalDialogCreateInterceptComponent extends AbstractComponent {
       this.projects.addIntercept(this.variable, this.value),
       this.modalDialog.close()
     ])
+  }
+
+  onClickSecondary() {
+    this.dispatcher.emit(this.modalDialog.close())
   }
 
 }
