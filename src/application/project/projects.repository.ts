@@ -168,7 +168,7 @@ export class ProjectsRepository {
     })
   }
 
-  calcSem(uuid: string): Promise<string> {
+  calcSem(uuid: string): Promise<any> {
     return this.db.getSingle(uuid).then((v) => {
       const project = Project.fromBackend(v[0] as Project)
       return this.api.post(project).then((res) => res)
