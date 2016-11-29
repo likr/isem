@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Http, RequestOptions, Headers, RequestMethod} from '@angular/http'
+import {Http, RequestOptions, Headers} from '@angular/http'
 import {Project} from '../domain/project'
 import {SEM_API_ENDPOINT} from '../constant'
 import {ObservedVariable} from '../domain/variable'
