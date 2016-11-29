@@ -6,6 +6,9 @@ import {AbstractComponent} from './abstract'
   selector: 'is-ui-info-icon',
   template: `
     <style>
+      :host {
+        cursor: pointer;
+      }
       svg {
         position: relative;
         top: 1px;

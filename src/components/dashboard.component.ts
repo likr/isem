@@ -51,6 +51,9 @@ import {ProjectsActions} from '../application/project/projects.actions'
       th {
         border-bottom: 1px solid #999;
       }
+      button {
+        cursor: pointer;
+      }
     </style>
     <div class="container">
       <div class="section">
@@ -79,9 +82,11 @@ import {ProjectsActions} from '../application/project/projects.actions'
             >
               <td>{{project.name}}</td>
               <td>{{project.modified}}</td>
-              <td class="delete"><button (click)="onClickDelete($event, project)">
-                {{'Delete' | translate}}
-              </button></td>
+              <td class="delete">
+                <button (click)="onClickDelete($event, project)">
+                  {{'Delete' | translate}}
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
