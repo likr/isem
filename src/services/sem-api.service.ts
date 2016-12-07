@@ -48,7 +48,7 @@ const projectToJson = (project: Project): string => {
       obj['latent_variable'] = latentVariable
     }
     if (!!project.model.regressions && 0 < project.model.regressions.length) {
-      obj['regressions'] = regression
+      obj['regression'] = regression
     }
     if (!!project.model.covariances && 0 < project.model.covariances.length) {
       obj['covariance'] = covariance
@@ -70,8 +70,7 @@ export class SemAPI {
   post(project: Project): Promise<any> {
     const options = new RequestOptions({
       headers: new Headers({
-        'Content-Type'               : 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type' : 'application/json'
       })
     })
 
@@ -79,7 +78,7 @@ export class SemAPI {
     return this.http
       .post(SEM_API_ENDPOINT, json, options)
       .toPromise()
-      .then((res) => res)
+      .then((res) => res.json())
   }
 
 }

@@ -11,4 +11,5 @@ export class AppState extends State {
   currentId?: string
   targetObservedVariableId?: string
   targetLatentVariableId?: string
+  data?: any
 }

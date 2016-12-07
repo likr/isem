@@ -9,6 +9,16 @@ const base = {
           path.resolve(__dirname, 'src')
         ],
         loader: 'ts-loader'
+      },
+      {
+        include: [
+          path.resolve(__dirname, 'node_modules/sem')
+        ],
+        loader: 'babel-loader',
+        query: {
+          presets: ['latest'],
+          plugins: ['transform-react-jsx']
+        }
       }
     ]
   },
