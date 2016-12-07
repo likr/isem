@@ -13,11 +13,11 @@ const base = {
     ]
   },
   entry: {
-    index: './src/index'
+    bundle: './src/index'
   },
   output: {
-    path: './',
-    filename: 'built/[name].js'
+    path: './public',
+    filename: '[name].js'
   },
   resolve: {
     extensions: ['', '.js', '.ts']

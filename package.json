@@ -53,6 +53,6 @@
     "build": "yarn run lint && webpack && yarn run done",
     "done": "notify -t \"Done\" -m \"Build has done.\" -o http://127.0.0.1:8080",
     "lint": "tslint --project ./tsconfig.json",
-    "start": "webpack-dev-server --content-base ."
+    "start": "webpack-dev-server --content-base public"
   }
 }
