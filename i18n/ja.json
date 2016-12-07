@@ -1,0 +1,46 @@
+{
+  "ApplicationName": "因果関係探索支援システム",
+  "CreateNewProject": "新規プロジェクトを作成",
+  "LoadFile": "読み込み",
+  "ModalDialogLoadFile": {
+    "Header": "ファイル読み込み",
+    "LabelProjectName": "プロジェクト名",
+    "LabelCSVFile": "CSVファイル",
+    "SampleFile": "サンプルファイル"
+  },
+  "ModalDialogObservedVariableDetail": {
+    "Header": "観測変数詳細"
+  },
+  "ModalDialogLatentVariableDetail": {
+    "Header": "潜在変数詳細"
+  },
+  "ModalDialogCreateCovariance": {
+    "Header": "共分散を追加"
+  },
+  "ModalDialogCreateIntercept": {
+    "Header": "切片を追加"
+  },
+  "ModalDialogCreateLatentVariableRelation": {
+    "Header": "潜在引数の関係性を追加"
+  },
+  "ModalDialogCreateRegression": {
+    "Header": "回帰を追加"
+  },
+  "ProjectList": "プロジェクト一覧",
+  "ProjectName": "プロジェクト名",
+  "LastUpdateDate": "最終更新日時",
+  "Add": "追加",
+  "Remove": "削除",
+  "Delete": "削除",
+  "Variable": "変数",
+  "Variable1": "変数1",
+  "Variable2": "変数2",
+  "ObservedVariable": "観測変数",
+  "LatentVariable": "潜在変数",
+  "DependentVariable": "被説明変数",
+  "Regression": "回帰",
+  "Covariance": "共分散",
+  "Intercept": "切片",
+  "Value": "値",
+  "Cancel": "キャンセル"
+}
