@@ -21,31 +21,33 @@ import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateLatentVariableRelation.Header' | translate}}</h2>
 
-    <div class="fieldGroup">
-      <label
-        class="selectLabel"
-        for  ="latentVariable"
-      >{{'LatentVariable' | translate}}</label>
-      <select
-        id         ="latentVariable"
-        name       ="latentVariable"
-        [(ngModel)]="latentVariable"
-      >
-        <option *ngFor="let v of latentVariables" [attr.value]="v.id">{{v.key}}</option>
-      </select>
-    </div>
-
-    <div class="fieldGroup">
-      <label
-        *ngFor="let v of observedVariables; let i = index"
-        class ="checkboxLabel"
-      >
-        <input
-          type       ="checkbox"
-          name       ="observedVariable"
-          [(ngModel)]="checkboxModel[i]"
-        >{{v.key}}
-      </label>
+    <div class="scrollable">
+      <div class="fieldGroup">
+        <label
+          class="selectLabel"
+          for  ="latentVariable"
+        >{{'LatentVariable' | translate}}</label>
+        <select
+          id         ="latentVariable"
+          name       ="latentVariable"
+          [(ngModel)]="latentVariable"
+        >
+          <option *ngFor="let v of latentVariables" [attr.value]="v.id">{{v.key}}</option>
+        </select>
+      </div>
+  
+      <div class="fieldGroup">
+        <label
+          *ngFor="let v of observedVariables; let i = index"
+          class ="checkboxLabel"
+        >
+          <input
+            type       ="checkbox"
+            name       ="observedVariable"
+            [(ngModel)]="checkboxModel[i]"
+          >{{v.key}}
+        </label>
+      </div>
     </div>
 
     <div class="buttons">

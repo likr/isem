@@ -21,32 +21,34 @@ import {VariableVM} from '../application/variable'
 
     <h2>{{'ModalDialogCreateCovariance.Header' | translate}}</h2>
 
-    <div class="fieldGroup">
-      <label
-        class="selectLabel"
-        for  ="variable1"
-      >{{'Variable1' | translate}}</label>
-      <select
-        id         ="variable1"
-        name       ="variable1"
-        [(ngModel)]="variable1"
-      >
-        <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-      </select>
-    </div>
-      
-    <div class="fieldGroup">
-      <label
-        class="selectLabel"
-        for  ="variable2"
-      >{{'Variable2' | translate}}</label>
-      <select
-        id         ="variable2"
-        name       ="variable2"
-        [(ngModel)]="variable2"
-      >
-        <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-      </select>
+    <div class="scrollable">
+      <div class="fieldGroup">
+        <label
+          class="selectLabel"
+          for  ="variable1"
+        >{{'Variable1' | translate}}</label>
+        <select
+          id         ="variable1"
+          name       ="variable1"
+          [(ngModel)]="variable1"
+        >
+          <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+        </select>
+      </div>
+        
+      <div class="fieldGroup">
+        <label
+          class="selectLabel"
+          for  ="variable2"
+        >{{'Variable2' | translate}}</label>
+        <select
+          id         ="variable2"
+          name       ="variable2"
+          [(ngModel)]="variable2"
+        >
+          <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+        </select>
+      </div>
     </div>
 
     <div class="buttons">
