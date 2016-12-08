@@ -51,8 +51,8 @@ export const css = {
         height: ${css.bodyHeight};
         z-index: 10010;
         position: fixed;
-        top:  calc(50% - ${css.bodyHeight} / 1.3);
-        left: calc(50% - ${css.bodyWidth}  / 2);
+        top:  calc((100% - ${css.bodyHeight}) / 2.5);
+        left: calc((100% - ${css.bodyWidth} ) / 2);
         padding: ${css.bodyPadding};
       }
     </style>
