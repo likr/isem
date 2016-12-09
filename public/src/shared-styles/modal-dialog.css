@@ -17,3 +17,7 @@ label {
 .checkboxLabel {
   margin-right: 8px;
 }
+.scrollable {
+  overflow-y: scroll;
+  height: 260px;
+}

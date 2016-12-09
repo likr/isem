@@ -21,31 +21,33 @@ import {VariableVM} from '../application/variable/'
 
     <h2>{{'ModalDialogCreateRegression.Header' | translate}}</h2>
 
-    <div class="fieldGroup">
-      <label
-        class="selectLabel"
-        for  ="dependentVariable"
-      >{{'DependentVariable' | translate}}</label>
-      <select
-        id         ="dependentVariable"
-        name       ="dependentVariable"
-        [(ngModel)]="dependentVariable"
-      >
-        <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-      </select>
-    </div>
-  
-    <div class="fieldGroup">
-      <label
-        *ngFor="let v of variables; let i = index"
-        class ="checkboxLabel"
-      >
-        <input
-          type       ="checkbox"
-          name       ="variable"
-          [(ngModel)]="checkboxModel[i]"
-        >{{v.key}}
-      </label>
+    <div class="scrollable">
+      <div class="fieldGroup">
+        <label
+          class="selectLabel"
+          for  ="dependentVariable"
+        >{{'DependentVariable' | translate}}</label>
+        <select
+          id         ="dependentVariable"
+          name       ="dependentVariable"
+          [(ngModel)]="dependentVariable"
+        >
+          <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+        </select>
+      </div>
+    
+      <div class="fieldGroup">
+        <label
+          *ngFor="let v of variables; let i = index"
+          class ="checkboxLabel"
+        >
+          <input
+            type       ="checkbox"
+            name       ="variable"
+            [(ngModel)]="checkboxModel[i]"
+          >{{v.key}}
+        </label>
+      </div>
     </div>
 
     <div class="buttons">
