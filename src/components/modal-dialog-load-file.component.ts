@@ -30,22 +30,22 @@ import {ProjectsActions} from '../application/project/projects.actions'
     </div>
 
     <div class="csvContainer">
-      <label *ngFor="let item of items">
+      <label *ngFor="let encoding of encodings">
         <input
-          type="radio"
-          name="encoding"
-          [attr.value]="item.value"
-          [checked]="item.value === items[0].value"
-          (change)="encoding = item.value"
+          type        ="radio"
+          name        ="encoding"
+          [attr.value]="encoding.value"
+          [checked]   ="encoding.value === encodings[0].value"
+          (change)    ="currentEncoding = encoding.value"
         >
-        {{item.label}}
+        {{encoding.label}}
       </label>
       <div class="container">
         <label for="csvFile">{{'ModalDialogLoadFile.LabelCSVFile' | translate}}</label>
         <input
-          type="file"
-          [encoding]="encoding"
-          (result)="onResultInputFile($event)"
+          type      ="file"
+          [encoding]="currentEncoding"
+          (result)  ="onResultInputFile($event)"
         >
       </div>
     </div>
@@ -72,7 +72,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
 export class ModalDialogLoadFileComponent extends AbstractComponent {
 
   private projectName: string
-  private items: Array<{label: string, value: string}>
+  private encodings: Array<{label: string, value: string}>
   private loadedCsv: string
 
   constructor(private projects: ProjectsActions,
@@ -82,7 +82,7 @@ export class ModalDialogLoadFileComponent extends AbstractComponent {
   }
 
   ngOnInit() {
-    this.items = [
+    this.encodings = [
       {label: 'UTF-8',     value: 'utf8'},
       {label: 'Shift_JIS', value: 'sjis'}
     ]

@@ -5,8 +5,14 @@ import {Directive, Input, Output, EventEmitter, HostListener} from '@angular/cor
 })
 export class InputFileDirective {
 
-  @Input() encoding: string
+  private cachedFile: File
+  private _encoding: string
+
   @Output() result = new EventEmitter<string>()
+
+  ngOnInit() {
+    this.cachedFile = null
+  }
 
   @HostListener('change', ['$event'])
   onChange(ev: Event) {
@@ -15,14 +21,27 @@ export class InputFileDirective {
       this.result.emit(null)
       return
     }
+    this.cachedFile = file
 
-    const fileReader  = new FileReader()
-    fileReader.onload = (fileEvent: ProgressEvent) => {
-      const result = (<any>fileEvent.target).result as string
-      this.result.emit(result)
+    this.loadFile(this.cachedFile, this._encoding)
+  }
+
+  @Input()
+  set encoding(v: string) {
+    this._encoding = v
+
+    if (!!this.cachedFile) {
+      this.loadFile(this.cachedFile, this._encoding)
+    }
+  }
+
+  loadFile(file: File, encoding: string) {
+    const reader  = new FileReader()
+    reader.onload = (ev: ProgressEvent) => {
+      this.result.emit((<any>ev.target).result as string)
     }
 
-    fileReader.readAsText(file, this.encoding)
+    reader.readAsText(file, encoding)
   }
 
 }
