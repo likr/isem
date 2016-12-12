@@ -1,0 +1,92 @@
+import {Component, Input} from '@angular/core'
+
+import {AbstractComponent} from './abstract'
+import {css as appCss} from './app.component'
+import {VariableVM} from '../application/variable'
+
+/* tslint:disable */
+declare var require: any
+const ReactDOM = require('react-dom')
+const React    = require('react')
+const Sem      = require('sem').default
+/* tslint:enable */
+
+@Component({
+  selector: 'is-viz',
+  template: `
+    <style>
+      :host {
+        display: block;
+        margin: 0;
+        flex: 1;
+        height: 100%;
+        padding: ${appCss.padding};
+        overflow-y: scroll;
+        border-right: 1px solid #90a4ae;
+      }
+      h2 {
+        display: flex;
+        margin: 8px 0;
+        font-size: 14px;
+        color: #455A64;
+        margin-bottom: 4px;
+      }
+      li {
+        display: flex;
+        line-height: 26px;
+      }
+      .label {
+        margin-right: auto;
+      }
+    </style>
+
+    <div id='viz'></div>
+  `
+})
+
+export class VizComponent extends AbstractComponent {
+
+  @Input() data: any
+  @Input() observedVariables: VariableVM[]
+  @Input() latentVariables: VariableVM[]
+
+  ngOnChanges() {
+    ReactDOM.render(React.createElement(Sem, {json: uuidToName (this.data, this.observedVariables, this.latentVariables)}, null), document.getElementById('viz'))
+  }
+
+}
+
+const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariables: VariableVM[]) => {
+  if (rawJson.names === undefined) return rawJson // namesがなければAPIとの通信を行っていないとみなす
+
+  let result = JSON.parse(JSON.stringify(rawJson)) // deep copy
+  const variables = latentVariables.concat(observedVariables)
+
+  for (const varName of ['covariances', 'regressions', 'latent_variables']) {
+    for (const k in result[varName]) {
+      let var1 = variables.find((v) => v.id === k)
+      result[varName][var1.key] = result[varName][k]
+      delete result[varName][k]
+
+      for (const k2 in result[varName][var1.key]) {
+        let var2 = variables.find((v) => v.id === result[varName][var1.key][k2].name)
+        result[varName][var1.key][k2].name = var2.key
+      }
+    }
+  }
+
+  for (const varName of ['lat', 'obs']) {
+    for (const k in result.names[varName]) {
+      let variable = variables.find((v) => v.id === result.names[varName][k])
+      result.names[varName][k] = variable.key
+    }
+  }
+
+  for (const k in result.variances) {
+    let variable = variables.find((v) => v.id === k)
+    result.variances[variable.key] = result.variances[k]
+    delete result.variances[k]
+  }
+
+  return result
+}

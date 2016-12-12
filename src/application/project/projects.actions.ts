@@ -195,8 +195,8 @@ export class ProjectsActions extends Actions<AppState> {
   calcSem(): Action<AppState> {
     return (st) => {
       return this.delayed((apply) => {
-        st.projects.calcSem(st.currentId).then((res) => {
-          apply((_) => ({res} as AppState))
+        st.projects.calcSem(st.currentId).then((data) => {
+          apply((_) => ({data} as AppState))
         })
       })
     }

@@ -15,6 +15,7 @@ import {UiDeleteIconComponent} from './ui-delete-icon.component'
 import {UiInfoIconComponent} from './ui-info-icon.component'
 import {UiAddButtonComponent} from './ui-add-button.component'
 import {VariablesComponent} from './variables.component'
+import {VizComponent} from './viz.component'
 
 export {AppComponent} from './app.component'
 export {DashboardComponent} from './dashboard.component'
@@ -37,5 +38,6 @@ export const declarations = [
   UiDeleteIconComponent,
   UiInfoIconComponent,
   UiAddButtonComponent,
-  VariablesComponent
+  VariablesComponent,
+  VizComponent
 ]

@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router'
 import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
-import {AppActions, AppDispatcher} from '../application/app'
+import {AppActions, AppDispatcher, AppStore} from '../application/app'
 import {ProjectsActions, ProjectsStore} from '../application/project'
 import {ID} from '../application/app/app.routing'
 import {Expression} from '../application/model/model-vm'
@@ -30,6 +30,12 @@ import {Expression} from '../application/model/model-vm'
       [latentVariableRelations]="latentVariableRelations"
       [regressions]            ="regressions"
     ></is-models>
+
+    <is-viz
+      [observedVariables]="observedVariables"
+      [latentVariables]  ="latentVariables"
+      [data] = "data"
+    ></is-viz>
   `
 })
 export class DetailComponent extends AbstractComponent {
@@ -40,12 +46,14 @@ export class DetailComponent extends AbstractComponent {
   intercepts:              Expression[]
   latentVariableRelations: Expression[]
   regressions:             Expression[]
+  data:                    any
 
   constructor(private route: ActivatedRoute,
               private app: AppActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
-              private store: ProjectsStore) {
+              private store: ProjectsStore,
+              private appStore: AppStore) {
     super()
   }
 
@@ -57,6 +65,7 @@ export class DetailComponent extends AbstractComponent {
       this.store.intercepts$             .subscribe((v) => this.intercepts = v),
       this.store.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
       this.store.regressions$            .subscribe((v) => this.regressions = v),
+      this.appStore.data$                .subscribe((v) => this.data = v),
     ])
 
     this.subscriptions.push(

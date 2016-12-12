@@ -14,7 +14,8 @@ const INIT_STATE: AppState = {
     isVisible: false
   },
   projects   : void 0,
-  currentId  : ''
+  currentId  : '',
+  data: {}
 }
 
 @Injectable()
@@ -34,5 +35,9 @@ export class AppStore extends Store<AppState> {
 
   get modalDialogType$(): Observable<ModalDialogType> {
     return this.observable.map((st) => st.modalDialog.type)
+  }
+
+  get data$(): Observable<any> {
+    return this.observable.map((st) => st.data)
   }
 }
