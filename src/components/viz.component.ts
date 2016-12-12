@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
+import {VariableVM} from '../application/variable'
 
 /* tslint:disable */
 declare var require: any
@@ -46,9 +47,46 @@ const Sem      = require('sem').default
 export class VizComponent extends AbstractComponent {
 
   @Input() data: any
+  @Input() observedVariables: VariableVM[]
+  @Input() latentVariables: VariableVM[]
 
   ngOnChanges() {
-    ReactDOM.render(React.createElement(Sem, {json: this.data}, null), document.getElementById('viz'))
+    ReactDOM.render(React.createElement(Sem, {json: uuidToName (this.data, this.observedVariables, this.latentVariables)}, null), document.getElementById('viz'))
   }
 
+}
+
+const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariables: VariableVM[]) => {
+  if (rawJson.names === undefined) return rawJson // namesがなければAPIとの通信を行っていないとみなす
+
+  let result = JSON.parse(JSON.stringify(rawJson)) // deep copy
+  const variables = latentVariables.concat(observedVariables)
+
+  for (const varName of ['covariances', 'regressions', 'latent_variables']) {
+    for (const k in result[varName]) {
+      let var1 = variables.find((v) => v.id === k)
+      result[varName][var1.key] = result[varName][k]
+      delete result[varName][k]
+
+      for (const k2 in result[varName][var1.key]) {
+        let var2 = variables.find((v) => v.id === result[varName][var1.key][k2].name)
+        result[varName][var1.key][k2].name = var2.key
+      }
+    }
+  }
+
+  for (const varName of ['lat', 'obs']) {
+    for (const k in result.names[varName]) {
+      let variable = variables.find((v) => v.id === result.names[varName][k])
+      result.names[varName][k] = variable.key
+    }
+  }
+
+  for (const k in result.variances) {
+    let variable = variables.find((v) => v.id === k)
+    result.variances[variable.key] = result.variances[k]
+    delete result.variances[k]
+  }
+
+  return result
 }

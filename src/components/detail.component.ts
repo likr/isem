@@ -32,6 +32,8 @@ import {Expression} from '../application/model/model-vm'
     ></is-models>
 
     <is-viz
+      [observedVariables]="observedVariables"
+      [latentVariables]  ="latentVariables"
       [data] = "data"
     ></is-viz>
   `
