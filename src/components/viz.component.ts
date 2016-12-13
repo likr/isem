@@ -57,7 +57,7 @@ export class VizComponent extends AbstractComponent {
 }
 
 const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariables: VariableVM[]) => {
-  if (rawJson.names === undefined) return rawJson // namesがなければAPIとの通信を行っていないとみなす
+  if (!rawJson || rawJson.names === undefined) return {} // namesがなければAPIとの通信を行っていないとみなす
 
   let result = JSON.parse(JSON.stringify(rawJson)) // deep copy
   const variables = latentVariables.concat(observedVariables)
