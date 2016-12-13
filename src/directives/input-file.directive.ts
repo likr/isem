@@ -5,10 +5,10 @@ import {Directive, Input, Output, EventEmitter, HostListener} from '@angular/cor
 })
 export class InputFileDirective {
 
+  @Output() result = new EventEmitter<string>()
+
   private cachedFile: File
   private _encoding: string
-
-  @Output() result = new EventEmitter<string>()
 
   ngOnInit() {
     this.cachedFile = null
