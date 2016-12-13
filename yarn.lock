@@ -1146,9 +1146,9 @@ crypto-browserify@~3.2.6:
     ripemd160 "0.2.0"
     sha.js "2.2.6"
 
-cytoscape@^2.7.12:
-  version "2.7.12"
-  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-2.7.12.tgz#1a9cbcadb8427e5cd56dd39d5611900c51a6664e"
+cytoscape@^2.7.13:
+  version "2.7.13"
+  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-2.7.13.tgz#fa6a6c38e59e204050c04e3c757e95b217e71cd2"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -2988,10 +2988,6 @@ rxjs@5.0.0-rc.1:
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.0.0-rc.1.tgz#9e02b7044da81a2d5e138908d22af77e22d96973"
   dependencies:
     symbol-observable "^1.0.1"
-
-sem@ash1day/sem:
-  version "1.1.0"
-  resolved "https://codeload.github.com/ash1day/sem/tar.gz/9c3da5a2888fb722e526c161c8ba6039b497e700"
 
 semver-diff@^2.0.0:
   version "2.1.0"

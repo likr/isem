@@ -8,7 +8,7 @@ import {VariableVM} from '../application/variable'
 declare var require: any
 const ReactDOM = require('react-dom')
 const React    = require('react')
-const Sem      = require('sem').default
+const Sem      = require('../../sem').default
 /* tslint:enable */
 
 @Component({

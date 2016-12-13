@@ -12,7 +12,7 @@ const base = {
       },
       {
         include: [
-          path.resolve(__dirname, 'node_modules/sem')
+          path.resolve(__dirname, 'sem')
         ],
         loader: 'babel-loader',
         query: {
