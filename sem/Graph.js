@@ -76,7 +76,7 @@ class Graph extends Component {
 
   render () {
     const divStyle = {
-      height: 400
+      height: '100%'
     }
 
     return <div style={divStyle} className='Graph' ref='cyelement' />

@@ -30,7 +30,7 @@ class Fit extends Component {
       }
     }
 
-    return <div className='Fit'>
+    return <div className='Fit' style={{position: 'absolute', left: 0, bottom: 0}}>
       <table>
         <tbody>{rows}</tbody>
       </table>

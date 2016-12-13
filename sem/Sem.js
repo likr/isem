@@ -4,12 +4,10 @@ import Fit from './Fit'
 
 class Sem extends Component {
   render () {
-    return (
-      <div className='Sem'>
-        <Graph json={this.props.json} />
-        <Fit json={this.props.json} />
-      </div>
-    )
+    return <div className='Sem' style={{position: 'relative', height: '100%'}}>
+      <Graph json={this.props.json} />
+      <Fit json={this.props.json} />
+    </div>
   }
 }
 

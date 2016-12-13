@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, ElementRef} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
 import {css as appCss} from './app.component'
@@ -24,23 +24,7 @@ const Sem      = require('../../sem').default
         overflow-y: scroll;
         border-right: 1px solid #90a4ae;
       }
-      h2 {
-        display: flex;
-        margin: 8px 0;
-        font-size: 14px;
-        color: #455A64;
-        margin-bottom: 4px;
-      }
-      li {
-        display: flex;
-        line-height: 26px;
-      }
-      .label {
-        margin-right: auto;
-      }
     </style>
-
-    <div id='viz'></div>
   `
 })
 
@@ -50,8 +34,12 @@ export class VizComponent extends AbstractComponent {
   @Input() observedVariables: VariableVM[]
   @Input() latentVariables: VariableVM[]
 
+  constructor (private eref: ElementRef) {
+    super()
+  }
+
   ngOnChanges() {
-    ReactDOM.render(React.createElement(Sem, {json: uuidToName (this.data, this.observedVariables, this.latentVariables)}, null), document.getElementById('viz'))
+    ReactDOM.render(React.createElement(Sem, {json: uuidToName (this.data, this.observedVariables, this.latentVariables)}, null), this.eref.nativeElement)
   }
 
 }
