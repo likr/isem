@@ -45,6 +45,7 @@
     "babel-loader": "^6.2.8",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
+    "gh-pages": "^0.12.0",
     "node-notifier": "^4.6.1",
     "superstatic": "^4.0.3",
     "ts-loader": "^1.3.0",
@@ -62,6 +63,7 @@
   },
   "scripts": {
     "build": "yarn run lint && webpack && yarn run done",
+    "deploy": "NODE_ENV=production yarn build && gh-pages -d public",
     "done": "notify -t \"Done\" -m \"Build has done.\" -o http://127.0.0.1:8080",
     "lint": "tslint --project ./tsconfig.json",
     "start": "webpack-dev-server --content-base public"
