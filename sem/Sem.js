@@ -3,13 +3,9 @@ import Graph from './Graph'
 import Fit from './Fit'
 
 class Sem extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
+  render () {
     return (
-      <div className="Sem">
+      <div className='Sem'>
         <Graph json={this.props.json} />
         <Fit json={this.props.json} />
       </div>

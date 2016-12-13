@@ -23,18 +23,18 @@ const style = cytoscape.stylesheet()
   .selector('node')
     .css({
       'content': 'data(name)',
-      'width':  function(ele){
+      'width': (ele) => {
         const c = (ele.data('group') === 'obs') ? 2 : 1
         return c * valueToSize(ele.data('value'))
       },
-      'height': function(ele){ return valueToSize(ele.data('value')) },
-      'shape':  function(ele){ return groupToShape(ele.data('group')) },
+      'height': (ele) => valueToSize(ele.data('value')),
+      'shape': (ele) => groupToShape(ele.data('group')),
       'text-valign': 'center',
       'color': 'white',
       'text-outline-width': 2,
       'font-weight': 300,
-      'text-outline-color': function(ele){ return groupToColor(ele.data('group')) },
-      'background-color':   function(ele){ return groupToColor(ele.data('group')) }
+      'text-outline-color': (ele) => groupToColor(ele.data('group')),
+      'background-color': (ele) => groupToColor(ele.data('group'))
     })
   .selector('edge')
     .css({
@@ -45,10 +45,10 @@ const style = cytoscape.stylesheet()
 
       'curve-style': 'bezier',
       'target-arrow-shape': 'triangle',
-      'source-arrow-shape': function(ele){ return groupToAllowShape(ele.data('group')) },
+      'source-arrow-shape': (ele) => groupToAllowShape(ele.data('group')),
 
       'text-outline-color': colorMap,
-      'line-color':         colorMap,
+      'line-color': colorMap,
       'source-arrow-color': colorMap,
       'target-arrow-color': colorMap,
 
@@ -64,10 +64,10 @@ export let layout = {
   name: 'cose',
 
   // Called on `layoutready`
-  ready: function(){},
+  ready: () => {},
 
   // Called on `layoutstop`
-  stop: function(){},
+  stop: () => {},
 
   // Whether to animate while running the layout
   animate: true,
@@ -96,16 +96,16 @@ export let layout = {
   componentSpacing: 300,
 
   // Node repulsion (non overlapping) multiplier
-  nodeRepulsion: function( node ){ return 100000; },
+  nodeRepulsion: (node) => 100000,
 
   // Node repulsion (overlapping) multiplier
   nodeOverlap: 10,
 
   // Ideal edge (non nested) length
-  idealEdgeLength: function( edge ){ return 15; },
+  idealEdgeLength: (edge) => 15,
 
   // Divisor to compute edge forces
-  edgeElasticity: function( edge ){ return 100; },
+  edgeElasticity: (edge) => 100,
 
   // Nesting factor (multiplier) to compute ideal edge length for nested edges
   nestingFactor: 10,

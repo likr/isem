@@ -1,1 +1,1 @@
-module.exports = require('./Sem');
+module.exports = require('./Sem')
