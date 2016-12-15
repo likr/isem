@@ -4,7 +4,7 @@ const fitsKeyNames = [ 'gfi', 'agfi', 'rmr', 'cfi', 'aic', 'rmsea' ]
 
 class Fit extends Component {
   render () {
-    const fits = this.props.json.goodness_of_fit
+    const fits = this.props.goodness_of_fit
     let rows = []
 
     if (!fits) return <div className='Fit' />
