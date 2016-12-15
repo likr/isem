@@ -31,7 +31,7 @@ class Covariance extends Component {
       }
     }
 
-    return <div style={{position: 'absolute', right: 0, top: 0, textAlign: 'right'}}>
+    return <div style={{ textAlign: 'right' }}>
       <h3 style={{fontSize: 14}}>共分散行列</h3>
       <Heatmap matrix={matrix} names={mergedNames} />
     </div>

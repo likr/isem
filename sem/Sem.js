@@ -9,8 +9,10 @@ class Sem extends Component {
     return <div className='Sem' style={{position: 'relative', height: '100%'}}>
       <Graph json={this.props.json} />
       <Fit goodness_of_fit={this.props.json.goodness_of_fit} />
-      <Covariance json={this.props.json} />
-      <TotalEffect json={this.props.json} />
+      <div style={{ overflow: 'scroll', position: 'absolute', right: 0, top: 0, height: '100%' }} >
+        <Covariance json={this.props.json} />
+        <TotalEffect json={this.props.json} />
+      </div>
     </div>
   }
 }

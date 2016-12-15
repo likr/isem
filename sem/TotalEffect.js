@@ -9,7 +9,7 @@ class TotalEffect extends Component {
 
     let mergedNames = names.lat.concat(names.obs)
 
-    return <div style={{position: 'absolute', right: 0, bottom: 0, textAlign: 'right'}}>
+    return <div style={{ textAlign: 'right' }}>
       <h3 style={{fontSize: 14}}>総合効果行列</h3>
       <Heatmap matrix={total_effects} names={mergedNames} />
     </div>
