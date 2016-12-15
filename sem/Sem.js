@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Graph from './Graph'
 import Fit from './Fit'
 import Covariance from './Covariance'
+import TotalEffect from './TotalEffect'
 
 class Sem extends Component {
   render () {
@@ -9,6 +10,7 @@ class Sem extends Component {
       <Graph json={this.props.json} />
       <Fit goodness_of_fit={this.props.json.goodness_of_fit} />
       <Covariance json={this.props.json} />
+      <TotalEffect json={this.props.json} />
     </div>
   }
 }
