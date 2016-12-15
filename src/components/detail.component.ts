@@ -34,7 +34,7 @@ import {Expression} from '../application/model/model-vm'
     <is-viz
       [observedVariables]="observedVariables"
       [latentVariables]  ="latentVariables"
-      [data] = "data"
+      [data]             ="data"
     ></is-viz>
   `
 })
@@ -52,20 +52,20 @@ export class DetailComponent extends AbstractComponent {
               private app: AppActions,
               private projects: ProjectsActions,
               private dispatcher: AppDispatcher,
-              private store: ProjectsStore,
+              private projectsStore: ProjectsStore,
               private appStore: AppStore) {
     super()
   }
 
   ngOnInit() {
     this.subscriptions.concat([
-      this.store.observedVariables$      .subscribe((v) => this.observedVariables = v),
-      this.store.latentVariables$        .subscribe((v) => this.latentVariables = v),
-      this.store.covariances$            .subscribe((v) => this.covariances = v),
-      this.store.intercepts$             .subscribe((v) => this.intercepts = v),
-      this.store.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
-      this.store.regressions$            .subscribe((v) => this.regressions = v),
-      this.appStore.data$                .subscribe((v) => this.data = v),
+      this.projectsStore.observedVariables$      .subscribe((v) => this.observedVariables = v),
+      this.projectsStore.latentVariables$        .subscribe((v) => this.latentVariables = v),
+      this.projectsStore.covariances$            .subscribe((v) => this.covariances = v),
+      this.projectsStore.intercepts$             .subscribe((v) => this.intercepts = v),
+      this.projectsStore.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
+      this.projectsStore.regressions$            .subscribe((v) => this.regressions = v),
+      this.appStore.data$                        .subscribe((v) => this.data = v),
     ])
 
     this.subscriptions.push(
@@ -76,6 +76,8 @@ export class DetailComponent extends AbstractComponent {
         ])
       })
     )
+
+    this.dispatcher.emit(this.projects.calcSem())
   }
 
 }
