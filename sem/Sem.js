@@ -13,15 +13,15 @@ class Sem extends Component {
 
     const vizComponents = []
 
-    if (!hide.graph) vizComponents.push(<Graph json={json} />)
-    if (!hide.fit)   vizComponents.push(<Fit goodness_of_fit={json.goodness_of_fit} />)
+    if (!hide.graph) vizComponents.push(<Graph key='graph' json={json} />)
+    if (!hide.fit) vizComponents.push(<Fit key='fit' goodness_of_fit={json.goodness_of_fit} />)
 
     const matrixComponents = []
-    if (!hide.covariance)  matrixComponents.push(<Covariance json={json} />)
-    if (!hide.totalEffect) matrixComponents.push(<TotalEffect json={json} />)
+    if (!hide.covariance) matrixComponents.push(<Covariance key='covariance' json={json} />)
+    if (!hide.totalEffect) matrixComponents.push(<TotalEffect key='total-effect' json={json} />)
 
     vizComponents.push(
-      <div style={{ overflow: 'scroll', position: 'absolute', right: 0, top: 0, height: '100%' }} >
+      <div key='matrix' style={{ overflow: 'scroll', position: 'absolute', right: 0, top: 0, height: '100%' }} >
         { matrixComponents }
       </div>
     )
