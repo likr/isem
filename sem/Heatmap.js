@@ -142,8 +142,14 @@ const calcMinMax = (matrix, names) => {
 
 // 値を色に変換
 const calcColor = (val, max, min) => {
-  if (val === undefined) return undefinedColor
-  return colors[Math.floor((val - min) / ((max - min) / colors.length))]
+  switch (val) {
+    case undefined:
+      return undefinedColor
+    case max:
+      return colors[colors.length - 1]
+    default:
+      return colors[Math.round((val - min) / ((max - min) / colors.length))]
+  }
 }
 
 const calcCord = (index) => {
