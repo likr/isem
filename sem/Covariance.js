@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import Heatmap from './Heatmap'
+import { getEstimateKeyName } from './Util'
 
 class Covariance extends Component {
   render () {
     const { covariances, names, variances } = this.props.json
 
     if (!names) return <div />
+    const estimateKeyName = getEstimateKeyName(this.props.standardized)
 
     let matrix = {}
 
@@ -20,14 +22,14 @@ class Covariance extends Component {
 
     // 分散
     for (const varName in variances) {
-      matrix[varName][varName] = variances[varName].Estimate
+      matrix[varName][varName] = variances[varName][estimateKeyName]
     }
 
     // 共分散
     for (const rowName in covariances) {
       for (const variable of covariances[rowName]) {
-        matrix[rowName][variable.name] = variable.Estimate
-        matrix[variable.name][rowName] = variable.Estimate
+        matrix[rowName][variable.name] = variable[estimateKeyName]
+        matrix[variable.name][rowName] = variable[estimateKeyName]
       }
     }
 

@@ -1,20 +1,21 @@
 import React, {Component} from 'react'
 import cytoscape from 'cytoscape'
 import { conf, layout } from './conf'
+import { getEstimateKeyName } from './Util'
 
 class Graph extends Component {
   componentDidMount () {
     conf.container = this.refs.cyelement
     this.cy = cytoscape(conf)
-    this.updateJson(this.props.json)
+    this.updateJson(this.props)
   }
 
   componentWillUpdate (nextProps) {
-    this.updateJson(nextProps.json)
+    this.updateJson(nextProps)
   }
 
-  updateJson (json) {
-    this.cy.json(this.buildGraph(json))
+  updateJson (props) {
+    this.cy.json(this.buildGraph(props))
     this.cy.layout(layout)
   }
 
@@ -22,38 +23,41 @@ class Graph extends Component {
     this.cy.destroy()
   }
 
-  buildGraph (json) {
-    const nodes = []
-    const edges = []
+  buildGraph (props) {
+    const { covariances, latent_variables, regressions, names } = props.json,
+          nodes = [],
+          edges = [],
+          estimateKeyName = getEstimateKeyName(props.standardized)
     let p
 
-    for (let key in json.names) {
-      for (let name of json.names[key]) {
+
+    for (let key in names) {
+      for (let name of names[key]) {
         nodes.push({ data: { id: name, name: name, group: key, value: 0 } })
       }
     }
 
     // 潜在変数の定義式より、リンクを作成
-    for (const leftVar in json.latent_variables) {
-      for (const rightVar of json.latent_variables[leftVar]) {
+    for (const leftVar in latent_variables) {
+      for (const rightVar of latent_variables[leftVar]) {
         p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
-        edges.push({ data: { id: [leftVar, rightVar.name].join('_'), source: leftVar, target: rightVar.name, value: parseFloat(rightVar['Estimate']), p: p } })
+        edges.push({ data: { id: [leftVar, rightVar.name].join('_'), source: leftVar, target: rightVar.name, value: parseFloat(rightVar[estimateKeyName]), p: p } })
       }
     }
 
     // 回帰の式からリンクを作成
-    for (const leftVar in json.regressions) {
-      for (const rightVar of json.regressions[leftVar]) {
+    for (const leftVar in regressions) {
+      for (const rightVar of regressions[leftVar]) {
         p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
-        edges.push({ data: { id: [rightVar.name, leftVar].join('_'), source: rightVar.name, target: leftVar, value: parseFloat(rightVar['Estimate']), p: p } })
+        edges.push({ data: { id: [rightVar.name, leftVar].join('_'), source: rightVar.name, target: leftVar, value: parseFloat(rightVar[estimateKeyName]), p: p } })
       }
     }
 
     // 共分散のリンクを作成
-    for (const rowName in json.covariances) {
-      for (const coObj of json.covariances[rowName]) {
+    for (const rowName in covariances) {
+      for (const coObj of covariances[rowName]) {
         const p = (coObj['P(>|z|)']) ? coObj['P(>|z|)'] : 0
-        edges.push({ data: { id: [rowName, coObj.name].join('_'), source: rowName, target: coObj.name, value: parseFloat(coObj['Estimate']), p: p, group: 'cov' } })
+        edges.push({ data: { id: [rowName, coObj.name].join('_'), source: rowName, target: coObj.name, value: parseFloat(coObj[estimateKeyName]), p: p, group: 'cov' } })
       }
     }
 
