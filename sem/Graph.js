@@ -35,31 +35,25 @@ class Graph extends Component {
 
     // 潜在変数の定義式より、リンクを作成
     for (const leftVar in json.latent_variables) {
-      if (json.latent_variables.hasOwnProperty(leftVar)) {
-        for (const rightVar of json.latent_variables[leftVar]) {
-          p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
-          edges.push({ data: { id: [leftVar, rightVar.name].join('_'), source: leftVar, target: rightVar.name, value: parseFloat(rightVar['Estimate']), p: p } })
-        }
+      for (const rightVar of json.latent_variables[leftVar]) {
+        p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
+        edges.push({ data: { id: [leftVar, rightVar.name].join('_'), source: leftVar, target: rightVar.name, value: parseFloat(rightVar['Estimate']), p: p } })
       }
     }
 
     // 回帰の式からリンクを作成
     for (const leftVar in json.regressions) {
-      if (json.regressions.hasOwnProperty(leftVar)) {
-        for (const rightVar of json.regressions[leftVar]) {
-          p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
-          edges.push({ data: { id: [rightVar.name, leftVar].join('_'), source: rightVar.name, target: leftVar, value: parseFloat(rightVar['Estimate']), p: p } })
-        }
+      for (const rightVar of json.regressions[leftVar]) {
+        p = (rightVar['P(>|z|)']) ? rightVar['P(>|z|)'] : 0
+        edges.push({ data: { id: [rightVar.name, leftVar].join('_'), source: rightVar.name, target: leftVar, value: parseFloat(rightVar['Estimate']), p: p } })
       }
     }
 
     // 共分散のリンクを作成
     for (const rowName in json.covariances) {
-      if (json.covariances.hasOwnProperty(rowName)) {
-        for (const coObj of json.covariances[rowName]) {
-          const p = (coObj['P(>|z|)']) ? coObj['P(>|z|)'] : 0
-          edges.push({ data: { id: [rowName, coObj.name].join('_'), source: rowName, target: coObj.name, value: parseFloat(coObj['Estimate']), p: p, group: 'cov' } })
-        }
+      for (const coObj of json.covariances[rowName]) {
+        const p = (coObj['P(>|z|)']) ? coObj['P(>|z|)'] : 0
+        edges.push({ data: { id: [rowName, coObj.name].join('_'), source: rowName, target: coObj.name, value: parseFloat(coObj['Estimate']), p: p, group: 'cov' } })
       }
     }
 
