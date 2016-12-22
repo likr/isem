@@ -21,7 +21,14 @@ class Sem extends Component {
     if (!hide.totalEffect) matrixComponents.push(<TotalEffect key='total-effect' json={json} standardized={standardized} />)
 
     vizComponents.push(
-      <div key='matrix' style={{ overflow: 'scroll', position: 'absolute', right: 0, top: 0, height: '100%' }} >
+      <div key='matrix' style={{
+        overflow: 'scroll',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        height: '100%',
+        backgroundColor: 'rgba(245, 245, 245, 0.8)'
+      }} >
         { matrixComponents }
       </div>
     )
