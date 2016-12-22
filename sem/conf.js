@@ -17,7 +17,7 @@ const valueToSize = (value) => {
   return 6 * value + 30
 }
 
-const colorMap = 'mapData(value, 1, 3, #FBE9E7, #BF360C)'
+const colorMap = 'mapData(p, 1, 0, #ecf0f1, #e74c3c)'
 
 const style = cytoscape.stylesheet()
   .selector('node')
@@ -52,7 +52,7 @@ const style = cytoscape.stylesheet()
       'source-arrow-color': colorMap,
       'target-arrow-color': colorMap,
 
-      'width': 'mapData(p, 0, 1, 5, 0)'
+      'width': 'mapData(value, 0, 1, 1, 10)'
     })
 
 export let conf = {

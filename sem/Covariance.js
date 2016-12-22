@@ -1,33 +1,35 @@
 import React, {Component} from 'react'
 import Heatmap from './Heatmap'
+import { getEstimateKeyName } from './Util'
 
 class Covariance extends Component {
   render () {
     const { covariances, names, variances } = this.props.json
 
-    if (names === undefined) return <div />
+    if (!names) return <div />
+    const estimateKeyName = getEstimateKeyName(this.props.standardized)
 
     let matrix = {}
 
     let mergedNames = names.lat.concat(names.obs)
 
-    for (const row_name of mergedNames) {
-      matrix[row_name] = {}
-      for (const column_name of mergedNames) {
-        matrix[row_name][column_name] = undefined
+    for (const rowName of mergedNames) {
+      matrix[rowName] = {}
+      for (const columnName of mergedNames) {
+        matrix[rowName][columnName] = undefined
       }
     }
 
     // 分散
-    for (const row_name of mergedNames) {
-      matrix[row_name][row_name] = variances[row_name].Estimate
+    for (const varName in variances) {
+      matrix[varName][varName] = variances[varName][estimateKeyName]
     }
 
     // 共分散
-    for (const row_name in covariances) {
-      for (const co_obj of covariances[row_name]) {
-        matrix[row_name][co_obj.name] = co_obj.Estimate
-        matrix[co_obj.name][row_name] = co_obj.Estimate
+    for (const rowName in covariances) {
+      for (const variable of covariances[rowName]) {
+        matrix[rowName][variable.name] = variable[estimateKeyName]
+        matrix[variable.name][rowName] = variable[estimateKeyName]
       }
     }
 

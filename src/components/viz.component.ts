@@ -45,15 +45,17 @@ const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariabl
     delete result.variances[k]
   }
 
-  for (const k of Object.keys(result.total_effects)) {
-    let var1 = variables.find((v) => v.id === k)
-    result.total_effects[var1.key] = result.total_effects[k]
-    delete result.total_effects[k]
+  for (const estimateKeyName in result.total_effects) {
+    for (const k of Object.keys(result.total_effects[estimateKeyName])) {
+      let var1 = variables.find((v) => v.id === k)
+      result.total_effects[estimateKeyName][var1.key] = result.total_effects[estimateKeyName][k]
+      delete result.total_effects[estimateKeyName][k]
 
-    for (const k2 of Object.keys(result.total_effects[var1.key])) {
-      let var2 = variables.find((v) => v.id === k2)
-      result.total_effects[var1.key][var2.key] = result.total_effects[var1.key][k2]
-      delete result.total_effects[var1.key][k2]
+      for (const k2 of Object.keys(result.total_effects[estimateKeyName][var1.key])) {
+        let var2 = variables.find((v) => v.id === k2)
+        result.total_effects[estimateKeyName][var1.key][var2.key] = result.total_effects[estimateKeyName][var1.key][k2]
+        delete result.total_effects[estimateKeyName][var1.key][k2]
+      }
     }
   }
 
@@ -89,7 +91,8 @@ export class VizComponent extends AbstractComponent {
 
   ngOnChanges() {
     ReactDOM.render(React.createElement(Sem, {
-      json: uuidToName (this.data, this.observedVariables, this.latentVariables)
+      json: uuidToName (this.data, this.observedVariables, this.latentVariables),
+      standardized: true
     }, null), this.eref.nativeElement)
   }
 

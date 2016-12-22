@@ -8,20 +8,20 @@ const defaultHide = { graph: false, fit: false, covariance: false, totalEffect: 
 
 class Sem extends Component {
   render () {
-    let { json, hide } = this.props
+    let { json, hide, standardized } = this.props
     if (hide === undefined) hide = defaultHide
 
     const vizComponents = []
 
-    if (!hide.graph) vizComponents.push(<Graph json={json} />)
-    if (!hide.fit)   vizComponents.push(<Fit goodness_of_fit={json.goodness_of_fit} />)
+    if (!hide.graph) vizComponents.push(<Graph key='graph' json={json} standardized={standardized} />)
+    if (!hide.fit) vizComponents.push(<Fit key='fit' goodness_of_fit={json.goodness_of_fit} />)
 
     const matrixComponents = []
-    if (!hide.covariance)  matrixComponents.push(<Covariance json={json} />)
-    if (!hide.totalEffect) matrixComponents.push(<TotalEffect json={json} />)
+    if (!hide.covariance) matrixComponents.push(<Covariance key='covariance' json={json} standardized={standardized} />)
+    if (!hide.totalEffect) matrixComponents.push(<TotalEffect key='total-effect' json={json} standardized={standardized} />)
 
     vizComponents.push(
-      <div style={{
+      <div key='matrix' style={{
         overflow: 'scroll',
         position: 'absolute',
         right: 0,
