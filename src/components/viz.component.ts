@@ -45,7 +45,7 @@ const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariabl
     delete result.variances[k]
   }
 
-  for (const estimateKeyName in result.total_effects) {
+  for (const estimateKeyName of Object.keys(result.total_effects)) {
     for (const k of Object.keys(result.total_effects[estimateKeyName])) {
       let var1 = variables.find((v) => v.id === k)
       result.total_effects[estimateKeyName][var1.key] = result.total_effects[estimateKeyName][k]
