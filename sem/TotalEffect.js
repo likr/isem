@@ -4,8 +4,8 @@ import { getEstimateKeyName } from './Util'
 
 class TotalEffect extends Component {
   render () {
-    const { total_effects, names } = this.props.json,
-          estimateKeyName = getEstimateKeyName(this.props.standardized)
+    const { total_effects, names } = this.props.json
+    const estimateKeyName = getEstimateKeyName(this.props.standardized)
 
     if (names === undefined) return <div />
 

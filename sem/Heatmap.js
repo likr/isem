@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 
-const canvasSize = 400
 const nameSpace = 50
 
 const colorSpaceHeight = 50
@@ -12,7 +11,7 @@ const cellSize = 15
 const cellPadding = 2
 const cornerRadius = 1
 
-const colorCellWidth  = 30
+const colorCellWidth = 30
 const colorCellHeight = colorCellWidth / 2
 
 const textColor = '#333'
@@ -21,32 +20,32 @@ const undefinedColor = '#fff'
 const colors = ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58']
 
 class Heatmap extends Component {
-  componentWillMount() {
+  componentWillMount () {
     this.setCanvasSize(this.props.names.length)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { matrix, names } = this.props
 
     this.updateCanvas(matrix, names)
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate (nextProps) {
     const { matrix, names } = nextProps
 
     this.setCanvasSize(names.length)
     this.updateCanvas(matrix, names)
   }
 
-  setCanvasSize(namesLength) {
+  setCanvasSize (namesLength) {
     const matrixWidth = nameSpace + (cellSize + cellPadding) * namesLength
     const colorMapWidth = colorSpacePadding + colorCellWidth * colors.length
 
-    this.canvasWidth  = Math.max(matrixWidth, colorMapWidth)
+    this.canvasWidth = Math.max(matrixWidth, colorMapWidth)
     this.canvasHeight = matrixWidth + colorSpaceHeight
   }
 
-  updateCanvas(matrix, names) {
+  updateCanvas (matrix, names) {
     const ctx = this.refs.canvas.getContext('2d')
 
     ctx.save()
@@ -71,7 +70,7 @@ class Heatmap extends Component {
       // 行名は90度回転させて表示
       ctx.save()
       ctx.translate(calcCord(i) + textHeight, nameSpace - cellPadding)
-      ctx.rotate(- Math.PI / 2)
+      ctx.rotate(-Math.PI / 2)
       ctx.fillText(names[i], 0, 0)
       ctx.restore()
     }
@@ -79,8 +78,8 @@ class Heatmap extends Component {
     // セル
     for (const rowIndex in names) {
       for (const columnIndex in names) {
-        const y = calcCord(rowIndex),
-              x = calcCord(columnIndex)
+        const y = calcCord(rowIndex)
+        const x = calcCord(columnIndex)
 
         ctx.beginPath()
         ctx.rect(x, y, cellSize, cellSize)
@@ -94,8 +93,8 @@ class Heatmap extends Component {
     const pow = 100
     const perColor = (max - min) / colors.length
     for (const i in colors) {
-      const x = colorCellWidth * i + colorSpacePadding,
-            y = this.canvasHeight - colorSpaceHeight + colorSpacePadding
+      const x = colorCellWidth * i + colorSpacePadding
+      const y = this.canvasHeight - colorSpaceHeight + colorSpacePadding
 
       ctx.beginPath()
       ctx.fillStyle = textColor
@@ -116,11 +115,11 @@ class Heatmap extends Component {
 
   render () {
     const style = {
-      width:  this.canvasWidth,
+      width: this.canvasWidth,
       height: this.canvasHeight
     }
 
-    return <canvas ref='canvas' style={style} width={this.canvasWidth * 2} height={this.canvasHeight * 2}/>
+    return <canvas ref='canvas' style={style} width={this.canvasWidth * 2} height={this.canvasHeight * 2} />
   }
 }
 
