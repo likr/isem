@@ -15,8 +15,8 @@ class Covariance extends Component {
 
     for (const rowName of mergedNames) {
       matrix[rowName] = {}
-      for (const column_name of mergedNames) {
-        matrix[rowName][column_name] = undefined
+      for (const columnName of mergedNames) {
+        matrix[rowName][columnName] = undefined
       }
     }
 

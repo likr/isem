@@ -41,12 +41,11 @@ class Graph extends Component {
   }
 
   buildGraph (props) {
-    const { covariances, latent_variables, regressions, names } = props.json,
-          nodes = [],
-          edges = [],
-          estimateKeyName = getEstimateKeyName(props.standardized)
-    let p
-
+    const { covariances, regressions, names } = props.json
+    const lantentVariables = props.json.latent_variables
+    const nodes = []
+    const edges = []
+    const estimateKeyName = getEstimateKeyName(props.standardized)
 
     for (let key in names) {
       for (let name of names[key]) {
@@ -62,8 +61,8 @@ class Graph extends Component {
     }
 
     // 潜在変数の定義式より、リンクを作成
-    for (const leftVarName in latent_variables) {
-      for (const rightVar of latent_variables[leftVarName]) {
+    for (const leftVarName in lantentVariables) {
+      for (const rightVar of lantentVariables[leftVarName]) {
         edges.push(genEdge(leftVarName, rightVar.name, rightVar[estimateKeyName], rightVar['P(>|z|)']))
       }
     }
