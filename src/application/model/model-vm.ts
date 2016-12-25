@@ -10,6 +10,25 @@ const makeExpression = (id: string,
   return {id, label: [left, operator, right].join(' ')}
 }
 
+const makeCovariances = (model: Model, vars: Variables<Variable>): Expression[] => {
+  const alreadyMade = [] as string[]
+  return model.covariances.map((v) => {
+    const l = vars.findById(v[0]).key
+    if (alreadyMade.find((vv) => vv === l)) {
+      return
+    }
+
+    const exists = model.covariances.filter((vv) => vars.findById(vv[0]).key === l)
+
+    const r = exists.length === 1
+      ? vars.findById(v[1]).key
+      : exists.map((vv) => vars.findById(vv[1]).key).join(' + ')
+
+    alreadyMade.push(l)
+    return makeExpression(v[0], l, '~~', r)
+  }).filter((v) => !!v)
+}
+
 export class ModelVM {
 
   regressions:             Expression[]
@@ -30,11 +49,7 @@ export class ModelVM {
       return makeExpression(v[0], l, '=~', r)
     })
 
-    this.covariances = m.covariances.map((v) => {
-      const l = vars.findById(v[0]).key
-      const r = vars.findById(v[1]).key
-      return makeExpression(v[0], l, '~~', r)
-    })
+    this.covariances = makeCovariances(m, vars)
 
     this.intercepts = m.intercepts.map((v) => {
       const l = vars.findById(v[0]).key

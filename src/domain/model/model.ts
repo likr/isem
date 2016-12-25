@@ -32,12 +32,6 @@ export class Model {
 
   addCovariance(variable1: Variable,
                 variable2: Variable) {
-    const exists = this.covariances.find((v) => v[0] === variable1.id)
-    if (exists) {
-      exists[1] = variable2.id
-      return
-    }
-
     this.covariances.push([
       variable1.id,
       variable2.id
