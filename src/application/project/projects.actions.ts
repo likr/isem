@@ -202,4 +202,12 @@ export class ProjectsActions extends Actions<AppState> {
     }
   }
 
+  clearStoredData(): Action<AppState> {
+    return (st) => {
+      st.currentId = null
+      st.data = null
+      return st
+    }
+  }
+
 }
