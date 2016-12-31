@@ -25,7 +25,7 @@ import {ModalDialogType} from './modal-dialog.component'
         line-height: 64px/* appComponentCssHeight */;
       }
       h1 {
-        padding-left: 8px/* appComponentCssPadding */;
+        padding-left: var(--is-app-padding);
         font-size: 1.6em;
       }
       a {

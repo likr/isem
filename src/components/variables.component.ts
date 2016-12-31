@@ -16,7 +16,7 @@ import {ProjectsActions} from '../application/project'
         margin: 0;
         width: 240px;
         height: 100%;
-        padding: 8px/* appComponentCssPadding */;
+        padding: var(--is-app-padding);
         overflow-y: scroll;
         border-right: 1px solid #90a4ae;
       }
