@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
-import {css as appCss} from './app.component'
 import {ModalDialogActions} from '../application/modal-dialog'
 import {AppDispatcher} from '../application/app'
 import {ProjectsActions} from '../application/project'
@@ -16,7 +15,7 @@ import {ProjectsActions} from '../application/project'
         margin: 0;
         width: 320px;
         height: 100%;
-        padding: ${appCss.padding};
+        padding: 8px/* appComponentCssPadding */;
         overflow-y: scroll;
         border-right: 1px solid #B0BEC5;
       }

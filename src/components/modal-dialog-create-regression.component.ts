@@ -1,6 +1,5 @@
 import {Component} from '@angular/core'
 
-import {css as ModalDialogCss} from './modal-dialog.component'
 import {AbstractComponent} from './abstract'
 import {AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
@@ -14,8 +13,8 @@ import {VariableVM} from '../application/variable/'
     <style>
       .buttons {
         position: absolute;
-        bottom: ${ModalDialogCss.bodyPadding};
-        right:  ${ModalDialogCss.bodyPadding};
+        bottom: 20px/*modalDialogComponentCssBodyPadding*/;
+        right:  20px/*modalDialogComponentCssBodyPadding*/;
       }
     </style>
 
