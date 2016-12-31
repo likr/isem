@@ -1,7 +1,6 @@
 import {Component, Input, ElementRef} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
-import {css as appCss} from './app.component'
 import {VariableVM} from '../application/variable'
 
 /* tslint:disable */
@@ -71,7 +70,7 @@ const uuidToName = (rawJson: any, observedVariables: VariableVM[], latentVariabl
         margin: 0;
         flex: 1;
         height: 100%;
-        padding: ${appCss.padding};
+        padding: var(--is-app-padding);
         overflow-y: scroll;
         border-right: 1px solid #90a4ae;
       }

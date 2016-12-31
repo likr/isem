@@ -6,11 +6,6 @@ import {DatabaseAdapter} from '../services'
 import {AppStore} from '../application/app'
 import {ModalDialogType} from './modal-dialog.component'
 
-export const css = {
-  height: '64px',
-  padding: '8px'
-}
-
 @Component({
   selector: 'is-app',
   template: `
@@ -26,11 +21,11 @@ export const css = {
         position: relative;
         background-color: #455A64;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-        height: ${css.height};
-        line-height: ${css.height};
+        height: var(--is-header-height);
+        line-height: var(--is-header-height);
       }
       h1 {
-        padding-left: ${css.padding};
+        padding-left: var(--is-app-padding);
         font-size: 1.6em;
       }
       a {

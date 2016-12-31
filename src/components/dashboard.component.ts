@@ -1,7 +1,6 @@
 import {Component} from '@angular/core'
 
 import {AbstractComponent} from './abstract'
-import {css as appCss} from './app.component'
 import {ProjectVM, ProjectsStore} from '../application/project'
 import {AppActions, AppDispatcher} from '../application/app'
 import {ModalDialogActions} from '../application/modal-dialog'
@@ -14,7 +13,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
       :host {
         display: block;
         width: 100%;
-        height: calc(100% - ${appCss.height});
+        height: calc(100% - var(--is-header-height));
       }
       .container {
         width: 80vw;

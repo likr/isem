@@ -2,7 +2,6 @@ import {Component} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
 import {AbstractComponent} from './abstract'
-import {css as appCss} from './app.component'
 import {ObservedVariableVM, LatentVariableVM} from '../application/variable'
 import {AppActions, AppDispatcher, AppStore} from '../application/app'
 import {ProjectsActions, ProjectsStore} from '../application/project'
@@ -16,7 +15,7 @@ import {Expression} from '../application/model/model-vm'
       :host {
         display: flex;
         width: 100%;
-        height: calc(100% - ${appCss.height});
+        height: calc(100% - var(--is-header-height));
       }
     </style>
     <is-variables

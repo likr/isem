@@ -20,12 +20,6 @@ export interface ModalDialogParams {
   isVisible: boolean
 }
 
-export const css = {
-  bodyWidth  : '600px',
-  bodyHeight : '400px',
-  bodyPadding: '20px'
-}
-
 @Component({
   selector: 'is-modal-dialog',
   template: `
@@ -47,13 +41,13 @@ export const css = {
       }
       .body {
         background-color: #fff;
-        width:  ${css.bodyWidth};
-        height: ${css.bodyHeight};
+        width:  var(--is-modal-dialog-width);
+        height: var(--is-modal-dialog-height);
         z-index: 10010;
         position: fixed;
-        top:  calc(50% - ${css.bodyHeight} / 1.3);
-        left: calc(50% - ${css.bodyWidth}  / 2);
-        padding: ${css.bodyPadding};
+        top:  calc(50% - var(--is-modal-dialog-height) / 1.3);
+        left: calc(50% - var(--is-modal-dialog-width)  / 2);
+        padding: var(--is-modal-dialog-padding);
       }
     </style>
 
