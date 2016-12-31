@@ -13,8 +13,8 @@ import {ObservedVariableVM} from '../application/variable'
     <style>
       .buttons {
         position: absolute;
-        bottom: 20px/*modalDialogComponentCssBodyPadding*/;
-        right:  20px/*modalDialogComponentCssBodyPadding*/;
+        bottom: var(--is-modal-dialog-padding);
+        right:  var(--is-modal-dialog-padding);
       }
     </style>
 

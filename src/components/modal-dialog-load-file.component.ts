@@ -12,8 +12,8 @@ import {ProjectsActions} from '../application/project/projects.actions'
     <style>
       .buttons {
         position: absolute;
-        bottom: 20px/*modalDialogComponentCssBodyPadding*/;
-        right:  20px/*modalDialogComponentCssBodyPadding*/;
+        bottom: var(--is-modal-dialog-padding);
+        right:  var(--is-modal-dialog-padding);
       }
       .container,
       .csvContainer {

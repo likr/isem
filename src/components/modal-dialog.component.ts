@@ -41,13 +41,13 @@ export interface ModalDialogParams {
       }
       .body {
         background-color: #fff;
-        width:  600px/*modalDialogComponentCssBodyWidth*/;
-        height: 400px/*modalDialogComponentCssBodyHeight*/;
+        width:  var(--is-modal-dialog-width);
+        height: var(--is-modal-dialog-height);
         z-index: 10010;
         position: fixed;
-        top:  calc(50% - 400px/*modalDialogComponentCssBodyHeight*/ / 1.3);
-        left: calc(50% - 600px/*modalDialogComponentCssBodyWidth*/  / 2);
-        padding: 20px/*modalDialogComponentCssBodyPadding*/;
+        top:  calc(50% - var(--is-modal-dialog-height) / 1.3);
+        left: calc(50% - var(--is-modal-dialog-width)  / 2);
+        padding: var(--is-modal-dialog-padding);
       }
     </style>
 
