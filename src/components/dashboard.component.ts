@@ -13,7 +13,7 @@ import {ProjectsActions} from '../application/project/projects.actions'
       :host {
         display: block;
         width: 100%;
-        height: calc(100% - 64px/* appComponentCssHeight */);
+        height: calc(100% - var(--is-header-height));
       }
       .container {
         width: 80vw;

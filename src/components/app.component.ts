@@ -21,8 +21,8 @@ import {ModalDialogType} from './modal-dialog.component'
         position: relative;
         background-color: #455A64;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-        height: 64px/* appComponentCssHeight */;
-        line-height: 64px/* appComponentCssHeight */;
+        height: var(--is-header-height);
+        line-height: var(--is-header-height);
       }
       h1 {
         padding-left: var(--is-app-padding);

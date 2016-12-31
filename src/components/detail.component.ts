@@ -15,7 +15,7 @@ import {Expression} from '../application/model/model-vm'
       :host {
         display: flex;
         width: 100%;
-        height: calc(100% - 64px/* appComponentCssHeight */);
+        height: calc(100% - var(--is-header-height));
       }
     </style>
     <is-variables
