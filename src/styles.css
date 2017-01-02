@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --is-app-padding: 8px;
+  --is-header-height: 64px;
+  --is-modal-dialog-width: 600px;
+  --is-modal-dialog-height: 400px;
+  --is-modal-dialog-padding: 20px;
+}
+* {
+  box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+table {
+  border-collapse: collapse;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
