@@ -3,21 +3,21 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing'
 import {By} from '@angular/platform-browser'
 import {DebugElement} from '@angular/core'
 
-import {ModalDialogCreateLatentVariableComponent} from './modal-dialog-create-latent-variable.component'
+import {ModalDialogCreateLatentVariableRelationComponent} from './modal-dialog-create-latent-variable-relation.component'
 
-describe('ModalDialogCreateLatentVariableComponent', () => {
-  let component: ModalDialogCreateLatentVariableComponent
-  let fixture: ComponentFixture<ModalDialogCreateLatentVariableComponent>
+describe('ModalDialogCreateLatentVariableRelationComponent', () => {
+  let component: ModalDialogCreateLatentVariableRelationComponent
+  let fixture: ComponentFixture<ModalDialogCreateLatentVariableRelationComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalDialogCreateLatentVariableComponent ]
+      declarations: [ ModalDialogCreateLatentVariableRelationComponent ]
     })
     .compileComponents()
   }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalDialogCreateLatentVariableComponent)
+    fixture = TestBed.createComponent(ModalDialogCreateLatentVariableRelationComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })
