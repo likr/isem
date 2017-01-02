@@ -1,3 +1,10 @@
-<p>
-  modal-dialog-observed-variable-detail works!
-</p>
+<h2>{{'ModalDialogObservedVariableDetail.Header' | translate}}</h2>
+
+<p>{{variable.key}}</p>
+<div class="buttons">
+  <is-ui-button
+    [label]="'OK' | translate"
+    [type] ="'primary'"
+    (clickButton)="onClickPrimary($event)"
+  ></is-ui-button>
+</div>

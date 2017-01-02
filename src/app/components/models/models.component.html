@@ -1,3 +1,75 @@
-<p>
-  models works!
-</p>
+<h2>
+  <span class="label">
+    {{'Regression' | translate}}
+  </span>
+  <is-ui-add-button
+    (click)="onClickRegression()"
+  ></is-ui-add-button>
+</h2>
+<ul>
+  <li *ngFor="let v of regressions">
+    <span class="label">
+      {{v.label}}
+    </span>
+    <is-ui-delete-icon
+      (click)="onClickRemoveRegression(v.id)"
+    ></is-ui-delete-icon>
+  </li>
+</ul>
+
+<h2>
+  <span class="label">
+    {{'LatentVariable' | translate}}
+  </span>
+  <is-ui-add-button
+    (click)="onClickLatentVariableRelation()"
+  ></is-ui-add-button>
+</h2>
+<ul>
+  <li *ngFor="let v of latentVariableRelations">
+    <span class="label">
+      {{v.label}}
+    </span>
+    <is-ui-delete-icon
+      (click)="onClickRemoveLatentVariableRelation(v.id)"
+    ></is-ui-delete-icon>
+  </li>
+</ul>
+
+<h2>
+  <span class="label">
+    {{'Covariance' | translate}}
+  </span>
+  <is-ui-add-button
+    (click)="onClickCovariance()"
+  ></is-ui-add-button>
+</h2>
+<ul>
+  <li *ngFor="let v of covariances">
+    <span class="label">
+      {{v.label}}
+    </span>
+    <is-ui-delete-icon
+      (click)="onClickRemoveCovariance(v.id)"
+    ></is-ui-delete-icon>
+  </li>
+</ul>
+
+<h2>
+  <span class="label">
+    {{'Intercept' | translate}}
+  </span>
+  <is-ui-add-button
+    (click)="onClickIntercept()"
+  ></is-ui-add-button>
+</h2>
+<ul>
+  <li *ngFor="let v of intercepts">
+    <span class="label">
+      {{v.label}}
+    </span>
+    <is-ui-delete-icon
+      (click)="onClickRemoveIntercept(v.id)"
+    ></is-ui-delete-icon>
+  </li>
+</ul>

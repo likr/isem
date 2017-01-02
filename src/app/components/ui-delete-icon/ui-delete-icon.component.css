@@ -1,0 +1,7 @@
+:host {
+  cursor: pointer;
+}
+svg {
+  position: relative;
+  top: 1px;
+}

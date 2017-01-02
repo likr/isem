@@ -1,5 +1,5 @@
 /* tslint:disable */
-declare var require: any
+declare const require: any
 const uuid = require('uuid')
 /* tslint:enable */
 

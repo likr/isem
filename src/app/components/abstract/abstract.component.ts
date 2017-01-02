@@ -1,6 +1,7 @@
+import {OnDestroy} from '@angular/core'
 import {Subscription} from 'rxjs'
 
-export class AbstractComponent {
+export class AbstractComponent implements OnDestroy{
 
   protected subscriptions: Subscription[]
 

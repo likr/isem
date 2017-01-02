@@ -1,5 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core'
-import {AbstractComponent} from "../abstract/abstract.component";
+
+import {AbstractComponent} from '../abstract/abstract.component'
 import {KEYCODES} from "../../constant";
 import {ModalDialogActionsService} from "../../application/modal-dialog/modal-dialog-actions.service";
 import {AppDispatcherService} from "../../app-dispatcher.service";

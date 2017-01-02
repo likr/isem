@@ -4,7 +4,7 @@ import * as lf from 'lovefield'
 import {LovefieldProviderService} from './lovefield-provider.service'
 import {DatabaseAdapterService} from './database-adapter.service'
 import {Project} from '../domain/project/project'
-import {unixtime} from '../utils'
+import {unixtime} from '../utils/unixtime'
 
 const PROJECT = 'Project'
 

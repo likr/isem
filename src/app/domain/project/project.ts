@@ -5,7 +5,9 @@ import {LatentVariable} from '../variable/latent-variable'
 import {LatentVariables} from '../variable/latent-variables'
 import {ObservedVariable} from '../variable/observed-variable'
 import {ObservedVariables} from '../variable/observed-variables'
-import {uuidGen, unixtime, createNewName} from '../../utils'
+import {uuidGen} from '../../utils/uuid-gen'
+import {unixtime} from '../../utils/unixtime'
+import {createNewName} from '../../utils/create-new-name'
 import {Model} from '../model/model'
 
 export class Project {

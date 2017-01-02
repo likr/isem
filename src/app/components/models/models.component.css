@@ -1,0 +1,24 @@
+:host {
+  background: #ECEFF1;
+  display: block;
+  margin: 0;
+  width: 320px;
+  height: 100%;
+  padding: var(--is-app-padding);
+  overflow-y: scroll;
+  border-right: 1px solid #B0BEC5;
+}
+h2 {
+  display: flex;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #455A64;
+  margin-bottom: 4px;
+}
+li {
+  display: flex;
+  line-height: 26px;
+}
+.label {
+  margin-right: auto;
+}
