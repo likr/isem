@@ -1,7 +1,7 @@
-import {AppRouting} from './app-routing'
+import {ROUTING} from './app-routing'
 
 describe('AppRouting', () => {
-  it('should create an instance', () => {
-    expect(new AppRouting()).toBeTruthy()
+  it('should get a config', () => {
+    expect(ROUTING).toBeTruthy()
   })
 })

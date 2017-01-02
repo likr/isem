@@ -7,6 +7,7 @@ import {HttpModule} from '@angular/http'
 import {TranslateModule, TranslateService} from 'ng2-translate'
 
 import {LOCALE} from './constant'
+import {ROUTING} from './app-routing'
 
 import {AppComponent} from './app.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
@@ -55,6 +56,7 @@ import {InputFileDirective} from './directives/input-file.directive'
     FormsModule,
     HttpModule,
     TranslateModule.forRoot(),
+    ROUTING,
   ],
   providers: [],
   bootstrap: [AppComponent]
