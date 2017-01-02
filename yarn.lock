@@ -70,11 +70,15 @@
     magic-string "^0.16.0"
     source-map "^0.5.6"
 
+"@types/core-js@^0.9.35":
+  version "0.9.35"
+  resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.35.tgz#444064e63711cdcc62ea844d27642f6efc2285f2"
+
 "@types/jasmine@2.5.38", "@types/jasmine@^2.5.36":
   version "2.5.38"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.38.tgz#a4379124c4921d4e21de54ec74669c9e9b356717"
 
-"@types/lovefield@^2.0.31":
+"@types/lovefield@^2.0.32":
   version "2.0.32"
   resolved "https://registry.yarnpkg.com/@types/lovefield/-/lovefield-2.0.32.tgz#61680e2bd678abf6cd261a7b487d2a2481f7cb95"
 

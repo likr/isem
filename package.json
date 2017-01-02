@@ -40,7 +40,7 @@
   "devDependencies": {
     "@angular/compiler-cli": "^2.3.1",
     "@types/jasmine": "2.5.38",
-    "@types/lovefield": "^2.0.31",
+    "@types/lovefield": "^2.0.32",
     "@types/node": "^6.0.42",
     "@types/papaparse": "^4.1.28",
     "angular-cli": "1.0.0-beta.24",

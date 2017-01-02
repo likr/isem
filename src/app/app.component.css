@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #263238;
+}
+.header {
+  position: relative;
+  background-color: #455A64;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  height: var(--is-header-height);
+  line-height: var(--is-header-height);
+}
+h1 {
+  padding-left: var(--is-app-padding);
+  font-size: 1.6em;
+}
+a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
