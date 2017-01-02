@@ -17,8 +17,8 @@ import {ProjectsActionsService} from '../../application/project/projects-actions
 })
 export class ModalDialogLatentVariableDetailComponent extends AbstractComponent implements OnInit {
 
-  private variable: LatentVariableVm
-  private newKey: string
+  variable: LatentVariableVm
+  newKey: string
 
   constructor(private modalDialog: ModalDialogActionsService,
               private projects: ProjectsActionsService,

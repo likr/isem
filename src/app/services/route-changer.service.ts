@@ -7,7 +7,7 @@ export class RouteChangerService {
   constructor(private router: Router) {}
 
   toDetail(uuid: string) {
-    this.router.navigate(['project', uuid]);
+    this.router.navigate(['project', uuid])
   }
 
 }

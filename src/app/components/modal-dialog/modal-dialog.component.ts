@@ -1,10 +1,10 @@
-import {Component, OnInit, Input} from '@angular/core'
+import {Component, OnInit, Input, OnDestroy} from '@angular/core'
 
 import {AbstractComponent} from '../abstract/abstract.component'
-import {KEYCODES} from "../../constant";
-import {ModalDialogActionsService} from "../../application/modal-dialog/modal-dialog-actions.service";
-import {AppDispatcherService} from "../../app-dispatcher.service";
-import {WindowRefService} from "../../services/window-ref.service";
+import {KEYCODES} from '../../constant'
+import {ModalDialogActionsService} from '../../application/modal-dialog/modal-dialog-actions.service'
+import {AppDispatcherService} from '../../app-dispatcher.service'
+import {WindowRefService} from '../../services/window-ref.service'
 
 export type ModalDialogType =
   'loadFile' |
@@ -25,7 +25,7 @@ export interface ModalDialogParams {
   templateUrl: './modal-dialog.component.html',
   styleUrls: ['./modal-dialog.component.css']
 })
-export class ModalDialogComponent extends AbstractComponent implements OnInit {
+export class ModalDialogComponent extends AbstractComponent implements OnInit, OnDestroy {
 
   @Input() type: ModalDialogType
   @Input() isVisible: boolean
@@ -58,6 +58,7 @@ export class ModalDialogComponent extends AbstractComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy()
     this.disposers.forEach((dispose) => dispose())
   }
 

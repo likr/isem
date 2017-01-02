@@ -1,5 +1,5 @@
 import {ObservedVariable} from './observed-variable'
-import {Variables} from './variables';
+import {Variables} from './variables'
 
 /**
  * # example

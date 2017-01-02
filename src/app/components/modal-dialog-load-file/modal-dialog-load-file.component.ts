@@ -18,6 +18,7 @@ export class ModalDialogLoadFileComponent extends AbstractComponent implements O
   private projectName: string
   private encodings: Array<{label: string, value: string}>
   private loadedCsv: string
+  currentEncoding: string
 
   constructor(private projects: ProjectsActionsService,
               private modalDialog: ModalDialogActionsService,

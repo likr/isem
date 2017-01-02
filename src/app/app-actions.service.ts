@@ -10,7 +10,7 @@ import {ProjectsActionsService} from './application/project/projects-actions.ser
 export class AppActionsService extends Actions<AppState> {
 
   constructor(private modalDialog: ModalDialogActionsService,
-              private projects : ProjectsActionsService) {
+              private projects: ProjectsActionsService) {
     super()
   }
 

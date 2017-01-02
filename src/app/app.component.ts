@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
 
 import {AbstractComponent} from './components/abstract/abstract.component'
@@ -11,7 +11,7 @@ import {ModalDialogType} from './components/modal-dialog/modal-dialog.component'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent extends AbstractComponent {
+export class AppComponent extends AbstractComponent implements OnInit {
 
   constructor(private database: DatabaseAdapterService, // instantiate only
               private store: AppStoreService) {

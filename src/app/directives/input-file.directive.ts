@@ -1,9 +1,13 @@
-import {Directive, Input, Output, EventEmitter, HostListener} from '@angular/core'
+/* tslint:disable:directive-selector */
+import {
+  Directive, Input, Output, EventEmitter, HostListener,
+  OnInit
+} from '@angular/core'
 
 @Directive({
   selector: 'input[type=file]'
 })
-export class InputFileDirective {
+export class InputFileDirective implements OnInit {
 
   @Output() result = new EventEmitter<string>()
 

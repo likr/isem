@@ -16,7 +16,7 @@ import {ObservedVariableVm} from '../../application/variable/observed-variable-v
 })
 export class ModalDialogObservedVariableDetailComponent extends AbstractComponent implements OnInit {
 
-  private variable: ObservedVariableVm
+  variable: ObservedVariableVm
 
   constructor(private modalDialog: ModalDialogActionsService,
               private dispatcher: AppDispatcherService,
