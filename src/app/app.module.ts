@@ -4,6 +4,9 @@ import {BrowserModule} from '@angular/platform-browser'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {HttpModule} from '@angular/http'
+import {TranslateModule, TranslateService} from 'ng2-translate'
+
+import {LOCALE} from './constant'
 
 import {AppComponent} from './app.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
@@ -50,9 +53,17 @@ import {InputFileDirective} from './directives/input-file.directive'
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    TranslateModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang('ja')
+    translate.use(LOCALE)
+  }
+
+}
