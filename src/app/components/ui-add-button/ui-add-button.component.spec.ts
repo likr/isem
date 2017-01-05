@@ -4,6 +4,7 @@ import {By} from '@angular/platform-browser'
 import {DebugElement} from '@angular/core'
 
 import {UiAddButtonComponent} from './ui-add-button.component'
+import {MockTranslatePipe} from '../../mocks/pipes/mock-translate.pipe'
 
 describe('UiAddButtonComponent', () => {
   let component: UiAddButtonComponent
@@ -11,7 +12,10 @@ describe('UiAddButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiAddButtonComponent ]
+      declarations: [
+        UiAddButtonComponent,
+        MockTranslatePipe,
+      ]
     })
     .compileComponents()
   }))

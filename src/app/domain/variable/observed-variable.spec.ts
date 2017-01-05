@@ -2,6 +2,8 @@ import {ObservedVariable} from './observed-variable'
 
 describe('ObservedVariable', () => {
   it('should create an instance', () => {
-    expect(new ObservedVariable()).toBeTruthy()
+    const key = 'dummy'
+    const values = ['1,23', '45']
+    expect(new ObservedVariable(key, values)).toBeTruthy()
   })
 })

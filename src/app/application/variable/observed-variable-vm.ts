@@ -3,7 +3,7 @@ import {VariableVm} from './variable-vm'
 
 export class ObservedVariableVm extends VariableVm {
 
-  values: any[]
+  values: number[]
 
   constructor(v: ObservedVariable) {
     super(v.id, v.key)

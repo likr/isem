@@ -1,12 +1,18 @@
 /* tslint:disable:no-unused-variable */
 
 import {TestBed, async, inject} from '@angular/core/testing'
+import {Router} from '@angular/router'
 import {RouteChangerService} from './route-changer.service'
+
+class MockRouter {}
 
 describe('RouteChangerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RouteChangerService]
+      providers: [
+        RouteChangerService,
+        {provide: Router, useClass: MockRouter},
+      ]
     })
   })
 

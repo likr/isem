@@ -76,7 +76,7 @@ export function createTranslateLoader(http: Http) {
     UiInfoIconComponent,
     VariablesComponent,
     VizComponent,
-    InputFileDirective
+    InputFileDirective,
   ],
   imports: [
     BrowserModule,

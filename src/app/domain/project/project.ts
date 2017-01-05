@@ -32,7 +32,7 @@ export class Project {
   }
 
   constructor(name: string,
-              rawData: any[][]) {
+              rawData: string[][]) {
     this.name = name
     this.uuid = uuidGen()
 

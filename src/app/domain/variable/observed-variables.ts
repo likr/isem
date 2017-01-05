@@ -31,7 +31,7 @@ export class ObservedVariables extends Variables<ObservedVariable> {
     return o
   }
 
-  static fromData(data: any[][]): ObservedVariables {
+  static fromData(data: string[][]): ObservedVariables {
     const o = new ObservedVariables([])
     o.list = rotate(data).map((v) => {
       const key = v[0].trim()

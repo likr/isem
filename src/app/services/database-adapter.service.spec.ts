@@ -2,11 +2,15 @@
 
 import {TestBed, async, inject} from '@angular/core/testing'
 import {DatabaseAdapterService} from './database-adapter.service'
+import {LovefieldProviderService} from './lovefield-provider.service'
 
 describe('DatabaseAdapterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DatabaseAdapterService]
+      providers: [
+        DatabaseAdapterService,
+        LovefieldProviderService,
+      ]
     })
   })
 

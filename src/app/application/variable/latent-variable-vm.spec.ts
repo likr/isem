@@ -1,7 +1,9 @@
 import {LatentVariableVm} from './latent-variable-vm'
+import {LatentVariable} from '../../domain/variable/latent-variable'
 
 describe('LatentVariableVm', () => {
   it('should create an instance', () => {
-    expect(new LatentVariableVm()).toBeTruthy()
+    const dummy = new LatentVariable('key')
+    expect(new LatentVariableVm(dummy)).toBeTruthy()
   })
 })
