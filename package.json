@@ -18,13 +18,13 @@
     }
   ],
   "dependencies": {
-    "@angular/common": "^2.3.1",
-    "@angular/compiler": "^2.3.1",
-    "@angular/core": "^2.3.1",
-    "@angular/forms": "^2.3.1",
-    "@angular/http": "^2.3.1",
-    "@angular/platform-browser": "^2.3.1",
-    "@angular/platform-browser-dynamic": "^2.3.1",
+    "@angular/common": "^2.4.3",
+    "@angular/compiler": "^2.4.3",
+    "@angular/core": "^2.4.3",
+    "@angular/forms": "^2.4.3",
+    "@angular/http": "^2.4.3",
+    "@angular/platform-browser": "^2.4.3",
+    "@angular/platform-browser-dynamic": "^2.4.3",
     "@angular/router": "^3.3.1",
     "core-js": "^2.4.1",
     "lovefield": "^2.1.10",
@@ -38,7 +38,7 @@
     "zone.js": "^0.7.5"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^2.3.1",
+    "@angular/compiler-cli": "^2.4.3",
     "@types/jasmine": "2.5.38",
     "@types/lovefield": "^2.0.32",
     "@types/node": "^6.0.42",
