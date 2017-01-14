@@ -3345,7 +3345,7 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lovefield@^2.1.10:
+lovefield@^2.1.11:
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/lovefield/-/lovefield-2.1.11.tgz#63832f16249b86c1264c6bd606058401661443c2"
   dependencies:
@@ -4816,6 +4816,12 @@ rx-lite@^3.1.2:
 rxjs@^5.0.1:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.0.2.tgz#cc6513756daa93cab4085c1b5a19a3e28fb6c6bf"
+  dependencies:
+    symbol-observable "^1.0.1"
+
+rxjs@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.0.3.tgz#fc8bdf464ebf938812748e4196788f392fef9754"
   dependencies:
     symbol-observable "^1.0.1"
 
