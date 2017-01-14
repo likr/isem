@@ -5,7 +5,7 @@ import {VariableVm} from '../../application/variable/variable-vm'
 
 const ReactDOM = require('react-dom')
 const React    = require('react')
-const Sem      = require('../../../../sem').default
+const Sem      = require('../../../../sem-dist').default
 
 const uuidToName = (rawJson: any, observedVariables: VariableVm[], latentVariables: VariableVm[]) => {
   if (!rawJson || rawJson.names === undefined) {
