@@ -1,0 +1,34 @@
+<h2>
+  <span class="label">
+    {{'ObservedVariable' | translate}}
+  </span>
+</h2>
+<ul>
+  <li *ngFor="let v of observedVariables">
+    <span class="label">
+      {{v.key}}
+    </span>
+    <is-ui-info-icon
+      (click)="onClickObservedVariable(v)"
+    ></is-ui-info-icon>
+  </li>
+</ul>
+
+<h2>
+  <span class="label">
+    {{'LatentVariable' | translate}}
+  </span>
+  <is-ui-add-button
+    (click)="onClickAddLatentVariable()"
+  ></is-ui-add-button>
+</h2>
+<ul>
+  <li *ngFor="let v of latentVariables">
+    <span class="label">
+      {{v.key}}
+    </span>
+    <is-ui-info-icon
+      (click)="onClickLatentVariable(v)"
+    ></is-ui-info-icon>
+  </li>
+</ul>

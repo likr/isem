@@ -1,0 +1,18 @@
+<h2>{{'ModalDialogLatentVariableDetail.Header' | translate}}</h2>
+
+<p>{{variable.key}}</p>
+<input type="text" [(ngModel)]="newKey">
+<button (click)="onClickRemove()">{{'Remove' | translate}}</button>
+
+<div class="buttons">
+  <is-ui-button
+    [label]="'Cancel' | translate"
+    [type] ="'default'"
+    (clickButton)="onClickSecondary($event)"
+  ></is-ui-button>
+  <is-ui-button
+    [label]="'OK' | translate"
+    [type] ="'primary'"
+    (clickButton)="onClickPrimary($event)"
+  ></is-ui-button>
+</div>

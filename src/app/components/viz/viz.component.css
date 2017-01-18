@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  margin: 0;
+  flex: 1;
+  height: 100%;
+  padding: var(--is-app-padding);
+  overflow-y: scroll;
+  border-right: 1px solid #90a4ae;
+}

@@ -1,0 +1,32 @@
+<h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
+<div class="scrollable">
+  <div class="fieldGroup">
+    <label
+      class="selectLabel"
+      for  ="variable"
+    >{{'Variable' | translate}}</label>
+    <select
+      id         ="variable"
+      name       ="variable"
+      [(ngModel)]="variable"
+    >
+      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+    </select>
+  </div>
+
+  <div class="fieldGroup">
+    <label>{{'Value' | translate}}<input type="number" [(ngModel)]="value"></label>
+  </div>
+</div>
+<div class="buttons">
+  <is-ui-button
+    [label]="'Cancel' | translate"
+    [type] ="'default'"
+    (clickButton)="onClickSecondary($event)"
+  ></is-ui-button>
+  <is-ui-button
+    [label]="'OK' | translate"
+    [type] ="'primary'"
+    (clickButton)="onClickPrimary($event)"
+  ></is-ui-button>
+</div>

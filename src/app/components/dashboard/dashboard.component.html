@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="section">
+    <h2>{{'CreateNewProject' | translate}}</h2>
+    <is-ui-button
+      [label]="'LoadFile' | translate"
+      [type] ="'primary'"
+      (clickButton)="onClickLoadFile($event)"
+    ></is-ui-button>
+  </div>
+
+  <div class="section">
+    <h2>{{'ProjectList' | translate}}</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>{{'ProjectName' | translate}}</th>
+        <th>{{'LastUpdateDate' | translate}}</th>
+        <th class="delete">{{'Delete' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let project of projectVMs"
+        (click)="onClickProject(project)"
+      >
+        <td>{{project.name}}</td>
+        <td>{{project.modified}}</td>
+        <td class="delete">
+          <button (click)="onClickDelete($event, project)">
+            {{'Delete' | translate}}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

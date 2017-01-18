@@ -1,0 +1,11 @@
+<div class="header">
+  <h1>
+    <a routerLink="/">{{'ApplicationName' | translate}}</a>
+  </h1>
+</div>
+
+<is-modal-dialog
+  [type]     ="modalDialogType$ | async"
+  [isVisible]="modalDialogIsVisible$ | async"
+></is-modal-dialog>
+<router-outlet></router-outlet>
