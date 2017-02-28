@@ -2,42 +2,14 @@
   display: block;
   width: 100%;
   height: calc(100% - var(--is-header-height));
+  padding-top: 14px;
 }
-.container {
-  width: 80vw;
-  margin: 3em auto 0;
-  padding: 0 15px;
-}
-.section {
-  margin-bottom: 20px;
-}
-h2 {
-  margin-bottom: 10px;
-}
-table {
-  width: 100%
-}
-td, th {
-  padding: 8px;
-  text-align: left
-}
-.delete {
-  text-align: right
-}
+
 tbody tr {
   cursor: pointer;
-  transition: .1s;
 }
+
 tbody tr:hover {
-  background-color: #CFD8DC;
+  background: #cfd8dc;
   transition: .2s;
-}
-td {
-  border-bottom: 1px solid #ddd;
-}
-th {
-  border-bottom: 1px solid #999;
-}
-button {
-  cursor: pointer;
 }
