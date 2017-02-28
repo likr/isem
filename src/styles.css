@@ -3,7 +3,7 @@
   --is-header-height: 50px;
   --is-modal-dialog-width: 600px;
   --is-modal-dialog-height: 400px;
-  --is-modal-dialog-padding: 20px;
+  --is-modal-dialog-padding: 14px;
 }
 * {
   box-sizing: border-box;
