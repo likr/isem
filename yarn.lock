@@ -6447,9 +6447,9 @@ walk-sync@^0.3.1:
     ensure-posix-path "^1.0.0"
     matcher-collection "^1.0.0"
 
-walts@^0.11.0-beta.1:
-  version "0.11.0-beta.1"
-  resolved "https://registry.yarnpkg.com/walts/-/walts-0.11.0-beta.1.tgz#8db2200393d10a4a78d32909dd5482bc203ecdf3"
+walts@^0.11.0-beta.2:
+  version "0.11.0-beta.2"
+  resolved "https://registry.yarnpkg.com/walts/-/walts-0.11.0-beta.2.tgz#5130ce932bcd634921e5ee4a48f34713b4c31c9a"
 
 watchpack@^1.0.0, watchpack@^1.2.0:
   version "1.2.0"
