@@ -39,5 +39,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Semantic UI
+/semantic
+/src/assets/semantic
+
 # Own
 /sem-dist
