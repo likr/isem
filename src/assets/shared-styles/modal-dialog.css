@@ -2,3 +2,9 @@
   overflow-y: scroll;
   height: 260px;
 }
+
+.buttons {
+  position: absolute;
+  bottom: var(--is-modal-dialog-padding);
+  right:  var(--is-modal-dialog-padding);
+}
