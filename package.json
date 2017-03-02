@@ -47,6 +47,7 @@
     "@types/papaparse": "^4.1.28",
     "angular-cli": "1.0.0-beta.24",
     "codelyzer": "~2.0.0-beta.1",
+    "gh-pages": "^0.12.0",
     "gulp": "^3.9.1",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
@@ -72,7 +73,8 @@
     "lint": "tslint \"src/**/*.ts\"",
     "ng": "ng",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "start": "ng serve --aot --port 8080",
+    "start": "ng serve --aot --port 8080 --proxy-config proxy.conf.json --live-reload-base-url /interactive-sem/",
+    "deploy": "ng build -prod && gh-pages -d dist",
     "test": "ng test",
     "build-semantic": "cd ./semantic && gulp build && cp -r ../semantic/dist ../src/assets/semantic",
     "install-semantic": "cd ./node_modules/semantic-ui && npm run install"
