@@ -42,5 +42,7 @@
   "Covariance": "共分散",
   "Intercept": "切片",
   "Value": "値",
-  "Cancel": "キャンセル"
+  "Cancel": "キャンセル",
+  "CovarianceMatrix": "共分散行列",
+  "TotalEffectMatrix": "総合効果行列"
 }

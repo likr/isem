@@ -1,1 +1,19 @@
-<!-- blank -->
+<div class="container">
+  <is-network
+    [json]="json"
+    [standardized]="standardized"
+  ></is-network>
+  <is-fit-table
+    [goodnessOfFit]="json.goodness_of_fit"
+  ></is-fit-table>
+  <div class="matrix">
+    <is-covariance-matrix
+      [json]="json"
+      [standardized]="standardized"
+    ></is-covariance-matrix>
+    <is-total-effect-matrix
+      [json]="json"
+      [standardized]="standardized"
+    ></is-total-effect-matrix>
+  </div>
+</div>

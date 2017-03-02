@@ -1,0 +1,44 @@
+:host {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+}
+
+table {
+  color: white;
+}
+
+tr {
+  padding: 1em;
+}
+
+tr.good {
+  background: #1abc9c;
+}
+
+tr.ok {
+  background: #f1c40f;
+}
+
+tr.poor {
+  background: #e74c3c;
+}
+
+tr.normal {
+  background: #2c3e50;
+}
+
+th {
+  padding: 0.2em;
+}
+
+td.decimal {
+  text-align: right;
+  padding: 0.2em 0 0.2em 0.2em;
+}
+
+td.fractional {
+  text-align: left;
+  padding: 0.2em 0.2em 0.2em 0;
+}

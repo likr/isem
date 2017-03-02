@@ -32,6 +32,11 @@ import {UiDeleteIconComponent} from './components/ui-delete-icon/ui-delete-icon.
 import {UiInfoIconComponent} from './components/ui-info-icon/ui-info-icon.component'
 import {VariablesComponent} from './components/variables/variables.component'
 import {VizComponent} from './components/viz/viz.component'
+import {NetworkComponent} from './components/viz/network.component'
+import {FitTableComponent} from './components/viz/fit-table.component'
+import {CovarianceMatrixComponent} from './components/viz/covariance-matrix.component'
+import {TotalEffectMatrixComponent} from './components/viz/total-effect-matrix.component'
+import {HeatmapComponent} from './components/viz/heatmap.component'
 import {InputFileDirective} from './directives/input-file.directive'
 
 import {CsvToJsonAdapterService} from './services/csv-to-json-adapter.service'
@@ -76,6 +81,11 @@ export function createTranslateLoader(http: Http) {
     UiInfoIconComponent,
     VariablesComponent,
     VizComponent,
+    NetworkComponent,
+    FitTableComponent,
+    CovarianceMatrixComponent,
+    TotalEffectMatrixComponent,
+    HeatmapComponent,
     InputFileDirective,
   ],
   imports: [

@@ -1,0 +1,9 @@
+<table>
+  <tbody>
+    <tr [class]="row.status" *ngFor="let row of rows">
+      <th>{{row.name}}</th>
+      <td class="decimal">{{row.decimalPart}}</td>
+      <td class="fractional">.{{row.fractionalPart}}</td>
+    </tr>
+  </tbody>
+</table>

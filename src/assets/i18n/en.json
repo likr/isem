@@ -1,5 +1,5 @@
 {
-  "ApplicationName": "ISEM",
+  "ApplicationName": "iSEM",
   "CreateNewProject": "Create New Project",
   "LoadFile": "Load File",
   "ModalDialogLoadFile": {
@@ -42,5 +42,7 @@
   "Covariance": "Covariance",
   "Intercept": "Intercept",
   "Value": "Value",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "CovarianceMatrix": "Covariance Matrix",
+  "TotalEffectMatrix": "Total Effect Matrix"
 }

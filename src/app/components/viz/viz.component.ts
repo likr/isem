@@ -1,11 +1,6 @@
-import {Component, OnInit, Input, ElementRef} from '@angular/core'
-
+import {Component, Input} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 import {VariableVm} from '../../application/variable/variable-vm'
-
-const ReactDOM = require('react-dom')
-const React    = require('react')
-const Sem      = require('../../../../sem-dist').default
 
 const uuidToName = (rawJson: any, observedVariables: VariableVm[], latentVariables: VariableVm[]) => {
   if (!rawJson || rawJson.names === undefined) {
@@ -63,22 +58,20 @@ const uuidToName = (rawJson: any, observedVariables: VariableVm[], latentVariabl
   templateUrl: './viz.component.html',
   styleUrls: ['./viz.component.css']
 })
-export class VizComponent extends AbstractComponent implements OnInit {
+export class VizComponent extends AbstractComponent {
   @Input() data: any
   @Input() observedVariables: VariableVm[]
   @Input() latentVariables: VariableVm[]
+  standardized: boolean
+  json: any
 
-  constructor(private eref: ElementRef) {
+  constructor() {
     super()
+    this.standardized = true
   }
 
-  ngOnInit() {}
-
   ngOnChanges() {
-    ReactDOM.render(React.createElement(Sem, {
-      json: uuidToName (this.data, this.observedVariables, this.latentVariables),
-      standardized: true
-    }, null), this.eref.nativeElement)
+    this.json = uuidToName(this.data, this.observedVariables, this.latentVariables)
   }
 
 }
