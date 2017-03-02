@@ -1,31 +1,50 @@
 import React, {Component} from 'react'
 
+// 例: gfiの場合 0-0.7でpoor, 0.7-0.9でok, 0.9-1.0でgoodとする
 const fitsConds = {
-  gfi: { greaterThan: 0.9 },
-  agfi: { greaterThan: 0.9 },
-  cfi: { greaterThan: 0.9 },
+  gfi: { greaterThan: { ok: 0.7, good: 0.9 } },
+  agfi: { greaterThan: { ok: 0.7, good: 0.9 } },
+  srmr: { lessThan: { ok: 0.1, good: 0.05 } },
   rmr: {},
-  rmsea: { lessThan: 0.1 },
-  aic: {}
+  aic: {},
+  bic: {}
 }
 
-const isGood = (name, val) => {
+// 条件に使うため定数化しておく
+const GOOD = 'good'
+const OK = 'ok'
+const POOR = 'poor'
+const checkCond = (name, val) => {
   if ('greaterThan' in fitsConds[name]) {
-    return (val >= fitsConds[name].greaterThan)
+    if (val >= fitsConds[name].greaterThan.good) {
+      return GOOD
+    } else if (val >= fitsConds[name].greaterThan.ok) {
+      return OK
+    } else {
+      return POOR
+    }
   }
   if ('lessThan' in fitsConds[name]) {
-    return (val <= fitsConds[name].lessThan)
+    if (val <= fitsConds[name].lessThan.good) {
+      return GOOD
+    } else if (val <= fitsConds[name].lessThan.ok) {
+      return OK
+    } else {
+      return POOR
+    }
   }
 }
 
 const fitColor = (name, val) => {
-  switch (isGood(name, val)) {
-    case true:
-      return '#1abc9c'
-    case false:
-      return '#e74c3c'
+  switch (checkCond(name, val)) {
+    case GOOD:
+      return '#1abc9c' // 青
+    case OK:
+      return '#f1c40f' // 黄
+    case POOR:
+      return '#e74c3c' // 赤
     default:
-      return '#2c3e50'
+      return '#2c3e50' // 紺
   }
 }
 
