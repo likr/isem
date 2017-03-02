@@ -80,7 +80,7 @@
     "start": "yarn run transpile:sem && ng serve --aot --port 8080",
     "test": "ng test",
     "transpile:sem": "babel sem -d sem-dist",
-    "build-semantic": "cd ./semantic && gulp build && cp -r ./semantic/dist ./src/assets/semantic",
+    "build-semantic": "cd ./semantic && gulp build && cp -r ../semantic/dist ../src/assets/semantic",
     "install-semantic": "cd ./node_modules/semantic-ui && npm run install"
   }
 }
