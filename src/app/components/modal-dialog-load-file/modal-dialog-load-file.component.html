@@ -1,56 +1,82 @@
-<h2>{{'ModalDialogLoadFile.Header' | translate}}</h2>
-
-<div class="container">
-  <label
-    for="projectName"
-  >
-    {{'ModalDialogLoadFile.LabelProjectName' | translate}}
-  </label>
-  <input
-    id         ="projectName"
-    type       ="text"
-    [(ngModel)]="projectName"
-  >
-</div>
-
-<div class="csvContainer">
-  <label *ngFor="let encoding of encodings">
-    <input
-      type        ="radio"
-      name        ="encoding"
-      [attr.value]="encoding.value"
-      [checked]   ="encoding.value === encodings[0].value"
-      (change)    ="currentEncoding = encoding.value"
-    >
-    {{encoding.label}}
-  </label>
-  <div class="container">
-    <label for="csvFile">
-      {{'ModalDialogLoadFile.LabelCSVFile' | translate}}
-    </label>
-    <input
-      id        ="csvFile"
-      type      ="file"
-      [encoding]="currentEncoding"
-      (result)  ="onResultInputFile($event)"
-    >
+<div class="ui fluid container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h2>{{'ModalDialogLoadFile.Header' | translate}}</h2>
+    </div>
   </div>
-</div>
 
-<div class="container">
-  <p>{{'ModalDialogLoadFile.SampleFile' | translate}}</p>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui form">
+        <div class="field">
+          <label for="projectName">
+            {{'ModalDialogLoadFile.LabelProjectName' | translate}}
+          </label>
+          <input
+            id         ="projectName"
+            type       ="text"
+            [(ngModel)]="projectName"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui form">
+        <div class="inline fields">
+          <div class="field" *ngFor="let encoding of encodings">
+            <div class="ui radio checkbox">
+              <input
+                type        ="radio"
+                name        ="encoding"
+                [attr.value]="encoding.value"
+                [checked]   ="encoding.value === encodings[0].value"
+                (change)    ="currentEncoding = encoding.value"
+              >
+              <label>{{encoding.label}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="four wide column">
+      <label for="csvFile">
+        {{'ModalDialogLoadFile.LabelCSVFile' | translate}}
+      </label>
+    </div>
+    <div class="twelve wide column">
+      <input
+        id        ="csvFile"
+        type      ="file"
+        [encoding]="currentEncoding"
+        (result)  ="onResultInputFile($event)"
+      >
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="container">
+        <p>{{'ModalDialogLoadFile.SampleFile' | translate}}</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="buttons">
-  <is-ui-button
-    [label]="'Cancel' | translate"
-    [type] ="'default'"
-    (clickButton)="onClickSecondary($event)"
-  ></is-ui-button>
+  <button
+    class="ui button"
+    (click)="onClickSecondary($event)"
+  >{{'Cancel' | translate}}</button>
 
-  <is-ui-button
-    [label]="'OK' | translate"
-    [type] ="'primary'"
-    (clickButton)="onClickPrimary($event)"
-  ></is-ui-button>
+  <button
+    class="ui primary button"
+    (click)="onClickPrimary($event)"
+  >{{'OK' | translate}}</button>
 </div>

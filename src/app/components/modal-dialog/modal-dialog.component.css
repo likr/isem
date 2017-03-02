@@ -11,6 +11,7 @@
   background-color: #333333;
   opacity: .5;
 }
+
 .body {
   background-color: #fff;
   width:  var(--is-modal-dialog-width);
@@ -20,4 +21,5 @@
   top:  calc(50% - var(--is-modal-dialog-height) / 1.3);
   left: calc(50% - var(--is-modal-dialog-width)  / 2);
   padding: var(--is-modal-dialog-padding);
+  border-radius: 4px;
 }

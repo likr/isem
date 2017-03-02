@@ -1,23 +1,10 @@
-h2,
-.fieldGroup {
-  margin-bottom: 16px;
-}
-is-ui-button {
-  margin-right: 5px;
-}
-is-ui-button:last-child {
-  margin-right: 0;
-}
-label {
-  line-height: 24px;
-}
-.selectLabel {
-  display: block;
-}
-.checkboxLabel {
-  margin-right: 8px;
-}
 .scrollable {
   overflow-y: scroll;
   height: 260px;
+}
+
+.buttons {
+  position: absolute;
+  bottom: var(--is-modal-dialog-padding);
+  right:  var(--is-modal-dialog-padding);
 }

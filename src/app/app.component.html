@@ -1,8 +1,10 @@
-<div class="header">
-  <h1>
-    <a routerLink="/">{{'ApplicationName' | translate}}</a>
-  </h1>
-</div>
+<header class="ui fluid container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1><a routerLink="/">{{'ApplicationName' | translate}}</a></h1>
+    </div>
+  </div>
+</header>
 
 <is-modal-dialog
   [type]     ="modalDialogType$ | async"

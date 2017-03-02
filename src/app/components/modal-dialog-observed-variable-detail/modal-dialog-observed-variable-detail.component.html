@@ -1,10 +1,20 @@
-<h2>{{'ModalDialogObservedVariableDetail.Header' | translate}}</h2>
+<div class="ui fluid container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h2>{{'ModalDialogObservedVariableDetail.Header' | translate}}</h2>
+    </div>
+  </div>
 
-<p>{{variable.key}}</p>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <p>{{variable.key}}</p>
+    </div>
+  </div>
+</div>
+
 <div class="buttons">
-  <is-ui-button
-    [label]="'OK' | translate"
-    [type] ="'primary'"
-    (clickButton)="onClickPrimary($event)"
-  ></is-ui-button>
+  <button
+    class="ui primary button"
+    (click)="onClickPrimary($event)"
+  >{{'OK' | translate}}</button>
 </div>
