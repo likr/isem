@@ -25,9 +25,9 @@ export class ModalDialogObservedVariableDetailComponent extends AbstractComponen
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.store.currentObservedVariable$.subscribe((v) => this.variable = v)
-    )
+    this.subscriptions.push(this.store.currentObservedVariable$.subscribe((v) => {
+      this.variable = v
+    }))
   }
 
   onClickPrimary() {

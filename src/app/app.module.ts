@@ -37,10 +37,12 @@ import {FitTableComponent} from './components/viz/fit-table.component'
 import {CovarianceMatrixComponent} from './components/viz/covariance-matrix.component'
 import {TotalEffectMatrixComponent} from './components/viz/total-effect-matrix.component'
 import {HeatmapComponent} from './components/viz/heatmap.component'
+import {ChartComponent} from './components/chart/chart.component'
 import {InputFileDirective} from './directives/input-file.directive'
 
 import {CsvToJsonAdapterService} from './services/csv-to-json-adapter.service'
 import {DatabaseAdapterService} from './services/database-adapter.service'
+import {GoogleChartsService} from './services/google-charts.service'
 import {LovefieldProviderService} from './services/lovefield-provider.service'
 import {PapaParseProviderService} from './services/papa-parse-provider.service'
 import {ProjectsDatabaseAdapterService} from './services/projects-database-adapter.service'
@@ -87,6 +89,7 @@ export function createTranslateLoader(http: Http) {
     TotalEffectMatrixComponent,
     HeatmapComponent,
     InputFileDirective,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ export function createTranslateLoader(http: Http) {
   providers: [
     CsvToJsonAdapterService,
     DatabaseAdapterService,
+    GoogleChartsService,
     LovefieldProviderService,
     PapaParseProviderService,
     ProjectsDatabaseAdapterService,
