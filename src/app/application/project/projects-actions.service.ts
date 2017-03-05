@@ -5,6 +5,7 @@ import {AppState} from '../../app-state'
 import {RouteChangerService} from '../../services/route-changer.service'
 import {WindowRefService} from '../../services/window-ref.service'
 import {ProjectVm} from './project-vm'
+import {ObservedVariableVm} from '../variable/observed-variable-vm'
 import {LatentVariableVm} from '../variable/latent-variable-vm'
 
 const confirmRemove = (_window: Window): boolean => {
@@ -207,6 +208,13 @@ export class ProjectsActionsService extends Actions<AppState> {
     return (st) => {
       st.currentId = null
       st.data = null
+      return st
+    }
+  }
+
+  setCurrentObservedVariable(v: ObservedVariableVm): Action<AppState> {
+    return (st) => {
+      st.targetObservedVariableId = v.id
       return st
     }
   }

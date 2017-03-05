@@ -1,18 +1,16 @@
 :host {
-  background: #ECEFF1;
   display: block;
   margin: 0;
-  width: 320px;
+  width: 100%;
   height: 100%;
   padding: var(--is-app-padding);
   overflow-y: scroll;
-  border-right: 1px solid #B0BEC5;
 }
 h2 {
   display: flex;
   margin: 8px 0;
   font-size: 14px;
-  color: #455A64;
+  color: #455a64;
   margin-bottom: 4px;
 }
 li {

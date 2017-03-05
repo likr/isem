@@ -1,15 +1,28 @@
-<is-variables
-  [observedVariables]="observedVariables"
-  [latentVariables]  ="latentVariables"
-></is-variables>
-<is-models
-  [covariances]            ="covariances"
-  [intercepts]             ="intercepts"
-  [latentVariableRelations]="latentVariableRelations"
-  [regressions]            ="regressions"
-></is-models>
-<is-viz
-  [observedVariables]="observedVariables"
-  [latentVariables]  ="latentVariables"
-  [data]             ="data"
-></is-viz>
+<div class="modeling-view">
+  <div class="variables-wrapper">
+    <is-variables
+      [observedVariables]="observedVariables"
+      [latentVariables]  ="latentVariables"
+    ></is-variables>
+  </div>
+  <div class="models-wrapper">
+    <is-models
+      [covariances]            ="covariances"
+      [intercepts]             ="intercepts"
+      [latentVariableRelations]="latentVariableRelations"
+      [regressions]            ="regressions"
+    ></is-models>
+  </div>
+  <div class="chart-wrapper">
+    <is-chart
+      [variable]="selectedObservedVariable"
+    ></is-chart>
+  </div>
+</div>
+<div class="visualization-view">
+  <is-viz
+    [observedVariables]="observedVariables"
+    [latentVariables]  ="latentVariables"
+    [data]             ="data"
+  ></is-viz>
+</div>

@@ -30,7 +30,7 @@ export class VariablesComponent extends AbstractComponent implements OnInit {
   }
 
   onClickObservedVariable(v: ObservedVariableVm) {
-    this.dispatcher.emit(this.modalDialog.openObservedVariableDetail(v))
+    this.dispatcher.emit(this.projects.setCurrentObservedVariable(v))
   }
 
   onClickLatentVariable(v: LatentVariableVm) {

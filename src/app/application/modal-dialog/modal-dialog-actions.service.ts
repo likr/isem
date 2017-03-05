@@ -42,6 +42,7 @@ export class ModalDialogActionsService extends Actions<AppState> {
       } as AppState
     }
   }
+
   openCreateRegression(): Action<AppState> {
     return (st) => {
       return {

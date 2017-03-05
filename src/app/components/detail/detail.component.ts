@@ -19,13 +19,14 @@ import {ID} from '../../app-routing'
 })
 export class DetailComponent extends AbstractComponent implements OnInit {
 
-  observedVariables:       ObservedVariableVm[]
-  latentVariables:         LatentVariableVm[]
-  covariances:             Expression[]
-  intercepts:              Expression[]
-  latentVariableRelations: Expression[]
-  regressions:             Expression[]
-  data:                    any
+  observedVariables:        ObservedVariableVm[]
+  latentVariables:          LatentVariableVm[]
+  covariances:              Expression[]
+  intercepts:               Expression[]
+  latentVariableRelations:  Expression[]
+  regressions:              Expression[]
+  selectedObservedVariable: ObservedVariableVm
+  data:                     any
 
   constructor(private route: ActivatedRoute,
               private app: AppActionsService,
@@ -44,6 +45,7 @@ export class DetailComponent extends AbstractComponent implements OnInit {
       this.projectsStore.intercepts$             .subscribe((v) => this.intercepts = v),
       this.projectsStore.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
       this.projectsStore.regressions$            .subscribe((v) => this.regressions = v),
+      this.projectsStore.currentObservedVariable$.subscribe((v) => this.selectedObservedVariable = v),
       this.appStore.data$                        .subscribe((v) => this.data = v),
     ])
 

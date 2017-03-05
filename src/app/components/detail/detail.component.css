@@ -3,3 +3,37 @@
   width: 100%;
   height: calc(100% - var(--is-header-height));
 }
+.modeling-view {
+  width: 560px;
+  position: relative;
+  border-right: 1px solid #b0bec5;
+}
+.variables-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 400px;
+  width: 240px;
+  background: #cfd8dc;
+  border-right: 1px solid #90a4ae;
+}
+.models-wrapper {
+  position: absolute;
+  left: 240px;
+  top: 0;
+  bottom: 400px;
+  width: 320px;
+  background: #eceff1;
+  border-right: 1px solid #b0bec5;
+}
+.chart-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 400px;
+  border-top: 1px solid #b0bec5;
+}
+.visualization-view {
+  flex: 1;
+}

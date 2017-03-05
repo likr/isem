@@ -15,20 +15,22 @@ export class ChartComponent extends AbstractComponent {
     super()
   }
 
-  ngOnInit() {
-    this.googleCharts.load().then((google) => {
-      const data : any = [['index', 'value']]
-      this.variable.values.forEach((v, i) => {
-        data.push([i.toString(), v])
+  ngOnChanges() {
+    if (this.variable) {
+      this.googleCharts.load().then((google) => {
+        const data : any = [['index', 'value']]
+        this.variable.values.forEach((v, i) => {
+          data.push([i.toString(), v])
+        })
+        const dataTable = google.visualization.arrayToDataTable(data)
+        const chart = new google.visualization.Histogram(this.eref.nativeElement)
+        chart.draw(dataTable, {
+          title: this.variable.key,
+          legend: {
+            position: 'none'
+          },
+        })
       })
-      const dataTable = google.visualization.arrayToDataTable(data)
-      const chart = new google.visualization.Histogram(this.eref.nativeElement)
-      chart.draw(dataTable, {
-        title: this.variable.key,
-        legend: {
-          position: 'none'
-        },
-      })
-    })
+    }
   }
 }
