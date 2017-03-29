@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core'
+import {AfterViewInit, Component, OnInit} from '@angular/core'
+import * as jQuery from 'jquery'
 
 import {AbstractComponent} from '../abstract/abstract.component'
 import {ObservedVariableVm} from '../../application/variable/observed-variable-vm'
@@ -8,6 +9,13 @@ import {ProjectsActionsService} from '../../application/project/projects-actions
 import {AppDispatcherService} from '../../app-dispatcher.service'
 import {ProjectsStoreService} from '../../application/project/projects-store.service'
 
+const renderSemanticUi = () => {
+  const checkbox = jQuery('.ui.checkbox') as any
+  const dropdown = jQuery('.ui.dropdown') as any
+  checkbox.checkbox()
+  dropdown.dropdown()
+}
+
 @Component({
   selector: 'is-modal-dialog-create-latent-variable-relation',
   templateUrl: './modal-dialog-create-latent-variable-relation.component.html',
@@ -16,7 +24,8 @@ import {ProjectsStoreService} from '../../application/project/projects-store.ser
     './modal-dialog-create-latent-variable-relation.component.css'
   ]
 })
-export class ModalDialogCreateLatentVariableRelationComponent extends AbstractComponent implements OnInit {
+export class ModalDialogCreateLatentVariableRelationComponent
+  extends AbstractComponent implements OnInit, AfterViewInit {
 
   observedVariables: ObservedVariableVm[]
   latentVariables: LatentVariableVm[]
@@ -55,6 +64,10 @@ export class ModalDialogCreateLatentVariableRelationComponent extends AbstractCo
     p2.then((v) => {
       this.latentVariable = v[0].id
     })
+  }
+
+  ngAfterViewInit() {
+    renderSemanticUi()
   }
 
   onClickPrimary() {

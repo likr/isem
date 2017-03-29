@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core'
+import {AfterViewInit, Component, OnInit} from '@angular/core'
+import * as jQuery from 'jquery'
 
 import {AbstractComponent} from '../abstract/abstract.component'
 import {AppDispatcherService} from '../../app-dispatcher.service'
@@ -6,6 +7,13 @@ import {ModalDialogActionsService} from '../../application/modal-dialog/modal-di
 import {ProjectsActionsService} from '../../application/project/projects-actions.service'
 import {ProjectsStoreService} from '../../application/project/projects-store.service'
 import {VariableVm} from '../../application/variable/variable-vm'
+
+const renderSemanticUi = () => {
+  const checkbox = jQuery('.ui.checkbox') as any
+  const dropdown = jQuery('.ui.dropdown') as any
+  checkbox.checkbox()
+  dropdown.dropdown()
+}
 
 @Component({
   selector: 'is-modal-dialog-create-regression',
@@ -15,7 +23,8 @@ import {VariableVm} from '../../application/variable/variable-vm'
     './modal-dialog-create-regression.component.css'
   ]
 })
-export class ModalDialogCreateRegressionComponent extends AbstractComponent implements OnInit {
+export class ModalDialogCreateRegressionComponent
+  extends AbstractComponent implements OnInit, AfterViewInit {
 
   variables: VariableVm[]
   dependentVariable: string // uuid
@@ -42,6 +51,10 @@ export class ModalDialogCreateRegressionComponent extends AbstractComponent impl
       this.checkboxModel = this.variables.map((_) => false)
       this.dependentVariable = v[0].id
     })
+  }
+
+  ngAfterViewInit() {
+    renderSemanticUi()
   }
 
   onClickPrimary() {
