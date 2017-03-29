@@ -1,18 +1,40 @@
-<h2>{{'ModalDialogLatentVariableDetail.Header' | translate}}</h2>
+<div class="ui fluid container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h2>{{'ModalDialogLatentVariableDetail.Header' | translate}}</h2>
+    </div>
+  </div>
 
-<p>{{variable.key}}</p>
-<input type="text" [(ngModel)]="newKey">
-<button (click)="onClickRemove()">{{'Remove' | translate}}</button>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <p>{{variable.key}}</p>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui form">
+        <div class="field">
+          <input type="text" [(ngModel)]="newKey">
+        </div>
+        <div class="field">
+          <button class="ui button" (click)="onClickRemove()">
+            {{'Remove' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="buttons">
-  <is-ui-button
-    [label]="'Cancel' | translate"
-    [type] ="'default'"
-    (clickButton)="onClickSecondary($event)"
-  ></is-ui-button>
-  <is-ui-button
-    [label]="'OK' | translate"
-    [type] ="'primary'"
-    (clickButton)="onClickPrimary($event)"
-  ></is-ui-button>
+  <button
+    class="ui button"
+    (click)="onClickSecondary($event)"
+  >{{'Cancel' | translate}}</button>
+
+  <button
+    class="ui primary button"
+    (click)="onClickPrimary($event)"
+  >{{'OK' | translate}}</button>
 </div>
