@@ -12,14 +12,16 @@
           class="selectLabel"
           for  ="dependentVariable"
         >{{'DependentVariable' | translate}}</label>
-        <select
-          class      ="ui dropdown"
-          id         ="dependentVariable"
-          name       ="dependentVariable"
-          [(ngModel)]="dependentVariable"
-        >
-          <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-        </select>
+        <div class="field">
+          <select
+            class      ="ui dropdown"
+            id         ="dependentVariable"
+            name       ="dependentVariable"
+            [(ngModel)]="dependentVariable"
+          >
+            <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
