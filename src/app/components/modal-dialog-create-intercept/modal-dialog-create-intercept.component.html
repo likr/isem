@@ -1,32 +1,55 @@
-<h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
-<div class="scrollable">
-  <div class="fieldGroup">
-    <label
-      class="selectLabel"
-      for  ="variable"
-    >{{'Variable' | translate}}</label>
-    <select
-      id         ="variable"
-      name       ="variable"
-      [(ngModel)]="variable"
-    >
-      <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
-    </select>
+<div class="ui fluid container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h2>{{'ModalDialogCreateIntercept.Header' | translate}}</h2>
+    </div>
   </div>
 
-  <div class="fieldGroup">
-    <label>{{'Value' | translate}}<input type="number" [(ngModel)]="value"></label>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="field">
+        <label
+          class="selectLabel"
+          for  ="variable"
+        >{{'Variable' | translate}}</label>
+        <div class="field">
+          <select
+            class      ="ui dropdown"
+            id         ="variable"
+            name       ="variable"
+            [(ngModel)]="variable"
+          >
+            <option *ngFor="let v of variables" [attr.value]="v.id">{{v.key}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui form">
+        <div class="field">
+          <label>{{'Value' | translate}}</label>
+        </div>
+        <div class="field">
+          <input type="number" [(ngModel)]="value">
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
+
 <div class="buttons">
-  <is-ui-button
-    [label]="'Cancel' | translate"
-    [type] ="'default'"
-    (clickButton)="onClickSecondary($event)"
-  ></is-ui-button>
-  <is-ui-button
-    [label]="'OK' | translate"
-    [type] ="'primary'"
-    (clickButton)="onClickPrimary($event)"
-  ></is-ui-button>
+  <button
+    class  ="ui button"
+    (click)="onClickSecondary($event)"
+  >{{'Cancel' | translate}}</button>
+
+  <button
+    class  ="ui primary button"
+    (click)="onClickPrimary($event)"
+  >{{'OK' | translate}}</button>
 </div>
+
