@@ -30,7 +30,7 @@ export class ProjectsStoreService {
   }
 
   get currentObservedVariable$(): Observable<ObservedVariableVm> {
-    return Observable.zip(
+    return Observable.combineLatest(
       this.currentProject$,
       this.store.observable
     ).map((v) => {
@@ -40,7 +40,7 @@ export class ProjectsStoreService {
   }
 
   get currentLatentVariable$(): Observable<LatentVariableVm> {
-    return Observable.zip(
+    return Observable.combineLatest(
       this.currentProject$,
       this.store.observable
     ).map((v) => {
