@@ -60,7 +60,7 @@ import {ProjectsStoreService} from './application/project/projects-store.service
 import {ProjectVmFactoryService} from './application/project/project-vm-factory.service'
 
 export function HttpLoaderFactory(http: Http) {
-    return new TranslateHttpLoader(http)
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
 
 @NgModule({
