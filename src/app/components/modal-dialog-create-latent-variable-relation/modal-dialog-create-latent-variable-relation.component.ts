@@ -1,6 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core'
-import * as jQuery from 'jquery'
-
 import {AbstractComponent} from '../abstract/abstract.component'
 import {ObservedVariableVm} from '../../application/variable/observed-variable-vm'
 import {LatentVariableVm} from '../../application/variable/latent-variable-vm'

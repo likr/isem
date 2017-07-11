@@ -9,7 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "_redirects"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -17,11 +17,17 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
       "prefix": "is",
+      "serviceWorker": true,
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles/normalize.min.css",
+        "styles/semantic.min.css",
+        "styles/styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "scripts/jquery.min.js",
+        "scripts/semantic.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

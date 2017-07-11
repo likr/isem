@@ -1,0 +1,7 @@
+{
+  "/sem": {
+    "target": "https://isem.likr-lab.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

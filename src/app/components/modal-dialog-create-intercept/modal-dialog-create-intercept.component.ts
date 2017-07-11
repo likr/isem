@@ -1,6 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core'
-import * as jQuery from 'jquery'
-
 import {AbstractComponent} from '../abstract/abstract.component'
 import {AppDispatcherService} from '../../app-dispatcher.service'
 import {ModalDialogActionsService} from '../../application/modal-dialog/modal-dialog-actions.service'

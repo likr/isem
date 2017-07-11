@@ -1,0 +1,25 @@
+{
+  "short_name": "iSEM",
+  "name": "iSEM",
+  "icons": [
+    {
+      "src": "assets/images/isem128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/isem192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/isem512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#fff",
+  "theme_color": "#455a64",
+  "display": "standalone"
+}
