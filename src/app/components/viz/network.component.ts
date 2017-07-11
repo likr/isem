@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef} from '@angular/core'
+import {Component, Input, ElementRef, OnChanges, SimpleChanges} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 import {getEstimateKeyName} from './estimate-key-name'
 
@@ -159,7 +159,7 @@ const buildGraph = (json, standardized) => {
   templateUrl: './network.component.html',
   styleUrls: ['./network.component.css']
 })
-export class NetworkComponent extends AbstractComponent {
+export class NetworkComponent extends AbstractComponent implements OnChanges {
   @Input() json: any
   @Input() standardized: boolean
 
@@ -183,7 +183,7 @@ export class NetworkComponent extends AbstractComponent {
     this.cy.destroy()
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.cy) {
       this.cy.json(buildGraph(this.json, this.standardized))
       this.cy.layout(layout)

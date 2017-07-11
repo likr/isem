@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 
 const GOOD = 'good'
@@ -92,11 +92,11 @@ const fitConditions = [
   templateUrl: './fit-table.component.html',
   styleUrls: ['./fit-table.component.css']
 })
-export class FitTableComponent extends AbstractComponent {
+export class FitTableComponent extends AbstractComponent implements OnChanges {
   @Input() goodnessOfFit: any
   rows = []
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.goodnessOfFit) {
       this.rows = fitConditions.map(({name, conditions}) => {
         const value= this.goodnessOfFit[name]

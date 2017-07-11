@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 import {VariableVm} from '../../application/variable/variable-vm'
 
@@ -58,7 +58,7 @@ const uuidToName = (rawJson: any, observedVariables: VariableVm[], latentVariabl
   templateUrl: './viz.component.html',
   styleUrls: ['./viz.component.css']
 })
-export class VizComponent extends AbstractComponent {
+export class VizComponent extends AbstractComponent implements OnChanges {
   @Input() data: any
   @Input() observedVariables: VariableVm[]
   @Input() latentVariables: VariableVm[]
@@ -70,7 +70,7 @@ export class VizComponent extends AbstractComponent {
     this.standardized = true
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.json = uuidToName(this.data, this.observedVariables, this.latentVariables)
   }
 

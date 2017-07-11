@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef} from '@angular/core';
+import {Component, Input, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
 import {ObservedVariableVm} from '../../application/variable/observed-variable-vm'
 import {GoogleChartsService} from '../../services/google-charts.service'
 import {AbstractComponent} from '../abstract/abstract.component'
@@ -8,14 +8,14 @@ import {AbstractComponent} from '../abstract/abstract.component'
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent extends AbstractComponent {
+export class ChartComponent extends AbstractComponent implements OnChanges {
   @Input() variable: ObservedVariableVm
 
   constructor(private googleCharts: GoogleChartsService, private eref: ElementRef) {
     super()
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.variable) {
       this.googleCharts.load().then((google) => {
         const data : any = [['index', 'value']]

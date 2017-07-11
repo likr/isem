@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 import {getEstimateKeyName} from './estimate-key-name'
 
@@ -7,7 +7,7 @@ import {getEstimateKeyName} from './estimate-key-name'
   templateUrl: './covariance-matrix.component.html',
   styleUrls: ['./covariance-matrix.component.css']
 })
-export class CovarianceMatrixComponent extends AbstractComponent {
+export class CovarianceMatrixComponent extends AbstractComponent implements OnChanges {
   @Input() json: any
   @Input() standardized: boolean
   data = {
@@ -15,7 +15,7 @@ export class CovarianceMatrixComponent extends AbstractComponent {
     names: []
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     const {covariances, names, variances} = this.json
 
     if (names) {

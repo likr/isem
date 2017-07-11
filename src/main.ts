@@ -1,4 +1,3 @@
-import './polyfills.ts'
 import * as jQuery from 'jquery'
 
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic'

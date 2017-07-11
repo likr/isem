@@ -22,7 +22,7 @@ export class AppComponent extends AbstractComponent implements OnInit {
     this.subscriptions.push(
       this.store.observable.subscribe((st) => {
         console.info(st)
-      })
+      }) as any
     )
   }
 

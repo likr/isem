@@ -10,7 +10,7 @@ import {Project} from '../../domain/project/project'
 export class ProjectsRepositoryService {
 
   private getAllSubject: BehaviorSubject<Observable<Object[]>>
-  private getSingleSubject: ReplaySubject<Observable<Object[]>>
+  private getSingleSubject: ReplaySubject<Observable<Object>>
 
   constructor(private csvToJson: CsvToJsonAdapterService,
               private db: ProjectsDatabaseAdapterService,

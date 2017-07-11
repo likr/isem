@@ -15,9 +15,9 @@ import {ProjectsActionsService} from '../../application/project/projects-actions
 })
 export class ModalDialogLoadFileComponent extends AbstractComponent implements OnInit {
 
-  private projectName: string
-  private encodings: Array<{label: string, value: string}>
-  private loadedCsv: string
+  projectName: string
+  encodings: Array<{label: string, value: string}>
+  loadedCsv: string
   currentEncoding: string
 
   constructor(private projects: ProjectsActionsService,

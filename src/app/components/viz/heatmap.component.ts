@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef} from '@angular/core'
+import {Component, Input, ElementRef, OnChanges, SimpleChanges} from '@angular/core'
 import {AbstractComponent} from '../abstract/abstract.component'
 
 const nameSpace = 50
@@ -52,7 +52,7 @@ const calcCord = (index) => {
   templateUrl: './heatmap.component.html',
   styleUrls: ['./heatmap.component.css']
 })
-export class HeatmapComponent extends AbstractComponent {
+export class HeatmapComponent extends AbstractComponent implements OnChanges {
   @Input() data: any
   canvasWidth = 0
   canvasHeight = 0
@@ -61,7 +61,7 @@ export class HeatmapComponent extends AbstractComponent {
     super()
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     const {matrix, names} = this.data
     this.updateCanvas(matrix, names)
   }

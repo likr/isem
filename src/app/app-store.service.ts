@@ -30,14 +30,14 @@ export class AppStoreService extends Store<AppState> {
   }
 
   get modalDialogIsVisible$(): Observable<boolean> {
-    return this.observable.map((st) => st.modalDialog.isVisible)
+    return this.observable.map((st) => st.modalDialog.isVisible) as any // XXX
   }
 
   get modalDialogType$(): Observable<ModalDialogType> {
-    return this.observable.map((st) => st.modalDialog.type)
+    return this.observable.map((st) => st.modalDialog.type) as any // XXX
   }
 
   get data$(): Observable<any> {
-    return this.observable.map((st) => st.data)
+    return this.observable.map((st) => st.data) as any // XXX
   }
 }
