@@ -10,7 +10,7 @@ import {ProjectsRepositoryService} from './application/project/projects-reposito
 const INIT_STATE: AppState = {
   currentView: void 0,
   modalDialog: {
-    type     : void 0,
+    type     : null,
     isVisible: false
   },
   projects   : void 0,

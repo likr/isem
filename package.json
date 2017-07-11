@@ -18,20 +18,21 @@
     }
   ],
   "dependencies": {
-    "@angular/common": "^2.4.3",
-    "@angular/compiler": "^2.4.3",
-    "@angular/core": "^2.4.3",
-    "@angular/forms": "^2.4.3",
-    "@angular/http": "^2.4.3",
-    "@angular/platform-browser": "^2.4.3",
-    "@angular/platform-browser-dynamic": "^2.4.3",
-    "@angular/router": "^3.4.3",
+    "@angular/common": "^4.2.6",
+    "@angular/compiler": "^4.2.6",
+    "@angular/core": "^4.2.6",
+    "@angular/forms": "^4.2.6",
+    "@angular/http": "^4.2.6",
+    "@angular/platform-browser": "^4.2.6",
+    "@angular/platform-browser-dynamic": "^4.2.6",
+    "@angular/router": "^4.2.6",
+    "@ngx-translate/core": "^7.0.0",
+    "@ngx-translate/http-loader": "^0.1.0",
     "@types/jquery": "^2.0.41",
     "core-js": "^2.4.1",
     "cytoscape": "^2.7.12",
     "jquery": "^3.2.1",
     "lovefield": "^2.1.11",
-    "ng2-translate": "^5.0.0",
     "normalize.css": "^4.2.0",
     "papaparse": "^4.1.2",
     "rxjs": "^5.0.3",
@@ -39,11 +40,11 @@
     "ts-helpers": "^1.1.1",
     "uuid": "^2.0.3",
     "walts": "file:../walts",
-    "zone.js": "^0.7.5"
+    "zone.js": "^0.8.12"
   },
   "devDependencies": {
     "@angular/cli": "^1.2.0",
-    "@angular/compiler-cli": "^2.4.3",
+    "@angular/compiler-cli": "^4.2.6",
     "@types/jasmine": "2.5.38",
     "@types/lovefield": "^2.0.32",
     "@types/node": "^6.0.42",
@@ -62,7 +63,7 @@
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
     "typescript": "^2.4.1",
-    "webpack": "2.2.0-rc.4"
+    "webpack": "^2.6.1"
   },
   "homepage": "https://likr.github.io/interactive-sem",
   "license": "MIT",

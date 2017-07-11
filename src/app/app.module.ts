@@ -7,9 +7,9 @@ import {HttpModule, Http} from '@angular/http'
 import {
   TranslateModule,
   TranslateService,
-  TranslateLoader,
-  TranslateStaticLoader
-} from 'ng2-translate'
+  TranslateLoader
+} from '@ngx-translate/core'
+import {TranslateHttpLoader} from '@ngx-translate/http-loader'
 
 import {LOCALE} from './constant'
 import {ROUTING} from './app-routing'
@@ -59,8 +59,8 @@ import {ProjectsResolverService} from './application/project/projects-resolver.s
 import {ProjectsStoreService} from './application/project/projects-store.service'
 import {ProjectVmFactoryService} from './application/project/project-vm-factory.service'
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, './assets/i18n', '.json')
+export function HttpLoaderFactory(http: Http) {
+    return new TranslateHttpLoader(http)
 }
 
 @NgModule({
@@ -96,9 +96,11 @@ export function createTranslateLoader(http: Http) {
     FormsModule,
     HttpModule,
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: createTranslateLoader,
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [Http]
+      }
     }),
     ROUTING,
   ],

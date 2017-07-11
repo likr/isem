@@ -58,7 +58,7 @@ export class ProjectsActionsService extends Actions<AppState> {
         st.projects.delete(project.uuid).then(() => {
           apply((_st) => _st)
         })
-      })
+      }) as any
     }
   }
 
@@ -151,7 +151,7 @@ export class ProjectsActionsService extends Actions<AppState> {
         st.projects.removeRegression(st.currentId, id).then(() => {
           apply(this.calcSem())
         })
-      })
+      }) as any
     }
   }
 
@@ -164,7 +164,7 @@ export class ProjectsActionsService extends Actions<AppState> {
         st.projects.removeLatentVariableRelation(st.currentId, id).then(() => {
           apply(this.calcSem())
         })
-      })
+      }) as any
     }
   }
 
@@ -177,7 +177,7 @@ export class ProjectsActionsService extends Actions<AppState> {
         st.projects.removeCovariance(st.currentId, id).then(() => {
           apply(this.calcSem())
         })
-      })
+      }) as any
     }
   }
 
@@ -190,7 +190,7 @@ export class ProjectsActionsService extends Actions<AppState> {
         st.projects.removeIntercept(st.currentId, id).then(() => {
           apply(this.calcSem())
         })
-      })
+      }) as any
     }
   }
 
