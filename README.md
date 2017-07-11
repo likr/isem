@@ -5,6 +5,6 @@ Interactive visualization and analysis tool for structural equation modeling (SE
 # Development
 
 ```console
-$ yarn install
-$ yarn start
+$ npm install
+$ npm start
 ```
