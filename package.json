@@ -36,7 +36,7 @@
     "rxjs": "^5.0.3",
     "ts-helpers": "^1.1.1",
     "uuid": "^2.0.3",
-    "walts": "git+https://github.com/likr/walts.git#4e66abdfe210775deacd8209e16cce47923ff623",
+    "walts": "^0.11.1",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
