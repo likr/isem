@@ -26,7 +26,9 @@
       ],
       "scripts": [
         "scripts/jquery.min.js",
-        "scripts/semantic.min.js"
+        "scripts/semantic.min.js",
+        "scripts/d3.min.js",
+        "scripts/eg-renderer.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

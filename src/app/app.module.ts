@@ -1,7 +1,7 @@
 /* tslint:disable:max-line-length */
 
 import {BrowserModule} from '@angular/platform-browser'
-import {NgModule} from '@angular/core'
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {HttpModule, Http} from '@angular/http'
 import {
@@ -103,6 +103,9 @@ export function HttpLoaderFactory(http: Http) {
       }
     }),
     ROUTING,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
     CsvToJsonAdapterService,

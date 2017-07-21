@@ -8,6 +8,12 @@
   <title>iSEM</title>
   <link rel="manifest" href="./assets/manifest.json">
   <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+  <script>
+  if (!window.customElements) {
+    window.customElements = {}
+  }
+  window.customElements.forcePolyfill = true
+  </script>
 </head>
 <body>
 <svg style="position: absolute; width: 0; height: 0; overflow: hidden" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
