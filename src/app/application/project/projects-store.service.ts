@@ -93,16 +93,16 @@ const buildGraph = (json, standardized) => {
     nodes.push({
       name,
       type: 'rect',
-      fill: '#16a085',
-      labelStroke: '#16a085'
+      fillColor: '#16a085',
+      labelStrokeColor: '#16a085'
     })
   }
   for (const name of names.lat) {
     nodes.push({
       name,
       type: 'circle',
-      fill: '#2980b9',
-      labelStroke: '#2980b9'
+      fillColor: '#2980b9',
+      labelStrokeColor: '#2980b9'
     })
   }
 

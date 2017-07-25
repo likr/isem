@@ -28,7 +28,8 @@
         "scripts/jquery.min.js",
         "scripts/semantic.min.js",
         "scripts/d3.min.js",
-        "scripts/eg-renderer.js"
+        "scripts/eg-renderer.js",
+        "scripts/eg-renderer-ogdf.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

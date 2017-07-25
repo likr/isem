@@ -15,7 +15,7 @@ export class NetworkComponent extends AbstractComponent implements OnChanges {
 
   ngOnInit() {
     const elem = this.eref.nativeElement
-    const renderer = elem.querySelector('eg-renderer')
+    const renderer = elem.querySelector('eg-renderer-ogdf')
     renderer.setAttribute('width', elem.clientWidth)
     renderer.setAttribute('height', elem.clientHeight)
 
@@ -27,7 +27,7 @@ export class NetworkComponent extends AbstractComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const renderer = this.eref.nativeElement
-      .querySelector('eg-renderer')
+      .querySelector('eg-renderer-ogdf')
       .load(this.graph)
   }
 }
