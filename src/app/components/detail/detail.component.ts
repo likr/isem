@@ -26,22 +26,7 @@ export class DetailComponent extends AbstractComponent implements OnInit {
   latentVariableRelations:  Expression[]
   regressions:              Expression[]
   selectedObservedVariable: ObservedVariableVm
-  json: any = {
-    goodness_of_fit: {},
-    regressions: {},
-    latent_variables: {},
-    covariances: {},
-    names: {
-      obs: [],
-      lat: []
-    },
-    total_effects: {},
-    variances: {}
-  }
-  graph: any = {
-    nodes: [],
-    links: []
-  }
+  data:                     any
 
   constructor(private route: ActivatedRoute,
               private app: AppActionsService,
@@ -61,8 +46,7 @@ export class DetailComponent extends AbstractComponent implements OnInit {
       this.projectsStore.latentVariableRelations$.subscribe((v) => this.latentVariableRelations = v),
       this.projectsStore.regressions$            .subscribe((v) => this.regressions = v),
       this.projectsStore.currentObservedVariable$.subscribe((v) => this.selectedObservedVariable = v),
-      this.projectsStore.vizData$                .subscribe((v) => this.json = v),
-      this.projectsStore.graph$                  .subscribe((v) => this.graph = v),
+      this.appStore.data$                        .subscribe((v) => this.data = v),
     ])
 
     this.subscriptions.push(

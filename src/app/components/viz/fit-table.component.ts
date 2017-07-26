@@ -98,18 +98,16 @@ export class FitTableComponent extends AbstractComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.goodnessOfFit) {
-      this.rows = fitConditions
-        .filter(({name}) => this.goodnessOfFit[name] !== undefined)
-        .map(({name, conditions}) => {
-          const value= this.goodnessOfFit[name]
-          const [decimalPart, fractionalPart] = value.split('.')
-          return {
-            name,
-            decimalPart,
-            fractionalPart,
-            status: (conditions as any).find(({condition}) => condition(+value)).status,
-          }
-        })
+      this.rows = fitConditions.map(({name, conditions}) => {
+        const value= this.goodnessOfFit[name]
+        const [decimalPart, fractionalPart] = value.split('.')
+        return {
+          name,
+          decimalPart,
+          fractionalPart,
+          status: (conditions as any).find(({condition}) => condition(+value)).status,
+        }
+      })
     }
   }
 }
